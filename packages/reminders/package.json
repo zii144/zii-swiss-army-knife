@@ -1,0 +1,20 @@
+{
+  "name": "@zii/reminders",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Reminder engine (M10): recurrence resolution, holiday-aware roll-forward, and notification building.",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json",
+    "test": "vitest run",
+    "lint": "eslint ."
+  },
+  "dependencies": {
+    "@zii/calendar": "workspace:*",
+    "@zii/locale": "workspace:*"
+  }
+}

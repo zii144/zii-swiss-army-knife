@@ -1,0 +1,16 @@
+{
+  "name": "@zii/id",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Identity & Address Engine — multi-market national ID, business number, and financial identifier validators/generators. Pure, offline, deterministic. Generated values are for TEST/QA data only.",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json",
+    "test": "vitest run",
+    "lint": "eslint ."
+  }
+}

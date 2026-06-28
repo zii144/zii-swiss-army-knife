@@ -1,0 +1,20 @@
+{
+  "name": "@zii/backend",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Thin, stateless, no-retention backend services (M10): TTL cache, gov-data adapter pattern, no-retention conversion handler, and a node:http server factory.",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json",
+    "test": "vitest run",
+    "lint": "eslint ."
+  },
+  "dependencies": {
+    "@zii/compute": "workspace:*",
+    "@zii/locale": "workspace:*"
+  }
+}

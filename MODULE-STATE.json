@@ -1,0 +1,32 @@
+{
+  "project": "zii-swiss-army-knife",
+  "plan": "DEVELOPMENT-PLAN.md",
+  "updated": "2026-06-28",
+  "currentModule": "foundation-complete",
+  "note": "All 10 platform-foundation modules complete and green (unified pnpm verify exit 0, 322 tests). Next phase: localization packs (TW first), then mobile (Capacitor) + AI layer.",
+  "frozenInterfaces": {
+    "@zii/registry": ["Market", "ToolCategory", "ToolMeta", "ToolLoader", "ToolEntry", "ToolRegistry", "createRegistry"],
+    "@zii/locale": ["Market", "LocalePack", "LocalePackSchema", "MarketSchema", "UnitsSchema", "parseLocalePack", "safeParseLocalePack", "LocaleStore", "createLocaleStore", "FALLBACK", "FetchLike", "validateConfigDir"],
+    "@zii/calc": ["percentageOf", "percentageChange", "applyPercent", "tip", "discount", "loanMonthlyPayment", "amortizationSchedule", "bmi", "simpleInterest", "compoundInterest", "daysBetween", "addDays", "ageInYears", "convert", "convertCooking", "convertCurrency"],
+    "@zii/calendar": ["gregorianToRoc", "rocToGregorian", "toJapaneseEra", "japaneseEraToGregorian", "chineseZodiac", "ageWestern", "ageKazoe", "resolveHolidays", "substituteIfWeekend", "isBusinessDay", "businessDaysBetween"],
+    "@zii/id": ["validateTwNationalId", "generateTwNationalId", "validateTwUbn", "validateHkid", "generateHkid", "validateMyNumber", "generateMyNumber", "validateCorporateNumber", "invoiceRegistrationNumber", "validateInvoiceNumber", "luhnValid", "luhnCheckDigit", "validateAbaRouting", "validateIban"],
+    "@zii/text": ["toHalfWidth", "toFullWidth", "nfkcNormalize", "countText", "toCamelCase", "toSnakeCase", "toKebabCase", "toTitleCase", "toSentenceCase", "toSimplified", "toTraditional", "jsonToCsv", "csvToJson", "prettyJson", "base64Encode", "base64Decode", "urlEncode", "urlDecode", "htmlEscape", "htmlUnescape", "lineDiff"],
+    "@zii/payroll": ["PayrollInput", "PayrollBreakdown", "PayrollRuleModule", "progressiveTax", "salesTax", "makeFlatRateModule", "makeTaxModuleFromPack"],
+    "@zii/compute": ["ComputeCategory", "ComputeOpMeta", "ComputeHandler", "ComputeOp", "ComputeRegistry", "createComputeRegistry", "createDefaultComputeRegistry", "capabilities", "sha256Hex", "sha1Hex"],
+    "@zii/reminders": ["Recurrence", "Reminder", "Notification", "nextOccurrence", "upcomingOccurrences", "buildNotification"],
+    "@zii/backend": ["TTLCache", "GovDataAdapter", "transitEtaAdapter", "convertHandler", "createBackendServer"]
+  },
+  "lastCommit": null,
+  "modules": {
+    "M1": { "name": "Monorepo & Agent Build Harness", "status": "complete", "dependsOn": [], "packages": ["@zii/registry", "@zii/hello-tool"] },
+    "M2": { "name": "Locale-Pack System & Shared Config", "status": "complete", "dependsOn": ["M1"], "packages": ["@zii/locale"] },
+    "M3": { "name": "UI System & PWA App Shell", "status": "complete", "dependsOn": ["M1"], "packages": ["@zii/app"] },
+    "M4": { "name": "Client WASM Compute Layer", "status": "complete", "dependsOn": ["M1", "M3"], "packages": ["@zii/compute"] },
+    "M5": { "name": "Calculation & Units Engine", "status": "complete", "dependsOn": ["M1", "M2"], "packages": ["@zii/calc"] },
+    "M6": { "name": "Calendar & Era Engine", "status": "complete", "dependsOn": ["M1", "M2"], "packages": ["@zii/calendar"] },
+    "M7": { "name": "Identity & Address Engine", "status": "complete", "dependsOn": ["M1", "M2"], "packages": ["@zii/id"] },
+    "M8": { "name": "Text & Data Engine", "status": "complete", "dependsOn": ["M1"], "packages": ["@zii/text"] },
+    "M9": { "name": "Payroll & Tax Engine", "status": "complete", "dependsOn": ["M1", "M2", "M5"], "packages": ["@zii/payroll"] },
+    "M10": { "name": "Backend, Data Pipeline & Reminder Engine", "status": "complete", "dependsOn": ["M1", "M2", "M4", "M5", "M6"], "packages": ["@zii/reminders", "@zii/backend"] }
+  }
+}

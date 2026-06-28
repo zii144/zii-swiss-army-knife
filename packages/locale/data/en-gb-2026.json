@@ -1,0 +1,13 @@
+{
+  "market": "en-gb",
+  "year": 2026,
+  "effectiveDate": "2026-01-01",
+  "dateFormat": "dd/MM/yyyy",
+  "calendars": ["gregorian"],
+  "currency": "GBP",
+  "units": "mixed",
+  "tax": { "salesTaxRate": 0.2 },
+  "holidays": { "list": [], "makeUpWorkdays": false },
+  "tools": { "enabled": [] },
+  "toggles": {}
+}

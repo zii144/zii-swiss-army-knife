@@ -1,0 +1,16 @@
+{
+  "name": "@zii/text",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Text & Data Engine (M8): width/normalization, counting, case conversion, CJK simplified/traditional, format conversion, and line diffing. Pure TypeScript, offline, deterministic.",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json",
+    "test": "vitest run",
+    "lint": "eslint ."
+  }
+}

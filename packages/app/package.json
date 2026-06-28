@@ -1,0 +1,27 @@
+{
+  "name": "@zii/app",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "UI System & PWA App Shell — registry/command-palette surface for the Zii utility suite (M3).",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "typecheck": "tsc -p tsconfig.json",
+    "test": "vitest run",
+    "lint": "eslint ."
+  },
+  "dependencies": {
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "@zii/registry": "workspace:*",
+    "@zii/hello-tool": "workspace:*",
+    "@zii/locale": "workspace:*"
+  },
+  "devDependencies": {
+    "vite": "^7.3.6",
+    "@vitejs/plugin-react": "^5.2.0",
+    "@types/react": "^19.2.0",
+    "@types/react-dom": "^19.2.0"
+  }
+}

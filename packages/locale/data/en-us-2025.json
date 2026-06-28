@@ -1,0 +1,13 @@
+{
+  "market": "en-us",
+  "year": 2025,
+  "effectiveDate": "2025-01-01",
+  "dateFormat": "MM/dd/yyyy",
+  "calendars": ["gregorian"],
+  "currency": "USD",
+  "units": "imperial",
+  "tax": { "salesTaxRate": 0 },
+  "holidays": { "list": [], "makeUpWorkdays": false },
+  "tools": { "enabled": [] },
+  "toggles": {}
+}

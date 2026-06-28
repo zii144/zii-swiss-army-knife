@@ -1,0 +1,16 @@
+{
+  "name": "@zii/compute",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Client WASM compute-layer abstraction: lazy op descriptors + native handlers (hash/encoding) for the Zii utility suite.",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json",
+    "test": "vitest run",
+    "lint": "eslint ."
+  }
+}

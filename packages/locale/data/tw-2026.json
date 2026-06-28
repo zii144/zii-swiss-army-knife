@@ -1,0 +1,20 @@
+{
+  "market": "tw",
+  "year": 2026,
+  "effectiveDate": "2026-01-01",
+  "dateFormat": "yyyy/MM/dd",
+  "calendars": ["gregorian", "roc", "lunar"],
+  "currency": "TWD",
+  "units": "metric",
+  "payroll": {
+    "pensionEmployerRate": 0.06,
+    "socialInsurance": { "healthInsuranceRate": 0.0517 }
+  },
+  "tax": { "salesTaxRate": 0.05 },
+  "holidays": { "source": "dgpa", "list": [], "makeUpWorkdays": false },
+  "id": { "validators": ["roc-nid", "roc-ubn", "arc"] },
+  "address": { "postcode": "3+3", "order": "big-endian" },
+  "dataSources": { "einvoice": "einvoice.nat.gov.tw", "weather": "cwa", "transit": "tdx" },
+  "tools": { "enabled": ["einvoice-lottery", "garbage-truck", "roc-date"] },
+  "toggles": { "makeUpWorkdays": false }
+}
