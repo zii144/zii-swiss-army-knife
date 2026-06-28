@@ -7,7 +7,7 @@ Last updated: June 28, 2026
 > **Scope of this plan:** the **10 platform-foundation modules** — all shared, market-agnostic infrastructure and every core engine. No single market is finished here; localization (TW/JP/HK/EN packs) comes *after* this foundation, plugging into what these modules build.
 > **Operating mode:** **fully autonomous.** The agent runs each module's full loop unattended, self-verifies against hard gates, and advances to the next module on its own. It stops for a human **only** when a defined blocker triggers (§5).
 >
-> Companions: `TECH-STACK-PLAN.md` (architecture & decisions), `CROSS-MARKET-OVERVIEW.md` (what plugs in later).
+> Companions: `docs/TECH-STACK-PLAN.md` (architecture & decisions), `docs/CROSS-MARKET-OVERVIEW.md` (what plugs in later).
 
 ---
 
@@ -36,7 +36,7 @@ The agent processes modules **M1 → M10** in dependency order. For each module 
 
 ## 2. The Module Loop (run once per module)
 
-**Phase 0 — Context load.** Read `TECH-STACK-PLAN.md`, this file, `BUILD-LOG.md` (prior retros), and the target **module spec card** (§7). Confirm the module's dependencies are all `complete` in `MODULE-STATE.json`; if not, stop with a dependency blocker.
+**Phase 0 — Context load.** Read `docs/TECH-STACK-PLAN.md`, this file, `BUILD-LOG.md` (prior retros), and the target **module spec card** (§7). Confirm the module's dependencies are all `complete` in `MODULE-STATE.json`; if not, stop with a dependency blocker.
 
 **Phase 1 — Plan.** Expand the card into a concrete task list. Restate the module's **Definition of Done** and acceptance criteria. Identify the public interfaces/contracts other modules will depend on and freeze their signatures first.
 
@@ -201,7 +201,7 @@ Feed this to the agent at the start of each loop, filling `{{MODULE_ID}}`:
 You are building the Zii Swiss Army Knife platform foundation in FULLY AUTONOMOUS mode.
 
 CONTEXT (read first):
-- TECH-STACK-PLAN.md, DEVELOPMENT-PLAN.md (§2 loop, §3 Done Bar, §4 guardrails, §5 blocker protocol),
+- docs/TECH-STACK-PLAN.md, DEVELOPMENT-PLAN.md (§2 loop, §3 Done Bar, §4 guardrails, §5 blocker protocol),
   BUILD-LOG.md (prior retros), and the spec card for {{MODULE_ID}} in DEVELOPMENT-PLAN.md §7.
 
 TASK: Complete module {{MODULE_ID}} by running the full Module Loop (Phases 0–9).
@@ -234,7 +234,7 @@ then load the next module per §8 and repeat. Report only: what shipped, any dev
 
 ## 10. After the foundation (out of scope here, for orientation)
 
-Once M1–M10 are `complete`, localization is a **config + data** effort, not new architecture: build the **Taiwan locale pack** first (already specced in `FEATURE-CATALOG-TAIWAN.md`), then JP/HK packs (CJK reuse), then the English region with its jurisdiction switch — each plugging into the engines and registry these 10 modules deliver. Mobile (Capacitor: native OCR, push, capability-detected NFC) and the AI layer follow per `TECH-STACK-PLAN.md`.
+Once M1–M10 are `complete`, localization is a **config + data** effort, not new architecture: build the **Taiwan locale pack** first (already specced in `docs/FEATURE-CATALOG-TAIWAN.md`), then JP/HK packs (CJK reuse), then the English region with its jurisdiction switch — each plugging into the engines and registry these 10 modules deliver. Mobile (Capacitor: native OCR, push, capability-detected NFC) and the AI layer follow per `docs/TECH-STACK-PLAN.md`.
 
 ---
 

@@ -1,13 +1,7 @@
 import type { Market, ToolEntry, ToolRegistry } from '@zii/registry';
 
 /** Markets exposed in the app shell's market <select>. */
-export const SELECTABLE_MARKETS: readonly Market[] = [
-  'global',
-  'tw',
-  'hk',
-  'jp',
-  'en-us',
-] as const;
+export const SELECTABLE_MARKETS: readonly Market[] = ['global', 'tw', 'hk', 'jp', 'en-us'] as const;
 
 /** Human-readable labels for the selectable markets. */
 export const MARKET_LABELS: Readonly<Record<Market, string>> = {

@@ -35,7 +35,12 @@ describe('ComputeRegistry', () => {
     });
     expect(r.list('hash').map((o) => o.meta.id)).toEqual(['h']);
     expect(r.list('image').map((o) => o.meta.id)).toEqual(['i']);
-    expect(r.list().map((o) => o.meta.id).sort()).toEqual(['h', 'i']);
+    expect(
+      r
+        .list()
+        .map((o) => o.meta.id)
+        .sort(),
+    ).toEqual(['h', 'i']);
   });
 
   it('runs an op via its lazily-loaded handler', async () => {

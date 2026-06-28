@@ -1,7 +1,16 @@
 import { z } from 'zod';
 
 /** Markets the suite targets (kept in sync with @zii/registry's Market). */
-export const MarketSchema = z.enum(['tw', 'hk', 'jp', 'en-us', 'en-gb', 'en-ca', 'en-au', 'global']);
+export const MarketSchema = z.enum([
+  'tw',
+  'hk',
+  'jp',
+  'en-us',
+  'en-gb',
+  'en-ca',
+  'en-au',
+  'global',
+]);
 export type Market = z.infer<typeof MarketSchema>;
 
 export const UnitsSchema = z.enum(['metric', 'imperial', 'mixed']);

@@ -24,7 +24,10 @@ describe('default compute registry', () => {
 
   it('lists the image ops by category', () => {
     const r = createDefaultComputeRegistry();
-    const ids = r.list('image').map((o) => o.meta.id).sort();
+    const ids = r
+      .list('image')
+      .map((o) => o.meta.id)
+      .sort();
     expect(ids).toEqual(['heic-to-jpg', 'image-compress', 'image-convert']);
   });
 

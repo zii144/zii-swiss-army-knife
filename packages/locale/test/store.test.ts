@@ -42,7 +42,8 @@ describe('LocaleStore', () => {
 
   it('hot-loads a pack from an injected fetch provider', async () => {
     const s = createLocaleStore();
-    const fakeFetch = () => Promise.resolve({ json: () => Promise.resolve(pack('jp', '2026-01-01', 2026)) });
+    const fakeFetch = () =>
+      Promise.resolve({ json: () => Promise.resolve(pack('jp', '2026-01-01', 2026)) });
     const loaded = await s.loadFromUrl(fakeFetch, 'https://cdn.example/jp.json');
     expect(loaded.market).toBe('jp');
     expect(s.resolve('jp', new Date('2026-06-01'))?.market).toBe('jp');

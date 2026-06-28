@@ -7,9 +7,7 @@
  * digit runs, and any separator characters.
  */
 function splitWords(s: string): string[] {
-  const matches = s.match(
-    /[A-Z]+(?=[A-Z][a-z])|[A-Z]?[a-z]+|[A-Z]+|[0-9]+/g,
-  );
+  const matches = s.match(/[A-Z]+(?=[A-Z][a-z])|[A-Z]?[a-z]+|[A-Z]+|[0-9]+/g);
   if (!matches) return [];
   return matches.map((w) => w.toLowerCase());
 }
@@ -25,9 +23,7 @@ function capitalize(word: string): string {
 export function toCamelCase(s: string): string {
   const words = splitWords(s);
   if (words.length === 0) return '';
-  return words
-    .map((w, i) => (i === 0 ? w : capitalize(w)))
-    .join('');
+  return words.map((w, i) => (i === 0 ? w : capitalize(w))).join('');
 }
 
 /** Convert to snake_case. */

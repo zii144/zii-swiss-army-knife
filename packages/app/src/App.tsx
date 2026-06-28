@@ -21,10 +21,7 @@ export function App(): React.JSX.Element {
   const [lang, setLang] = useState<Lang>('en');
 
   const t = useT(lang);
-  const tools = useMemo(
-    () => filterTools(registry, { market, query }),
-    [registry, market, query],
-  );
+  const tools = useMemo(() => filterTools(registry, { market, query }), [registry, market, query]);
 
   return (
     <div className={dark ? 'app app--dark' : 'app'}>

@@ -13,13 +13,7 @@ export {
   simpleInterest,
   compoundInterest,
 } from './calc';
-export type {
-  TipResult,
-  DiscountResult,
-  AmortizationRow,
-  BmiCategory,
-  BmiResult,
-} from './calc';
+export type { TipResult, DiscountResult, AmortizationRow, BmiCategory, BmiResult } from './calc';
 
 export { daysBetween, addDays, ageInYears } from './dates';
 

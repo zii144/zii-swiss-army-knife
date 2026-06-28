@@ -17,8 +17,7 @@ export function convertCurrency(
   to: string,
   rateOrProvider: number | RateProvider,
 ): number {
-  const rate =
-    typeof rateOrProvider === 'function' ? rateOrProvider(from, to) : rateOrProvider;
+  const rate = typeof rateOrProvider === 'function' ? rateOrProvider(from, to) : rateOrProvider;
   if (typeof rate !== 'number' || !Number.isFinite(rate)) {
     throw new Error(`convertCurrency: invalid rate for ${from}->${to}`);
   }

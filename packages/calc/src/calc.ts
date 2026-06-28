@@ -163,7 +163,7 @@ export function bmi(kg: number, cm: number): BmiResult {
 
 /** Simple interest earned. simpleInterest(1000, 5, 3) === 150 */
 export function simpleInterest(p: number, ratePct: number, years: number): number {
-  return roundTo((p * (ratePct / 100) * years), 2);
+  return roundTo(p * (ratePct / 100) * years, 2);
 }
 
 /**

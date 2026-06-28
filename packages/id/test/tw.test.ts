@@ -1,9 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import {
-  validateTwNationalId,
-  generateTwNationalId,
-  validateTwUbn,
-} from '../src/index';
+import { validateTwNationalId, generateTwNationalId, validateTwUbn } from '../src/index';
 
 describe('validateTwNationalId', () => {
   it('accepts the golden-anchor id A123456789', () => {

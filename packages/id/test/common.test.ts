@@ -1,10 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import {
-  luhnValid,
-  luhnCheckDigit,
-  validateAbaRouting,
-  validateIban,
-} from '../src/index';
+import { luhnValid, luhnCheckDigit, validateAbaRouting, validateIban } from '../src/index';
 
 describe('luhnValid', () => {
   it('accepts a known valid card number (golden anchor)', () => {

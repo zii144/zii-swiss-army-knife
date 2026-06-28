@@ -10,26 +10,13 @@
 export type LengthUnit = 'm' | 'km' | 'mi' | 'ft' | 'in' | 'yd';
 export type MassUnit = 'kg' | 'g' | 'lb' | 'oz' | 'st';
 export type TemperatureUnit = 'C' | 'F' | 'K';
-export type VolumeUnit =
-  | 'l'
-  | 'ml'
-  | 'usGal'
-  | 'impGal'
-  | 'usPint'
-  | 'impPint'
-  | 'usCup';
+export type VolumeUnit = 'l' | 'ml' | 'usGal' | 'impGal' | 'usPint' | 'impPint' | 'usCup';
 export type AreaUnit = 'm2' | 'ft2' | 'acre' | 'ha';
 export type SpeedUnit = 'kmh' | 'mph' | 'ms';
 export type DataUnit = 'B' | 'KB' | 'MB' | 'GB' | 'KiB' | 'MiB' | 'GiB';
 
 export type Unit =
-  | LengthUnit
-  | MassUnit
-  | TemperatureUnit
-  | VolumeUnit
-  | AreaUnit
-  | SpeedUnit
-  | DataUnit;
+  LengthUnit | MassUnit | TemperatureUnit | VolumeUnit | AreaUnit | SpeedUnit | DataUnit;
 
 // --- Linear factor tables (value-in-base-unit per 1 of the listed unit) ---
 

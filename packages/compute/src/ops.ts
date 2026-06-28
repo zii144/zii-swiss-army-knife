@@ -14,9 +14,7 @@ function wasmDescriptor(meta: ComputeOpMeta): ComputeOp {
     load: () =>
       Promise.resolve<ComputeHandler>(() => {
         return Promise.reject(
-          new Error(
-            `${meta.id} requires the @zii/compute-wasm bundle (browser runtime)`,
-          ),
+          new Error(`${meta.id} requires the @zii/compute-wasm bundle (browser runtime)`),
         );
       }),
   };
@@ -29,9 +27,7 @@ function hashOp(id: string, hex: (data: Uint8Array | string) => Promise<string>)
     load: () =>
       Promise.resolve<ComputeHandler>((input) => {
         if (typeof input !== 'string' && !(input instanceof Uint8Array)) {
-          return Promise.reject(
-            new Error(`${id} expects a string or Uint8Array input`),
-          );
+          return Promise.reject(new Error(`${id} expects a string or Uint8Array input`));
         }
         return hex(input);
       }),

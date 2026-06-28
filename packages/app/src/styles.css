@@ -4,7 +4,10 @@
   --muted: #5b6472;
   --border: #d7dce3;
   --accent: #0369a1;
-  font-family: system-ui, -apple-system, sans-serif;
+  font-family:
+    system-ui,
+    -apple-system,
+    sans-serif;
 }
 
 .app--dark {

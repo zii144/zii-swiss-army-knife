@@ -10,19 +10,10 @@
  */
 
 // Common / market-independent.
-export {
-  luhnValid,
-  luhnCheckDigit,
-  validateAbaRouting,
-  validateIban,
-} from './common';
+export { luhnValid, luhnCheckDigit, validateAbaRouting, validateIban } from './common';
 
 // Taiwan.
-export {
-  validateTwNationalId,
-  generateTwNationalId,
-  validateTwUbn,
-} from './tw';
+export { validateTwNationalId, generateTwNationalId, validateTwUbn } from './tw';
 
 // Hong Kong.
 export { validateHkid, generateHkid } from './hk';

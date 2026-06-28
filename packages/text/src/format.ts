@@ -1,8 +1,7 @@
 // Format conversion helpers: JSON<->CSV, pretty JSON, manual (environment
 // independent) base64, URL encoding, and HTML escaping.
 
-const BASE64_CHARS =
-  'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
+const BASE64_CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
 
 // Reverse lookup: char -> 6-bit value.
 const BASE64_LOOKUP: Record<string, number> = (() => {

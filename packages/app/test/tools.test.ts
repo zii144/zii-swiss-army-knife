@@ -2,12 +2,7 @@ import { describe, it, expect } from 'vitest';
 import { createRegistry } from '@zii/registry';
 import type { ToolMeta, ToolRegistry } from '@zii/registry';
 import { registerHelloTool } from '@zii/hello-tool';
-import {
-  filterTools,
-  formatToolCount,
-  marketLabel,
-  SELECTABLE_MARKETS,
-} from '../src/lib/tools';
+import { filterTools, formatToolCount, marketLabel, SELECTABLE_MARKETS } from '../src/lib/tools';
 
 const meta = (id: string, name: string, markets: ToolMeta['markets']): ToolMeta => ({
   id,

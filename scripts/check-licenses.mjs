@@ -72,4 +72,6 @@ if (offenders.length > 0) {
   for (const o of offenders) console.error(`  - ${o.key}: ${o.license}`);
   process.exit(1);
 }
-console.log(`✓ license-scan: scanned ${seen.size} packages under "${root}", no AGPL/GPL-only found.`);
+console.log(
+  `✓ license-scan: scanned ${seen.size} packages under "${root}", no AGPL/GPL-only found.`,
+);

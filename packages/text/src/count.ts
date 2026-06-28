@@ -36,9 +36,7 @@ function isWhitespace(code: number): boolean {
 function isHan(code: number): boolean {
   // CJK Unified Ideographs (一-鿿 == U+4E00..U+9FFF) plus the common
   // extension block U+3400..U+4DBF.
-  return (
-    (code >= 0x4e00 && code <= 0x9fff) || (code >= 0x3400 && code <= 0x4dbf)
-  );
+  return (code >= 0x4e00 && code <= 0x9fff) || (code >= 0x3400 && code <= 0x4dbf);
 }
 
 function isHiragana(code: number): boolean {
@@ -52,9 +50,7 @@ function isKatakana(code: number): boolean {
 }
 
 function isLatin(code: number): boolean {
-  return (
-    (code >= 0x41 && code <= 0x5a) || (code >= 0x61 && code <= 0x7a)
-  );
+  return (code >= 0x41 && code <= 0x5a) || (code >= 0x61 && code <= 0x7a);
 }
 
 function isDigit(code: number): boolean {

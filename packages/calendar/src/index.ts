@@ -1,12 +1,7 @@
 // @zii/calendar — Calendar & Era engine (M6).
 // Pure, offline, deterministic Gregorian-based era / zodiac / age / holiday math.
 
-export {
-  gregorianToRoc,
-  rocToGregorian,
-  toJapaneseEra,
-  japaneseEraToGregorian,
-} from './era';
+export { gregorianToRoc, rocToGregorian, toJapaneseEra, japaneseEraToGregorian } from './era';
 export type { JapaneseEra, JapaneseEraName } from './era';
 
 export { chineseZodiac, ZODIAC_ANIMALS } from './zodiac';

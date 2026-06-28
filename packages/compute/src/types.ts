@@ -9,14 +9,7 @@
  */
 
 /** Family an operation belongs to (drives UI grouping + feature detection). */
-export type ComputeCategory =
-  | 'pdf'
-  | 'image'
-  | 'audio'
-  | 'video'
-  | 'archive'
-  | 'hash'
-  | 'barcode';
+export type ComputeCategory = 'pdf' | 'image' | 'audio' | 'video' | 'archive' | 'hash' | 'barcode';
 
 /** Static, serializable metadata describing a compute operation. */
 export interface ComputeOpMeta {
@@ -35,10 +28,7 @@ export interface ComputeOpMeta {
 }
 
 /** A runnable compute handler: takes input (+ opts) and resolves to a result. */
-export type ComputeHandler = (
-  input: unknown,
-  opts?: Record<string, unknown>,
-) => Promise<unknown>;
+export type ComputeHandler = (input: unknown, opts?: Record<string, unknown>) => Promise<unknown>;
 
 /**
  * A registered compute operation: its metadata plus a lazy loader that

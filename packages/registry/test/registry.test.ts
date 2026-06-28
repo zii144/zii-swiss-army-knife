@@ -37,7 +37,12 @@ describe('ToolRegistry', () => {
     r.register(meta('tw-only', ['tw']), noopLoader);
     expect(r.list('jp').map((t) => t.id)).toContain('global-tool');
     expect(r.list('jp').map((t) => t.id)).not.toContain('tw-only');
-    expect(r.list('tw').map((t) => t.id).sort()).toEqual(['global-tool', 'tw-only']);
+    expect(
+      r
+        .list('tw')
+        .map((t) => t.id)
+        .sort(),
+    ).toEqual(['global-tool', 'tw-only']);
   });
 
   it('searches by id, name, and keyword', () => {
