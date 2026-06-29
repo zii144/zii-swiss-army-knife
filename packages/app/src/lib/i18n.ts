@@ -10,6 +10,9 @@ export interface Dict {
   language: string;
   noResults: string;
   offline: string;
+  back: string;
+  comingSoon: string;
+  loading: string;
 }
 
 export const DICTIONARY: Readonly<Record<Lang, Dict>> = {
@@ -21,6 +24,9 @@ export const DICTIONARY: Readonly<Record<Lang, Dict>> = {
     language: 'Language',
     noResults: 'No tools match your filters.',
     offline: 'offline',
+    back: 'Back to tools',
+    comingSoon: "This tool's interface isn't built yet.",
+    loading: 'Loading…',
   },
   'zh-TW': {
     title: 'Zii — 瑞士刀工具箱',
@@ -30,6 +36,9 @@ export const DICTIONARY: Readonly<Record<Lang, Dict>> = {
     language: '語言',
     noResults: '沒有符合條件的工具。',
     offline: '離線',
+    back: '返回工具列表',
+    comingSoon: '此工具的介面尚未完成。',
+    loading: '載入中…',
   },
 };
 

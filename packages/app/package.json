@@ -16,7 +16,8 @@
     "react-dom": "^19.2.0",
     "@zii/registry": "workspace:*",
     "@zii/hello-tool": "workspace:*",
-    "@zii/locale": "workspace:*"
+    "@zii/locale": "workspace:*",
+    "@zii/compute-wasm": "workspace:*"
   },
   "devDependencies": {
     "vite": "^7.3.6",

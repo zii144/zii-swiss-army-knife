@@ -125,3 +125,131 @@ button {
 .app__empty {
   color: var(--muted);
 }
+
+/* Make tool list items full-width clickable buttons. */
+.app__item--btn {
+  width: 100%;
+  text-align: left;
+  background: var(--bg);
+}
+
+.app__item--btn:hover {
+  border-color: var(--accent);
+}
+
+.app__title--btn {
+  background: none;
+  border: none;
+  padding: 0;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--fg);
+}
+
+/* ---- Tool page ---- */
+.tool {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.tool__back {
+  align-self: flex-start;
+  background: none;
+  border: none;
+  color: var(--accent);
+  padding: 0.2rem 0;
+}
+
+.tool__header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.tool__title {
+  margin: 0;
+  font-size: 1.1rem;
+}
+
+.tool__desc {
+  color: var(--muted);
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+.tool__body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+  margin-top: 0.5rem;
+}
+
+.tool__field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.tool__field input[type='text'],
+.tool__field select {
+  max-width: 24rem;
+}
+
+.tool__actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.tool__primary {
+  background: var(--accent);
+  color: var(--bg);
+  border: none;
+  font-weight: 600;
+  padding: 0.45rem 0.9rem;
+}
+
+.tool__primary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.tool__hint {
+  color: var(--muted);
+  font-size: 0.85rem;
+  margin: 0;
+}
+
+.tool__error {
+  color: #ef4444;
+  font-size: 0.85rem;
+  margin: 0;
+}
+
+.tool__result {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  align-items: flex-start;
+  border-top: 1px solid var(--border);
+  padding-top: 0.9rem;
+}
+
+.tool__preview {
+  max-width: 100%;
+  max-height: 18rem;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+}
+
+.tool__preview--qr {
+  width: 12rem;
+  height: 12rem;
+  image-rendering: pixelated;
+  background: #fff;
+  padding: 0.5rem;
+}
