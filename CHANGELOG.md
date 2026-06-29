@@ -4,6 +4,13 @@ All notable changes to this project. Format loosely follows Keep a Changelog.
 
 ## [Unreleased]
 
+### Changed — M4–M10: deferred DoD gaps closed for real (2026-06-29)
+- `@zii/compute-wasm` (**new**, M4): real handlers behind the `@zii/compute` descriptors — PDF merge/split/compress (pdf-lib), image convert/compress + HEIC→JPG (jSquash/heic-convert/libheif), QR generate/scan (zxing-wasm), ZIP zip/unzip (fflate), all golden-tested **headless in Node**; `video-convert` wired to ffmpeg.wasm for the cross-origin-isolated browser route with a server-side fallback. License-clean (MIT/Apache/ISC + LGPL libheif). Added `pdf-split` + `archive-unzip` descriptors to `@zii/compute`.
+- `@zii/calendar` (M6): added Chinese lunar calendar (`gregorianToLunar`/`lunarToGregorian`, leap-month aware), 六曜 (`rokuyo`), and 二十四節気 (`solarTermsInYear`/`solarTermOn`) via `lunar-typescript`; golden-tested against known 2026 anchors (LNY 2026-02-17, 立春/春分/夏至/秋分/冬至, 2025 閏六月).
+- `@zii/text` (M8): replaced the stub 繁簡 table with full OpenCC (`opencc-js`) incl. Taiwan idioms (`toTraditionalTaiwan`: 软件→軟體, 鼠标→滑鼠); added JSON↔YAML (`yaml`) and a regex tester (`testRegex`).
+- `@zii/payroll` (M9): added `grossForNet` reverse payroll calculator.
+- Unified `pnpm verify` green: **376 tests**, vite build, license scan clean (235 deps).
+
 ### Added — M3–M10: Platform foundation completed (2026-06-28)
 - `@zii/app` (M3): Vite + React PWA shell — registry-driven tool list, market switch, search, dark mode, in-house i18n, hand-rolled manifest + service worker.
 - `@zii/compute` (M4): compute registry with lazy code-split ops; native SHA-256/SHA-1; license-clean lazy WASM descriptors (no MuPDF/AGPL).

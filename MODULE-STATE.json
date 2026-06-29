@@ -3,7 +3,7 @@
   "plan": "DEVELOPMENT-PLAN.md",
   "updated": "2026-06-28",
   "currentModule": "foundation-complete",
-  "note": "All 10 platform-foundation modules complete and green (unified pnpm verify exit 0, 322 tests). Next phase: localization packs (TW first), then mobile (Capacitor) + AI layer.",
+  "note": "All 10 platform-foundation modules complete and green (unified pnpm verify exit 0, 376 tests). Deferred DoD gaps closed for real (2026-06-29): M4 heavy WASM ops now actually run via new @zii/compute-wasm (PDF/image/HEIC/QR/archive, golden-tested headless; video=ffmpeg.wasm browser route with server fallback); M6 adds Chinese lunar + 六曜 + 二十四節気 (lunar-typescript); M8 swaps the stub 繁簡 table for full OpenCC incl. Taiwan idioms (opencc-js) plus JSON↔YAML + regex tester; M9 adds grossForNet reverse calc. Next phase: localization packs (TW first), then mobile (Capacitor) + AI layer.",
   "frozenInterfaces": {
     "@zii/registry": [
       "Market",
@@ -57,7 +57,13 @@
       "resolveHolidays",
       "substituteIfWeekend",
       "isBusinessDay",
-      "businessDaysBetween"
+      "businessDaysBetween",
+      "gregorianToLunar",
+      "lunarToGregorian",
+      "rokuyo",
+      "ROKUYO",
+      "solarTermsInYear",
+      "solarTermOn"
     ],
     "@zii/id": [
       "validateTwNationalId",
@@ -87,6 +93,12 @@
       "toSentenceCase",
       "toSimplified",
       "toTraditional",
+      "toTraditionalTaiwan",
+      "jsonToYaml",
+      "yamlToJson",
+      "jsonStringToYaml",
+      "yamlToJsonString",
+      "testRegex",
       "jsonToCsv",
       "csvToJson",
       "prettyJson",
@@ -105,7 +117,8 @@
       "progressiveTax",
       "salesTax",
       "makeFlatRateModule",
-      "makeTaxModuleFromPack"
+      "makeTaxModuleFromPack",
+      "grossForNet"
     ],
     "@zii/compute": [
       "ComputeCategory",
@@ -118,6 +131,30 @@
       "capabilities",
       "sha256Hex",
       "sha1Hex"
+    ],
+    "@zii/compute-wasm": [
+      "createComputeRegistryWithWasm",
+      "REAL_WASM_OPS",
+      "ALL_REAL_OPS",
+      "IMPLEMENTED_OP_IDS",
+      "mergePdfs",
+      "splitPdf",
+      "compressPdf",
+      "pdfPageCount",
+      "convertImage",
+      "compressImage",
+      "decodeImage",
+      "encodeImage",
+      "detectImageFormat",
+      "heicToJpg",
+      "generateQr",
+      "generateQrSvg",
+      "scanQr",
+      "createZip",
+      "extractZip",
+      "extractZipText",
+      "convertVideo",
+      "canRunFfmpegWasm"
     ],
     "@zii/reminders": [
       "Recurrence",
@@ -159,7 +196,7 @@
       "name": "Client WASM Compute Layer",
       "status": "complete",
       "dependsOn": ["M1", "M3"],
-      "packages": ["@zii/compute"]
+      "packages": ["@zii/compute", "@zii/compute-wasm"]
     },
     "M5": {
       "name": "Calculation & Units Engine",

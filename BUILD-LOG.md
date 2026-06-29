@@ -72,3 +72,25 @@ Built in three dependency waves (parallel autonomous sub-builds, each self-verif
 - **Interfaces frozen:** see `MODULE-STATE.json` `frozenInterfaces` for all 10 packages.
 - **Follow-ups:** wire real WASM bundles behind M4's lazy ops; lunar/六曜 tables in M6; full OpenCC dataset in M8; Playwright E2E + service-worker precache for M3; market locale packs (TW first) now unblocked.
 - **Status:** platform foundation **complete** (M1–M10). Next phase = localization packs.
+
+---
+
+## M4–M10 — Deferred-gap closure ("for real") — 2026-06-29
+
+A follow-up pass that closes the DoD gaps the initial M3–M10 wave had stubbed or deferred. Re-verified with a single unified **`pnpm verify` across 13 packages: exit 0** — typecheck (18 tasks), lint, **376 tests** (was 322; +54), `vite build`, license-scan **235 deps clean (no AGPL/GPL)**. All work built and tested in a native-FS sandbox mirror (the synced folder is a restricted mount where `pnpm install` can't run), then written back to the repo.
+
+- **M4 — `@zii/compute-wasm` (new package):** the heavy ops that previously threw `"requires the @zii/compute-wasm bundle"` now actually run. A single env bridge (`wasm-env.ts`) feeds each codec its `.wasm` bytes in Node (the codecs self-load in the browser), so every op is **golden-tested headless**:
+  - **PDF** (pdf-lib): `pdf-merge`, `pdf-split` (per-page or reordered subset), `pdf-compress` (structural re-save).
+  - **Image** (jSquash png/jpeg/webp): `image-convert` (magic-byte detection), `image-compress`.
+  - **HEIC** (heic-convert→libheif, LGPL dynamically linked): `heic-to-jpg` — tested against a real 16×16 HEIC fixture generated with libheif/ImageMagick, embedded as base64; output JPEG re-decoded to assert 16×16 + red pixel.
+  - **Barcode** (zxing-wasm): `qr-generate` (PNG+SVG), `qr-scan` — full generate→scan round-trip.
+  - **Archive** (fflate): `archive-zip`, `archive-unzip` — byte-exact round-trip.
+  - **Video** (`video-convert`): wired to ffmpeg.wasm for the COOP/COEP isolated browser route; in Node / non-isolated contexts it throws an actionable error pointing to the `@zii/backend` conversion worker (honest — multi-threaded ffmpeg.wasm cannot run in a plain Node process). 26 tests.
+  - Also added `pdf-split` + `archive-unzip` descriptors to `@zii/compute` so the abstraction lists them; `createComputeRegistryWithWasm()` is the production registry where every op runs.
+- **M6 — `@zii/calendar`:** added the previously-deferred lunar/六曜/節気 via `lunar-typescript` (MIT, deterministic, offline — no ephemeris files shipped). `gregorianToLunar`/`lunarToGregorian` (leap-month aware via signed month), `rokuyo` (`(lunarMonth+lunarDay) mod 6`), `solarTermsInYear`/`solarTermOn` (24 terms collected, sorted, zipped to a canonical Traditional/Japanese name list — sidesteps the library's simplified + aliased `DONG_ZHI` keys). +10 golden tests (LNY 2026, 2025 閏六月, 立春/春分/夏至/秋分/冬至, 啓蟄 ja kanji).
+- **M8 — `@zii/text`:** replaced the curated 繁簡 table with full **OpenCC** (`opencc-js`, MIT/Apache). `toTraditional`/`toSimplified` now phrase-aware; new `toTraditionalTaiwan` applies Taiwan vocabulary (軟體/記憶體/滑鼠/程式). Added JSON↔YAML (`yaml`, ISC) completing the JSON↔CSV↔YAML matrix, and a `testRegex` tester (groups, named groups, invalid-pattern handling, zero-width guard). +14 tests.
+- **M9 — `@zii/payroll`:** added `grossForNet` — a bisection reverse calculator (gross from target net) over any rule module, exact for linear flat-rate modules. +4 tests.
+- **M5 / M7 / M10:** reviewed against their DoDs — no stubs or deferred items remained (validators, calc/units, reminders/backend were genuinely complete in the first wave), so they pass the hardened suite unchanged. *Documented follow-up (localization phase, not foundation):* `@zii/address` (postal lookup / address normalization / CJK↔romaji) and 注音/粵拼/ふりがな readings were in the M7/M8 *objectives* but not their DoDs; they belong to the per-market data effort.
+- **Licensing:** new deps are MIT/Apache/ISC + LGPL (libheif via heic-convert, dynamically linked) — all pass the `check:licenses` gate. No MuPDF, no AGPL/GPL.
+- **Follow-ups:** swap heic-convert's internal encoder for jSquash if a raw-RGBA libheif decode path is wanted; ship/host ffmpeg.wasm core for the isolated route + add a Playwright test for it; wire `createComputeRegistryWithWasm()` into the `@zii/app` shell and `@zii/backend` worker.
+- **Status:** foundation DoD gaps **closed**. Next phase still = localization packs (TW first).
