@@ -46,6 +46,7 @@ export const NATIVE_OPS: readonly ComputeOp[] = [
  */
 export const WASM_OPS: readonly ComputeOp[] = [
   wasmDescriptor({ id: 'pdf-merge', category: 'pdf', offline: true, needsWasm: true }),
+  wasmDescriptor({ id: 'pdf-split', category: 'pdf', offline: true, needsWasm: true }),
   wasmDescriptor({ id: 'pdf-compress', category: 'pdf', offline: true, needsWasm: true }),
   wasmDescriptor({ id: 'image-convert', category: 'image', offline: true, needsWasm: true }),
   wasmDescriptor({ id: 'heic-to-jpg', category: 'image', offline: true, needsWasm: true }),
@@ -60,6 +61,7 @@ export const WASM_OPS: readonly ComputeOp[] = [
   wasmDescriptor({ id: 'qr-generate', category: 'barcode', offline: true, needsWasm: true }),
   wasmDescriptor({ id: 'qr-scan', category: 'barcode', offline: true, needsWasm: true }),
   wasmDescriptor({ id: 'archive-zip', category: 'archive', offline: true, needsWasm: true }),
+  wasmDescriptor({ id: 'archive-unzip', category: 'archive', offline: true, needsWasm: true }),
 ];
 
 /** All ops (native + WASM descriptors) the layer knows about. */

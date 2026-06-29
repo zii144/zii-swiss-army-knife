@@ -1,0 +1,28 @@
+{
+  "name": "@zii/compute-wasm",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Real client-side WASM compute handlers (PDF / image / HEIC / QR / archive / video) that fulfil the @zii/compute op descriptors. License-clean: no AGPL/GPL.",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json",
+    "test": "vitest run",
+    "lint": "eslint ."
+  },
+  "dependencies": {
+    "@zii/compute": "workspace:*",
+    "@ffmpeg/ffmpeg": "^0.12.15",
+    "@ffmpeg/util": "^0.12.2",
+    "@jsquash/jpeg": "^1.6.0",
+    "@jsquash/png": "^3.1.1",
+    "@jsquash/webp": "^1.5.0",
+    "fflate": "^0.8.3",
+    "heic-convert": "^2.1.0",
+    "pdf-lib": "^1.17.1",
+    "zxing-wasm": "^3.1.0"
+  }
+}
