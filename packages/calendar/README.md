@@ -40,10 +40,14 @@ multi-market date reasoning.
 All `Date`-taking functions read **UTC** fields, so construct inputs as
 `new Date('YYYY-MM-DD')` for stable, time-zone-independent results.
 
-## Out of scope (documented follow-up)
+## Lunar calendar, 六曜, 二十四節気
 
-Lunar calendar conversion, 六曜 (rokuyō), and 二十四節気 (the 24 solar terms)
-require ephemeris / astronomical lookup tables and are intentionally **not**
-implemented here. They are planned as a follow-up once the supporting data
-tables are vendored, since they cannot be computed deterministically from the
-Gregorian calendar alone.
+Implemented via `lunar-typescript` (MIT) — deterministic and fully offline (no
+ephemeris files shipped):
+
+- `gregorianToLunar(date)` / `lunarToGregorian(y, m, d, isLeapMonth?)` — Chinese
+  lunar conversion, leap-month aware, with 干支 year and zodiac.
+- `rokuyo(date)` — 六曜, derived as `(lunarMonth + lunarDay) mod 6` (lunar 1/1 is
+  always 先勝).
+- `solarTermsInYear(year)` / `solarTermOn(date)` — the 24 solar terms with
+  Traditional-Chinese and Japanese names, golden-tested against known anchors.

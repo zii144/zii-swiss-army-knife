@@ -16,3 +16,13 @@ export {
   businessDaysBetween,
 } from './holidays';
 export type { ResolvedHoliday, SubstituteOptions } from './holidays';
+
+export {
+  gregorianToLunar,
+  lunarToGregorian,
+  rokuyo,
+  ROKUYO,
+  solarTermsInYear,
+  solarTermOn,
+} from './lunar';
+export type { LunarDate, Rokuyo, SolarTerm } from './lunar';
