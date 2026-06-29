@@ -10,6 +10,7 @@ Operational (repo root):
 | Doc | What it is |
 |-----|-----------|
 | `DEVELOPMENT-PLAN.md` | The autonomous 10-module build loop (foundation) |
+| `ROADMAP.md` | Post-foundation product roadmap (universal tools → locale packs → mobile → AI) |
 | `BUILD-LOG.md` | Append-only module retros (agent loop) |
 | `MODULE-STATE.json` | Machine state for the autonomous build loop |
 | `CHANGELOG.md` | Release notes |
