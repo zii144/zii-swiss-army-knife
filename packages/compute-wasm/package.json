@@ -5,7 +5,14 @@
   "type": "module",
   "description": "Real client-side WASM compute handlers (PDF / image / HEIC / QR / archive / video) that fulfil the @zii/compute op descriptors. License-clean: no AGPL/GPL.",
   "exports": {
-    ".": "./src/index.ts"
+    ".": "./src/index.ts",
+    "./pdf": "./src/pdf.ts",
+    "./image": "./src/image.ts",
+    "./qr": "./src/qr.ts",
+    "./archive": "./src/archive.ts",
+    "./heic": "./src/heic.ts",
+    "./video": "./src/video.ts",
+    "./ops": "./src/ops.ts"
   },
   "scripts": {
     "build": "tsc -p tsconfig.json",

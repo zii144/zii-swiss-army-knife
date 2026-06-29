@@ -32,9 +32,11 @@ export function isNode(): boolean {
  * zxing-wasm) whose `exports` map hides `./package.json`.
  */
 export async function readPackageFile(pkgName: string, relPath: string): Promise<Uint8Array> {
-  const { createRequire } = await import('node:module');
-  const { readFileSync, existsSync } = await import('node:fs');
-  const { dirname, join } = await import('node:path');
+  // `@vite-ignore` keeps a browser bundler from trying to resolve Node
+  // builtins; this code path only runs when `isNode()` is true.
+  const { createRequire } = await import(/* @vite-ignore */ 'node:module');
+  const { readFileSync, existsSync } = await import(/* @vite-ignore */ 'node:fs');
+  const { dirname, join } = await import(/* @vite-ignore */ 'node:path');
   const require = createRequire(import.meta.url);
 
   const named = (dir: string): boolean => {
