@@ -20,13 +20,20 @@ runs unchanged in both browsers and Node — only standard JS/Web APIs are used
 - **diff** — `lineDiff(a, b)` returns line operations
   (`equal` / `add` / `remove`) computed via LCS.
 
-## CJK conversion note
+## CJK conversion
 
-`toSimplified` / `toTraditional` currently use a **small built-in mapping table**
-(~45 common characters) to demonstrate the conversion mechanism. The full
-[OpenCC](https://github.com/BYVoid/OpenCC) dataset (including multi-character
-phrases and regional variants) is a planned follow-up; this package builds the
-char-by-char substitution engine that such a dataset would plug into.
+`toSimplified` / `toTraditional` use the full [OpenCC](https://github.com/BYVoid/OpenCC)
+dataset via `opencc-js` (MIT/Apache, offline) — phrase-aware, not a character
+table. `toTraditionalTaiwan` additionally applies Taiwan vocabulary/idioms
+(e.g. 软件→軟體, 内存→記憶體, 鼠标→滑鼠, 程序→程式).
+
+## Structured data
+
+- **serial** — `jsonToYaml` / `yamlToJson` (+ string variants) via `yaml` (ISC),
+  completing the JSON ↔ CSV ↔ YAML matrix.
+- **regex** — `testRegex(pattern, input, flags?)` returns every match with
+  positional + named groups; invalid patterns return `{ valid: false }` instead
+  of throwing.
 
 ## Base64 note
 

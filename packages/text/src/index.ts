@@ -16,7 +16,7 @@ export {
   toLowerCase,
 } from './case';
 
-export { toSimplified, toTraditional } from './cjk';
+export { toSimplified, toTraditional, toTraditionalTaiwan } from './cjk';
 
 export {
   jsonToCsv,
@@ -32,3 +32,8 @@ export {
 
 export { lineDiff } from './diff';
 export type { DiffLine, DiffType } from './diff';
+
+export { jsonToYaml, yamlToJson, jsonStringToYaml, yamlToJsonString } from './serial';
+
+export { testRegex } from './regex';
+export type { RegexMatch, RegexResult } from './regex';
