@@ -5,7 +5,7 @@
 export { progressiveTax, salesTax } from './tax';
 export type { TaxBracket, SalesTaxResult } from './tax';
 
-export { makeFlatRateModule, makeTaxModuleFromPack } from './rules';
+export { makeFlatRateModule, makeTaxModuleFromPack, grossForNet } from './rules';
 export type {
   PayrollInput,
   PayrollBreakdown,

@@ -91,6 +91,40 @@ export function makeFlatRateModule(config: FlatRateModuleConfig): PayrollRuleMod
 }
 
 /**
+ * Reverse payroll: find the gross pay that yields a target **net**, for any
+ * rule module. Deductions generally rise monotonically with gross, so a
+ * bisection converges; returns the gross rounded to `cents` (2 d.p. default).
+ * Throws if the target net is unreachable within the search bound.
+ */
+export function grossForNet(
+  module: PayrollRuleModule,
+  targetNet: number,
+  opts: { periodsPerYear?: number; extra?: Record<string, number>; tolerance?: number } = {},
+): number {
+  if (targetNet < 0) throw new RangeError('targetNet must be >= 0');
+  const tolerance = opts.tolerance ?? 0.005;
+  const netOf = (gross: number): number =>
+    module.computeNet({ gross, periodsPerYear: opts.periodsPerYear, extra: opts.extra }).net;
+
+  let lo = targetNet; // gross is never less than net
+  let hi = Math.max(targetNet * 2, targetNet + 1);
+  // Expand the upper bound until its net covers the target (bounded).
+  for (let i = 0; i < 64 && netOf(hi) < targetNet; i += 1) hi *= 2;
+  if (netOf(hi) < targetNet) {
+    throw new Error('grossForNet: target net is unreachable within the search bound');
+  }
+
+  for (let i = 0; i < 200; i += 1) {
+    const mid = (lo + hi) / 2;
+    const net = netOf(mid);
+    if (Math.abs(net - targetNet) <= tolerance) return Math.round(mid * 100) / 100;
+    if (net < targetNet) lo = mid;
+    else hi = mid;
+  }
+  return Math.round(((lo + hi) / 2) * 100) / 100;
+}
+
+/**
  * Build a rule module from a locale pack (M9 config-as-data).
  *
  * Mapping:
