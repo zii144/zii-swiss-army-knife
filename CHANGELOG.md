@@ -4,6 +4,11 @@ All notable changes to this project. Format loosely follows Keep a Changelog.
 
 ## [Unreleased]
 
+### Added — App: universal tool batch wired to engines (2026-06-30)
+- Seven more tool screens wired into the `@zii/app` shell against the existing `ToolPage` contract, all bilingual (en / zh-TW) and code-split into their own lazy chunks (2–4 kB each): **Percentage & tip** and **Unit converter** (`@zii/calc`), **Character & word count** and **Case converter** and **JSON ↔ CSV** (`@zii/text`), **Hash SHA-256/SHA-1** (`@zii/compute`), and **Compress image** (`@zii/compute-wasm`).
+- Added `@zii/calc`, `@zii/text`, `@zii/compute` as `@zii/app` dependencies. App tool count is now **10** real screens (was 3); registry/keyword search and the global market list pick them up automatically (existing generic tests still green).
+- Extended `styles.css` with grouped-fieldset, stat-grid, output-row and ghost-button styles for the new calculator/text/hash layouts.
+
 ### Added — App: first working tool pages wired to compute (2026-06-29)
 - `@zii/app`: tool selection/routing in the shell — clicking a tool opens a code-split, lazy-loaded view with a back link; shared `ToolPage` template + `DownloadButton`.
 - Three real tools wired to `@zii/compute-wasm`, running on-device: **Merge PDF** (pdf-lib), **Convert image** PNG/JPEG/WebP (jSquash, wasm emitted as local assets → offline), **QR code generator** (zxing-wasm). Bilingual (en / zh-TW).
