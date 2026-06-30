@@ -1,0 +1,6 @@
+## Imported Claude Cowork project instructions
+
+This project handles basically everything 21st ppl needs, for example, 
+1. File converting: csv to excel, zip to rar, etc...
+2. Complex calculator, ...
+Do more research on it, this app aim to solve all daily issues at one place.
