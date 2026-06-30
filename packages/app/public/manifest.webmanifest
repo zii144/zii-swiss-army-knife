@@ -1,12 +1,13 @@
 {
   "name": "Zii — Swiss Army Knife",
   "short_name": "Zii",
-  "description": "Multi-market, privacy-first everyday utility suite.",
+  "description": "Privacy-first everyday-utility suite. File conversion, PDF tools, calculators, and text tools — all on-device and offline.",
+  "lang": "en",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",
-  "background_color": "#0b0d12",
-  "theme_color": "#0b0d12",
+  "background_color": "#2b66c4",
+  "theme_color": "#2b66c4",
   "icons": [
     {
       "src": "/icon.svg",
