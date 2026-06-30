@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { compressImage } from '@zii/compute-wasm/image';
 import { ToolPage, DownloadButton } from '../components/ToolPage';
+import { Button, FileField, RangeSlider } from '../components/ui';
 import type { ToolViewProps } from './types';
 import { readFileBytes, tr } from './types';
 
@@ -81,23 +82,22 @@ export default function ImageCompressTool({ onBack, lang, backLabel, offlineLabe
       backLabel={backLabel}
       offlineLabel={offlineLabel}
     >
-      <label className="tool__field">
+      <div className="tool__field">
         <span>{t.pick}</span>
-        <input
-          type="file"
+        <FileField
           accept="image/png,image/jpeg,image/webp"
-          onChange={(e) => {
-            setFile(e.target.files?.[0] ?? null);
+          buttonLabel={t.pick}
+          onFiles={(fs) => {
+            setFile(fs[0] ?? null);
             setResult(null);
           }}
         />
-      </label>
+      </div>
       <label className="tool__field">
         <span>
           {t.quality}: {quality}
         </span>
-        <input
-          type="range"
+        <RangeSlider
           min={10}
           max={95}
           value={quality}
@@ -106,9 +106,9 @@ export default function ImageCompressTool({ onBack, lang, backLabel, offlineLabe
       </label>
 
       <div className="tool__actions">
-        <button type="button" className="tool__primary" disabled={!file || busy} onClick={run}>
+        <Button variant="primary" loading={busy} disabled={!file || busy} onClick={run}>
           {busy ? t.compressing : t.compress}
-        </button>
+        </Button>
         {!file ? <span className="tool__hint">{t.none}</span> : null}
       </div>
 

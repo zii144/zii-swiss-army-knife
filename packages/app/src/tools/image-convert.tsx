@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { convertImage, type ImageFormat } from '@zii/compute-wasm/image';
 import { ToolPage, DownloadButton } from '../components/ToolPage';
+import { Button, FileField, Select } from '../components/ui';
 import type { ToolViewProps } from './types';
 import { readFileBytes, tr } from './types';
 
@@ -71,32 +72,31 @@ export default function ImageConvertTool({ onBack, lang, backLabel, offlineLabel
       backLabel={backLabel}
       offlineLabel={offlineLabel}
     >
-      <label className="tool__field">
+      <div className="tool__field">
         <span>{t.pick}</span>
-        <input
-          type="file"
+        <FileField
           accept="image/png,image/jpeg,image/webp"
-          onChange={(e) => {
-            setFile(e.target.files?.[0] ?? null);
+          buttonLabel={t.pick}
+          onFiles={(fs) => {
+            setFile(fs[0] ?? null);
             setResult(null);
           }}
         />
-      </label>
-      <label className="tool__field">
+      </div>
+      <div className="tool__field">
         <span>{t.to}</span>
-        <select value={to} onChange={(e) => setTo(e.target.value as ImageFormat)}>
-          {FORMATS.map((f) => (
-            <option key={f} value={f}>
-              {f.toUpperCase()}
-            </option>
-          ))}
-        </select>
-      </label>
+        <Select
+          value={to}
+          options={FORMATS.map((f) => ({ value: f, label: f.toUpperCase() }))}
+          onChange={(v) => setTo(v as ImageFormat)}
+          ariaLabel={t.to}
+        />
+      </div>
 
       <div className="tool__actions">
-        <button type="button" className="tool__primary" disabled={!file || busy} onClick={run}>
+        <Button variant="primary" loading={busy} disabled={!file || busy} onClick={run}>
           {busy ? t.converting : t.convert}
-        </button>
+        </Button>
         {!file ? <span className="tool__hint">{t.none}</span> : null}
       </div>
 

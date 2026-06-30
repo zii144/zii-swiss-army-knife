@@ -1,133 +1,54 @@
 import { lazy } from 'react';
 import type { ComponentType } from 'react';
 import type { ToolMeta, ToolRegistry } from '@zii/registry';
+import { CATALOG } from '../lib/catalog';
 import type { ToolViewProps } from './types';
 
 /** A lazily-imported tool view module (default export is the React view). */
 type ViewLoader = () => Promise<{ default: ComponentType<ToolViewProps> }>;
 
-/**
- * The tool catalogue surfaced by the app shell. Each entry pairs registry
- * metadata with a lazily-loaded React view (code-split per tool) wired to the
- * real `@zii/compute-wasm` ops.
- */
-interface AppTool {
-  meta: ToolMeta;
-  load: ViewLoader;
+/** Per-tool code-split view loaders, keyed by catalogue id. */
+const LOADERS: Record<string, ViewLoader> = {
+  'pdf-merge': () => import('./pdf-merge'),
+  'image-convert': () => import('./image-convert'),
+  'qr-generate': () => import('./qr-generate'),
+  'image-compress': () => import('./image-compress'),
+  'percent-tip': () => import('./percent-tip'),
+  'unit-convert': () => import('./unit-convert'),
+  'text-count': () => import('./text-count'),
+  'text-case': () => import('./text-case'),
+  'json-csv': () => import('./json-csv'),
+  hash: () => import('./hash'),
+  base64: () => import('./base64'),
+  'url-encode': () => import('./url-encode'),
+  'json-yaml': () => import('./json-yaml'),
+  'regex-tester': () => import('./regex-tester'),
+  'text-diff': () => import('./text-diff'),
+  fullwidth: () => import('./fullwidth'),
+  'loan-calculator': () => import('./loan-calculator'),
+  bmi: () => import('./bmi'),
+  'date-diff': () => import('./date-diff'),
+  'qr-scan': () => import('./qr-scan'),
+  'pdf-split': () => import('./pdf-split'),
+};
+
+/** Registry metadata derived from the catalogue (English name is canonical). */
+function metaFor(id: string): ToolMeta {
+  const tool = CATALOG.find((t) => t.id === id)!;
+  return {
+    id: tool.id,
+    name: tool.name.en,
+    category: tool.category,
+    markets: ['global'],
+    offline: tool.offline,
+    keywords: [...tool.keywords],
+  };
 }
 
-const APP_TOOLS: AppTool[] = [
-  {
-    meta: {
-      id: 'pdf-merge',
-      name: 'Merge PDF',
-      category: 'pdf',
-      markets: ['global'],
-      offline: true,
-      keywords: ['pdf', 'merge', 'combine', 'join'],
-    },
-    load: () => import('./pdf-merge'),
-  },
-  {
-    meta: {
-      id: 'image-convert',
-      name: 'Convert image',
-      category: 'image',
-      markets: ['global'],
-      offline: true,
-      keywords: ['image', 'convert', 'png', 'jpeg', 'jpg', 'webp'],
-    },
-    load: () => import('./image-convert'),
-  },
-  {
-    meta: {
-      id: 'qr-generate',
-      name: 'QR code generator',
-      category: 'generator',
-      markets: ['global'],
-      offline: true,
-      keywords: ['qr', 'qrcode', 'barcode', 'generate'],
-    },
-    load: () => import('./qr-generate'),
-  },
-  {
-    meta: {
-      id: 'image-compress',
-      name: 'Compress image',
-      category: 'image',
-      markets: ['global'],
-      offline: true,
-      keywords: ['image', 'compress', 'shrink', 'optimize', 'jpeg', 'quality'],
-    },
-    load: () => import('./image-compress'),
-  },
-  {
-    meta: {
-      id: 'percent-tip',
-      name: 'Percentage & tip',
-      category: 'calc',
-      markets: ['global'],
-      offline: true,
-      keywords: ['percent', 'percentage', 'tip', 'split', 'change', 'calculator'],
-    },
-    load: () => import('./percent-tip'),
-  },
-  {
-    meta: {
-      id: 'unit-convert',
-      name: 'Unit converter',
-      category: 'convert',
-      markets: ['global'],
-      offline: true,
-      keywords: ['unit', 'convert', 'length', 'mass', 'weight', 'temperature', 'volume'],
-    },
-    load: () => import('./unit-convert'),
-  },
-  {
-    meta: {
-      id: 'text-count',
-      name: 'Character & word count',
-      category: 'text',
-      markets: ['global'],
-      offline: true,
-      keywords: ['count', 'character', 'word', 'line', 'length', 'text'],
-    },
-    load: () => import('./text-count'),
-  },
-  {
-    meta: {
-      id: 'text-case',
-      name: 'Case converter',
-      category: 'text',
-      markets: ['global'],
-      offline: true,
-      keywords: ['case', 'camel', 'snake', 'kebab', 'title', 'upper', 'lower'],
-    },
-    load: () => import('./text-case'),
-  },
-  {
-    meta: {
-      id: 'json-csv',
-      name: 'JSON ↔ CSV',
-      category: 'dev',
-      markets: ['global'],
-      offline: true,
-      keywords: ['json', 'csv', 'convert', 'data', 'table'],
-    },
-    load: () => import('./json-csv'),
-  },
-  {
-    meta: {
-      id: 'hash',
-      name: 'Hash (SHA-256 / SHA-1)',
-      category: 'dev',
-      markets: ['global'],
-      offline: true,
-      keywords: ['hash', 'sha', 'sha256', 'sha1', 'checksum', 'digest'],
-    },
-    load: () => import('./hash'),
-  },
-];
+const APP_TOOLS = CATALOG.filter((t) => LOADERS[t.id]).map((t) => ({
+  meta: metaFor(t.id),
+  load: LOADERS[t.id]!,
+}));
 
 /** Stable id → lazy view map for the shell to render the selected tool. */
 export const TOOL_VIEWS: Readonly<Record<string, ComponentType<ToolViewProps>>> =

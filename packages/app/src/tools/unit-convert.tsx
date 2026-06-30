@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { convert, type Unit } from '@zii/calc';
 import { ToolPage } from '../components/ToolPage';
+import { Select, TextField } from '../components/ui';
 import type { ToolViewProps } from './types';
 import { tr } from './types';
 
@@ -70,40 +71,47 @@ export default function UnitConvertTool({ onBack, lang, backLabel, offlineLabel 
       backLabel={backLabel}
       offlineLabel={offlineLabel}
     >
-      <label className="tool__field">
+      <div className="tool__field">
         <span>{t.dimension}</span>
-        <select value={dim} onChange={(e) => onDim(e.target.value as Dim)}>
-          <option value="length">{t.length}</option>
-          <option value="mass">{t.mass}</option>
-          <option value="temperature">{t.temperature}</option>
-          <option value="volume">{t.volume}</option>
-        </select>
-      </label>
+        <Select
+          value={dim}
+          options={[
+            { value: 'length', label: t.length },
+            { value: 'mass', label: t.mass },
+            { value: 'temperature', label: t.temperature },
+            { value: 'volume', label: t.volume },
+          ]}
+          onChange={(v) => onDim(v as Dim)}
+          ariaLabel={t.dimension}
+        />
+      </div>
       <label className="tool__field">
         <span>{t.value}</span>
-        <input type="number" value={value} onChange={(e) => setValue(Number(e.target.value))} />
+        <TextField
+          type="number"
+          value={value}
+          onChange={(e) => setValue(Number(e.target.value))}
+        />
       </label>
       <div className="tool__inline">
-        <label className="tool__field">
+        <div className="tool__field">
           <span>{t.from}</span>
-          <select value={from} onChange={(e) => setFrom(e.target.value as Unit)}>
-            {UNITS[dim].map((u) => (
-              <option key={u} value={u}>
-                {u}
-              </option>
-            ))}
-          </select>
-        </label>
-        <label className="tool__field">
+          <Select
+            value={from}
+            options={UNITS[dim].map((u) => ({ value: u, label: u }))}
+            onChange={(v) => setFrom(v as Unit)}
+            ariaLabel={t.from}
+          />
+        </div>
+        <div className="tool__field">
           <span>{t.to}</span>
-          <select value={to} onChange={(e) => setTo(e.target.value as Unit)}>
-            {UNITS[dim].map((u) => (
-              <option key={u} value={u}>
-                {u}
-              </option>
-            ))}
-          </select>
-        </label>
+          <Select
+            value={to}
+            options={UNITS[dim].map((u) => ({ value: u, label: u }))}
+            onChange={(v) => setTo(v as Unit)}
+            ariaLabel={t.to}
+          />
+        </div>
       </div>
 
       {error ? (

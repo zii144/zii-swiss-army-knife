@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { mergePdfs } from '@zii/compute-wasm/pdf';
 import { ToolPage, DownloadButton } from '../components/ToolPage';
+import { Button, FileField } from '../components/ui';
 import type { ToolViewProps } from './types';
 import { readFileBytes, tr } from './types';
 
@@ -58,29 +59,24 @@ export default function PdfMergeTool({ onBack, lang, backLabel, offlineLabel }: 
       backLabel={backLabel}
       offlineLabel={offlineLabel}
     >
-      <label className="tool__field">
+      <div className="tool__field">
         <span>{t.pick}</span>
-        <input
-          type="file"
+        <FileField
           accept="application/pdf,.pdf"
           multiple
-          onChange={(e) => {
-            setFiles(Array.from(e.target.files ?? []));
+          buttonLabel={t.pick}
+          onFiles={(fs) => {
+            setFiles(fs);
             setResult(null);
           }}
         />
-      </label>
+      </div>
       {files.length > 0 ? <p className="tool__hint">{t.selected(files.length)}</p> : null}
 
       <div className="tool__actions">
-        <button
-          type="button"
-          className="tool__primary"
-          disabled={files.length < 2 || busy}
-          onClick={run}
-        >
+        <Button variant="primary" loading={busy} disabled={files.length < 2 || busy} onClick={run}>
           {busy ? t.merging : t.merge}
-        </button>
+        </Button>
         {files.length < 2 ? <span className="tool__hint">{t.none}</span> : null}
       </div>
 

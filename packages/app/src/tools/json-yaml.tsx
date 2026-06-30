@@ -1,44 +1,42 @@
 import { useState } from 'react';
-import { jsonToCsv, csvToJson, prettyJson } from '@zii/text';
+import { jsonStringToYaml, yamlToJsonString } from '@zii/text';
 import { ToolPage, DownloadButton } from '../components/ToolPage';
-import { Button, Select, TextArea } from '../components/ui';
+import { Select, TextArea, Button } from '../components/ui';
 import type { ToolViewProps } from './types';
 import { tr } from './types';
 
-type Dir = 'json2csv' | 'csv2json';
+type Dir = 'json2yaml' | 'yaml2json';
 
-const SAMPLE = '[\n  { "name": "Ann", "age": 30 },\n  { "name": "Bo", "age": 25 }\n]';
+const SAMPLE = '{\n  "name": "Zii",\n  "tools": ["pdf", "image"],\n  "offline": true\n}';
 
 const L = {
   en: {
-    title: 'JSON ↔ CSV',
-    desc: 'Convert an array of JSON objects to CSV and back, on your device.',
+    title: 'JSON ↔ YAML',
+    desc: 'Convert configuration between JSON and YAML, on your device.',
     direction: 'Direction',
-    j2c: 'JSON → CSV',
-    c2j: 'CSV → JSON',
+    j2y: 'JSON → YAML',
+    y2j: 'YAML → JSON',
     input: 'Input',
     output: 'Output',
     convert: 'Convert',
     download: 'Download result',
-    needArray: 'JSON input must be an array of objects.',
   },
   'zh-TW': {
-    title: 'JSON ↔ CSV',
-    desc: '在裝置上將 JSON 物件陣列與 CSV 互相轉換。',
+    title: 'JSON ↔ YAML',
+    desc: '在裝置上於 JSON 與 YAML 之間轉換設定。',
     direction: '方向',
-    j2c: 'JSON → CSV',
-    c2j: 'CSV → JSON',
+    j2y: 'JSON → YAML',
+    y2j: 'YAML → JSON',
     input: '輸入',
     output: '輸出',
     convert: '轉換',
     download: '下載結果',
-    needArray: 'JSON 輸入必須是物件陣列。',
   },
 };
 
-export default function JsonCsvTool({ onBack, lang, backLabel, offlineLabel }: ToolViewProps) {
+export default function JsonYamlTool({ onBack, lang, backLabel, offlineLabel }: ToolViewProps) {
   const t = tr(L, lang);
-  const [dir, setDir] = useState<Dir>('json2csv');
+  const [dir, setDir] = useState<Dir>('json2yaml');
   const [input, setInput] = useState(SAMPLE);
   const [output, setOutput] = useState('');
   const [error, setError] = useState<string | null>(null);
@@ -47,20 +45,14 @@ export default function JsonCsvTool({ onBack, lang, backLabel, offlineLabel }: T
     setError(null);
     setOutput('');
     try {
-      if (dir === 'json2csv') {
-        const parsed = JSON.parse(input);
-        if (!Array.isArray(parsed)) throw new Error(t.needArray);
-        setOutput(jsonToCsv(parsed as Record<string, unknown>[]));
-      } else {
-        setOutput(prettyJson(csvToJson(input)));
-      }
+      setOutput(dir === 'json2yaml' ? jsonStringToYaml(input) : yamlToJsonString(input));
     } catch (e) {
       setError(e instanceof Error ? e.message : String(e));
     }
   };
 
-  const outName = dir === 'json2csv' ? 'data.csv' : 'data.json';
-  const outMime = dir === 'json2csv' ? 'text/csv' : 'application/json';
+  const outName = dir === 'json2yaml' ? 'data.yaml' : 'data.json';
+  const outMime = dir === 'json2yaml' ? 'text/yaml' : 'application/json';
 
   return (
     <ToolPage
@@ -75,8 +67,8 @@ export default function JsonCsvTool({ onBack, lang, backLabel, offlineLabel }: T
         <Select
           value={dir}
           options={[
-            { value: 'json2csv', label: t.j2c },
-            { value: 'csv2json', label: t.c2j },
+            { value: 'json2yaml', label: t.j2y },
+            { value: 'yaml2json', label: t.y2j },
           ]}
           onChange={(v) => {
             setDir(v as Dir);
@@ -95,7 +87,6 @@ export default function JsonCsvTool({ onBack, lang, backLabel, offlineLabel }: T
           {t.convert}
         </Button>
       </div>
-
       {error ? <p className="tool__error">{error}</p> : null}
       {output ? (
         <div className="tool__result">

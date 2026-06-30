@@ -38,6 +38,12 @@ importers:
 
   packages/app:
     dependencies:
+      '@zii/calc':
+        specifier: workspace:*
+        version: link:../calc
+      '@zii/compute':
+        specifier: workspace:*
+        version: link:../compute
       '@zii/compute-wasm':
         specifier: workspace:*
         version: link:../compute-wasm
@@ -50,6 +56,9 @@ importers:
       '@zii/registry':
         specifier: workspace:*
         version: link:../registry
+      '@zii/text':
+        specifier: workspace:*
+        version: link:../text
       react:
         specifier: ^19.2.0
         version: 19.2.7

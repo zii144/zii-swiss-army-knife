@@ -9,6 +9,7 @@ import {
   toLowerCase,
 } from '@zii/text';
 import { ToolPage } from '../components/ToolPage';
+import { Button, TextArea } from '../components/ui';
 import type { ToolViewProps } from './types';
 import { tr } from './types';
 
@@ -95,7 +96,7 @@ export default function TextCaseTool({ onBack, lang, backLabel, offlineLabel }: 
     >
       <label className="tool__field">
         <span>{t.input}</span>
-        <textarea
+        <TextArea
           rows={4}
           value={text}
           placeholder={t.placeholder}
@@ -109,9 +110,9 @@ export default function TextCaseTool({ onBack, lang, backLabel, offlineLabel }: 
             <div key={key} className="tool__row">
               <span className="tool__row-label">{t.labels[key]}</span>
               <code className="tool__row-value">{out}</code>
-              <button type="button" className="tool__ghost" onClick={() => copy(key, out)}>
+              <Button variant="ghost" onClick={() => copy(key, out)}>
                 {copied === key ? t.copied : t.copy}
-              </button>
+              </Button>
             </div>
           );
         })}

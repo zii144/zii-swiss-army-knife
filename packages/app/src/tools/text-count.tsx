@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { countText } from '@zii/text';
 import { ToolPage } from '../components/ToolPage';
+import { TextArea } from '../components/ui';
 import type { ToolViewProps } from './types';
 import { tr } from './types';
 
@@ -57,7 +58,7 @@ export default function TextCountTool({ onBack, lang, backLabel, offlineLabel }:
     >
       <label className="tool__field">
         <span>{t.input}</span>
-        <textarea
+        <TextArea
           rows={8}
           value={text}
           placeholder={t.placeholder}

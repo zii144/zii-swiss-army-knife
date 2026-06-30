@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { applyPercent, percentageChange, tip } from '@zii/calc';
 import { ToolPage } from '../components/ToolPage';
+import { TextField } from '../components/ui';
 import type { ToolViewProps } from './types';
 import { tr } from './types';
 
@@ -77,14 +78,14 @@ export default function PercentTipTool({ onBack, lang, backLabel, offlineLabel }
         <legend>{t.percentOf}</legend>
         <div className="tool__inline">
           <span>{t.is}</span>
-          <input
+          <TextField
             type="number"
             value={pct}
             onChange={(e) => setPct(Number(e.target.value))}
             aria-label="percent"
           />
           <span>{t.ofWhole}</span>
-          <input
+          <TextField
             type="number"
             value={whole}
             onChange={(e) => setWhole(Number(e.target.value))}
@@ -98,14 +99,14 @@ export default function PercentTipTool({ onBack, lang, backLabel, offlineLabel }
         <legend>{t.change}</legend>
         <div className="tool__inline">
           <span>{t.from}</span>
-          <input
+          <TextField
             type="number"
             value={from}
             onChange={(e) => setFrom(Number(e.target.value))}
             aria-label="from"
           />
           <span>{t.to}</span>
-          <input
+          <TextField
             type="number"
             value={to}
             onChange={(e) => setTo(Number(e.target.value))}
@@ -121,15 +122,15 @@ export default function PercentTipTool({ onBack, lang, backLabel, offlineLabel }
         <legend>{t.tip}</legend>
         <label className="tool__field">
           <span>{t.bill}</span>
-          <input type="number" value={bill} onChange={(e) => setBill(Number(e.target.value))} />
+          <TextField type="number" value={bill} onChange={(e) => setBill(Number(e.target.value))} />
         </label>
         <label className="tool__field">
           <span>{t.rate}</span>
-          <input type="number" value={rate} onChange={(e) => setRate(Number(e.target.value))} />
+          <TextField type="number" value={rate} onChange={(e) => setRate(Number(e.target.value))} />
         </label>
         <label className="tool__field">
           <span>{t.people}</span>
-          <input
+          <TextField
             type="number"
             min={1}
             value={people}

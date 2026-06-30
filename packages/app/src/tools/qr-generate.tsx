@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { generateQr } from '@zii/compute-wasm/qr';
 import { ToolPage, DownloadButton } from '../components/ToolPage';
+import { Button, TextField } from '../components/ui';
 import type { ToolViewProps } from './types';
 import { tr } from './types';
 
@@ -64,7 +65,7 @@ export default function QrGenerateTool({ onBack, lang, backLabel, offlineLabel }
     >
       <label className="tool__field">
         <span>{t.label}</span>
-        <input
+        <TextField
           type="text"
           value={text}
           placeholder={t.placeholder}
@@ -76,14 +77,9 @@ export default function QrGenerateTool({ onBack, lang, backLabel, offlineLabel }
       </label>
 
       <div className="tool__actions">
-        <button
-          type="button"
-          className="tool__primary"
-          disabled={text.trim().length === 0 || busy}
-          onClick={run}
-        >
+        <Button variant="primary" loading={busy} disabled={text.trim().length === 0 || busy} onClick={run}>
           {busy ? t.generating : t.generate}
-        </button>
+        </Button>
       </div>
 
       {error ? <p className="tool__error">{error}</p> : null}

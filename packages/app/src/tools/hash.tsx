@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { sha256Hex, sha1Hex } from '@zii/compute';
 import { ToolPage } from '../components/ToolPage';
+import { Button, TextArea } from '../components/ui';
 import type { ToolViewProps } from './types';
 import { tr } from './types';
 
@@ -58,9 +59,9 @@ export default function HashTool({ onBack, lang, backLabel, offlineLabel }: Tool
     <div className="tool__row">
       <span className="tool__row-label">{label}</span>
       <code className="tool__row-value tool__row-value--mono">{value}</code>
-      <button type="button" className="tool__ghost" onClick={() => copy(label, value)}>
+      <Button variant="ghost" onClick={() => copy(label, value)}>
         {copied === label ? t.copied : t.copy}
-      </button>
+      </Button>
     </div>
   );
 
@@ -74,7 +75,7 @@ export default function HashTool({ onBack, lang, backLabel, offlineLabel }: Tool
     >
       <label className="tool__field">
         <span>{t.input}</span>
-        <textarea
+        <TextArea
           rows={5}
           value={text}
           placeholder={t.placeholder}
