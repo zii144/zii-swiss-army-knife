@@ -253,3 +253,107 @@ button {
   background: #fff;
   padding: 0.5rem;
 }
+
+/* Inputs added by the universal tool batch. */
+.tool__field input[type='number'] {
+  max-width: 12rem;
+}
+.tool__field input[type='range'] {
+  max-width: 24rem;
+}
+.tool__field textarea {
+  font-family: inherit;
+  font-size: 0.85rem;
+  resize: vertical;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Grouped calculator sub-sections. */
+.tool__group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0.75rem 0.9rem;
+  margin: 0;
+}
+.tool__group legend {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--muted);
+  padding: 0 0.35rem;
+}
+.tool__inline {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  font-size: 0.9rem;
+}
+.tool__inline input[type='number'] {
+  max-width: 7rem;
+}
+
+/* Stat grid (character count). */
+.tool__stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(6rem, 1fr));
+  gap: 0.6rem;
+}
+.tool__stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.15rem;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0.6rem 0.4rem;
+}
+.tool__stat-value {
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+.tool__stat-label {
+  font-size: 0.75rem;
+  color: var(--muted);
+}
+
+/* Output rows (case converter, hash). */
+.tool__rows {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+.tool__row {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0.4rem 0.6rem;
+}
+.tool__row-label {
+  font-size: 0.75rem;
+  color: var(--muted);
+  min-width: 6.5rem;
+}
+.tool__row-value {
+  flex: 1;
+  overflow-x: auto;
+  white-space: nowrap;
+}
+.tool__row-value--mono {
+  font-size: 0.8rem;
+  word-break: break-all;
+  white-space: normal;
+}
+.tool__ghost {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--fg);
+  font-size: 0.75rem;
+  padding: 0.25rem 0.6rem;
+  cursor: pointer;
+}

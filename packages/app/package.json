@@ -17,6 +17,9 @@
     "@zii/registry": "workspace:*",
     "@zii/hello-tool": "workspace:*",
     "@zii/locale": "workspace:*",
+    "@zii/calc": "workspace:*",
+    "@zii/text": "workspace:*",
+    "@zii/compute": "workspace:*",
     "@zii/compute-wasm": "workspace:*"
   },
   "devDependencies": {

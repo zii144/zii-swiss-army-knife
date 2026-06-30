@@ -38,6 +38,9 @@ importers:
 
   packages/app:
     dependencies:
+      '@zii/compute-wasm':
+        specifier: workspace:*
+        version: link:../compute-wasm
       '@zii/hello-tool':
         specifier: workspace:*
         version: link:../hello-tool

@@ -50,6 +50,83 @@ const APP_TOOLS: AppTool[] = [
     },
     load: () => import('./qr-generate'),
   },
+  {
+    meta: {
+      id: 'image-compress',
+      name: 'Compress image',
+      category: 'image',
+      markets: ['global'],
+      offline: true,
+      keywords: ['image', 'compress', 'shrink', 'optimize', 'jpeg', 'quality'],
+    },
+    load: () => import('./image-compress'),
+  },
+  {
+    meta: {
+      id: 'percent-tip',
+      name: 'Percentage & tip',
+      category: 'calc',
+      markets: ['global'],
+      offline: true,
+      keywords: ['percent', 'percentage', 'tip', 'split', 'change', 'calculator'],
+    },
+    load: () => import('./percent-tip'),
+  },
+  {
+    meta: {
+      id: 'unit-convert',
+      name: 'Unit converter',
+      category: 'convert',
+      markets: ['global'],
+      offline: true,
+      keywords: ['unit', 'convert', 'length', 'mass', 'weight', 'temperature', 'volume'],
+    },
+    load: () => import('./unit-convert'),
+  },
+  {
+    meta: {
+      id: 'text-count',
+      name: 'Character & word count',
+      category: 'text',
+      markets: ['global'],
+      offline: true,
+      keywords: ['count', 'character', 'word', 'line', 'length', 'text'],
+    },
+    load: () => import('./text-count'),
+  },
+  {
+    meta: {
+      id: 'text-case',
+      name: 'Case converter',
+      category: 'text',
+      markets: ['global'],
+      offline: true,
+      keywords: ['case', 'camel', 'snake', 'kebab', 'title', 'upper', 'lower'],
+    },
+    load: () => import('./text-case'),
+  },
+  {
+    meta: {
+      id: 'json-csv',
+      name: 'JSON ↔ CSV',
+      category: 'dev',
+      markets: ['global'],
+      offline: true,
+      keywords: ['json', 'csv', 'convert', 'data', 'table'],
+    },
+    load: () => import('./json-csv'),
+  },
+  {
+    meta: {
+      id: 'hash',
+      name: 'Hash (SHA-256 / SHA-1)',
+      category: 'dev',
+      markets: ['global'],
+      offline: true,
+      keywords: ['hash', 'sha', 'sha256', 'sha1', 'checksum', 'digest'],
+    },
+    load: () => import('./hash'),
+  },
 ];
 
 /** Stable id → lazy view map for the shell to render the selected tool. */
