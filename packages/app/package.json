@@ -6,7 +6,8 @@
   "description": "UI System & PWA App Shell — registry/command-palette surface for the Zii utility suite (M3).",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "vite build && vite build --ssr src/lib/prerender-entry.ts --outDir dist-ssr --emptyOutDir && node scripts/prerender.mjs",
+    "build:spa": "vite build",
     "typecheck": "tsc -p tsconfig.json",
     "test": "vitest run",
     "lint": "eslint ."
