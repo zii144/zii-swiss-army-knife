@@ -10,8 +10,15 @@ export interface ToolViewProps {
   offlineLabel: string;
 }
 
-/** Pick the active-language entry from a per-tool `{ en, 'zh-TW' }` dictionary. */
-export function tr<T>(dict: Record<Lang, T>, lang: Lang): T {
+/**
+ * A per-tool translation dictionary. English is required (the fallback);
+ * every other language is optional, so a tool can ship a subset of locales
+ * and gracefully fall back to English for the rest.
+ */
+export type LangDict<T> = { en: T } & Partial<Record<Lang, T>>;
+
+/** Pick the active-language entry from a per-tool dictionary, falling back to English. */
+export function tr<T>(dict: LangDict<T>, lang: Lang): T {
   return dict[lang] ?? dict.en;
 }
 

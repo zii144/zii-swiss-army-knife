@@ -1,0 +1,150 @@
+import type { ToolCategory } from '@zii/registry';
+import type { Lang } from './i18n';
+import type { L10n } from './catalog';
+
+/** Display order for category sections and filter chips. */
+export const CATEGORY_ORDER: readonly ToolCategory[] = [
+  'pdf',
+  'image',
+  'text',
+  'dev',
+  'calc',
+  'finance',
+  'convert',
+  'datetime',
+  'generator',
+  'id',
+  'file',
+  'daily',
+];
+
+/** Localized display names per category (English required, others fall back to en). */
+const CATEGORY_LABELS: Record<string, L10n> = {
+  pdf: { en: 'PDF' },
+  image: {
+    en: 'Image',
+    'zh-TW': '影像',
+    'zh-HK': '圖片',
+    ja: '画像',
+    ko: '이미지',
+    es: 'Imagen',
+    fr: 'Image',
+    de: 'Bild',
+  },
+  text: {
+    en: 'Text',
+    'zh-TW': '文字',
+    'zh-HK': '文字',
+    ja: 'テキスト',
+    ko: '텍스트',
+    es: 'Texto',
+    fr: 'Texte',
+    de: 'Text',
+  },
+  dev: {
+    en: 'Developer',
+    'zh-TW': '開發者',
+    'zh-HK': '開發者',
+    ja: '開発者',
+    ko: '개발자',
+    es: 'Desarrollo',
+    fr: 'Développeur',
+    de: 'Entwickler',
+  },
+  calc: {
+    en: 'Calculators',
+    'zh-TW': '計算機',
+    'zh-HK': '計算機',
+    ja: '計算ツール',
+    ko: '계산기',
+    es: 'Calculadoras',
+    fr: 'Calculatrices',
+    de: 'Rechner',
+  },
+  finance: {
+    en: 'Finance',
+    'zh-TW': '財務',
+    'zh-HK': '財務',
+    ja: '金融',
+    ko: '금융',
+    es: 'Finanzas',
+    fr: 'Finance',
+    de: 'Finanzen',
+  },
+  convert: {
+    en: 'Converters',
+    'zh-TW': '轉換工具',
+    'zh-HK': '轉換工具',
+    ja: '変換ツール',
+    ko: '변환기',
+    es: 'Conversores',
+    fr: 'Convertisseurs',
+    de: 'Konverter',
+  },
+  datetime: {
+    en: 'Date & time',
+    'zh-TW': '日期時間',
+    'zh-HK': '日期時間',
+    ja: '日付・時刻',
+    ko: '날짜·시간',
+    es: 'Fecha y hora',
+    fr: 'Date et heure',
+    de: 'Datum & Uhrzeit',
+  },
+  generator: {
+    en: 'Generators',
+    'zh-TW': '產生器',
+    'zh-HK': '產生器',
+    ja: '生成ツール',
+    ko: '생성기',
+    es: 'Generadores',
+    fr: 'Générateurs',
+    de: 'Generatoren',
+  },
+  id: {
+    en: 'Identity',
+    'zh-TW': '證件',
+    'zh-HK': '證件',
+    ja: 'ID',
+    ko: '신원',
+    es: 'Identidad',
+    fr: 'Identité',
+    de: 'Identität',
+  },
+  file: {
+    en: 'Files',
+    'zh-TW': '檔案',
+    'zh-HK': '檔案',
+    ja: 'ファイル',
+    ko: '파일',
+    es: 'Archivos',
+    fr: 'Fichiers',
+    de: 'Dateien',
+  },
+  daily: {
+    en: 'Everyday',
+    'zh-TW': '日常',
+    'zh-HK': '日常',
+    ja: '日常',
+    ko: '일상',
+    es: 'Diario',
+    fr: 'Quotidien',
+    de: 'Alltag',
+  },
+};
+
+/** Localized label for a category, falling back to English then the raw key. */
+export function categoryLabel(category: string, lang: Lang): string {
+  const map = CATEGORY_LABELS[category];
+  if (!map) return category;
+  return map[lang] ?? map.en;
+}
+
+/**
+ * Given a set of tools, return the categories that actually have tools,
+ * in display order.
+ */
+export function presentCategories(categories: Iterable<string>): ToolCategory[] {
+  const have = new Set(categories);
+  return CATEGORY_ORDER.filter((c) => have.has(c));
+}

@@ -1,18 +1,65 @@
 import type { Market, ToolEntry, ToolRegistry } from '@zii/registry';
+import type { Lang } from './i18n';
+import type { L10n } from './catalog';
 
 /** Markets exposed in the app shell's market <select>. */
 export const SELECTABLE_MARKETS: readonly Market[] = ['global', 'tw', 'hk', 'jp', 'en-us'] as const;
 
-/** Human-readable labels for the selectable markets. */
-export const MARKET_LABELS: Readonly<Record<Market, string>> = {
-  global: 'Global',
-  tw: 'Taiwan',
-  hk: 'Hong Kong',
-  jp: 'Japan',
-  'en-us': 'US (English)',
-  'en-gb': 'UK (English)',
-  'en-ca': 'Canada (English)',
-  'en-au': 'Australia (English)',
+/** Localized labels for the selectable markets (English required, others fall back). */
+export const MARKET_LABELS: Readonly<Record<Market, L10n>> = {
+  global: {
+    en: 'Global',
+    'zh-TW': '全球',
+    'zh-HK': '全球',
+    ja: 'グローバル',
+    ko: '글로벌',
+    es: 'Global',
+    fr: 'Mondial',
+    de: 'Global',
+  },
+  tw: {
+    en: 'Taiwan',
+    'zh-TW': '台灣',
+    'zh-HK': '台灣',
+    ja: '台湾',
+    ko: '대만',
+    es: 'Taiwán',
+    fr: 'Taïwan',
+    de: 'Taiwan',
+  },
+  hk: {
+    en: 'Hong Kong',
+    'zh-TW': '香港',
+    'zh-HK': '香港',
+    ja: '香港',
+    ko: '홍콩',
+    es: 'Hong Kong',
+    fr: 'Hong Kong',
+    de: 'Hongkong',
+  },
+  jp: {
+    en: 'Japan',
+    'zh-TW': '日本',
+    'zh-HK': '日本',
+    ja: '日本',
+    ko: '일본',
+    es: 'Japón',
+    fr: 'Japon',
+    de: 'Japan',
+  },
+  'en-us': {
+    en: 'US (English)',
+    'zh-TW': '美國（英文）',
+    'zh-HK': '美國（英文）',
+    ja: '米国（英語）',
+    ko: '미국(영어)',
+    es: 'EE. UU. (inglés)',
+    fr: 'États-Unis (anglais)',
+    de: 'USA (Englisch)',
+  },
+  'en-gb': { en: 'UK (English)' },
+  'en-ca': { en: 'Canada (English)' },
+  'en-au': { en: 'Australia (English)' },
 };
 
 export interface ToolFilter {
@@ -36,7 +83,9 @@ export function formatToolCount(count: number): string {
   return `${n} ${n === 1 ? 'tool' : 'tools'}`;
 }
 
-/** Label for a market, falling back to the raw value for unknown markets. */
-export function marketLabel(market: Market): string {
-  return MARKET_LABELS[market] ?? market;
+/** Localized label for a market, falling back to English then the raw value. */
+export function marketLabel(market: Market, lang: Lang = 'en'): string {
+  const map = MARKET_LABELS[market];
+  if (!map) return market;
+  return map[lang] ?? map.en;
 }
