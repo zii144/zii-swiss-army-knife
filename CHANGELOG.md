@@ -4,6 +4,55 @@ All notable changes to this project. Format loosely follows Keep a Changelog.
 
 ## [Unreleased]
 
+### Changed — App: dropped Simplified Chinese; new logo (2026-06-30)
+- Removed Simplified Chinese (`zh-CN`) from the language set — now **8 languages** (en, zh-TW, zh-HK, ja, ko, es, fr, de); prerender emits 176 localized pages.
+- New brand logo: a "Z" monogram (two bars + a lime diagonal) as a shared `Logo` component (used in the nav + footer brand tiles and the prerendered output) and a redrawn `public/icon.svg` app/PWA/favicon tile (blue gradient, white bars, lime diagonal), replacing the plain text "Z".
+
+### Added — App: tool breadcrumb (2026-06-30)
+- Tool routes now show a breadcrumb (Home / Category / Tool) above the panel; the Home and Category crumbs are clickable (Category jumps home and filters to that section). The prerendered tool pages carry the same three-level breadcrumb, and the JSON-LD `BreadcrumbList` was extended to include the category level.
+
+### Added — App: category sections + filter (2026-06-30)
+- New `categories.ts` metadata layer: a single source for category display order, localized names (9 languages), with shared colour + icon. Replaces the raw lowercase tags (`dev`, `datetime`, …) with proper labels (`Developer`, `Date & time`, …).
+- The home catalog is now laid out as **titled category sections** (icon + localized name + count) instead of one flat grid, plus a **filter-chip bar** (All + each category with counts) to narrow to a single section. Tool cards simplified to icon + name + offline badge (category is conveyed by the section + icon colour). New i18n key `allCategories`.
+- The prerenderer emits the same grouped sections with `<h3>` category headings — better structure for crawlers — and the chips, across all 198 pages.
+
+### Added — App: per-tool icons (2026-06-30)
+- A line-art icon for every tool, defined as inline SVG in a shared `icons.ts` (pure strings, with a per-category fallback) so both the React `ToolIcon` component and the string prerenderer draw from one source. No icon font or CDN — offline-first and license-clean.
+- Icons shown (category-coloured) in the tool grid cards, the hero deck cards, and (ink-toned) in the in-tool sidebar; baked into the prerendered grid too.
+
+### Added — App: in-tool sidebar (2026-06-30)
+- Opening a tool now shows a sticky, glass-styled left sidebar (`ToolNav`) listing every tool grouped by category, with the current tool highlighted in lime — so users can jump between tools without returning to the grid. Hover slide, keyboard/aria-current, responsive (hidden on phones). Tool content moved into a `.workspace` two-column layout.
+- Centralized the category accent colours in `catalog.ts` (`CATEGORY_COLOR` / `categoryColor`), shared by the grid, hero cards, sidebar, and prerenderer.
+
+### Added — App: 11 more universal tools (2026-06-30)
+- New tool screens wired to the existing engines, all on-device + bilingual (en / zh-TW, falling back to English elsewhere): **Base64 encode/decode**, **URL encode/decode**, **JSON ↔ YAML**, **Regex tester**, **Text diff**, **Full/half-width**, **Loan calculator** (payment + amortization table), **BMI calculator**, **Date & age**, **QR code scanner** (`scanQr`), and **Split PDF** (`splitPdf`). App now ships **21 real tool screens** (was 10).
+- Removed the `hello` developer sample from the app grid (it was registered for the M1 smoke test, not a real tool).
+- New shared styles: compact data table (`.ztable`) for the loan schedule, and a colorized text-diff view. Prerender category colors extended (finance, datetime). The prerenderer now emits **198 localized pages** (9 locales × 22 routes) plus sitemap/robots/llms, all derived automatically from the catalogue.
+
+### Added — App: cloud hero background (2026-06-30)
+- `Clouds` decorative layer behind the hero, built from SVG fractal noise (`feTurbulence`) for real wispy fog with visible edges rather than blurred orbs. Two layers (a low bank where the cards sit + high wisps) masked to a vertical band, each in its own HTML wrapper. The SVG stretches to fill (`preserveAspectRatio="none"`) and the container has a CSS `mask-image` feather top + bottom so the layer never shows a hard crop edge. Static (no drift animation), `pointer-events: none`, dimmed in dark mode, and baked into the prerendered home pages.
+
+### Added — App: site footer (2026-06-30)
+- `Footer` component (rendered on every view): brand + tagline, internal links to the top tools, links to all 9 language homes (great for crawl discovery + hreflang), and a copyright bar. Localized; one new i18n key (`footerLanguages`).
+- Footer is also baked into the prerendered pages (`prerender-view.ts`), so every static page ships real `<a>` links to tools and locales. Responsive (columns stack on mobile), glass-styled with lime hover.
+
+### Added — App: motion system (2026-06-30)
+- A small, consistent animation system in `styles.css`: shared easing/duration tokens (`--ease-out`, `--dur-1/2/3`) and reusable keyframes (`zii-fade-up`, `zii-fade`, `zii-menu`, `zii-pop`, `zii-spin`).
+- Applied throughout: staggered hero entrance, fade-in for the fanned hero cards (opacity-only so rotation is preserved), staggered tool-grid cards (via a `--stagger` index), tool-panel + result fade/pop, dropdown menu scale-in, tactile `:active` press on all buttons, and a `loading` spinner on `Button` wired into the async tool actions.
+- Full `prefers-reduced-motion: reduce` guard disables all animation/transition for users who opt out.
+
+### Added — App: shared UI component primitives (2026-06-30)
+- New `src/components/ui/`: `Select` (a fully custom, accessible glass dropdown replacing the native `<select>` — keyboard nav, aria-activedescendant, click-outside), `TextField`, `TextArea` (with `mono`), `RangeSlider`, `FileField` (styled picker, single + multiple), `Button` (primary/ghost), and a `Field` label wrapper, all exported from a barrel.
+- Refactored the shell (language + market pickers, search) and **all 10 tool views** to use these primitives — no native form controls remain in app code. Consistent glass styling, lime focus rings, and dark-mode tokens (`--field-bg`, `--menu-bg`, `--option-active`).
+
+### Added — App: multi-language, SEO, and LLM-friendliness (2026-06-30)
+- **9 languages**: widened `Lang` to en / zh-TW / zh-HK / zh-CN / ja / ko / es / fr / de with full shell translations; `tr()` now accepts partial per-tool dictionaries so tool views ship a locale subset and fall back to English.
+- **Path-based locale routing** (`src/lib/router.ts`): `/<locale>` and `/<locale>/tools/<id>` via the History API (pushState + popstate), no router dependency. Initial state is parsed from the URL.
+- **Localized catalogue** (`src/lib/catalog.ts`): single source of truth for tool id/category/keywords + localized names and blurbs; `tools/index.ts` and the SEO layer both derive from it. Grid, hero cards, and tool pages show localized names.
+- **SEO layer** (`src/lib/seo.ts` + `head.ts`): per-route title, meta description, canonical, full hreflang alternates (+ x-default), Open Graph / Twitter, and JSON-LD (`WebApplication` + `ItemList` on home; `SoftwareApplication` + `BreadcrumbList` on tool pages). Applied to the live `<head>` on every client navigation, keeping `<html lang>` in sync.
+- **Static prerender / SSG** (`scripts/prerender.mjs`): build now emits one crawlable `index.html` per locale and per tool (99 pages) with localized `<head>` and real body content inside `#root` (the SPA replaces it on load). Also generates `sitemap.xml` (with hreflang alternates), `robots.txt`, and `llms.txt`. Build script: `vite build && vite build --ssr … && node scripts/prerender.mjs`. No new dependencies (reuses Vite's SSR build).
+- Enriched base `index.html` (meta description, OG defaults) and `manifest.webmanifest` (lang, description, brand theme colour).
+
 ### Added — App: universal tool batch wired to engines (2026-06-30)
 - Seven more tool screens wired into the `@zii/app` shell against the existing `ToolPage` contract, all bilingual (en / zh-TW) and code-split into their own lazy chunks (2–4 kB each): **Percentage & tip** and **Unit converter** (`@zii/calc`), **Character & word count** and **Case converter** and **JSON ↔ CSV** (`@zii/text`), **Hash SHA-256/SHA-1** (`@zii/compute`), and **Compress image** (`@zii/compute-wasm`).
 - Added `@zii/calc`, `@zii/text`, `@zii/compute` as `@zii/app` dependencies. App tool count is now **10** real screens (was 3); registry/keyword search and the global market list pick them up automatically (existing generic tests still green).
