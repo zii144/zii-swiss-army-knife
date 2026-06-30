@@ -1645,6 +1645,52 @@ button {
   }
 }
 
+@keyframes zii-route-shell {
+  from {
+    opacity: 0;
+    filter: saturate(0.86) blur(5px);
+    transform: translate3d(0, 18px, 0) scale(0.992);
+  }
+  to {
+    opacity: 1;
+    filter: none;
+    transform: none;
+  }
+}
+
+@keyframes zii-route-rail {
+  from {
+    opacity: 0;
+    transform: translate3d(-18px, 8px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes zii-route-main {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 22px, 0) scale(0.988);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes zii-route-item {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 10px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
 @keyframes zii-spin {
   to {
     transform: rotate(360deg);
@@ -1690,6 +1736,48 @@ button {
 }
 .tool__result {
   animation: zii-pop var(--dur-2) var(--ease-out) both;
+}
+
+/* Tool-route entrance — clean route-level motion for /tools/:id. */
+.workspace--route {
+  transform-origin: top center;
+  animation: zii-route-shell 560ms var(--ease-out) both;
+}
+
+.workspace--route .toolnav {
+  animation: zii-route-rail 520ms var(--ease-out) 80ms both;
+}
+
+.workspace--route .workspace__main {
+  animation: zii-route-main 520ms var(--ease-out) 120ms both;
+}
+
+.workspace--route .crumbs,
+.workspace--route .tool__back,
+.workspace--route .tool__header,
+.workspace--route .tool__desc,
+.workspace--route .tool__body {
+  animation: zii-route-item 420ms var(--ease-out) both;
+}
+
+.workspace--route .crumbs {
+  animation-delay: 140ms;
+}
+
+.workspace--route .tool__back {
+  animation-delay: 180ms;
+}
+
+.workspace--route .tool__header {
+  animation-delay: 220ms;
+}
+
+.workspace--route .tool__desc {
+  animation-delay: 260ms;
+}
+
+.workspace--route .tool__body {
+  animation-delay: 300ms;
 }
 
 /* Dropdown menu. */

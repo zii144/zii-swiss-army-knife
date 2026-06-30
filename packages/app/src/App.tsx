@@ -188,7 +188,7 @@ export function App(): React.JSX.Element {
       </nav>
 
       {selected ? (
-        <div className="workspace">
+        <div key={`${lang}:${selected}`} className="workspace workspace--route">
           <ToolNav
             tools={navTools}
             currentId={selected}
