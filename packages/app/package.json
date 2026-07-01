@@ -21,6 +21,9 @@
     "@zii/locale": "workspace:*",
     "@zii/calc": "workspace:*",
     "@zii/text": "workspace:*",
+    "@zii/calendar": "workspace:*",
+    "@zii/id": "workspace:*",
+    "@zii/payroll": "workspace:*",
     "@zii/compute": "workspace:*",
     "@zii/compute-wasm": "workspace:*"
   },

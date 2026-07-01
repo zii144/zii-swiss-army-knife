@@ -41,6 +41,9 @@ importers:
       '@zii/calc':
         specifier: workspace:*
         version: link:../calc
+      '@zii/calendar':
+        specifier: workspace:*
+        version: link:../calendar
       '@zii/compute':
         specifier: workspace:*
         version: link:../compute
@@ -50,9 +53,15 @@ importers:
       '@zii/hello-tool':
         specifier: workspace:*
         version: link:../hello-tool
+      '@zii/id':
+        specifier: workspace:*
+        version: link:../id
       '@zii/locale':
         specifier: workspace:*
         version: link:../locale
+      '@zii/payroll':
+        specifier: workspace:*
+        version: link:../payroll
       '@zii/registry':
         specifier: workspace:*
         version: link:../registry
