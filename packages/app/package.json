@@ -14,23 +14,28 @@
     "lint": "eslint ."
   },
   "dependencies": {
+    "@imgly/background-removal": "^1",
+    "@zii/calc": "workspace:*",
+    "@zii/calendar": "workspace:*",
+    "@zii/compute": "workspace:*",
+    "@zii/compute-wasm": "workspace:*",
+    "@zii/hello-tool": "workspace:*",
+    "@zii/id": "workspace:*",
+    "@zii/locale": "workspace:*",
+    "@zii/payroll": "workspace:*",
+    "@zii/registry": "workspace:*",
+    "@zii/text": "workspace:*",
+    "bwip-js": "^4",
+    "fast-xml-parser": "^4",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
-    "@zii/registry": "workspace:*",
-    "@zii/hello-tool": "workspace:*",
-    "@zii/locale": "workspace:*",
-    "@zii/calc": "workspace:*",
-    "@zii/text": "workspace:*",
-    "@zii/calendar": "workspace:*",
-    "@zii/id": "workspace:*",
-    "@zii/payroll": "workspace:*",
-    "@zii/compute": "workspace:*",
-    "@zii/compute-wasm": "workspace:*"
+    "tesseract.js": "^5",
+    "xlsx": "^0.18"
   },
   "devDependencies": {
-    "vite": "^7.3.6",
-    "@vitejs/plugin-react": "^5.2.0",
     "@types/react": "^19.2.0",
-    "@types/react-dom": "^19.2.0"
+    "@types/react-dom": "^19.2.0",
+    "@vitejs/plugin-react": "^5.2.0",
+    "vite": "^7.3.6"
   }
 }
