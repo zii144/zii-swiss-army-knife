@@ -4,6 +4,10 @@ All notable changes to this project. Format loosely follows Keep a Changelog.
 
 ## [Unreleased]
 
+### Added — P0 launch readiness + P3 market packs (2026-07-01)
+- **P3 — market locale packs scaffolded (all four markets):** the catalogue now supports a per-tool `markets` field, wired through `metaFor` into the registry's market filter (a tool shows when its region is selected, or always if `global`). Five region-specific validators ship on the `@zii/id` engine: **Taiwan National ID** and **Taiwan business number (統一編號)** (`tw`), **Hong Kong ID / HKID** (`hk`), **Japan My Number** and **Japan Corporate / Invoice №** (`jp`) — all on-device, most with a "generate sample" helper via the new shared `IdTool` component. App now ships **64 tool screens**; prerender emits **520 pages**; bundle budget held (**83.1 KB gz** initial). New tests assert market packs are scoped to their region and don't leak across markets.
+- **P0 — deploy readiness (Vercel):** added root [`vercel.json`](./vercel.json) (pnpm install, `pnpm --filter @zii/app build`, output `packages/app/dist`, `cleanUrls`, SPA-fallback rewrite, immutable caching for hashed `/assets/**`, revalidating `sw.js`) and [`DEPLOY.md`](./DEPLOY.md) documenting the Vercel setup, the `ZII_ORIGIN` env var for canonical URLs, the build pipeline, and Netlify/Cloudflare equivalents. Added a `preview` script to `@zii/app`.
+
 ### Added — App: Phase 2 Batch 8 — dependency-backed tools (2026-07-01)
 - The previously-deferred tools, now that their libraries are installed: **XML ↔ JSON** (`fast-xml-parser`), **CSV ↔ Excel** (`xlsx`/SheetJS), **Barcode generator** (`bwip-js`, SVG output), **Image → text OCR** (`tesseract.js`), and **Remove background** (`@imgly/background-removal`). App now ships **59 tool screens**.
 - OCR and background-remove are flagged `offline: false` ("model downloads on first use"); every heavy library stays in its own lazy chunk so the **initial bundle budget still holds (82 KB gz)**. Prerender emits 480 pages. This completes the Phase 2 universal catalogue.
