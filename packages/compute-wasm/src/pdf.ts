@@ -2,7 +2,7 @@
  * PDF merge / split / compress, powered by `pdf-lib` (MIT). Pure JS, no WASM,
  * runs identically in the browser and in Node.
  */
-import { PDFDocument } from 'pdf-lib';
+import { PDFDocument, StandardFonts, degrees, rgb } from 'pdf-lib';
 
 /** Merge several PDFs (in order) into a single document. */
 export async function mergePdfs(inputs: Uint8Array[]): Promise<Uint8Array> {
@@ -71,4 +71,73 @@ export async function compressPdf(input: Uint8Array): Promise<Uint8Array> {
 export async function pdfPageCount(input: Uint8Array): Promise<number> {
   const doc = await PDFDocument.load(input);
   return doc.getPageCount();
+}
+
+/** Rotate every page by `deg` degrees (added to any existing rotation). */
+export async function rotatePdf(input: Uint8Array, deg: number): Promise<Uint8Array> {
+  const doc = await PDFDocument.load(input);
+  for (const page of doc.getPages()) {
+    const current = page.getRotation().angle;
+    page.setRotation(degrees(((current + deg) % 360 + 360) % 360));
+  }
+  return doc.save();
+}
+
+/** Options for {@link watermarkPdf}. */
+export interface WatermarkOptions {
+  text: string;
+  opacity?: number;
+  size?: number;
+}
+
+/** Stamp a diagonal text watermark across every page. */
+export async function watermarkPdf(input: Uint8Array, opts: WatermarkOptions): Promise<Uint8Array> {
+  const doc = await PDFDocument.load(input);
+  const font = await doc.embedFont(StandardFonts.HelveticaBold);
+  const size = opts.size ?? 48;
+  const opacity = opts.opacity ?? 0.2;
+  for (const page of doc.getPages()) {
+    const { width, height } = page.getSize();
+    const tw = font.widthOfTextAtSize(opts.text, size);
+    page.drawText(opts.text, {
+      x: width / 2 - tw / 2,
+      y: height / 2,
+      size,
+      font,
+      color: rgb(0.5, 0.5, 0.5),
+      opacity,
+      rotate: degrees(45),
+    });
+  }
+  return doc.save();
+}
+
+/**
+ * Reorder / delete pages: build a new PDF containing exactly the given
+ * zero-based page indices, in the given order.
+ */
+export async function organizePdf(input: Uint8Array, order: number[]): Promise<Uint8Array> {
+  const src = await PDFDocument.load(input);
+  const total = src.getPageCount();
+  const idx = order.filter((i) => Number.isInteger(i) && i >= 0 && i < total);
+  if (idx.length === 0) throw new Error('organizePdf: no valid page indices');
+  const out = await PDFDocument.create();
+  const copied = await out.copyPages(src, idx);
+  for (const page of copied) out.addPage(page);
+  return out.save();
+}
+
+/** Add "n / total" page numbers to the bottom-centre of every page. */
+export async function addPageNumbers(input: Uint8Array): Promise<Uint8Array> {
+  const doc = await PDFDocument.load(input);
+  const font = await doc.embedFont(StandardFonts.Helvetica);
+  const pages = doc.getPages();
+  pages.forEach((page, i) => {
+    const { width } = page.getSize();
+    const label = `${i + 1} / ${pages.length}`;
+    const size = 10;
+    const tw = font.widthOfTextAtSize(label, size);
+    page.drawText(label, { x: width / 2 - tw / 2, y: 24, size, font, color: rgb(0.35, 0.35, 0.35) });
+  });
+  return doc.save();
 }
