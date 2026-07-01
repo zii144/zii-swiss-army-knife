@@ -4,6 +4,11 @@ All notable changes to this project. Format loosely follows Keep a Changelog.
 
 ## [Unreleased]
 
+### Changed — App: performance / bundle optimization (2026-06-30)
+- **Vendor split**: React + scheduler are now a separate `vendor-react` chunk (~59 KB gz) so app-code changes don't bust the framework cache. The app-code entry chunk dropped to ~17 KB gz; initial payload ~75 KB gz total (unchanged bytes, better caching). Build target raised to `es2022`.
+- **Bundle-budget guard** (`scripts/check-bundle.mjs`, wired into `build` + a `check:bundle` script): reads the Vite manifest, sums the gzipped initial payload (entry + static imports), and fails the build if it exceeds the budget (110 KB gz) — enforcing the roadmap's "breadth without bloat" guardrail as the catalogue grows.
+- **Hover/focus prefetch**: hovering (or focusing) a tool card, hero card, or sidebar item warms that tool's code-split chunk via `prefetchTool()`, so it opens instantly — with no eager cost on first load. Heavy engines (pdf-lib 174 KB gz, image codecs, zxing, yaml) stay lazy.
+
 ### Changed — App: dropped Simplified Chinese; new logo (2026-06-30)
 - Removed Simplified Chinese (`zh-CN`) from the language set — now **8 languages** (en, zh-TW, zh-HK, ja, ko, es, fr, de); prerender emits 176 localized pages.
 - New brand logo: a "Z" monogram (two bars + a lime diagonal) as a shared `Logo` component (used in the nav + footer brand tiles and the prerendered output) and a redrawn `public/icon.svg` app/PWA/favicon tile (blue gradient, white bars, lime diagonal), replacing the plain text "Z".
