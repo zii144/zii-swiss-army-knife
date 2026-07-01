@@ -1235,6 +1235,52 @@ button {
   letter-spacing: 0.04em;
 }
 
+/* Calculator keypad */
+.calc-keys {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 0.4rem;
+  max-width: 24rem;
+  margin-top: 0.5rem;
+}
+
+.calc-key {
+  background: var(--field-bg);
+  border: 1px solid var(--border);
+  color: var(--ink);
+  border-radius: 10px;
+  padding: 0.6rem;
+  font: inherit;
+  font-size: 0.95rem;
+  cursor: pointer;
+}
+
+.calc-key:hover {
+  border-color: var(--lime-strong);
+}
+
+/* Checkbox row (password options, etc.) */
+.tool__checks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem 1rem;
+}
+
+.tool__check {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.9rem;
+  color: var(--ink);
+  cursor: pointer;
+}
+
+.tool__check input[type='checkbox'] {
+  accent-color: var(--lime-strong);
+  width: 1rem;
+  height: 1rem;
+}
+
 /* Text diff output */
 .diff {
   margin: 0;

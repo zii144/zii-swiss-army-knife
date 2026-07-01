@@ -44,6 +44,52 @@ const TOOL_ICONS: Record<string, string> = {
   bmi: '<path d="M4.5 17a7.5 7.5 0 0115 0"/><path d="M12 17l3.5-4.5"/><circle cx="12" cy="17" r="1"/>',
   'date-diff':
     '<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 9.5h18M8 3v4M16 3v4"/>',
+  'pdf-compress':
+    '<rect x="5" y="3" width="14" height="18" rx="2"/><path d="M9 11h6M12 8v6M10 12.5l2 1.5 2-1.5"/>',
+  'zip-create':
+    '<rect x="3.5" y="6" width="17" height="14" rx="2"/><path d="M12 6v14M10.5 9.2h3M10.5 12h3M10.5 14.8h3"/>',
+  'zip-extract':
+    '<rect x="3.5" y="6" width="17" height="14" rx="2"/><path d="M12 16.5V9M9 12l3-3 3 3"/>',
+  'heic-convert':
+    '<rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="8" cy="10" r="1.5"/><path d="M21 16l-5-5-4 4"/>',
+  discount:
+    '<path d="M3.5 12.5l8.5-8.5 8 1 1 8-8.5 8.5z"/><circle cx="15.5" cy="8.5" r="1.1"/><path d="M9.5 15l5.5-5.5"/>',
+  savings:
+    '<ellipse cx="12" cy="6.5" rx="7" ry="3"/><path d="M5 6.5v5c0 1.7 3.1 3 7 3s7-1.3 7-3v-5M5 11.5v5c0 1.7 3.1 3 7 3s7-1.3 7-3v-5"/>',
+  'cooking-convert':
+    '<path d="M5 8h12l-1 10.2a2 2 0 01-2 1.8H8a2 2 0 01-2-1.8L5 8z"/><path d="M17 10h1.4a1.6 1.6 0 010 3.2H16.7M8 5v3M11.5 4v4M15 5v3"/>',
+  password:
+    '<rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 018 0v3"/><circle cx="12" cy="15" r="1.2"/>',
+  uuid:
+    '<rect x="3" y="6" width="18" height="12" rx="2"/><path d="M7 10v4M10 10v4M13.5 10v4M17 10v4"/>',
+  'jwt-decode':
+    '<path d="M9.5 8L5.5 12l4 4M14.5 8l4 4-4 4"/><circle cx="12" cy="12" r="1"/>',
+  'base-convert':
+    '<path d="M4 8h4v8H4zM4 8a2 2 0 012-2h0a2 2 0 012 2M16 6h4l-4 10h4"/>',
+  'color-convert':
+    '<path d="M12 3a9 9 0 100 18 3 3 0 002-5.2c-.5-.5-.3-1.8.8-1.8H18a3 3 0 003-3A9 9 0 0012 3z"/><circle cx="8" cy="10" r="1"/><circle cx="12" cy="7.5" r="1"/><circle cx="16" cy="10" r="1"/>',
+  cron:
+    '<circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2M4 5l2 2M20 5l-2 2"/>',
+  'image-resize':
+    '<rect x="3" y="3" width="12" height="12" rx="1.5"/><path d="M15 15h6v6h-6zM18 15v6M15 18h6"/><path d="M9 9l4 4"/>',
+  'image-crop':
+    '<path d="M6 2v14a2 2 0 002 2h14"/><path d="M2 6h14a2 2 0 012 2v14"/>',
+  'exif-strip':
+    '<rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="8" cy="10" r="1.5"/><path d="M21 16l-5-5-7 7"/><path d="M4 4l16 16"/>',
+  favicon:
+    '<rect x="3.5" y="3.5" width="17" height="17" rx="3"/><circle cx="12" cy="12" r="4"/><path d="M12 3.5v3M12 17.5v3M3.5 12h3M17.5 12h3"/>',
+  'pdf-rotate':
+    '<rect x="5" y="3" width="14" height="18" rx="2"/><path d="M9 8a3 3 0 013-3 3 3 0 013 3M15 8h-2.5M15 8V5.5"/>',
+  'pdf-watermark':
+    '<rect x="5" y="3" width="14" height="18" rx="2"/><path d="M8 16l8-8M9.5 9.5h.01M14.5 14.5h.01" stroke-dasharray="0.1 3"/>',
+  'pdf-organize':
+    '<rect x="4" y="4" width="10" height="13" rx="1.5"/><rect x="10" y="7" width="10" height="13" rx="1.5"/><path d="M13 13.5h4M13 16h4"/>',
+  'pdf-page-numbers':
+    '<rect x="5" y="3" width="14" height="18" rx="2"/><path d="M9 17.5h1.5v-3H9m5 0h1.5v3H14v-1.5h1.5"/>',
+  scientific:
+    '<rect x="4" y="3" width="16" height="18" rx="2"/><path d="M7 7h10M7 11h2M11 11h2M15 11h2M7 15h2M11 15h2M15 15v3"/>',
+  timezone:
+    '<circle cx="12" cy="12" r="8.5"/><path d="M12 7v5l3 2M3.5 12h17M12 3.5c2.5 2 2.5 15 0 17M12 3.5c-2.5 2-2.5 15 0 17"/>',
 };
 
 /** Per-category fallback when a tool has no specific icon. */

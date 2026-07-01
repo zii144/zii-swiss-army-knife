@@ -4,6 +4,17 @@ All notable changes to this project. Format loosely follows Keep a Changelog.
 
 ## [Unreleased]
 
+### Added — App: Phase 2 Batches 2–5 — 16 more tools (2026-07-01)
+- **Batch 2 (dev/generators, no deps):** Password generator, UUID generator, JWT decoder, Number base converter, Color converter, Cron explainer — pure logic in a new tested `src/lib/toolkit.ts`.
+- **Batch 3 (image, Canvas-based, no deps):** Resize image (with presets), Crop image, Strip image metadata (EXIF), Favicon generator — via a new browser `src/lib/imagekit.ts`.
+- **Batch 4 (PDF, via bundled pdf-lib):** Rotate PDF, Watermark PDF, Organize PDF pages (reorder/delete), Add page numbers — new wrappers in `@zii/compute-wasm/pdf` (`rotatePdf`, `watermarkPdf`, `organizePdf`, `addPageNumbers`).
+- **Batch 5 (dep-free part):** Scientific calculator (hand-rolled safe expression evaluator, no `eval`) and Time-zone planner (`Intl`).
+- App now ships **44 tool screens**; bundle budget held (~80 KB gz initial); prerender emits 360 localized pages; 26 unit tests. Deferred (need new deps, tracked in `docs/PHASE-2-PLAN.md`): XML↔JSON, CSV↔Excel, barcode, OCR, background-remove, live-FX currency.
+
+### Added — App: Phase 2 Batch 1 — 7 more tools (2026-07-01)
+- Seven new on-device tools wired to already-shipped engine ops (no new dependencies), per `docs/PHASE-2-PLAN.md` Batch 1: **Compress PDF** (`compressPdf`), **Create ZIP** / **Extract ZIP** (`@zii/compute-wasm/archive`), **HEIC → JPG** (`heicToJpg`), **Discount calculator**, **Savings & interest** (simple + compound), and **Cooking converter** (`convertCooking`). App now ships **28 tool screens** (was 21); adds a new "Files" category section.
+- Fixed the app typecheck to follow `@zii/compute-wasm/heic`'s ambient `heic-convert` declaration (triple-slash reference). Bundle budget held (76.8 KB gz initial); prerender now emits 232 localized pages.
+
 ### Changed — App: performance / bundle optimization (2026-06-30)
 - **Vendor split**: React + scheduler are now a separate `vendor-react` chunk (~59 KB gz) so app-code changes don't bust the framework cache. The app-code entry chunk dropped to ~17 KB gz; initial payload ~75 KB gz total (unchanged bytes, better caching). Build target raised to `es2022`.
 - **Bundle-budget guard** (`scripts/check-bundle.mjs`, wired into `build` + a `check:bundle` script): reads the Vite manifest, sums the gzipped initial payload (entry + static imports), and fails the build if it exceeds the budget (110 KB gz) — enforcing the roadmap's "breadth without bloat" guardrail as the catalogue grows.
