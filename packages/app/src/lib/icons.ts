@@ -130,6 +130,18 @@ const TOOL_ICONS: Record<string, string> = {
     '<rect x="3" y="5" width="18" height="14" rx="2"/><path d="M7 9.5h10M7 12.5h10M7 15.5h6"/>',
   'jp-corp-number':
     '<path d="M4 20V8l8-4 8 4v12M4 20h16M9 20v-5h6v5M9 11h.01M15 11h.01"/>',
+  'us-ssn':
+    '<rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="8.5" cy="11" r="2"/><path d="M13 9.5h5M13 13h4M5.5 16c.5-1.6 1.7-2.5 3-2.5s2.5.9 3 2.5"/>',
+  'us-zip':
+    '<path d="M12 21s6-5.3 6-10a6 6 0 1 0-12 0c0 4.7 6 10 6 10z"/><circle cx="12" cy="11" r="2.3"/>',
+  'us-routing':
+    '<path d="M4 20h16M5 10h14M6 10v7M10 10v7M14 10v7M18 10v7M12 3 4 8h16z"/>',
+  'jp-postal':
+    '<path d="M12 21s6-5.3 6-10a6 6 0 1 0-12 0c0 4.7 6 10 6 10z"/><circle cx="12" cy="11" r="2.3"/>',
+  'hk-phone':
+    '<path d="M6.5 3h4l1.5 4-2 1.5a12 12 0 0 0 5.5 5.5l1.5-2 4 1.5v4a2 2 0 0 1-2 2A16 16 0 0 1 4.5 5a2 2 0 0 1 2-2z"/>',
+  'tw-mobile':
+    '<rect x="7" y="3" width="10" height="18" rx="2.5"/><path d="M11 18h2"/>',
 };
 
 /** Per-category fallback when a tool has no specific icon. */

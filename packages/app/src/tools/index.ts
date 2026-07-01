@@ -73,6 +73,12 @@ const LOADERS: Record<string, ViewLoader> = {
   'hk-id': () => import('./hk-id'),
   'jp-mynumber': () => import('./jp-mynumber'),
   'jp-corp-number': () => import('./jp-corp-number'),
+  'us-ssn': () => import('./us-ssn'),
+  'us-zip': () => import('./us-zip'),
+  'us-routing': () => import('./us-routing'),
+  'jp-postal': () => import('./jp-postal'),
+  'hk-phone': () => import('./hk-phone'),
+  'tw-mobile': () => import('./tw-mobile'),
 };
 
 /** Registry metadata derived from the catalogue (English name is canonical). */

@@ -43,6 +43,14 @@ describe('app tool catalogue', () => {
     expect(tw).not.toContain('jp-mynumber');
     // Global tools remain visible under any market.
     expect(tw).toContain('image-convert');
+    expect(tw).toContain('tw-mobile');
+
+    // The US market surfaces its own packs and hides other regions'.
+    const us = filterTools(r, { market: 'en-us', query: '' }).map((t) => t.id);
+    expect(us).toEqual(expect.arrayContaining(['us-ssn', 'us-zip', 'us-routing']));
+    expect(us).not.toContain('tw-national-id');
+    expect(us).not.toContain('jp-postal');
+    expect(us).toContain('image-convert');
   });
 
   it('finds a tool by keyword search', () => {

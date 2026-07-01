@@ -4,6 +4,9 @@ All notable changes to this project. Format loosely follows Keep a Changelog.
 
 ## [Unreleased]
 
+### Added — App: market packs batch 2 — 6 region tools (2026-07-01)
+- Six more region-scoped validators, all pure/offline and using the shared `IdTool` (validate + generate) with fully-localized 8-language strings: **US Social Security Number**, **US ZIP code**, **US bank routing number (ABA)** (`en-us` — previously had no tools), **Japan postal code** (`jp`), **Hong Kong phone number** (`hk`), and **Taiwan mobile number** (`tw`). Logic lives in a new tested `src/lib/regionkit.ts` (10 tests; generators round-trip through their validators). App now ships **70 tool screens**; prerender emits **568 pages**; bundle budget held (**87.0 KB gz** initial). The market-scoping test now also covers `en-us`.
+
 ### Added — App: full 8-language tool names (2026-07-01)
 - Every tool's display name is now translated into all eight UI languages (en, zh-TW, zh-HK, ja, ko, es, fr, de). Previously ~48 tools had only English + Traditional Chinese, so the sidebar, grid, breadcrumb and page `<title>` fell back to English in Japanese/Korean/European locales. Language-neutral format names (JSON ↔ CSV, JSON ↔ YAML, XML ↔ JSON, CSV ↔ Excel, HEIC → JPG) are intentionally left untranslated since they render identically everywhere. Verified across the 520 prerendered pages (e.g. Japanese now shows 関数電卓, パスワード生成, PDF を回転).
 
