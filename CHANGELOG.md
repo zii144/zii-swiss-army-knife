@@ -4,6 +4,9 @@ All notable changes to this project. Format loosely follows Keep a Changelog.
 
 ## [Unreleased]
 
+### Added — App: Phase 2 Batch 7 — CJK / calendar tools (2026-07-01)
+- Five more tools off the built `@zii/text` and `@zii/calendar` engines (no new deps): **Chinese converter** (Simplified↔Traditional, Taiwan idioms via OpenCC), **HTML entities** (escape/unescape), **Lunar calendar** (Gregorian→農曆, leap-aware, 干支/生肖), **Rokuyō 六曜**, and **Solar terms 二十四節氣** (24 terms + dates for a year). App now ships **54 tool screens**; budget held (~82 KB gz); prerender 440 pages.
+
 ### Added — App: Phase 2 Batch 6 — 5 tools surfacing built engines (2026-07-01)
 - Wired three engine packages that were built but unused in the app: **Checksum validator** (Luhn / IBAN / ABA, `@zii/id`), **Sales tax / VAT / GST** (`@zii/payroll`), **Business days** + **Era converter** (ROC/Minguo + Japanese era) + **Chinese zodiac** (`@zii/calendar`). App now ships **49 tool screens**; new Identity + Everyday category sections; budget held (~81 KB gz); prerender 400 pages.
 - Added `@zii/calendar`, `@zii/id`, `@zii/payroll` as `@zii/app` workspace deps (run `pnpm install` to regenerate the lockfile).

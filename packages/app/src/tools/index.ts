@@ -58,6 +58,11 @@ const LOADERS: Record<string, ViewLoader> = {
   'business-days': () => import('./business-days'),
   zodiac: () => import('./zodiac'),
   'era-convert': () => import('./era-convert'),
+  'cjk-convert': () => import('./cjk-convert'),
+  'html-entities': () => import('./html-entities'),
+  'lunar-convert': () => import('./lunar-convert'),
+  rokuyo: () => import('./rokuyo'),
+  'solar-terms': () => import('./solar-terms'),
 };
 
 /** Registry metadata derived from the catalogue (English name is canonical). */

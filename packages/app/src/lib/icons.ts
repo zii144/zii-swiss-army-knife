@@ -100,6 +100,16 @@ const TOOL_ICONS: Record<string, string> = {
     '<circle cx="12" cy="12" r="8.5"/><path d="M12 3.5v17M3.5 12h17M6 6l12 12M18 6L6 18"/>',
   'era-convert':
     '<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 9.5h18M8 3v4M16 3v4"/><path d="M8 15h3M14 13v4l2-2"/>',
+  'cjk-convert':
+    '<path d="M4 6h7M7.5 6v3c0 3-1.5 5-3.5 6M6 10c0 2 1.5 3.5 4 4.5"/><path d="M14 20l3-9 3 9M14.8 17.5h4.4"/>',
+  'html-entities':
+    '<path d="M9.5 8L5.5 12l4 4M14.5 8l4 4-4 4"/><path d="M12.5 6l-1 12"/>',
+  'lunar-convert':
+    '<path d="M15 3a8 8 0 100 18 6.5 6.5 0 010-18z"/><path d="M8 8.5v.01M7 12v.01M9 15v.01"/>',
+  rokuyo:
+    '<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 9.5h18M8 3v4M16 3v4M8.5 13h7M8.5 16.5h4"/>',
+  'solar-terms':
+    '<circle cx="12" cy="12" r="3.5"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2 2M16.4 16.4l2 2M18.4 5.6l-2 2M7.6 16.4l-2 2"/>',
 };
 
 /** Per-category fallback when a tool has no specific icon. */

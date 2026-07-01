@@ -641,6 +641,61 @@ export const CATALOG: readonly CatalogTool[] = [
       'zh-TW': '將西元日期轉換為民國年與日本和曆。',
     },
   },
+  {
+    id: 'cjk-convert',
+    category: 'text',
+    offline: true,
+    keywords: ['chinese', 'simplified', 'traditional', '繁簡', '简繁', 'opencc', 'cjk'],
+    name: { en: 'Chinese converter', 'zh-TW': '繁簡轉換' },
+    blurb: {
+      en: 'Convert between Simplified and Traditional Chinese (Taiwan idioms).',
+      'zh-TW': '在簡體與繁體中文之間轉換（含台灣用語）。',
+    },
+  },
+  {
+    id: 'html-entities',
+    category: 'dev',
+    offline: true,
+    keywords: ['html', 'entities', 'escape', 'encode', 'decode', 'ampersand'],
+    name: { en: 'HTML entities', 'zh-TW': 'HTML 實體' },
+    blurb: {
+      en: 'Escape text to HTML entities or decode them back.',
+      'zh-TW': '將文字轉為 HTML 實體或解碼還原。',
+    },
+  },
+  {
+    id: 'lunar-convert',
+    category: 'datetime',
+    offline: true,
+    keywords: ['lunar', 'chinese calendar', '農曆', '农历', 'ganzhi', 'zodiac'],
+    name: { en: 'Lunar calendar', 'zh-TW': '農曆換算' },
+    blurb: {
+      en: 'Convert a Gregorian date to the Chinese lunar calendar.',
+      'zh-TW': '將西元日期轉換為農曆。',
+    },
+  },
+  {
+    id: 'rokuyo',
+    category: 'daily',
+    offline: true,
+    keywords: ['rokuyo', '六曜', 'taian', 'butsumetsu', 'japanese', 'calendar'],
+    name: { en: 'Rokuyō (六曜)', 'zh-TW': '六曜' },
+    blurb: {
+      en: 'The Japanese six-day calendar label for a date.',
+      'zh-TW': '查詢日本六曜對應日期。',
+    },
+  },
+  {
+    id: 'solar-terms',
+    category: 'datetime',
+    offline: true,
+    keywords: ['solar terms', '節氣', '节气', '二十四節氣', 'jieqi', 'sekki'],
+    name: { en: 'Solar terms (節氣)', 'zh-TW': '二十四節氣' },
+    blurb: {
+      en: 'The 24 solar terms for a year, with dates.',
+      'zh-TW': '查詢指定年份的二十四節氣與日期。',
+    },
+  },
 ];
 
 /** A small accent colour per tool category, shared by the grid, cards, sidebar, and prerender. */
