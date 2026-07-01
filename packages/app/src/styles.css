@@ -1235,6 +1235,22 @@ button {
   letter-spacing: 0.04em;
 }
 
+/* Barcode preview */
+.barcode-preview {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 0.8rem;
+  display: inline-block;
+  max-width: 100%;
+  overflow-x: auto;
+}
+
+.barcode-preview svg {
+  max-width: 100%;
+  height: auto;
+}
+
 /* Calculator keypad */
 .calc-keys {
   display: grid;

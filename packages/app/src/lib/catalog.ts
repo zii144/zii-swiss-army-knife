@@ -696,6 +696,61 @@ export const CATALOG: readonly CatalogTool[] = [
       'zh-TW': '查詢指定年份的二十四節氣與日期。',
     },
   },
+  {
+    id: 'xml-json',
+    category: 'dev',
+    offline: true,
+    keywords: ['xml', 'json', 'convert', 'parse', 'data'],
+    name: { en: 'XML ↔ JSON' },
+    blurb: {
+      en: 'Convert between XML and JSON.',
+      'zh-TW': '在 XML 與 JSON 之間轉換。',
+    },
+  },
+  {
+    id: 'csv-excel',
+    category: 'convert',
+    offline: true,
+    keywords: ['csv', 'excel', 'xlsx', 'spreadsheet', 'convert', 'sheet'],
+    name: { en: 'CSV ↔ Excel', 'zh-TW': 'CSV ↔ Excel' },
+    blurb: {
+      en: 'Convert CSV to an .xlsx workbook and back.',
+      'zh-TW': '將 CSV 轉為 .xlsx 活頁簿或反向轉換。',
+    },
+  },
+  {
+    id: 'barcode',
+    category: 'generator',
+    offline: true,
+    keywords: ['barcode', 'code128', 'ean', 'upc', 'datamatrix', 'pdf417'],
+    name: { en: 'Barcode generator', 'zh-TW': '條碼產生器' },
+    blurb: {
+      en: 'Generate barcodes and 2D codes as SVG.',
+      'zh-TW': '產生條碼與 2D 碼並輸出 SVG。',
+    },
+  },
+  {
+    id: 'ocr',
+    category: 'image',
+    offline: false,
+    keywords: ['ocr', 'text', 'recognize', 'scan', 'extract', 'tesseract'],
+    name: { en: 'Image to text (OCR)', 'zh-TW': '圖片轉文字（OCR）' },
+    blurb: {
+      en: 'Extract text from an image (model downloads on first use).',
+      'zh-TW': '從圖片擷取文字（模型於首次使用時下載）。',
+    },
+  },
+  {
+    id: 'bg-remove',
+    category: 'image',
+    offline: false,
+    keywords: ['background', 'remove', 'cutout', 'transparent', 'png'],
+    name: { en: 'Remove background', 'zh-TW': '去背' },
+    blurb: {
+      en: 'Cut out a photo background to a transparent PNG (model downloads on first use).',
+      'zh-TW': '去除相片背景並輸出透明 PNG（模型於首次使用時下載）。',
+    },
+  },
 ];
 
 /** A small accent colour per tool category, shared by the grid, cards, sidebar, and prerender. */

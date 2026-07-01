@@ -4,6 +4,10 @@ All notable changes to this project. Format loosely follows Keep a Changelog.
 
 ## [Unreleased]
 
+### Added — App: Phase 2 Batch 8 — dependency-backed tools (2026-07-01)
+- The previously-deferred tools, now that their libraries are installed: **XML ↔ JSON** (`fast-xml-parser`), **CSV ↔ Excel** (`xlsx`/SheetJS), **Barcode generator** (`bwip-js`, SVG output), **Image → text OCR** (`tesseract.js`), and **Remove background** (`@imgly/background-removal`). App now ships **59 tool screens**.
+- OCR and background-remove are flagged `offline: false` ("model downloads on first use"); every heavy library stays in its own lazy chunk so the **initial bundle budget still holds (82 KB gz)**. Prerender emits 480 pages. This completes the Phase 2 universal catalogue.
+
 ### Added — App: Phase 2 Batch 7 — CJK / calendar tools (2026-07-01)
 - Five more tools off the built `@zii/text` and `@zii/calendar` engines (no new deps): **Chinese converter** (Simplified↔Traditional, Taiwan idioms via OpenCC), **HTML entities** (escape/unescape), **Lunar calendar** (Gregorian→農曆, leap-aware, 干支/生肖), **Rokuyō 六曜**, and **Solar terms 二十四節氣** (24 terms + dates for a year). App now ships **54 tool screens**; budget held (~82 KB gz); prerender 440 pages.
 

@@ -110,6 +110,16 @@ const TOOL_ICONS: Record<string, string> = {
     '<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 9.5h18M8 3v4M16 3v4M8.5 13h7M8.5 16.5h4"/>',
   'solar-terms':
     '<circle cx="12" cy="12" r="3.5"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2 2M16.4 16.4l2 2M18.4 5.6l-2 2M7.6 16.4l-2 2"/>',
+  'xml-json':
+    '<path d="M6 4l-3 8 3 8M18 4l3 8-3 8"/><path d="M10 8l-1 8M15 8l-1 8"/>',
+  'csv-excel':
+    '<rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M9 4v16M15 4v16"/>',
+  barcode:
+    '<path d="M4 6v12M7 6v12M9.5 6v12M12 6v12M14.5 6v12M17 6v12M20 6v12" stroke-linecap="butt"/>',
+  ocr:
+    '<path d="M4 8V5.5A1.5 1.5 0 015.5 4H8M20 8V5.5A1.5 1.5 0 0018.5 4H16M4 16v2.5A1.5 1.5 0 005.5 20H8M20 16v2.5a1.5 1.5 0 01-1.5 1.5H16"/><path d="M8 10h8M8 13h8M8 16h5"/>',
+  'bg-remove':
+    '<rect x="3" y="3" width="18" height="18" rx="2" stroke-dasharray="3 2.5"/><path d="M9 14l2.5-3 2 2.5L15.5 10l2.5 4"/><circle cx="8.5" cy="8.5" r="1.3"/>',
 };
 
 /** Per-category fallback when a tool has no specific icon. */

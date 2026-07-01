@@ -63,6 +63,11 @@ const LOADERS: Record<string, ViewLoader> = {
   'lunar-convert': () => import('./lunar-convert'),
   rokuyo: () => import('./rokuyo'),
   'solar-terms': () => import('./solar-terms'),
+  'xml-json': () => import('./xml-json'),
+  'csv-excel': () => import('./csv-excel'),
+  barcode: () => import('./barcode'),
+  ocr: () => import('./ocr'),
+  'bg-remove': () => import('./bg-remove'),
 };
 
 /** Registry metadata derived from the catalogue (English name is canonical). */
