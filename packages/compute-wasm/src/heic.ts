@@ -1,3 +1,4 @@
+/// <reference path="./heic-convert.d.ts" />
 /**
  * HEIC/HEIF → JPEG (or PNG), powered by `heic-convert` (ISC), which wraps
  * libheif (LGPL, dynamically linked — allowed by the licence guardrail).
