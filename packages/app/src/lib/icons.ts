@@ -90,6 +90,16 @@ const TOOL_ICONS: Record<string, string> = {
     '<rect x="4" y="3" width="16" height="18" rx="2"/><path d="M7 7h10M7 11h2M11 11h2M15 11h2M7 15h2M11 15h2M15 15v3"/>',
   timezone:
     '<circle cx="12" cy="12" r="8.5"/><path d="M12 7v5l3 2M3.5 12h17M12 3.5c2.5 2 2.5 15 0 17M12 3.5c-2.5 2-2.5 15 0 17"/>',
+  'checksum-validate':
+    '<rect x="3" y="5" width="18" height="14" rx="2"/><path d="M7 15l2.5 2.5L14 13" transform="translate(-1 -2)"/><path d="M3 9.5h18"/>',
+  'sales-tax':
+    '<path d="M12 3v18M8 6.5a3 3 0 00-3 3c0 4 10 2 10 6a3 3 0 01-3 3H8"/><path d="M16 7.5a3 3 0 00-2.5-1.5"/>',
+  'business-days':
+    '<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 9.5h18M8 3v4M16 3v4M8.5 13.5l2 2 4-4"/>',
+  zodiac:
+    '<circle cx="12" cy="12" r="8.5"/><path d="M12 3.5v17M3.5 12h17M6 6l12 12M18 6L6 18"/>',
+  'era-convert':
+    '<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 9.5h18M8 3v4M16 3v4"/><path d="M8 15h3M14 13v4l2-2"/>',
 };
 
 /** Per-category fallback when a tool has no specific icon. */
@@ -105,6 +115,8 @@ const CATEGORY_ICONS: Record<string, string> = {
   generator: '<rect x="3.5" y="3.5" width="17" height="17" rx="2"/><path d="M8 8h3v3H8zM13 13h3v3h-3z"/>',
   dev: '<path d="M9.5 8L5.5 12l4 4M14.5 8l4 4-4 4"/>',
   file: '<path d="M14 3v5h5M6 3h8l5 5v11a1 1 0 01-1 1H6a1 1 0 01-1-1V4a1 1 0 011-1z"/>',
+  id: '<rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="8.5" cy="11" r="2"/><path d="M13 9.5h5M13 13h4M5.5 16c.5-1.6 1.7-2.5 3-2.5s2.5.9 3 2.5"/>',
+  daily: '<circle cx="12" cy="12" r="4"/><path d="M12 3v2M12 19v2M3 12h2M19 12h2M5.6 5.6l1.4 1.4M17 17l1.4 1.4M18.4 5.6L17 7M7 17l-1.4 1.4"/>',
 };
 
 const FALLBACK = '<circle cx="12" cy="12" r="8"/>';

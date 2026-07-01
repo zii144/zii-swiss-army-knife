@@ -586,6 +586,61 @@ export const CATALOG: readonly CatalogTool[] = [
       'zh-TW': '查看同一時刻在世界主要城市的時間。',
     },
   },
+  {
+    id: 'checksum-validate',
+    category: 'id',
+    offline: true,
+    keywords: ['luhn', 'credit card', 'iban', 'aba', 'routing', 'validate', 'checksum'],
+    name: { en: 'Checksum validator', 'zh-TW': '檢查碼驗證' },
+    blurb: {
+      en: 'Validate a credit-card (Luhn), IBAN or ABA routing number.',
+      'zh-TW': '驗證信用卡號（Luhn）、IBAN 或 ABA 代碼。',
+    },
+  },
+  {
+    id: 'sales-tax',
+    category: 'finance',
+    offline: true,
+    keywords: ['sales tax', 'vat', 'gst', 'tax', 'net', 'gross'],
+    name: { en: 'Sales tax / VAT / GST', 'zh-TW': '銷售稅／VAT' },
+    blurb: {
+      en: 'Add or extract sales tax (VAT/GST) on an amount.',
+      'zh-TW': '在金額上計算或拆分銷售稅（VAT／GST）。',
+    },
+  },
+  {
+    id: 'business-days',
+    category: 'datetime',
+    offline: true,
+    keywords: ['business days', 'working days', 'weekdays', 'between', 'dates'],
+    name: { en: 'Business days', 'zh-TW': '工作日計算' },
+    blurb: {
+      en: 'Count working days (weekends excluded) between two dates.',
+      'zh-TW': '計算兩日期間的工作日（不含週末）。',
+    },
+  },
+  {
+    id: 'zodiac',
+    category: 'daily',
+    offline: true,
+    keywords: ['zodiac', 'chinese', 'animal', 'birth year', '生肖'],
+    name: { en: 'Chinese zodiac', 'zh-TW': '生肖' },
+    blurb: {
+      en: 'Find the Chinese zodiac animal for a birth year.',
+      'zh-TW': '依出生年份查詢生肖。',
+    },
+  },
+  {
+    id: 'era-convert',
+    category: 'datetime',
+    offline: true,
+    keywords: ['era', 'roc', 'minguo', '民國', 'japanese', '和曆', 'reiwa'],
+    name: { en: 'Era converter', 'zh-TW': '紀年轉換' },
+    blurb: {
+      en: 'Convert a Gregorian date to ROC (Minguo) and Japanese era.',
+      'zh-TW': '將西元日期轉換為民國年與日本和曆。',
+    },
+  },
 ];
 
 /** A small accent colour per tool category, shared by the grid, cards, sidebar, and prerender. */

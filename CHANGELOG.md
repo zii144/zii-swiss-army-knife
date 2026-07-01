@@ -4,6 +4,10 @@ All notable changes to this project. Format loosely follows Keep a Changelog.
 
 ## [Unreleased]
 
+### Added — App: Phase 2 Batch 6 — 5 tools surfacing built engines (2026-07-01)
+- Wired three engine packages that were built but unused in the app: **Checksum validator** (Luhn / IBAN / ABA, `@zii/id`), **Sales tax / VAT / GST** (`@zii/payroll`), **Business days** + **Era converter** (ROC/Minguo + Japanese era) + **Chinese zodiac** (`@zii/calendar`). App now ships **49 tool screens**; new Identity + Everyday category sections; budget held (~81 KB gz); prerender 400 pages.
+- Added `@zii/calendar`, `@zii/id`, `@zii/payroll` as `@zii/app` workspace deps (run `pnpm install` to regenerate the lockfile).
+
 ### Added — App: Phase 2 Batches 2–5 — 16 more tools (2026-07-01)
 - **Batch 2 (dev/generators, no deps):** Password generator, UUID generator, JWT decoder, Number base converter, Color converter, Cron explainer — pure logic in a new tested `src/lib/toolkit.ts`.
 - **Batch 3 (image, Canvas-based, no deps):** Resize image (with presets), Crop image, Strip image metadata (EXIF), Favicon generator — via a new browser `src/lib/imagekit.ts`.

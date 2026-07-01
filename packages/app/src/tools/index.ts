@@ -53,6 +53,11 @@ const LOADERS: Record<string, ViewLoader> = {
   'pdf-page-numbers': () => import('./pdf-page-numbers'),
   scientific: () => import('./scientific'),
   timezone: () => import('./timezone'),
+  'checksum-validate': () => import('./checksum-validate'),
+  'sales-tax': () => import('./sales-tax'),
+  'business-days': () => import('./business-days'),
+  zodiac: () => import('./zodiac'),
+  'era-convert': () => import('./era-convert'),
 };
 
 /** Registry metadata derived from the catalogue (English name is canonical). */
