@@ -63,3 +63,18 @@ export function registerAppTools(registry: ToolRegistry): void {
 
 /** The ids of the tools that ship with a real view (used by tests). */
 export const APP_TOOL_IDS: readonly string[] = APP_TOOLS.map((t) => t.meta.id);
+
+const prefetched = new Set<string>();
+
+/**
+ * Warm a tool's code-split chunk (idempotent). Called on hover/focus so the
+ * chunk is already cached by the time the user clicks — instant open, with no
+ * eager cost on the initial page load.
+ */
+export function prefetchTool(id: string): void {
+  if (prefetched.has(id)) return;
+  const loader = LOADERS[id];
+  if (!loader) return;
+  prefetched.add(id);
+  void loader().catch(() => prefetched.delete(id));
+}

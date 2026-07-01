@@ -1,5 +1,6 @@
 import { categoryColor, localizedName } from '../lib/catalog';
 import type { Lang } from '../lib/i18n';
+import { prefetchTool } from '../tools';
 import { ToolIcon } from './ToolIcon';
 
 export interface ToolNavEntry {
@@ -55,6 +56,8 @@ export function ToolNav({ tools, currentId, lang, label, onOpen }: ToolNavProps)
                   className={`toolnav__item${tool.id === currentId ? ' is-active' : ''}`}
                   aria-current={tool.id === currentId ? 'true' : undefined}
                   onClick={() => onOpen(tool.id)}
+                  onMouseEnter={() => prefetchTool(tool.id)}
+                  onFocus={() => prefetchTool(tool.id)}
                 >
                   <ToolIcon id={tool.id} size={16} className="toolnav__ico" />
                   {localizedName(tool.id, lang)}

@@ -9,7 +9,7 @@ import { categoryLabel, presentCategories } from './lib/categories';
 import { buildPath, parsePath } from './lib/router';
 import { buildHead, SITE_ORIGIN } from './lib/seo';
 import { applyHead } from './lib/head';
-import { registerAppTools, TOOL_VIEWS } from './tools';
+import { prefetchTool, registerAppTools, TOOL_VIEWS } from './tools';
 import { ToolPage } from './components/ToolPage';
 import { Footer } from './components/Footer';
 import { Clouds } from './components/Clouds';
@@ -106,6 +106,8 @@ export function App(): React.JSX.Element {
       className="hero__card"
       style={{ '--stagger': i } as React.CSSProperties}
       onClick={() => openTool(tool.id)}
+      onMouseEnter={() => prefetchTool(tool.id)}
+      onFocus={() => prefetchTool(tool.id)}
     >
       <span className="hero__card-cat">
         <span className="tool-ico" style={{ color: categoryColor(tool.category) }}>
@@ -129,6 +131,8 @@ export function App(): React.JSX.Element {
         className="app__item"
         style={{ '--stagger': Math.min(i, 12) } as React.CSSProperties}
         onClick={() => openTool(tool.id)}
+        onMouseEnter={() => prefetchTool(tool.id)}
+        onFocus={() => prefetchTool(tool.id)}
       >
         <span className="app__item-top">
           <span className="tool-ico" style={{ color: categoryColor(tool.category) }}>
