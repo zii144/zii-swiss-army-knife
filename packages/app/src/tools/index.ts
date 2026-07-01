@@ -68,6 +68,11 @@ const LOADERS: Record<string, ViewLoader> = {
   barcode: () => import('./barcode'),
   ocr: () => import('./ocr'),
   'bg-remove': () => import('./bg-remove'),
+  'tw-national-id': () => import('./tw-national-id'),
+  'tw-ubn': () => import('./tw-ubn'),
+  'hk-id': () => import('./hk-id'),
+  'jp-mynumber': () => import('./jp-mynumber'),
+  'jp-corp-number': () => import('./jp-corp-number'),
 };
 
 /** Registry metadata derived from the catalogue (English name is canonical). */
@@ -77,7 +82,7 @@ function metaFor(id: string): ToolMeta {
     id: tool.id,
     name: tool.name.en,
     category: tool.category,
-    markets: ['global'],
+    markets: [...(tool.markets ?? ['global'])],
     offline: tool.offline,
     keywords: [...tool.keywords],
   };

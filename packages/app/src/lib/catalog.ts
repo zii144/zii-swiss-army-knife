@@ -1,4 +1,4 @@
-import type { ToolCategory } from '@zii/registry';
+import type { Market, ToolCategory } from '@zii/registry';
 import type { Lang } from './i18n';
 
 /** Localized string map — English required, other locales optional (fallback to en). */
@@ -11,6 +11,8 @@ export interface CatalogTool {
   keywords: readonly string[];
   name: L10n;
   blurb: L10n;
+  /** Markets this tool belongs to. Defaults to `['global']` (shown everywhere). */
+  markets?: readonly Market[];
 }
 
 /**
@@ -749,6 +751,68 @@ export const CATALOG: readonly CatalogTool[] = [
     blurb: {
       en: 'Cut out a photo background to a transparent PNG (model downloads on first use).',
       'zh-TW': '去除相片背景並輸出透明 PNG（模型於首次使用時下載）。',
+    },
+  },
+
+  // --- Market packs (Phase 3) — shown when the matching region is selected. ---
+  {
+    id: 'tw-national-id',
+    category: 'id',
+    offline: true,
+    markets: ['tw'],
+    keywords: ['taiwan', 'national id', '身分證', '台灣', 'validate'],
+    name: { en: 'Taiwan National ID', 'zh-TW': '身分證字號驗證' },
+    blurb: {
+      en: 'Validate or generate a Taiwan National ID number.',
+      'zh-TW': '驗證或產生中華民國身分證字號。',
+    },
+  },
+  {
+    id: 'tw-ubn',
+    category: 'id',
+    offline: true,
+    markets: ['tw'],
+    keywords: ['taiwan', 'business', '統編', '統一編號', 'ubn', 'validate'],
+    name: { en: 'Taiwan business number', 'zh-TW': '統一編號驗證' },
+    blurb: {
+      en: 'Validate a Taiwan Unified Business Number (統一編號).',
+      'zh-TW': '驗證台灣公司統一編號。',
+    },
+  },
+  {
+    id: 'hk-id',
+    category: 'id',
+    offline: true,
+    markets: ['hk'],
+    keywords: ['hong kong', 'hkid', '身份證', 'validate', 'identity'],
+    name: { en: 'Hong Kong ID (HKID)', 'zh-TW': '香港身份證驗證' },
+    blurb: {
+      en: 'Validate or generate a Hong Kong Identity Card number.',
+      'zh-TW': '驗證或產生香港身份證號碼。',
+    },
+  },
+  {
+    id: 'jp-mynumber',
+    category: 'id',
+    offline: true,
+    markets: ['jp'],
+    keywords: ['japan', 'my number', 'マイナンバー', 'validate', 'identity'],
+    name: { en: 'Japan My Number', 'zh-TW': '日本 My Number', ja: 'マイナンバー検証' },
+    blurb: {
+      en: 'Validate or generate a Japanese My Number (マイナンバー).',
+      'zh-TW': '驗證或產生日本個人編號。',
+    },
+  },
+  {
+    id: 'jp-corp-number',
+    category: 'id',
+    offline: true,
+    markets: ['jp'],
+    keywords: ['japan', 'corporate number', '法人番号', 'invoice', 'インボイス'],
+    name: { en: 'Japan Corporate / Invoice №', 'zh-TW': '日本法人／發票番號', ja: '法人番号検証' },
+    blurb: {
+      en: 'Validate a Japanese Corporate Number or qualified Invoice number.',
+      'zh-TW': '驗證日本法人番號或合格發票番號。',
     },
   },
 ];

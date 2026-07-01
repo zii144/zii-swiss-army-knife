@@ -120,6 +120,16 @@ const TOOL_ICONS: Record<string, string> = {
     '<path d="M4 8V5.5A1.5 1.5 0 015.5 4H8M20 8V5.5A1.5 1.5 0 0018.5 4H16M4 16v2.5A1.5 1.5 0 005.5 20H8M20 16v2.5a1.5 1.5 0 01-1.5 1.5H16"/><path d="M8 10h8M8 13h8M8 16h5"/>',
   'bg-remove':
     '<rect x="3" y="3" width="18" height="18" rx="2" stroke-dasharray="3 2.5"/><path d="M9 14l2.5-3 2 2.5L15.5 10l2.5 4"/><circle cx="8.5" cy="8.5" r="1.3"/>',
+  'tw-national-id':
+    '<rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="8.5" cy="11" r="2"/><path d="M13 9.5h5M13 13h4M5.5 16c.5-1.6 1.7-2.5 3-2.5s2.5.9 3 2.5"/>',
+  'tw-ubn':
+    '<path d="M4 20V8l8-4 8 4v12M4 20h16M9 20v-5h6v5M9 11h.01M15 11h.01"/>',
+  'hk-id':
+    '<rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="8.5" cy="11" r="2"/><path d="M13 9.5h5M13 13h4M5.5 16c.5-1.6 1.7-2.5 3-2.5s2.5.9 3 2.5"/>',
+  'jp-mynumber':
+    '<rect x="3" y="5" width="18" height="14" rx="2"/><path d="M7 9.5h10M7 12.5h10M7 15.5h6"/>',
+  'jp-corp-number':
+    '<path d="M4 20V8l8-4 8 4v12M4 20h16M9 20v-5h6v5M9 11h.01M15 11h.01"/>',
 };
 
 /** Per-category fallback when a tool has no specific icon. */
