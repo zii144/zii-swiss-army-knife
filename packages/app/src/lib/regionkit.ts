@@ -135,3 +135,117 @@ export function validateTwMobile(value: string): boolean {
 export function generateTwMobile(seed: number): string {
   return '09' + randomDigits(8, seed);
 }
+
+// ---------------------------------------------------------------- US EIN ----
+
+/** IRS campus prefixes that appear as the first two digits of a valid EIN. */
+const EIN_PREFIXES = [
+  '01', '02', '03', '04', '05', '06', '10', '11', '12', '13', '14', '15', '16',
+  '20', '21', '22', '23', '24', '25', '26', '27', '30', '31', '32', '33', '34',
+  '35', '36', '37', '38', '39', '40', '41', '42', '43', '44', '45', '46', '47',
+  '48', '50', '51', '52', '53', '54', '55', '56', '57', '58', '59', '60', '61',
+  '62', '63', '64', '65', '66', '67', '68', '71', '72', '73', '74', '75', '76',
+  '77', '80', '81', '82', '83', '84', '85', '86', '87', '88', '90', '91', '92',
+  '93', '94', '95', '98', '99',
+];
+
+/** US Employer Identification Number: `XX-XXXXXXX` with a valid IRS prefix. */
+export function validateUsEin(value: string): boolean {
+  const d = digits(value);
+  if (!/^\d{9}$/.test(d)) return false;
+  return EIN_PREFIXES.includes(d.slice(0, 2));
+}
+
+export function generateUsEin(seed: number): string {
+  const next = rng(seed);
+  const prefix = EIN_PREFIXES[Math.floor(next() * EIN_PREFIXES.length)] as string;
+  return `${prefix}-${randomDigits(7, seed ^ 0x51ed270b)}`;
+}
+
+// -------------------------------------------------------------- US phone ----
+
+/**
+ * North American (NANP) phone number: ten digits where the area code and the
+ * exchange code each start 2–9 (`NXX-NXX-XXXX`).
+ */
+export function validateUsPhone(value: string): boolean {
+  const d = digits(value);
+  return /^[2-9]\d{2}[2-9]\d{6}$/.test(d);
+}
+
+export function generateUsPhone(seed: number): string {
+  const next = rng(seed);
+  const nxx = () => String(2 + Math.floor(next() * 8));
+  const area = nxx() + randomDigits(2, seed);
+  const exch = nxx() + randomDigits(2, seed ^ 0x2545f491);
+  const sub = randomDigits(4, seed ^ 0x1b56c4e9);
+  return `(${area}) ${exch}-${sub}`;
+}
+
+// ------------------------------------------------------------ UK postcode ----
+
+const UK_POSTCODE = /^[A-Z]{1,2}\d[A-Z\d]? ?\d[A-Z]{2}$/i;
+
+/** UK postcode (e.g. `SW1A 1AA`, `M1 1AA`, `B33 8TH`). */
+export function validateUkPostcode(value: string): boolean {
+  return UK_POSTCODE.test(value.trim());
+}
+
+export function generateUkPostcode(seed: number): string {
+  const next = rng(seed);
+  const A = 'ABCDEFGHJKLMNOPRSTUWXYZ';
+  const letter = () => A[Math.floor(next() * A.length)] as string;
+  const digit = () => String(Math.floor(next() * 10));
+  return `${letter()}${digit()} ${digit()}${letter()}${letter()}`;
+}
+
+// ------------------------------------------------------------------ UK NI ----
+
+const NI_DISALLOWED_PREFIX = new Set(['BG', 'GB', 'NK', 'KN', 'NT', 'TN', 'ZZ']);
+const NI_FIRST = 'ABCEGHJKLMNOPRSTWXYZ'; // excludes D, F, I, Q, U, V
+const NI_SECOND = 'ABCEGHJKLMNPRSTWXYZ'; // excludes D, F, I, O, Q, U, V
+
+/** UK National Insurance number: two prefix letters, six digits, suffix A–D. */
+export function validateUkNino(value: string): boolean {
+  const s = value.replace(/\s+/g, '').toUpperCase();
+  if (!/^[A-Z]{2}\d{6}[A-D]$/.test(s)) return false;
+  const prefix = s.slice(0, 2);
+  if (NI_DISALLOWED_PREFIX.has(prefix)) return false;
+  if (!NI_FIRST.includes(prefix[0] as string)) return false;
+  if (!NI_SECOND.includes(prefix[1] as string)) return false;
+  return true;
+}
+
+export function generateUkNino(seed: number): string {
+  const next = rng(seed);
+  let prefix = '';
+  do {
+    prefix = `${NI_FIRST[Math.floor(next() * NI_FIRST.length)]}${NI_SECOND[Math.floor(next() * NI_SECOND.length)]}`;
+  } while (NI_DISALLOWED_PREFIX.has(prefix));
+  const suffix = 'ABCD'[Math.floor(next() * 4)] as string;
+  return `${prefix} ${randomDigits(6, seed ^ 0x27d4eb2f).replace(/(\d{2})(\d{2})(\d{2})/, '$1 $2 $3')} ${suffix}`;
+}
+
+// ------------------------------------------------------------ UK sort code ----
+
+/** UK bank sort code: six digits, usually written `XX-XX-XX`. */
+export function validateUkSortCode(value: string): boolean {
+  return /^\d{2}-?\d{2}-?\d{2}$/.test(value.trim());
+}
+
+export function generateUkSortCode(seed: number): string {
+  const d = randomDigits(6, seed);
+  return `${d.slice(0, 2)}-${d.slice(2, 4)}-${d.slice(4)}`;
+}
+
+// ------------------------------------------------------------- TW postal ----
+
+/** Taiwan postal code: three digits, or the newer 3+2 / 3+3 format. */
+export function validateTwPostal(value: string): boolean {
+  return /^\d{3}(-?\d{2,3})?$/.test(value.trim());
+}
+
+export function generateTwPostal(seed: number): string {
+  const d = randomDigits(6, seed);
+  return `${d.slice(0, 3)}${d.slice(3)}`;
+}

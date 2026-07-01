@@ -4,6 +4,9 @@ All notable changes to this project. Format loosely follows Keep a Changelog.
 
 ## [Unreleased]
 
+### Added — App: market packs batch 3 — UK market + 6 tools (2026-07-01)
+- Opened a new selectable **UK (`en-gb`)** market (fully-localized label) and added six more pure/offline `IdTool` validators with 8-language strings: **US Employer ID Number (EIN)** and **US phone number (NANP)** (`en-us`); **UK postcode**, **UK National Insurance number**, and **UK bank sort code** (`en-gb`); and **Taiwan postal code** (`tw`). Logic extends `src/lib/regionkit.ts` (now 16 tests; generators still round-trip through their validators). App now ships **76 tool screens**; prerender emits **616 pages**; bundle budget held (**88.0 KB gz** initial). Scoping test now also covers `en-gb`.
+
 ### Added — App: market packs batch 2 — 6 region tools (2026-07-01)
 - Six more region-scoped validators, all pure/offline and using the shared `IdTool` (validate + generate) with fully-localized 8-language strings: **US Social Security Number**, **US ZIP code**, **US bank routing number (ABA)** (`en-us` — previously had no tools), **Japan postal code** (`jp`), **Hong Kong phone number** (`hk`), and **Taiwan mobile number** (`tw`). Logic lives in a new tested `src/lib/regionkit.ts` (10 tests; generators round-trip through their validators). App now ships **70 tool screens**; prerender emits **568 pages**; bundle budget held (**87.0 KB gz** initial). The market-scoping test now also covers `en-us`.
 

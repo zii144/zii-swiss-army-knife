@@ -3,7 +3,14 @@ import type { Lang } from './i18n';
 import type { L10n } from './catalog';
 
 /** Markets exposed in the app shell's market <select>. */
-export const SELECTABLE_MARKETS: readonly Market[] = ['global', 'tw', 'hk', 'jp', 'en-us'] as const;
+export const SELECTABLE_MARKETS: readonly Market[] = [
+  'global',
+  'tw',
+  'hk',
+  'jp',
+  'en-us',
+  'en-gb',
+] as const;
 
 /** Localized labels for the selectable markets (English required, others fall back). */
 export const MARKET_LABELS: Readonly<Record<Market, L10n>> = {
@@ -57,7 +64,16 @@ export const MARKET_LABELS: Readonly<Record<Market, L10n>> = {
     fr: 'États-Unis (anglais)',
     de: 'USA (Englisch)',
   },
-  'en-gb': { en: 'UK (English)' },
+  'en-gb': {
+    en: 'UK (English)',
+    'zh-TW': '英國（英文）',
+    'zh-HK': '英國（英文）',
+    ja: '英国（英語）',
+    ko: '영국(영어)',
+    es: 'Reino Unido (inglés)',
+    fr: 'Royaume-Uni (anglais)',
+    de: 'UK (Englisch)',
+  },
   'en-ca': { en: 'Canada (English)' },
   'en-au': { en: 'Australia (English)' },
 };

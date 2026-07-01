@@ -79,6 +79,12 @@ const LOADERS: Record<string, ViewLoader> = {
   'jp-postal': () => import('./jp-postal'),
   'hk-phone': () => import('./hk-phone'),
   'tw-mobile': () => import('./tw-mobile'),
+  'us-ein': () => import('./us-ein'),
+  'us-phone': () => import('./us-phone'),
+  'uk-postcode': () => import('./uk-postcode'),
+  'uk-nino': () => import('./uk-nino'),
+  'uk-sort-code': () => import('./uk-sort-code'),
+  'tw-postal': () => import('./tw-postal'),
 };
 
 /** Registry metadata derived from the catalogue (English name is canonical). */

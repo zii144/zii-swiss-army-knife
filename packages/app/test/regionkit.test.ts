@@ -12,6 +12,18 @@ import {
   generateHkPhone,
   validateTwMobile,
   generateTwMobile,
+  validateUsEin,
+  generateUsEin,
+  validateUsPhone,
+  generateUsPhone,
+  validateUkPostcode,
+  generateUkPostcode,
+  validateUkNino,
+  generateUkNino,
+  validateUkSortCode,
+  generateUkSortCode,
+  validateTwPostal,
+  generateTwPostal,
 } from '../src/lib/regionkit';
 
 describe('regionkit — US ZIP', () => {
@@ -70,6 +82,50 @@ describe('regionkit — JP postal / HK phone / TW mobile', () => {
   });
 });
 
+describe('regionkit — US EIN / phone', () => {
+  it('validates EIN format + prefix', () => {
+    expect(validateUsEin('12-3456789')).toBe(true);
+    expect(validateUsEin('123456789')).toBe(true);
+    expect(validateUsEin('07-1234567')).toBe(false); // 07 is not a valid prefix
+    expect(validateUsEin('12-34567')).toBe(false);
+  });
+  it('validates NANP phone numbers', () => {
+    expect(validateUsPhone('(212) 555-0182')).toBe(true);
+    expect(validateUsPhone('2125550182')).toBe(true);
+    expect(validateUsPhone('112-555-0182')).toBe(false); // area starts with 1
+    expect(validateUsPhone('212-155-0182')).toBe(false); // exchange starts with 1
+  });
+});
+
+describe('regionkit — UK postcode / NI / sort code', () => {
+  it('validates postcodes', () => {
+    expect(validateUkPostcode('SW1A 1AA')).toBe(true);
+    expect(validateUkPostcode('M1 1AA')).toBe(true);
+    expect(validateUkPostcode('B33 8TH')).toBe(true);
+    expect(validateUkPostcode('nonsense')).toBe(false);
+  });
+  it('validates NI numbers and rejects bad prefixes', () => {
+    expect(validateUkNino('AB123456C')).toBe(true);
+    expect(validateUkNino('QQ123456C')).toBe(false); // Q not allowed
+    expect(validateUkNino('BG123456C')).toBe(false); // disallowed prefix
+    expect(validateUkNino('AB123456E')).toBe(false); // suffix must be A-D
+  });
+  it('validates sort codes', () => {
+    expect(validateUkSortCode('12-34-56')).toBe(true);
+    expect(validateUkSortCode('123456')).toBe(true);
+    expect(validateUkSortCode('12-34')).toBe(false);
+  });
+});
+
+describe('regionkit — TW postal', () => {
+  it('validates 3 / 5 / 6-digit codes', () => {
+    expect(validateTwPostal('100')).toBe(true);
+    expect(validateTwPostal('10058')).toBe(true);
+    expect(validateTwPostal('100058')).toBe(true);
+    expect(validateTwPostal('10')).toBe(false);
+  });
+});
+
 describe('regionkit — generators round-trip through their validators', () => {
   const seeds = [0, 1, 42, 777, 123456, 999999999];
   it('every generated sample validates', () => {
@@ -80,6 +136,12 @@ describe('regionkit — generators round-trip through their validators', () => {
       expect(validateJpPostal(generateJpPostal(s))).toBe(true);
       expect(validateHkPhone(generateHkPhone(s))).toBe(true);
       expect(validateTwMobile(generateTwMobile(s))).toBe(true);
+      expect(validateUsEin(generateUsEin(s))).toBe(true);
+      expect(validateUsPhone(generateUsPhone(s))).toBe(true);
+      expect(validateUkPostcode(generateUkPostcode(s))).toBe(true);
+      expect(validateUkNino(generateUkNino(s))).toBe(true);
+      expect(validateUkSortCode(generateUkSortCode(s))).toBe(true);
+      expect(validateTwPostal(generateTwPostal(s))).toBe(true);
     }
   });
 });

@@ -47,10 +47,17 @@ describe('app tool catalogue', () => {
 
     // The US market surfaces its own packs and hides other regions'.
     const us = filterTools(r, { market: 'en-us', query: '' }).map((t) => t.id);
-    expect(us).toEqual(expect.arrayContaining(['us-ssn', 'us-zip', 'us-routing']));
+    expect(us).toEqual(expect.arrayContaining(['us-ssn', 'us-zip', 'us-routing', 'us-ein', 'us-phone']));
     expect(us).not.toContain('tw-national-id');
     expect(us).not.toContain('jp-postal');
+    expect(us).not.toContain('uk-postcode');
     expect(us).toContain('image-convert');
+
+    // The UK market surfaces its own packs only.
+    const uk = filterTools(r, { market: 'en-gb', query: '' }).map((t) => t.id);
+    expect(uk).toEqual(expect.arrayContaining(['uk-postcode', 'uk-nino', 'uk-sort-code']));
+    expect(uk).not.toContain('us-ssn');
+    expect(uk).toContain('image-convert');
   });
 
   it('finds a tool by keyword search', () => {
