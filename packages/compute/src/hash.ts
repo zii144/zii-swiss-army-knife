@@ -4,7 +4,7 @@
  */
 
 /** Web Crypto digest algorithm names supported by these helpers. */
-export type DigestAlgorithm = 'SHA-256' | 'SHA-1';
+export type DigestAlgorithm = 'SHA-256' | 'SHA-1' | 'SHA-384' | 'SHA-512';
 
 const encoder = new TextEncoder();
 
@@ -56,4 +56,14 @@ export function sha256Hex(data: Uint8Array | string): Promise<string> {
 /** SHA-1 of `data` as a lowercase hex string. */
 export function sha1Hex(data: Uint8Array | string): Promise<string> {
   return digestHex('SHA-1', data);
+}
+
+/** SHA-384 of `data` as a lowercase hex string. */
+export function sha384Hex(data: Uint8Array | string): Promise<string> {
+  return digestHex('SHA-384', data);
+}
+
+/** SHA-512 of `data` as a lowercase hex string. */
+export function sha512Hex(data: Uint8Array | string): Promise<string> {
+  return digestHex('SHA-512', data);
 }
