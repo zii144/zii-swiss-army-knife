@@ -16,6 +16,7 @@ export type SpeedUnit = 'kmh' | 'mph' | 'ms';
 export type DataUnit = 'B' | 'KB' | 'MB' | 'GB' | 'KiB' | 'MiB' | 'GiB';
 export type PressureUnit = 'Pa' | 'kPa' | 'bar' | 'psi' | 'atm' | 'mmHg';
 export type EnergyUnit = 'J' | 'kJ' | 'cal' | 'kcal' | 'Wh' | 'kWh' | 'BTU';
+export type AngleUnit = 'rad' | 'deg' | 'grad';
 
 export type Unit =
   | LengthUnit
@@ -26,7 +27,8 @@ export type Unit =
   | SpeedUnit
   | DataUnit
   | PressureUnit
-  | EnergyUnit;
+  | EnergyUnit
+  | AngleUnit;
 
 // --- Linear factor tables (value-in-base-unit per 1 of the listed unit) ---
 
@@ -107,6 +109,13 @@ const ENERGY: Record<EnergyUnit, number> = {
   BTU: 1055.05585262,
 };
 
+// Base: radian.
+const ANGLE: Record<AngleUnit, number> = {
+  rad: 1,
+  deg: Math.PI / 180,
+  grad: Math.PI / 200,
+};
+
 type LinearTable = Record<string, number>;
 
 const LINEAR_DIMENSIONS: Record<string, LinearTable> = {
@@ -118,6 +127,7 @@ const LINEAR_DIMENSIONS: Record<string, LinearTable> = {
   data: DATA,
   pressure: PRESSURE,
   energy: ENERGY,
+  angle: ANGLE,
 };
 
 const TEMPERATURE_UNITS: readonly TemperatureUnit[] = ['C', 'F', 'K'];

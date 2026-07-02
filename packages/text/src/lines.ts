@@ -140,3 +140,8 @@ export function indentLines(s: string, spaces: number): string {
     })
     .join('\n');
 }
+
+/** Prefix and/or suffix each line. */
+export function affixLines(text: string, prefix = '', suffix = ''): string {
+  return splitLines(text).map((line) => `${prefix}${line}${suffix}`).join('\n');
+}

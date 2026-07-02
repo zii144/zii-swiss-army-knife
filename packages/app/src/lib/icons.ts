@@ -112,6 +112,26 @@ const TOOL_ICONS: Record<string, string> = {
     '<path d="M13 2L4 14h7l-1 8 9-12h-7l1-8z"/>',
   'duration-format':
     '<rect x="4" y="6" width="16" height="12" rx="2"/><path d="M8 10h8M8 14h5"/>',
+  'hex-text':
+    '<rect x="5" y="5" width="14" height="14" rx="2"/><path d="M9 9h2v6H9zM13 9h2v6h-2z"/>',
+  'unicode-escape':
+    '<path d="M6 4l-3 8 3 8M18 4l3 8-3 8"/><path d="M10 12h4"/>',
+  'reverse-words':
+    '<path d="M7 8l-3 4 3 4M17 8l3 4-3 4"/><path d="M11 12h2"/>',
+  'tabs-spaces':
+    '<path d="M4 6h16M4 12h12M4 18h16"/><path d="M18 10v8"/>',
+  rot47:
+    '<path d="M4 12h16M8 8l-4 4 4 4M16 8l4 4-4 4"/>',
+  'hamming-distance':
+    '<path d="M6 18L18 6"/><circle cx="7" cy="7" r="2"/><circle cx="17" cy="17" r="2"/>',
+  'volume-convert':
+    '<path d="M8 4h8l2 16H6L8 4z"/><path d="M9 10h6"/>',
+  'angle-convert':
+    '<path d="M12 4v8l5 3"/><circle cx="12" cy="12" r="9"/>',
+  'char-frequency':
+    '<path d="M5 18V8M9 18V4M13 18v-6M17 18V10M21 18V6"/>',
+  'line-prefix':
+    '<path d="M4 8h6M4 12h10M4 16h8"/><path d="M16 6v12"/>',
   'json-yaml':
     '<path d="M9 4C7 4 7 6 7 8s0 4-2 4c2 0 2 2 2 4s0 4 2 4M15 4c2 0 2 2 2 4s0 4 2 4c-2 0-2 2-2 4s0 4-2 4"/>',
   hash: '<path d="M9 4L7 20M17 4l-2 16M5 9.5h14M4 14.5h14"/>',

@@ -18,3 +18,13 @@ export function levenshtein(a: string, b: string): number {
   }
   return prev[b.length]!;
 }
+
+/** Hamming distance — equal-length strings only. */
+export function hammingDistance(a: string, b: string): number {
+  if (a.length !== b.length) throw new RangeError('Strings must be the same length');
+  let d = 0;
+  for (let i = 0; i < a.length; i += 1) {
+    if (a[i] !== b[i]) d += 1;
+  }
+  return d;
+}
