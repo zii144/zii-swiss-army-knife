@@ -17,6 +17,8 @@ const TOOL_ICONS: Record<string, string> = {
     '<rect x="3" y="5" width="18" height="14" rx="2"/><path d="M12 8v7M9.5 12.5L12 15l2.5-2.5"/>',
   'qr-generate':
     '<rect x="3.5" y="3.5" width="6.5" height="6.5" rx="1"/><rect x="14" y="3.5" width="6.5" height="6.5" rx="1"/><rect x="3.5" y="14" width="6.5" height="6.5" rx="1"/><path d="M14 14h3.5v3.5M20.5 20.5v.01M17.5 20.5h.01M20.5 17.5h.01"/>',
+  'qr-batch':
+    '<rect x="3.5" y="3.5" width="5" height="5" rx="1"/><rect x="10" y="3.5" width="5" height="5" rx="1"/><rect x="16.5" y="3.5" width="4" height="5" rx="1"/><rect x="3.5" y="10" width="5" height="5" rx="1"/><rect x="10" y="10" width="5" height="5" rx="1"/><rect x="16.5" y="10" width="4" height="5" rx="1"/><rect x="3.5" y="16.5" width="5" height="4" rx="1"/><rect x="10" y="16.5" width="5" height="4" rx="1"/>',
   'qr-scan':
     '<path d="M4 8V5.5A1.5 1.5 0 015.5 4H8M20 8V5.5A1.5 1.5 0 0018.5 4H16M4 16v2.5A1.5 1.5 0 005.5 20H8M20 16v2.5a1.5 1.5 0 01-1.5 1.5H16"/><path d="M7 12h10"/>',
   'percent-tip':
@@ -28,6 +30,8 @@ const TOOL_ICONS: Record<string, string> = {
     '<path d="M3 18l4-11 4 11M4.2 14.3h5.6"/><path d="M21 11.5a2.6 2.6 0 00-2.6-2 2.6 2.6 0 000 5.2c1.3 0 2.6-.8 2.6-2.6V9.6"/>',
   'json-csv':
     '<path d="M8.5 4C6.6 4 6.5 6 6.5 8s0 4-2 4c2 0 2 2 2 4s.1 4 2 4"/><path d="M13 4h7v16h-7M13 9.3h7M13 14.6h7M16.5 4v16"/>',
+  'csv-clean':
+    '<path d="M8.5 4C6.6 4 6.5 6 6.5 8s0 4-2 4c2 0 2 2 2 4s.1 4 2 4"/><path d="M13 4h7v16h-7M13 9.3h7M13 14.6h7"/><path d="M15 17l2-2 2 2"/>',
   'json-yaml':
     '<path d="M9 4C7 4 7 6 7 8s0 4-2 4c2 0 2 2 2 4s0 4 2 4M15 4c2 0 2 2 2 4s0 4 2 4c-2 0-2 2-2 4s0 4-2 4"/>',
   hash: '<path d="M9 4L7 20M17 4l-2 16M5 9.5h14M4 14.5h14"/>',
@@ -128,6 +132,8 @@ const TOOL_ICONS: Record<string, string> = {
     '<rect x="3" y="5" width="18" height="14" rx="2"/><path d="M7 9.5h10M7 13h6"/><path d="M16 13l1.5 1.5L16 16"/>',
   'video-convert':
     '<rect x="3" y="6" width="18" height="12" rx="2"/><path d="M10 10l5 3-5 3z"/><path d="M4 8h16M4 16h16"/>',
+  'audio-extract':
+    '<path d="M9 18V6l10-2v14"/><path d="M6 16a3 3 0 004 2.8V7.2A3 3 0 016 10"/><path d="M19 14a3 3 0 01-3 2.8V9.2A3 3 0 0119 12"/>',
   'reminder-planner':
     '<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 9.5h18M8 3v4M16 3v4M8.5 13.5l2 2 4-4"/>',
   'images-to-pdf':
@@ -136,6 +142,10 @@ const TOOL_ICONS: Record<string, string> = {
     '<rect x="5" y="3" width="14" height="18" rx="2"/><rect x="3" y="5" width="10" height="8" rx="1.5"/><path d="M11 12l2-2 2 2"/>',
   'docx-to-pdf':
     '<path d="M14 3v5h5M6 3h8l5 5v11a1 1 0 01-1 1H6a1 1 0 01-1-1V4a1 1 0 011-1z"/><path d="M9 13h6M9 16h4"/>',
+  'pptx-to-pdf':
+    '<path d="M14 3v5h5M6 3h8l5 5v11a1 1 0 01-1 1H6a1 1 0 01-1-1V4a1 1 0 011-1z"/><rect x="8" y="12" width="8" height="5" rx="1"/>',
+  'pdf-to-word':
+    '<path d="M14 3v5h5M6 3h8l5 5v11a1 1 0 01-1 1H6a1 1 0 01-1-1V4a1 1 0 011-1z"/><path d="M9 13h6M9 16h4"/><path d="M17 14l2 2-4 4"/>',
   'ca-sin':
     '<rect x="3" y="5" width="18" height="14" rx="2"/><path d="M7 9.5h10M7 12.5h10M7 15.5h6"/>',
   'au-tfn':

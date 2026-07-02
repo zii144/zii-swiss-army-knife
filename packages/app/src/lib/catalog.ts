@@ -82,6 +82,17 @@ export const CATALOG: readonly CatalogTool[] = [
     },
   },
   {
+    id: 'qr-batch',
+    category: 'generator',
+    offline: true,
+    keywords: ['qr', 'batch', 'bulk', 'zip', 'multiple', 'qrcode'],
+    name: { en: 'Batch QR codes', 'zh-TW': '批次 QR Code', 'zh-HK': '批次 QR Code' },
+    blurb: {
+      en: 'Generate one QR PNG per line and download them as a ZIP.',
+      'zh-TW': '每行一個 QR Code，打包成 ZIP 下載。',
+    },
+  },
+  {
     id: 'image-compress',
     category: 'image',
     offline: true,
@@ -195,23 +206,34 @@ export const CATALOG: readonly CatalogTool[] = [
     },
   },
   {
+    id: 'csv-clean',
+    category: 'dev',
+    offline: true,
+    keywords: ['csv', 'clean', 'dedupe', 'trim', 'data', 'table'],
+    name: { en: 'CSV cleaner', 'zh-TW': 'CSV 清理', 'zh-HK': 'CSV 清理' },
+    blurb: {
+      en: 'Trim fields, drop blank rows, and remove duplicates from CSV.',
+      'zh-TW': '修剪欄位、移除空白列與重複列。',
+    },
+  },
+  {
     id: 'hash',
     category: 'dev',
     offline: true,
-    keywords: ['hash', 'sha', 'sha256', 'sha1', 'checksum', 'digest'],
+    keywords: ['hash', 'sha', 'sha256', 'sha512', 'md5', 'sha1', 'checksum', 'digest', 'file'],
     name: {
-      en: 'Hash (SHA-256 / SHA-1)',
-      'zh-TW': '雜湊 (SHA-256 / SHA-1)',
-      'zh-HK': '雜湊 (SHA-256 / SHA-1)',
-      ja: 'ハッシュ (SHA-256 / SHA-1)',
-      ko: '해시 (SHA-256 / SHA-1)',
-      es: 'Hash (SHA-256 / SHA-1)',
-      fr: 'Hachage (SHA-256 / SHA-1)',
-      de: 'Hash (SHA-256 / SHA-1)',
+      en: 'Hash (MD5 / SHA)',
+      'zh-TW': '雜湊 (MD5 / SHA)',
+      'zh-HK': '雜湊 (MD5 / SHA)',
+      ja: 'ハッシュ (MD5 / SHA)',
+      ko: '해시 (MD5 / SHA)',
+      es: 'Hash (MD5 / SHA)',
+      fr: 'Hachage (MD5 / SHA)',
+      de: 'Hash (MD5 / SHA)',
     },
     blurb: {
-      en: 'Compute SHA-256 and SHA-1 digests of text on-device.',
-      'zh-TW': '在裝置上計算文字的 SHA-256 與 SHA-1 雜湊值。',
+      en: 'Compute MD5, SHA-1, SHA-256, and SHA-512 digests of text or files on-device.',
+      'zh-TW': '在裝置上計算文字或檔案的 MD5、SHA-1、SHA-256、SHA-512 雜湊值。',
     },
   },
   {
@@ -1182,7 +1204,7 @@ export const CATALOG: readonly CatalogTool[] = [
     id: 'json-format',
     category: 'dev',
     offline: true,
-    keywords: ['json', 'format', 'pretty', 'prettify', 'validate', 'indent'],
+    keywords: ['json', 'format', 'pretty', 'minify', 'prettify', 'validate', 'indent'],
     name: {
       en: 'JSON formatter',
       'zh-TW': 'JSON 格式化',
@@ -1194,8 +1216,8 @@ export const CATALOG: readonly CatalogTool[] = [
       de: 'JSON-Formatierer',
     },
     blurb: {
-      en: 'Validate and pretty-print JSON on your device.',
-      'zh-TW': '在裝置上驗證並美化 JSON。',
+      en: 'Validate, pretty-print, or minify JSON on your device.',
+      'zh-TW': '在裝置上驗證、美化或壓縮 JSON。',
     },
   },
   {
@@ -1236,6 +1258,17 @@ export const CATALOG: readonly CatalogTool[] = [
     blurb: {
       en: 'Transcode a video file on your device with ffmpeg.wasm.',
       'zh-TW': '使用 ffmpeg.wasm 在裝置上轉換影片。',
+    },
+  },
+  {
+    id: 'audio-extract',
+    category: 'convert',
+    offline: false,
+    keywords: ['audio', 'mp3', 'extract', 'video', 'mp4', 'ffmpeg', 'sound'],
+    name: { en: 'Extract audio', 'zh-TW': '擷取音訊', 'zh-HK': '擷取音訊' },
+    blurb: {
+      en: 'Strip the video track and save MP3 or M4A audio from a video file.',
+      'zh-TW': '從影片擷取 MP3 或 M4A 音訊。',
     },
   },
   {
@@ -1289,6 +1322,28 @@ export const CATALOG: readonly CatalogTool[] = [
     blurb: {
       en: 'Convert a .docx file to PDF via the backend conversion worker.',
       'zh-TW': '透過後端 worker 將 .docx 轉為 PDF。',
+    },
+  },
+  {
+    id: 'pptx-to-pdf',
+    category: 'convert',
+    offline: false,
+    keywords: ['pptx', 'powerpoint', 'pdf', 'presentation', 'convert', 'office'],
+    name: { en: 'PowerPoint to PDF', 'zh-TW': 'PowerPoint 轉 PDF', 'zh-HK': 'PowerPoint 轉 PDF' },
+    blurb: {
+      en: 'Convert a .pptx file to PDF via the backend conversion worker.',
+      'zh-TW': '透過後端 worker 將 .pptx 轉為 PDF。',
+    },
+  },
+  {
+    id: 'pdf-to-word',
+    category: 'convert',
+    offline: false,
+    keywords: ['pdf', 'docx', 'word', 'document', 'convert', 'office'],
+    name: { en: 'PDF to Word', 'zh-TW': 'PDF 轉 Word', 'zh-HK': 'PDF 轉 Word' },
+    blurb: {
+      en: 'Convert a PDF to an editable .docx file via the backend worker.',
+      'zh-TW': '透過後端 worker 將 PDF 轉為可編輯的 .docx。',
     },
   },
   {
