@@ -11,6 +11,11 @@ const FORMATS = [
   { value: 'image/webp', label: 'WebP', ext: 'webp' },
 ];
 const PRESETS = [1920, 1080, 512, 256, 128];
+const NAMED_PRESETS = [
+  { label: { en: 'Social 1080', 'zh-TW': '社群 1080' }, size: 1080 },
+  { label: { en: 'Thumb 256', 'zh-TW': '縮圖 256' }, size: 256 },
+  { label: { en: 'Favicon 32', 'zh-TW': 'Favicon 32' }, size: 32 },
+] as const;
 
 const L = {
   en: {
@@ -132,6 +137,19 @@ export default function ImageResizeTool({ onBack, lang, backLabel, offlineLabel 
       <div className="tool__field">
         <span>{t.presets}</span>
         <div className="tool__checks">
+          {NAMED_PRESETS.map((p) => (
+            <button
+              key={p.label.en}
+              type="button"
+              className="ui-btn ui-btn--ghost"
+              onClick={() => {
+                setWidth(p.size);
+                setHeight(p.size);
+              }}
+            >
+              {p.label[lang === 'zh-TW' ? 'zh-TW' : 'en']}
+            </button>
+          ))}
           {PRESETS.map((p) => (
             <button
               key={p}
