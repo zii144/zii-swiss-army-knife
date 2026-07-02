@@ -2,7 +2,7 @@
  * HMAC helpers built on the Web Crypto API.
  */
 
-export type HmacAlgorithm = 'SHA-256' | 'SHA-384' | 'SHA-512';
+export type HmacAlgorithm = 'SHA-1' | 'SHA-256' | 'SHA-384' | 'SHA-512';
 
 const encoder = new TextEncoder();
 
@@ -55,6 +55,13 @@ export async function hmacHex(
     msg.buffer.slice(msg.byteOffset, msg.byteOffset + msg.byteLength) as ArrayBuffer,
   );
   return toHex(sig);
+}
+
+export function hmacSha1Hex(
+  secret: string | Uint8Array,
+  data: string | Uint8Array,
+): Promise<string> {
+  return hmacHex('SHA-1', secret, data);
 }
 
 export function hmacSha256Hex(
