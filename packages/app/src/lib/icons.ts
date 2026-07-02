@@ -72,6 +72,26 @@ const TOOL_ICONS: Record<string, string> = {
     '<path d="M4 12h16M6 8v8M10 6v12M14 9v6M18 7v10"/>',
   totp:
     '<rect x="5" y="4" width="14" height="16" rx="2"/><path d="M9 8h6M12 11v5M9 14h6"/>',
+  'trim-lines':
+    '<path d="M4 6h16M4 12h12M4 18h16"/><path d="M18 10l2 2-2 2"/>',
+  'remove-empty-lines':
+    '<path d="M4 8h16M4 16h16"/><path d="M8 12h8"/>',
+  'number-lines':
+    '<path d="M4 6h3M4 12h3M4 18h3"/><path d="M9 6h11M9 12h11M9 18h11"/>',
+  'text-wrap':
+    '<path d="M4 6h16M4 12h10M4 18h14"/><path d="M18 10v8"/>',
+  'morse-code':
+    '<path d="M4 12h2M8 12h1M11 12h3M16 12h1M19 12h2"/><path d="M6 8v8M17 8v8"/>',
+  'binary-text':
+    '<rect x="4" y="6" width="16" height="12" rx="1"/><path d="M8 10v4M12 9v6M16 10v4"/>',
+  levenshtein:
+    '<path d="M6 18L18 6M8 6h2v2M16 16h2v2"/>',
+  'strip-html':
+    '<path d="M4 7l4 10M20 7l-4 10M9 7h6M12 17v-4"/>',
+  'pressure-convert':
+    '<circle cx="12" cy="12" r="8"/><path d="M12 8v8M8 12h8"/>',
+  'timestamp-convert':
+    '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/>',
   'json-yaml':
     '<path d="M9 4C7 4 7 6 7 8s0 4-2 4c2 0 2 2 2 4s0 4 2 4M15 4c2 0 2 2 2 4s0 4 2 4c-2 0-2 2-2 4s0 4-2 4"/>',
   hash: '<path d="M9 4L7 20M17 4l-2 16M5 9.5h14M4 14.5h14"/>',

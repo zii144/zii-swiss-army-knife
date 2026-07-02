@@ -16,3 +16,14 @@ export function jsonEscapeString(s: string): string {
 export function jsonUnescapeString(s: string): string {
   return JSON.parse(`"${s}"`) as string;
 }
+
+/** Encode text as space-separated binary octets (8 bits per character). */
+export function textToBinary(text: string, sep = ' '): string {
+  return [...text].map((ch) => ch.charCodeAt(0).toString(2).padStart(8, '0')).join(sep);
+}
+
+/** Decode space-separated binary octets back to text. */
+export function binaryToText(binary: string): string {
+  const tokens = binary.trim().split(/\s+/);
+  return tokens.map((t) => String.fromCharCode(Number.parseInt(t, 2))).join('');
+}
