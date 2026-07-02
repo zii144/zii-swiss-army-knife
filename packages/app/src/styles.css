@@ -38,6 +38,8 @@
   --field-bg: rgba(255, 255, 255, 0.62);
   --menu-bg: rgba(255, 255, 255, 0.97);
   --option-active: rgba(23, 105, 198, 0.12);
+  --scrollbar-thumb: rgba(23, 105, 198, 0.28);
+  --scrollbar-thumb-hover: rgba(23, 105, 198, 0.45);
 
   /* Motion */
   --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
@@ -72,6 +74,8 @@
   --field-bg: rgba(255, 255, 255, 0.07);
   --menu-bg: rgba(20, 30, 52, 0.97);
   --option-active: rgba(140, 198, 255, 0.16);
+  --scrollbar-thumb: rgba(174, 214, 255, 0.28);
+  --scrollbar-thumb-hover: rgba(174, 214, 255, 0.5);
   color-scheme: dark;
 }
 
@@ -220,6 +224,10 @@ body {
 }
 
 .app__nav-link:hover {
+  color: var(--on-blue);
+}
+
+.app__nav-link.is-active {
   color: var(--on-blue);
 }
 
@@ -478,6 +486,66 @@ body {
   margin-top: auto;
 }
 
+.hero__more {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  justify-content: center;
+  margin: 4rem auto 3.5rem;
+  padding: 0 1.5rem;
+}
+
+.hero__viewall {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.65rem;
+  min-width: 11.5rem;
+  background: #fff;
+  color: var(--ink-pill);
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  border-radius: 999px;
+  padding: 0.85rem 1.35rem 0.85rem 1.75rem;
+  font-weight: 700;
+  font-size: 1rem;
+  letter-spacing: 0.01em;
+  text-decoration: none;
+  cursor: pointer;
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.8) inset,
+    0 22px 44px -20px rgba(8, 26, 64, 0.48);
+  transition:
+    transform var(--dur-1) var(--ease-out),
+    box-shadow var(--dur-1) var(--ease-out);
+}
+
+.hero__viewall:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.9) inset,
+    0 28px 52px -18px rgba(8, 26, 64, 0.55);
+}
+
+.hero__viewall .hero__primary-dot {
+  flex-shrink: 0;
+}
+
+.app--dark .hero__viewall {
+  background: rgba(255, 255, 255, 0.14);
+  border-color: rgba(255, 255, 255, 0.28);
+  color: var(--on-blue);
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.12) inset,
+    0 22px 44px -20px rgba(0, 0, 0, 0.55);
+}
+
+.app--dark .hero__viewall:hover {
+  background: rgba(255, 255, 255, 0.2);
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.16) inset,
+    0 28px 52px -18px rgba(0, 0, 0, 0.62);
+}
+
 /* ----------------------------------------------------------- catalog ---- */
 .catalog {
   position: relative;
@@ -487,6 +555,10 @@ body {
   padding: 2rem 1.5rem 0;
   /* Leave room for the sticky nav when scrolled to via "Tools". */
   scroll-margin-top: 5rem;
+}
+
+.catalog--standalone {
+  margin-top: 2rem;
 }
 
 .catalog__head {
@@ -817,6 +889,30 @@ body {
   border: 1px solid var(--glass-border);
   box-shadow: var(--glass-shadow);
   backdrop-filter: blur(14px);
+  /* Firefox */
+  scrollbar-width: thin;
+  scrollbar-color: var(--scrollbar-thumb) transparent;
+}
+
+/* Chromium / WebKit — replace the native scrollbar with a themed one. */
+.toolnav::-webkit-scrollbar {
+  width: 10px;
+}
+
+.toolnav::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.toolnav::-webkit-scrollbar-thumb {
+  background: var(--scrollbar-thumb);
+  border-radius: 999px;
+  border: 3px solid transparent;
+  background-clip: padding-box;
+}
+
+.toolnav::-webkit-scrollbar-thumb:hover {
+  background: var(--scrollbar-thumb-hover);
+  background-clip: padding-box;
 }
 
 .toolnav__head {
@@ -884,6 +980,11 @@ body {
 .toolnav__item:hover {
   background: var(--option-active);
   transform: translateX(2px);
+}
+
+.toolnav__item:focus-visible {
+  outline: 2px solid var(--lime-strong);
+  outline-offset: 1px;
 }
 
 .toolnav__item.is-active {
@@ -1786,6 +1887,11 @@ button {
   animation-delay: calc(320ms + var(--stagger, 0) * 60ms);
 }
 
+.hero__more {
+  animation: zii-fade-up var(--dur-3) var(--ease-out) both;
+  animation-delay: 680ms;
+}
+
 /* Catalog cards rise in, gently staggered. */
 .app__item {
   animation: zii-fade-up var(--dur-3) var(--ease-out) both;
@@ -1858,6 +1964,7 @@ button {
 .app__toggle:active,
 .hero__primary:active,
 .hero__ghost:active,
+.hero__viewall:active,
 .tool__primary:active,
 .tool__back:active {
   transform: scale(0.97);

@@ -20,13 +20,13 @@ function toolIco(id: string, category: string): string {
   return `<span class="tool-ico" style="color:${categoryColor(category)}">${iconSvg(id, '', 18)}</span>`;
 }
 
-function nav(lang: Lang): string {
+function nav(lang: Lang, active: 'home' | 'tools'): string {
   const d = DICTIONARY[lang];
   return `<nav class="app__nav">
-    <a class="app__brand" href="${buildPath(lang, null)}"><span class="app__brand-mark"><svg class="zlogo" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="5" y="5" width="14" height="3.4" rx="1.2" fill="currentColor"/><rect x="5" y="15.6" width="14" height="3.4" rx="1.2" fill="currentColor"/><path d="M16.6 7 L7.4 17" stroke="#b4e636" stroke-width="3.4" stroke-linecap="round"/></svg></span>${esc(d.brand)}</a>
+    <a class="app__brand" href="${buildPath(lang, 'home')}"><span class="app__brand-mark"><svg class="zlogo" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="5" y="5" width="14" height="3.4" rx="1.2" fill="currentColor"/><rect x="5" y="15.6" width="14" height="3.4" rx="1.2" fill="currentColor"/><path d="M16.6 7 L7.4 17" stroke="#b4e636" stroke-width="3.4" stroke-linecap="round"/></svg></span>${esc(d.brand)}</a>
     <div class="app__nav-links">
-      <a class="app__nav-link" href="${buildPath(lang, null)}">${esc(d.navHome)}</a>
-      <a class="app__nav-link" href="${buildPath(lang, null)}#tools">${esc(d.navTools)}</a>
+      <a class="app__nav-link${active === 'home' ? ' is-active' : ''}" href="${buildPath(lang, 'home')}">${esc(d.navHome)}</a>
+      <a class="app__nav-link${active === 'tools' ? ' is-active' : ''}" href="${buildPath(lang, 'tools')}">${esc(d.navTools)}</a>
     </div>
   </nav>`;
 }
@@ -37,12 +37,12 @@ function footer(lang: Lang): string {
   const tools = CATALOG.slice(0, 6)
     .map(
       (tool) =>
-        `<li><a class="footer__link" href="${buildPath(lang, tool.id)}">${esc(localizedName(tool.id, lang))}</a></li>`,
+        `<li><a class="footer__link" href="${buildPath(lang, 'tool', tool.id)}">${esc(localizedName(tool.id, lang))}</a></li>`,
     )
     .join('\n        ');
   const langs = LANGS.map(
     (l) =>
-      `<li><a class="footer__link${l === lang ? ' is-current' : ''}" href="${buildPath(l, null)}">${esc(LANG_LABELS[l])}</a></li>`,
+      `<li><a class="footer__link${l === lang ? ' is-current' : ''}" href="${buildPath(l, 'home')}">${esc(LANG_LABELS[l])}</a></li>`,
   ).join('\n        ');
   const year = new Date().getFullYear();
   return `<footer class="footer">
@@ -71,15 +71,14 @@ function footer(lang: Lang): string {
 
 /** A single tool card. */
 function card(lang: Lang, tool: (typeof CATALOG)[number], offlineLabel: string): string {
-  return `<li><a class="app__item" href="${buildPath(lang, tool.id)}">
+  return `<li><a class="app__item" href="${buildPath(lang, 'tool', tool.id)}">
         <span class="app__item-top">${toolIco(tool.id, tool.category)}${tool.offline ? `<span class="app__badge">${esc(offlineLabel)}</span>` : ''}</span>
         <span class="app__item-name">${esc(localizedName(tool.id, lang))}</span>
         <span class="tool__hint">${esc(localizedBlurb(tool.id, lang))}</span>
       </a></li>`;
 }
 
-/** Static home/catalog markup for crawlers — replaced by the SPA on load. */
-export function renderHomeBody(lang: Lang): string {
+function catalogSections(lang: Lang, offlineLabel: string): string {
   const d = DICTIONARY[lang];
   const cats = presentCategories(CATALOG.map((t) => t.category));
 
@@ -98,26 +97,13 @@ export function renderHomeBody(lang: Lang): string {
       return `<section class="catgroup">
       <div class="catgroup__head"><span class="catgroup__ico" style="color:${categoryColor(cat)}">${categoryIconSvg(cat, '', 18)}</span><h3 class="catgroup__title">${esc(categoryLabel(cat, lang))}</h3><span class="catgroup__count">${items.length}</span></div>
       <ul class="app__list">
-        ${items.map((tool) => card(lang, tool, d.offline)).join('\n        ')}
+        ${items.map((tool) => card(lang, tool, offlineLabel)).join('\n        ')}
       </ul>
     </section>`;
     })
     .join('\n');
 
-  return `<div class="app">
-  ${CLOUDS_SVG}
-  ${nav(lang)}
-  <section class="hero">
-    <span class="hero__kicker">${esc(d.heroKicker)}</span>
-    <h1 class="hero__title">${esc(d.heroTitleA)}<br><span>${esc(d.heroTitleB)}</span></h1>
-    <p class="hero__subtitle">${esc(d.heroSubtitle)}</p>
-    <div class="hero__actions">
-      <a class="hero__ghost" href="${buildPath(lang, null)}#tools">${esc(d.viewTools)}</a>
-      <a class="hero__primary" href="${buildPath(lang, null)}#tools">${esc(d.getStarted)}<span class="hero__primary-dot">↗</span></a>
-    </div>
-    <p class="hero__rated">${esc(d.rated)}</p>
-  </section>
-  <section class="catalog" id="tools">
+  return `<section class="catalog catalog--standalone" id="tools">
     <div class="catalog__head">
       <div>
         <span class="catalog__kicker">${esc(d.catalogKicker)}</span>
@@ -127,7 +113,47 @@ export function renderHomeBody(lang: Lang): string {
     </div>
     <div class="catfilter">${chips}</div>
     ${sections}
+  </section>`;
+}
+
+/** Static home markup for crawlers — replaced by the SPA on load. */
+export function renderHomeBody(lang: Lang): string {
+  const d = DICTIONARY[lang];
+  const featured = CATALOG.slice(0, 8);
+  const deck = featured
+    .map(
+      (tool) =>
+        `<a class="hero__card" href="${buildPath(lang, 'tool', tool.id)}"><span class="hero__card-cat">${toolIco(tool.id, tool.category)}${esc(tool.category)}</span><span class="hero__card-name">${esc(localizedName(tool.id, lang))}</span></a>`,
+    )
+    .join('');
+
+  return `<div class="app">
+  ${CLOUDS_SVG}
+  ${nav(lang, 'home')}
+  <section class="hero">
+    <span class="hero__kicker">${esc(d.heroKicker)}</span>
+    <h1 class="hero__title">${esc(d.heroTitleA)}<br><span>${esc(d.heroTitleB)}</span></h1>
+    <p class="hero__subtitle">${esc(d.heroSubtitle)}</p>
+    <div class="hero__actions">
+      <a class="hero__ghost" href="${buildPath(lang, 'tools')}">${esc(d.viewTools)}</a>
+      <a class="hero__primary" href="${buildPath(lang, 'tools')}">${esc(d.getStarted)}<span class="hero__primary-dot">↗</span></a>
+    </div>
+    <p class="hero__rated">${esc(d.rated)}</p>
   </section>
+  <div class="hero__deck"><div class="hero__deck-row">${deck}</div></div>
+  <div class="hero__more">
+    <a class="hero__viewall" href="${buildPath(lang, 'tools')}">${esc(d.viewAll)}<span class="hero__primary-dot" aria-hidden="true">↗</span></a>
+  </div>
+  ${footer(lang)}
+</div>`;
+}
+
+/** Static tools listing for crawlers — replaced by the SPA on load. */
+export function renderToolsBody(lang: Lang): string {
+  const d = DICTIONARY[lang];
+  return `<div class="app">
+  ${nav(lang, 'tools')}
+  ${catalogSections(lang, d.offline)}
   ${footer(lang)}
 </div>`;
 }
@@ -139,15 +165,17 @@ export function renderToolBody(lang: Lang, toolId: string): string {
   const blurb = localizedBlurb(toolId, lang);
   const cat = CATALOG.find((t) => t.id === toolId)?.category;
   const catCrumb = cat
-    ? `<a href="${buildPath(lang, null)}#tools">${esc(categoryLabel(cat, lang))}</a> / `
+    ? `<a href="${buildPath(lang, 'tools')}">${esc(categoryLabel(cat, lang))}</a> / `
     : '';
   return `<div class="app">
-  ${nav(lang)}
+  ${nav(lang, 'tools')}
   <main>
     <section class="tool">
-      <a class="tool__back" href="${buildPath(lang, null)}">← ${esc(d.back)}</a>
+      <a class="tool__back" href="${buildPath(lang, 'tools')}">← ${esc(d.back)}</a>
       <nav class="tool__crumbs" aria-label="Breadcrumb">
-        <a href="${buildPath(lang, null)}">${esc(d.navHome)}</a> / ${catCrumb}<span>${esc(name)}</span>
+        <a href="${buildPath(lang, 'home')}">${esc(d.navHome)}</a> /
+        <a href="${buildPath(lang, 'tools')}">${esc(d.navTools)}</a> /
+        ${catCrumb}<span>${esc(name)}</span>
       </nav>
       <header class="tool__header">
         <h1 class="tool__title">${esc(name)}</h1>

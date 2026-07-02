@@ -27,6 +27,7 @@ const {
   localizedName,
   localizedBlurb,
   renderHomeBody,
+  renderToolsBody,
   renderToolBody,
   esc,
   SITE_ORIGIN,
@@ -97,15 +98,20 @@ async function emit(relPath, html) {
 
 const routes = allRoutes(CATALOG_IDS);
 let count = 0;
-for (const { locale, toolId } of routes) {
-  const head = buildHead(ORIGIN, locale, toolId);
-  const body = toolId ? renderToolBody(locale, toolId) : renderHomeBody(locale);
-  await emit(buildPath(locale, toolId), page(head.htmlLang, headTags(head), body));
+for (const { locale, view, toolId } of routes) {
+  const head = buildHead(ORIGIN, locale, view, toolId);
+  const body =
+    view === 'tool'
+      ? renderToolBody(locale, toolId)
+      : view === 'tools'
+        ? renderToolsBody(locale)
+        : renderHomeBody(locale);
+  await emit(buildPath(locale, view, toolId), page(head.htmlLang, headTags(head), body));
   count += 1;
 }
 
 // Root: serve the English home, canonical to /en.
-const enHead = buildHead(ORIGIN, 'en', null);
+const enHead = buildHead(ORIGIN, 'en', 'home', null);
 await writeFile(
   join(DIST, 'index.html'),
   page('en', headTags(enHead), renderHomeBody('en')),
@@ -114,11 +120,11 @@ await writeFile(
 
 // sitemap.xml with hreflang alternates per URL.
 const urls = routes
-  .map(({ locale, toolId }) => {
-    const loc = ORIGIN + buildPath(locale, toolId);
+  .map(({ locale, view, toolId }) => {
+    const loc = ORIGIN + buildPath(locale, view, toolId);
     const alts = LANGS.map(
       (l) =>
-        `    <xhtml:link rel="alternate" hreflang="${l}" href="${ORIGIN + buildPath(l, toolId)}" />`,
+        `    <xhtml:link rel="alternate" hreflang="${l}" href="${ORIGIN + buildPath(l, view, toolId)}" />`,
     ).join('\n');
     return `  <url>\n    <loc>${loc}</loc>\n${alts}\n  </url>`;
   })
@@ -146,10 +152,11 @@ uploads, no accounts, and no server-side data retention. Available in
 ${LANGS.length} languages: ${LANGS.join(', ')}.
 
 ## Tools
-${CATALOG.map((t) => `- [${localizedName(t.id, 'en')}](${ORIGIN + buildPath('en', t.id)}): ${localizedBlurb(t.id, 'en')}`).join('\n')}
+${CATALOG.map((t) => `- [${localizedName(t.id, 'en')}](${ORIGIN + buildPath('en', 'tool', t.id)}): ${localizedBlurb(t.id, 'en')}`).join('\n')}
 
 ## Languages
-${LANGS.map((l) => `- ${ORIGIN + buildPath(l, null)}`).join('\n')}
+${LANGS.map((l) => `- ${ORIGIN + buildPath(l, 'home')}`).join('\n')}
+- ${ORIGIN + buildPath('en', 'tools')} (tools index)
 `;
 await writeFile(join(DIST, 'llms.txt'), llms, 'utf8');
 

@@ -1,4 +1,5 @@
 import { categoryColor, localizedName } from '../lib/catalog';
+import { categoryLabel } from '../lib/categories';
 import type { Lang } from '../lib/i18n';
 import { prefetchTool } from '../tools';
 import { ToolIcon } from './ToolIcon';
@@ -46,7 +47,7 @@ export function ToolNav({ tools, currentId, lang, label, onOpen }: ToolNavProps)
         <div key={group.category} className="toolnav__group">
           <div className="toolnav__cat">
             <span className="app__cat-dot" style={{ background: categoryColor(group.category) }} />
-            {group.category}
+            {categoryLabel(group.category, lang)}
           </div>
           <ul className="toolnav__list">
             {group.items.map((tool) => (

@@ -7,4 +7,4 @@ export { CATALOG, CATALOG_IDS, categoryColor, localizedName, localizedBlurb } fr
 export { iconSvg } from './icons';
 export { buildPath, allRoutes } from './router';
 export { buildHead, alternatesFor, SITE_ORIGIN, SITE_NAME } from './seo';
-export { renderHomeBody, renderToolBody, esc } from './prerender-view';
+export { renderHomeBody, renderToolsBody, renderToolBody, esc } from './prerender-view';

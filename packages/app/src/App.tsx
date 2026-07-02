@@ -1,12 +1,12 @@
 import { Suspense, useEffect, useMemo, useRef, useState } from 'react';
 import type { Market } from '@zii/registry';
 import { createRegistry } from '@zii/registry';
-import { filterTools, formatToolCount, marketLabel, SELECTABLE_MARKETS } from './lib/tools';
+import { filterTools } from './lib/tools';
 import { LANG_LABELS, LANGS, useT } from './lib/i18n';
 import type { Lang } from './lib/i18n';
 import { categoryColor, getTool, localizedName } from './lib/catalog';
-import { categoryLabel, presentCategories } from './lib/categories';
-import { buildPath, parsePath } from './lib/router';
+import { categoryLabel } from './lib/categories';
+import { buildPath, parsePath, type AppView } from './lib/router';
 import { buildHead, SITE_ORIGIN } from './lib/seo';
 import { applyHead } from './lib/head';
 import { prefetchTool, registerAppTools, TOOL_VIEWS } from './tools';
@@ -14,9 +14,10 @@ import { ToolPage } from './components/ToolPage';
 import { Footer } from './components/Footer';
 import { Clouds } from './components/Clouds';
 import { ToolNav } from './components/ToolNav';
-import { ToolIcon, CategoryIcon } from './components/ToolIcon';
+import { ToolIcon } from './components/ToolIcon';
+import { ToolCatalog } from './components/ToolCatalog';
 import { Logo } from './components/Logo';
-import { Select, TextField } from './components/ui';
+import { Select } from './components/ui';
 import type { SelectOption } from './components/ui';
 
 /** Build the registry once and register the available tools. */
@@ -43,7 +44,10 @@ export function App(): React.JSX.Element {
   const [category, setCategory] = useState<string>('all');
   const [dark, setDark] = useState(false);
   const [lang, setLang] = useState<Lang>(initial.locale);
-  const [selected, setSelected] = useState<string | null>(initial.toolId);
+  const [view, setView] = useState<AppView>(initial.view);
+  const [selected, setSelected] = useState<string | null>(
+    initial.view === 'tool' ? initial.toolId : null,
+  );
   const catalogRef = useRef<HTMLDivElement>(null);
 
   const t = useT(lang);
@@ -52,35 +56,38 @@ export function App(): React.JSX.Element {
   const navTools = useMemo(() => filterTools(registry, { market, query: '' }), [registry, market]);
 
   /** Update both the URL (history) and the in-memory route. */
-  const go = (nextLocale: Lang, nextTool: string | null, push = true): void => {
+  const go = (
+    nextLocale: Lang,
+    nextView: AppView,
+    nextTool: string | null = null,
+    push = true,
+  ): void => {
     setLang(nextLocale);
-    setSelected(nextTool);
+    setView(nextView);
+    setSelected(nextView === 'tool' ? nextTool : null);
     if (push && typeof window !== 'undefined') {
-      const path = buildPath(nextLocale, nextTool);
+      const path = buildPath(nextLocale, nextView, nextTool);
       if (path !== window.location.pathname) window.history.pushState({}, '', path);
     }
   };
 
-  const back = (): void => go(lang, null);
-  const openTool = (id: string): void => go(lang, id);
-  const changeLang = (next: Lang): void => go(next, selected);
+  const goHome = (): void => go(lang, 'home');
+  const goTools = (): void => go(lang, 'tools');
+  const back = (): void => go(lang, 'tools');
+  const openTool = (id: string): void => go(lang, 'tool', id);
+  const changeLang = (next: Lang): void => go(next, view, selected);
   const openCategory = (cat: string): void => {
     setCategory(cat);
-    go(lang, null);
+    go(lang, 'tools');
     requestAnimationFrame(() => catalogRef.current?.scrollIntoView({ behavior: 'smooth' }));
   };
 
   const SelectedView = selected ? TOOL_VIEWS[selected] : undefined;
 
-  const scrollToCatalog = (): void => {
-    if (selected) back();
-    requestAnimationFrame(() => catalogRef.current?.scrollIntoView({ behavior: 'smooth' }));
-  };
-
   // Keep the document head + <html lang> in sync with the active route.
   useEffect(() => {
-    applyHead(buildHead(originOf(), lang, selected));
-  }, [lang, selected]);
+    applyHead(buildHead(originOf(), lang, view, selected));
+  }, [lang, view, selected]);
 
   // Entering (or switching) a tool scrolls back to the top.
   useEffect(() => {
@@ -91,7 +98,7 @@ export function App(): React.JSX.Element {
   useEffect(() => {
     const onPop = (): void => {
       const r = parsePath(window.location.pathname);
-      go(r.locale, r.toolId, false);
+      go(r.locale, r.view, r.toolId, false);
     };
     window.addEventListener('popstate', onPop);
     return () => window.removeEventListener('popstate', onPop);
@@ -119,52 +126,30 @@ export function App(): React.JSX.Element {
     </button>
   );
 
-  // Categories present in the current (market-filtered) tool set, in display order.
-  const sectionCategories = useMemo(() => presentCategories(tools.map((t) => t.category)), [tools]);
-  const visibleCategories =
-    category === 'all' ? sectionCategories : sectionCategories.filter((c) => c === category);
-
-  const renderGridCard = (tool: (typeof tools)[number], i: number): React.JSX.Element => (
-    <li key={tool.id}>
-      <button
-        type="button"
-        className="app__item"
-        style={{ '--stagger': Math.min(i, 12) } as React.CSSProperties}
-        onClick={() => openTool(tool.id)}
-        onMouseEnter={() => prefetchTool(tool.id)}
-        onFocus={() => prefetchTool(tool.id)}
-      >
-        <span className="app__item-top">
-          <span className="tool-ico" style={{ color: categoryColor(tool.category) }}>
-            <ToolIcon id={tool.id} size={20} />
-          </span>
-          {tool.offline ? <span className="app__badge">{t('offline')}</span> : null}
-        </span>
-        <span className="app__item-name">{localizedName(tool.id, lang)}</span>
-      </button>
-    </li>
-  );
-
   const langOptions: SelectOption[] = LANGS.map((l) => ({ value: l, label: LANG_LABELS[l] }));
-  const marketOptions: SelectOption[] = SELECTABLE_MARKETS.map((m) => ({
-    value: m,
-    label: marketLabel(m, lang),
-  }));
 
   return (
     <div className={dark ? 'app app--dark' : 'app'}>
       <nav className="app__nav">
-        <button type="button" className="app__brand" onClick={back}>
+        <button type="button" className="app__brand" onClick={goHome}>
           <span className="app__brand-mark">
             <Logo />
           </span>
           {t('brand')}
         </button>
         <div className="app__nav-links">
-          <button type="button" className="app__nav-link" onClick={back}>
+          <button
+            type="button"
+            className={`app__nav-link${view === 'home' ? ' is-active' : ''}`}
+            onClick={goHome}
+          >
             {t('navHome')}
           </button>
-          <button type="button" className="app__nav-link" onClick={scrollToCatalog}>
+          <button
+            type="button"
+            className={`app__nav-link${view === 'tools' || view === 'tool' ? ' is-active' : ''}`}
+            onClick={goTools}
+          >
             {t('navTools')}
           </button>
         </div>
@@ -184,7 +169,7 @@ export function App(): React.JSX.Element {
           >
             {dark ? '☀' : '☾'} {t('darkMode')}
           </button>
-          <button type="button" className="app__cta" onClick={scrollToCatalog}>
+          <button type="button" className="app__cta" onClick={goTools}>
             {t('getStarted')}
             <span className="app__cta-dot">↗</span>
           </button>
@@ -192,7 +177,7 @@ export function App(): React.JSX.Element {
       </nav>
 
       {selected ? (
-        <div key={`${lang}:${selected}`} className="workspace workspace--route">
+        <div className="workspace workspace--route">
           <ToolNav
             tools={navTools}
             currentId={selected}
@@ -200,10 +185,16 @@ export function App(): React.JSX.Element {
             label={t('navTools')}
             onOpen={openTool}
           />
-          <main className="workspace__main">
+          <main key={`${lang}:${selected}`} className="workspace__main">
             <nav className="crumbs" aria-label="Breadcrumb">
-              <button type="button" className="crumbs__link" onClick={back}>
+              <button type="button" className="crumbs__link" onClick={goHome}>
                 {t('navHome')}
+              </button>
+              <span className="crumbs__sep" aria-hidden="true">
+                /
+              </span>
+              <button type="button" className="crumbs__link" onClick={goTools}>
+                {t('navTools')}
               </button>
               {getTool(selected)?.category ? (
                 <>
@@ -246,6 +237,22 @@ export function App(): React.JSX.Element {
             </Suspense>
           </main>
         </div>
+      ) : view === 'tools' ? (
+        <>
+          <ToolCatalog
+            tools={tools}
+            lang={lang}
+            market={market}
+            query={query}
+            category={category}
+            onMarket={setMarket}
+            onQuery={setQuery}
+            onCategory={setCategory}
+            onOpenTool={openTool}
+            catalogRef={catalogRef}
+            standalone
+          />
+        </>
       ) : (
         <>
           <Clouds />
@@ -258,10 +265,10 @@ export function App(): React.JSX.Element {
             </h1>
             <p className="hero__subtitle">{t('heroSubtitle')}</p>
             <div className="hero__actions">
-              <button type="button" className="hero__ghost" onClick={scrollToCatalog}>
+              <button type="button" className="hero__ghost" onClick={goTools}>
                 {t('viewTools')}
               </button>
-              <button type="button" className="hero__primary" onClick={scrollToCatalog}>
+              <button type="button" className="hero__primary" onClick={goTools}>
                 {t('getStarted')}
                 <span className="hero__primary-dot">↗</span>
               </button>
@@ -270,101 +277,29 @@ export function App(): React.JSX.Element {
           </section>
 
           {featured.length > 0 ? (
-            <div className="hero__deck">
-              {deckRows.map((row, r) =>
-                row.length > 0 ? (
-                  <div
-                    key={r}
-                    className={`hero__deck-row${r === 1 ? ' hero__deck-row--bottom' : ''}`}
-                  >
-                    {row.map((tool, i) => renderDeckCard(tool, r * 5 + i))}
-                  </div>
-                ) : null,
-              )}
-            </div>
-          ) : null}
-
-          <section className="catalog" ref={catalogRef}>
-            <div className="catalog__head">
-              <div>
-                <span className="catalog__kicker">{t('catalogKicker')}</span>
-                <h2 className="catalog__title">{t('catalogTitle')}</h2>
-                <p className="catalog__subtitle">{t('catalogSubtitle')}</p>
-              </div>
-              <div className="catalog__controls">
-                <Select
-                  variant="field"
-                  value={market}
-                  options={marketOptions}
-                  onChange={(v) => setMarket(v as Market)}
-                  ariaLabel={t('marketLabel')}
-                />
-                <TextField
-                  className="app__search"
-                  type="search"
-                  value={query}
-                  placeholder={t('searchPlaceholder')}
-                  onChange={(e) => setQuery(e.target.value)}
-                  aria-label={t('searchPlaceholder')}
-                />
-                <span className="app__count">{formatToolCount(tools.length)}</span>
-              </div>
-            </div>
-
-            {sectionCategories.length > 0 ? (
-              <div className="catfilter" role="tablist" aria-label={t('navTools')}>
-                <button
-                  type="button"
-                  role="tab"
-                  aria-selected={category === 'all'}
-                  className={`catchip${category === 'all' ? ' is-active' : ''}`}
-                  onClick={() => setCategory('all')}
-                >
-                  {t('allCategories')}
-                  <span className="catchip__count">{tools.length}</span>
-                </button>
-                {sectionCategories.map((cat) => {
-                  const n = tools.filter((tl) => tl.category === cat).length;
-                  return (
-                    <button
-                      key={cat}
-                      type="button"
-                      role="tab"
-                      aria-selected={category === cat}
-                      className={`catchip${category === cat ? ' is-active' : ''}`}
-                      onClick={() => setCategory(cat)}
+            <>
+              <div className="hero__deck">
+                {deckRows.map((row, r) =>
+                  row.length > 0 ? (
+                    <div
+                      key={r}
+                      className={`hero__deck-row${r === 1 ? ' hero__deck-row--bottom' : ''}`}
                     >
-                      <span className="catchip__ico" style={{ color: categoryColor(cat) }}>
-                        <CategoryIcon category={cat} size={15} />
-                      </span>
-                      {categoryLabel(cat, lang)}
-                      <span className="catchip__count">{n}</span>
-                    </button>
-                  );
-                })}
-              </div>
-            ) : null}
-
-            {tools.length === 0 ? (
-              <p className="app__empty">{t('noResults')}</p>
-            ) : (
-              visibleCategories.map((cat) => {
-                const items = tools.filter((tl) => tl.category === cat);
-                return (
-                  <section key={cat} className="catgroup">
-                    <div className="catgroup__head">
-                      <span className="catgroup__ico" style={{ color: categoryColor(cat) }}>
-                        <CategoryIcon category={cat} size={18} />
-                      </span>
-                      <h3 className="catgroup__title">{categoryLabel(cat, lang)}</h3>
-                      <span className="catgroup__count">{items.length}</span>
+                      {row.map((tool, i) => renderDeckCard(tool, r * 5 + i))}
                     </div>
-                    <ul className="app__list">{items.map((tl, i) => renderGridCard(tl, i))}</ul>
-                  </section>
-                );
-              })
-            )}
-          </section>
+                  ) : null,
+                )}
+              </div>
+              <div className="hero__more">
+                <button type="button" className="hero__viewall" onClick={goTools}>
+                  {t('viewAll')}
+                  <span className="hero__primary-dot" aria-hidden="true">
+                    ↗
+                  </span>
+                </button>
+              </div>
+            </>
+          ) : null}
         </>
       )}
 
