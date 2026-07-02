@@ -32,6 +32,26 @@ const TOOL_ICONS: Record<string, string> = {
     '<path d="M8.5 4C6.6 4 6.5 6 6.5 8s0 4-2 4c2 0 2 2 2 4s.1 4 2 4"/><path d="M13 4h7v16h-7M13 9.3h7M13 14.6h7M16.5 4v16"/>',
   'csv-clean':
     '<path d="M8.5 4C6.6 4 6.5 6 6.5 8s0 4-2 4c2 0 2 2 2 4s.1 4 2 4"/><path d="M13 4h7v16h-7M13 9.3h7M13 14.6h7"/><path d="M15 17l2-2 2 2"/>',
+  slugify:
+    '<path d="M4 12h16M7 8l-3 4 3 4M17 8l3 4-3 4"/><path d="M10 12h4"/>',
+  'lorem-ipsum':
+    '<path d="M4 7h16M4 11h12M4 15h16M4 19h10"/><path d="M18 17l2 2-2 2"/>',
+  'line-dedupe':
+    '<path d="M4 8h16M4 12h16M4 16h12"/><path d="M18 14l2 2-2 2"/>',
+  'sort-lines':
+    '<path d="M4 6h12M4 10h16M4 14h10"/><path d="M18 8v8M15 11l3-3 3 3"/>',
+  'text-normalize':
+    '<path d="M4 8h16M4 12h16M4 16h16"/><path d="M6 6l12 12"/>',
+  'reverse-text':
+    '<path d="M7 8l-4 4 4 4M17 8l4 4-4 4"/><path d="M11 12h2"/>',
+  hmac:
+    '<rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 018 0v3"/><path d="M9 14h6"/>',
+  'random-string':
+    '<path d="M4 12h16M6 8v8M10 6v12M14 9v6M18 7v10"/>',
+  'roman-numeral':
+    '<path d="M6 4v16M10 4v16M14 8h6M14 12h5M14 16h6"/>',
+  'data-size':
+    '<ellipse cx="12" cy="8" rx="7" ry="3"/><path d="M5 8v8c0 1.7 3.1 3 7 3s7-1.3 7-3V8"/>',
   'json-yaml':
     '<path d="M9 4C7 4 7 6 7 8s0 4-2 4c2 0 2 2 2 4s0 4 2 4M15 4c2 0 2 2 2 4s0 4 2 4c-2 0-2 2-2 4s0 4-2 4"/>',
   hash: '<path d="M9 4L7 20M17 4l-2 16M5 9.5h14M4 14.5h14"/>',
