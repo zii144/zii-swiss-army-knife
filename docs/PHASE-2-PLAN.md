@@ -168,3 +168,34 @@ almost no risk) and pushes the dependency/licence questions to later batches.
 Start **Batch 1** — it's seven tools wired to already-tested engine functions with no new
 dependencies, and it doubles the "files/PDF/finance" surface the day it merges. Each tool is one
 `catalog` entry + one loader + one `*.tsx` + one icon, verified by the existing green gate.
+
+---
+
+## 7. Status (updated 2026-07-02)
+
+**Merged to `main` via PR #1.** Phase 2 hero target exceeded.
+
+| Milestone | Target | Actual |
+|-----------|--------|--------|
+| Universal hero tools | ~50 | **~75 global** + **~19 market-pack** ≈ **94 registered** |
+| Batches 1–5 | ~27 new tools | ✅ Shipped (Batches 1–8 in app) |
+| Batch 6 infra tools | deferred | ✅ Mostly wired: live FX, OCR, bg-remove, video/audio, doc convert UIs |
+| Backend deploy | Phase 0 | ✅ `pnpm --filter @zii/backend start` + `docker compose` (Gotenberg) |
+| COOP/COEP for ffmpeg | host headers | ✅ `vercel.json` |
+
+### Still open (Phase 2 tail / Phase 3)
+
+| Item | Notes |
+|------|-------|
+| PDF password protect | pdf-lib has no encryption API — needs another library or server worker |
+| PDF → Word quality | Gotenberg primarily guarantees office → PDF; reverse export is best-effort |
+| Archive formats (RAR/7z) | Not started |
+| PDF sign / redact / forms | Correctness-sensitive; do not fake with pdf-lib |
+| ~200 universal catalog | ~47% breadth vs long-term SEO target |
+| E2E browser tests | Not started |
+
+### Deploy checklist
+
+1. Vercel: set `ZII_ORIGIN` + optional `VITE_BACKEND_URL`
+2. Backend: `packages/backend/docker-compose.yml` or your own Gotenberg sidecar
+3. Smoke: docx→pdf, batch QR, hash file upload, video convert (needs COOP/COEP — now in `vercel.json`)

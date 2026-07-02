@@ -28,10 +28,31 @@ prerendered file (client-side navigation). Hashed assets under `/assets/**` are 
 | Variable | Purpose | Default |
 | --- | --- | --- |
 | `ZII_ORIGIN` | Absolute origin used for canonical URLs, `hreflang` alternates, Open Graph URLs, sitemap entries, and JSON-LD. **Set this to the production domain** (e.g. `https://zii.tools`) in Vercel → Project → Settings → Environment Variables, for all environments. | `https://zii.tools` (from `SITE_ORIGIN` in `src/lib/seo.ts`) |
+| `VITE_BACKEND_URL` | Optional `@zii/backend` base URL for document conversion and live FX (e.g. `https://api.zii.tools`). Build-time only — set in Vercel for Production if you deploy the backend. | unset (tools show a setup hint; Frankfurter fallback for FX) |
 
 If `ZII_ORIGIN` is unset the build falls back to the compiled-in `SITE_ORIGIN`, so a
 preview deploy still produces valid absolute URLs — they will just point at the
 production origin. Set `ZII_ORIGIN` per-environment if preview URLs must be self-canonical.
+
+### Cross-origin isolation (video / audio WASM)
+
+`vercel.json` sets `Cross-Origin-Opener-Policy: same-origin` and
+`Cross-Origin-Embedder-Policy: require-corp` so ffmpeg.wasm can use
+`SharedArrayBuffer` in production. Third-party embeds that are not CORP-compatible
+will not load inside the app shell.
+
+## Optional backend (`@zii/backend`)
+
+Document conversion (Word/PPT → PDF, PDF → Word) and proxied live FX need a deployed
+backend worker. See [`packages/backend/DEPLOY.md`](./packages/backend/DEPLOY.md).
+
+Quick local stack:
+
+```bash
+cd packages/backend && docker compose up
+# → Gotenberg :3000, @zii/backend :8787
+pnpm --filter @zii/app dev   # VITE_BACKEND_URL=http://localhost:8787
+```
 
 ## What the build runs
 
