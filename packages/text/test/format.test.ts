@@ -3,6 +3,8 @@ import {
   jsonToCsv,
   csvToJson,
   prettyJson,
+  minifyJson,
+  cleanCsv,
   base64Encode,
   base64Decode,
   urlEncode,
@@ -92,6 +94,24 @@ describe('urlEncode / urlDecode', () => {
 
   it('round-trips', () => {
     expect(urlDecode(urlEncode('héllo world?x=1'))).toBe('héllo world?x=1');
+  });
+});
+
+describe('minifyJson', () => {
+  it('stringifies without whitespace', () => {
+    expect(minifyJson({ a: 1, b: [2, 3] })).toBe('{"a":1,"b":[2,3]}');
+  });
+});
+
+describe('cleanCsv', () => {
+  it('trims fields and drops empty rows', () => {
+    const raw = 'name,age\n Ann ,30\n , \nBo,25';
+    expect(cleanCsv(raw)).toBe('name,age\nAnn,30\nBo,25');
+  });
+
+  it('dedupes full rows', () => {
+    const raw = 'id,name\n1,Ann\n1,Ann\n2,Bo';
+    expect(cleanCsv(raw)).toBe('id,name\n1,Ann\n2,Bo');
   });
 });
 

@@ -22,6 +22,8 @@ export {
   jsonToCsv,
   csvToJson,
   prettyJson,
+  minifyJson,
+  cleanCsv,
   base64Encode,
   base64Decode,
   urlEncode,
@@ -29,6 +31,7 @@ export {
   htmlEscape,
   htmlUnescape,
 } from './format';
+export type { CleanCsvOptions } from './format';
 
 export { lineDiff } from './diff';
 export type { DiffLine, DiffType } from './diff';
