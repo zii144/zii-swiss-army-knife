@@ -52,6 +52,26 @@ const TOOL_ICONS: Record<string, string> = {
     '<path d="M6 4v16M10 4v16M14 8h6M14 12h5M14 16h6"/>',
   'data-size':
     '<ellipse cx="12" cy="8" rx="7" ry="3"/><path d="M5 8v8c0 1.7 3.1 3 7 3s7-1.3 7-3V8"/>',
+  'find-replace':
+    '<path d="M4 8h10M4 12h14M4 16h8"/><circle cx="18" cy="8" r="3"/><path d="M20.5 6.5l2 2"/>',
+  'extract-urls':
+    '<path d="M10 14a3.5 3.5 0 005 0l2.5-2.5a3.5 3.5 0 00-5-5L11 8"/><path d="M14 10a3.5 3.5 0 00-5 0L6.5 12.5a3.5 3.5 0 005 5L13 16"/>',
+  rot13:
+    '<path d="M4 12h16M7 8l-3 4 3 4M17 8l3 4-3 4"/>',
+  'shuffle-lines':
+    '<path d="M4 7h16M4 12h16M4 17h16"/><path d="M18 5l2 2-2 2M18 15l2 2-2 2"/>',
+  'word-frequency':
+    '<path d="M4 18V6M8 18V10M12 18V4M16 18v-6M20 18V8"/>',
+  'area-convert':
+    '<rect x="4" y="8" width="16" height="10" rx="1"/><path d="M8 8V5h8v3"/>',
+  'speed-convert':
+    '<path d="M4 14h16M6 10l4-4 4 4 4-4"/><circle cx="18" cy="16" r="2"/>',
+  'json-escape':
+    '<path d="M6 4l-3 8 3 8M18 4l3 8-3 8"/><path d="M9 12h6"/>',
+  nanoid:
+    '<path d="M4 12h16M6 8v8M10 6v12M14 9v6M18 7v10"/>',
+  totp:
+    '<rect x="5" y="4" width="14" height="16" rx="2"/><path d="M9 8h6M12 11v5M9 14h6"/>',
   'json-yaml':
     '<path d="M9 4C7 4 7 6 7 8s0 4-2 4c2 0 2 2 2 4s0 4 2 4M15 4c2 0 2 2 2 4s0 4 2 4c-2 0-2 2-2 4s0 4-2 4"/>',
   hash: '<path d="M9 4L7 20M17 4l-2 16M5 9.5h14M4 14.5h14"/>',

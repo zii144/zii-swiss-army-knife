@@ -50,3 +50,31 @@ export function reverseText(s: string, byLine = false): string {
   if (byLine) return [...splitLines(s)].reverse().join('\n');
   return [...s].reverse().join('');
 }
+
+/** Find and replace text, optionally with a RegExp (`pattern` is the source string). */
+export function findReplace(
+  text: string,
+  pattern: string,
+  replacement: string,
+  useRegex: boolean,
+  flags = 'g',
+): string {
+  if (!pattern) return text;
+  if (!useRegex) return text.split(pattern).join(replacement);
+  const re = new RegExp(pattern, flags.includes('g') ? flags : `${flags}g`);
+  return text.replace(re, replacement);
+}
+
+/** Shuffle lines into random order (browser/node crypto RNG). */
+export function shuffleLines(s: string): string {
+  const lines = splitLines(s);
+  for (let i = lines.length - 1; i > 0; i -= 1) {
+    const buf = new Uint32Array(1);
+    crypto.getRandomValues(buf);
+    const j = buf[0]! % (i + 1);
+    const tmp = lines[i];
+    lines[i] = lines[j]!;
+    lines[j] = tmp!;
+  }
+  return lines.join('\n');
+}
