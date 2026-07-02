@@ -95,3 +95,48 @@ export function numberLines(s: string, start = 1, sep = ': '): string {
     .map((line, i) => `${start + i}${sep}${line}`)
     .join('\n');
 }
+
+/** Join lines with a delimiter string. */
+export function joinLines(s: string, sep: string): string {
+  return splitLines(s).join(sep);
+}
+
+/** Split text by a delimiter into separate lines. */
+export function splitToLines(text: string, delimiter: string): string {
+  if (!delimiter) throw new RangeError('delimiter must not be empty');
+  return text.split(delimiter).join('\n');
+}
+
+/** Keep or invert-match lines against a regular expression. */
+export function grepLines(text: string, pattern: string, flags = 'i', invert = false): string {
+  if (!pattern) return text;
+  const re = new RegExp(pattern, flags.includes('g') ? flags : `${flags}g`);
+  return splitLines(text)
+    .filter((line) => {
+      re.lastIndex = 0;
+      const match = re.test(line);
+      return invert ? !match : match;
+    })
+    .join('\n');
+}
+
+/** Add positive indent spaces, or remove up to N leading spaces/tabs when negative. */
+export function indentLines(s: string, spaces: number): string {
+  if (spaces === 0) return s;
+  if (spaces > 0) {
+    const pad = ' '.repeat(spaces);
+    return splitLines(s).map((l) => pad + l).join('\n');
+  }
+  const n = Math.abs(spaces);
+  return splitLines(s)
+    .map((l) => {
+      let removed = 0;
+      let out = l;
+      while (removed < n && /^[ \t]/.test(out)) {
+        out = out.slice(1);
+        removed += 1;
+      }
+      return out;
+    })
+    .join('\n');
+}

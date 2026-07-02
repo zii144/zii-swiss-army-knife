@@ -20,6 +20,8 @@ export { daysBetween, addDays, ageInYears } from './dates';
 export { unixToIso, isoToUnix, nowUnix, parseUnixTimestamp } from './timestamp';
 export type { UnixUnit } from './timestamp';
 
+export { formatDuration, parseDuration } from './duration';
+
 export { convert } from './units';
 export type {
   Unit,
@@ -31,6 +33,7 @@ export type {
   SpeedUnit,
   DataUnit,
   PressureUnit,
+  EnergyUnit,
 } from './units';
 
 export { convertCooking, DENSITY_G_PER_ML, US_CUP_ML } from './cooking';

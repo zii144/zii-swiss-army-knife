@@ -15,6 +15,7 @@ export type AreaUnit = 'm2' | 'ft2' | 'acre' | 'ha';
 export type SpeedUnit = 'kmh' | 'mph' | 'ms';
 export type DataUnit = 'B' | 'KB' | 'MB' | 'GB' | 'KiB' | 'MiB' | 'GiB';
 export type PressureUnit = 'Pa' | 'kPa' | 'bar' | 'psi' | 'atm' | 'mmHg';
+export type EnergyUnit = 'J' | 'kJ' | 'cal' | 'kcal' | 'Wh' | 'kWh' | 'BTU';
 
 export type Unit =
   | LengthUnit
@@ -24,7 +25,8 @@ export type Unit =
   | AreaUnit
   | SpeedUnit
   | DataUnit
-  | PressureUnit;
+  | PressureUnit
+  | EnergyUnit;
 
 // --- Linear factor tables (value-in-base-unit per 1 of the listed unit) ---
 
@@ -94,6 +96,17 @@ const PRESSURE: Record<PressureUnit, number> = {
   mmHg: 133.322387415,
 };
 
+// Base: joule.
+const ENERGY: Record<EnergyUnit, number> = {
+  J: 1,
+  kJ: 1000,
+  cal: 4.184,
+  kcal: 4184,
+  Wh: 3600,
+  kWh: 3_600_000,
+  BTU: 1055.05585262,
+};
+
 type LinearTable = Record<string, number>;
 
 const LINEAR_DIMENSIONS: Record<string, LinearTable> = {
@@ -104,6 +117,7 @@ const LINEAR_DIMENSIONS: Record<string, LinearTable> = {
   speed: SPEED,
   data: DATA,
   pressure: PRESSURE,
+  energy: ENERGY,
 };
 
 const TEMPERATURE_UNITS: readonly TemperatureUnit[] = ['C', 'F', 'K'];
