@@ -1,7 +1,7 @@
 import { DICTIONARY, HREFLANG, LANGS, type Lang } from './i18n';
 import { CATALOG, getTool, localizedBlurb, localizedName } from './catalog';
 import { categoryLabel } from './categories';
-import { buildPath } from './router';
+import { buildPath, type AppView } from './router';
 
 /** Public origin used for canonical/alternate URLs in prerendered output. */
 export const SITE_ORIGIN = 'https://zii.tools';
@@ -29,20 +29,29 @@ function homeTitle(lang: Lang): string {
 }
 
 /** hreflang alternates for a route across every locale, plus x-default (en). */
-export function alternatesFor(origin: string, toolId: string | null): AltLink[] {
+export function alternatesFor(
+  origin: string,
+  view: AppView,
+  toolId: string | null,
+): AltLink[] {
   const links: AltLink[] = LANGS.map((l) => ({
     hreflang: HREFLANG[l],
-    href: origin + buildPath(l, toolId),
+    href: origin + buildPath(l, view, toolId),
   }));
-  links.push({ hreflang: 'x-default', href: origin + buildPath('en', toolId) });
+  links.push({ hreflang: 'x-default', href: origin + buildPath('en', view, toolId) });
   return links;
 }
 
 /** Build all head metadata + structured data for a given route + locale. */
-export function buildHead(origin: string, lang: Lang, toolId: string | null): HeadMeta {
+export function buildHead(
+  origin: string,
+  lang: Lang,
+  view: AppView,
+  toolId: string | null,
+): HeadMeta {
   const d = DICTIONARY[lang];
-  const canonical = origin + buildPath(lang, toolId);
-  const alternates = alternatesFor(origin, toolId);
+  const canonical = origin + buildPath(lang, view, toolId);
+  const alternates = alternatesFor(origin, view, toolId);
   const base = {
     lang,
     htmlLang: HREFLANG[lang],
@@ -50,7 +59,7 @@ export function buildHead(origin: string, lang: Lang, toolId: string | null): He
     alternates,
   };
 
-  if (toolId) {
+  if (view === 'tool' && toolId) {
     const name = localizedName(toolId, lang);
     const description = localizedBlurb(toolId, lang) || d.heroSubtitle;
     return {
@@ -79,15 +88,21 @@ export function buildHead(origin: string, lang: Lang, toolId: string | null): He
                 '@type': 'ListItem',
                 position: 1,
                 name: d.navHome,
-                item: origin + buildPath(lang, null),
+                item: origin + buildPath(lang, 'home'),
+              },
+              {
+                '@type': 'ListItem',
+                position: 2,
+                name: d.navTools,
+                item: origin + buildPath(lang, 'tools'),
               },
             ];
             if (cat) {
               items.push({
                 '@type': 'ListItem',
-                position: 2,
+                position: 3,
                 name: categoryLabel(cat, lang),
-                item: `${origin}${buildPath(lang, null)}#tools`,
+                item: origin + buildPath(lang, 'tools'),
               });
             }
             items.push({
@@ -98,6 +113,35 @@ export function buildHead(origin: string, lang: Lang, toolId: string | null): He
             });
             return items;
           })(),
+        },
+      ],
+    };
+  }
+
+  if (view === 'tools') {
+    return {
+      ...base,
+      title: `${d.catalogTitle} — ${SITE_NAME}`,
+      description: d.catalogSubtitle,
+      jsonLd: [
+        {
+          '@context': 'https://schema.org',
+          '@type': 'CollectionPage',
+          name: d.catalogTitle,
+          description: d.catalogSubtitle,
+          url: canonical,
+          isPartOf: { '@type': 'WebApplication', name: SITE_NAME, url: origin + buildPath(lang, 'home') },
+        },
+        {
+          '@context': 'https://schema.org',
+          '@type': 'ItemList',
+          name: d.catalogTitle,
+          itemListElement: CATALOG.map((t, i) => ({
+            '@type': 'ListItem',
+            position: i + 1,
+            name: localizedName(t.id, lang),
+            url: origin + buildPath(lang, 'tool', t.id),
+          })),
         },
       ],
     };
@@ -118,17 +162,6 @@ export function buildHead(origin: string, lang: Lang, toolId: string | null): He
         description: d.heroSubtitle,
         offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
         isAccessibleForFree: true,
-      },
-      {
-        '@context': 'https://schema.org',
-        '@type': 'ItemList',
-        name: d.catalogTitle,
-        itemListElement: CATALOG.map((t, i) => ({
-          '@type': 'ListItem',
-          position: i + 1,
-          name: localizedName(t.id, lang),
-          url: origin + buildPath(lang, t.id),
-        })),
       },
     ],
   };

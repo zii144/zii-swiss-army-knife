@@ -206,6 +206,63 @@ export function prettyJson(obj: unknown, indent = 2): string {
   return JSON.stringify(obj, null, indent);
 }
 
+/** Stringify a value as compact JSON (no extra whitespace). */
+export function minifyJson(obj: unknown): string {
+  return JSON.stringify(obj);
+}
+
+/** Options for {@link cleanCsv}. */
+export interface CleanCsvOptions {
+  /** Trim leading/trailing whitespace on headers and cells. Default true. */
+  trimFields?: boolean;
+  /** Drop rows where every cell is empty. Default true. */
+  dropEmptyRows?: boolean;
+  /** Deduplicate rows: none, full row, or first column only. Default `all`. */
+  dedupe?: 'none' | 'all' | 'first-column';
+}
+
+/**
+ * Normalize CSV: optional trim, drop blank rows, and dedupe. Returns cleaned
+ * CSV text with a stable header row.
+ */
+export function cleanCsv(csv: string, opts: CleanCsvOptions = {}): string {
+  const trimFields = opts.trimFields ?? true;
+  const dropEmptyRows = opts.dropEmptyRows ?? true;
+  const dedupe = opts.dedupe ?? 'all';
+
+  let rows = csvToJson(csv);
+  if (rows.length === 0) return '';
+
+  if (trimFields) {
+    rows = rows.map((row) => {
+      const out: Record<string, string> = {};
+      for (const [k, v] of Object.entries(row)) {
+        out[k.trim()] = v.trim();
+      }
+      return out;
+    });
+  }
+
+  if (dropEmptyRows) {
+    rows = rows.filter((row) => Object.values(row).some((v) => v !== ''));
+  }
+
+  if (dedupe !== 'none') {
+    const seen = new Set<string>();
+    rows = rows.filter((row) => {
+      const key =
+        dedupe === 'first-column'
+          ? (Object.values(row)[0] ?? '')
+          : JSON.stringify(row);
+      if (seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    });
+  }
+
+  return jsonToCsv(rows as Record<string, unknown>[]);
+}
+
 /** URL-encode a string component (encodeURIComponent). */
 export function urlEncode(s: string): string {
   return encodeURIComponent(s);

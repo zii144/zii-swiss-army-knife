@@ -6,6 +6,7 @@
   "description": "UI System & PWA App Shell — registry/command-palette surface for the Zii utility suite (M3).",
   "scripts": {
     "dev": "vite",
+    "preview": "vite preview",
     "build": "vite build && node scripts/check-bundle.mjs && vite build --ssr src/lib/prerender-entry.ts --outDir dist-ssr --emptyOutDir && node scripts/prerender.mjs",
     "build:spa": "vite build",
     "check:bundle": "node scripts/check-bundle.mjs",
@@ -14,20 +15,29 @@
     "lint": "eslint ."
   },
   "dependencies": {
+    "@imgly/background-removal": "^1",
+    "@zii/calc": "workspace:*",
+    "@zii/calendar": "workspace:*",
+    "@zii/compute": "workspace:*",
+    "@zii/compute-wasm": "workspace:*",
+    "@zii/hello-tool": "workspace:*",
+    "@zii/id": "workspace:*",
+    "@zii/locale": "workspace:*",
+    "@zii/payroll": "workspace:*",
+    "@zii/registry": "workspace:*",
+    "@zii/reminders": "workspace:*",
+    "@zii/text": "workspace:*",
+    "bwip-js": "^4",
+    "fast-xml-parser": "^4",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
-    "@zii/registry": "workspace:*",
-    "@zii/hello-tool": "workspace:*",
-    "@zii/locale": "workspace:*",
-    "@zii/calc": "workspace:*",
-    "@zii/text": "workspace:*",
-    "@zii/compute": "workspace:*",
-    "@zii/compute-wasm": "workspace:*"
+    "tesseract.js": "^5",
+    "xlsx": "^0.18"
   },
   "devDependencies": {
-    "vite": "^7.3.6",
-    "@vitejs/plugin-react": "^5.2.0",
     "@types/react": "^19.2.0",
-    "@types/react-dom": "^19.2.0"
+    "@types/react-dom": "^19.2.0",
+    "@vitejs/plugin-react": "^5.2.0",
+    "vite": "^7.3.6"
   }
 }

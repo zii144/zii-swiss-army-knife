@@ -5,12 +5,19 @@ import { Button, FileField, RangeSlider } from '../components/ui';
 import type { ToolViewProps } from './types';
 import { readFileBytes, tr } from './types';
 
+const COMPRESS_PRESETS = [
+  { label: { en: 'Web (85)', 'zh-TW': '網頁 (85)' }, quality: 85 },
+  { label: { en: 'Email (70)', 'zh-TW': 'Email (70)' }, quality: 70 },
+  { label: { en: 'Tiny (40)', 'zh-TW': '極小 (40)' }, quality: 40 },
+] as const;
+
 const L = {
   en: {
     title: 'Compress image',
     desc: 'Shrink JPEG/PNG/WebP images on your device by re-encoding at a chosen quality.',
     pick: 'Choose an image',
     quality: 'Quality',
+    presets: 'Presets',
     compress: 'Compress',
     compressing: 'Compressing…',
     none: 'Choose a PNG, JPEG or WebP image.',
@@ -24,6 +31,7 @@ const L = {
     desc: '在裝置上以指定品質重新編碼，縮小 JPEG／PNG／WebP 影像。',
     pick: '選擇影像',
     quality: '品質',
+    presets: '預設',
     compress: '壓縮',
     compressing: '壓縮中…',
     none: '請選擇 PNG、JPEG 或 WebP 影像。',
@@ -104,6 +112,21 @@ export default function ImageCompressTool({ onBack, lang, backLabel, offlineLabe
           onChange={(e) => setQuality(Number(e.target.value))}
         />
       </label>
+      <div className="tool__field">
+        <span>{t.presets}</span>
+        <div className="tool__checks">
+          {COMPRESS_PRESETS.map((p) => (
+            <button
+              key={p.quality}
+              type="button"
+              className="ui-btn ui-btn--ghost"
+              onClick={() => setQuality(p.quality)}
+            >
+              {p.label[lang === 'zh-TW' ? 'zh-TW' : 'en']}
+            </button>
+          ))}
+        </div>
+      </div>
 
       <div className="tool__actions">
         <Button variant="primary" loading={busy} disabled={!file || busy} onClick={run}>

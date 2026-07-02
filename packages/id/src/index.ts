@@ -13,10 +13,19 @@
 export { luhnValid, luhnCheckDigit, validateAbaRouting, validateIban } from './common';
 
 // Taiwan.
-export { validateTwNationalId, generateTwNationalId, validateTwUbn } from './tw';
+export {
+  validateTwNationalId,
+  generateTwNationalId,
+  validateTwUbn,
+  validateTwArc,
+  generateTwArc,
+} from './tw';
 
 // Hong Kong.
-export { validateHkid, generateHkid } from './hk';
+export { validateHkid, generateHkid, validateHkBr, generateHkBr } from './hk';
+
+// English-region (Canada / Australia).
+export { validateSin, generateSin, validateTfn, generateTfn } from './en';
 
 // Japan.
 export {

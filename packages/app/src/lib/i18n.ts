@@ -25,6 +25,7 @@ export interface Dict {
   heroTitleB: string;
   heroSubtitle: string;
   viewTools: string;
+  viewAll: string;
   rated: string;
   // Catalog
   catalogKicker: string;
@@ -59,6 +60,7 @@ export const DICTIONARY: Readonly<Record<Lang, Dict>> = {
     heroSubtitle:
       'Convert files, crunch numbers, and clean up text — fast, private, and offline. Nothing ever leaves your device.',
     viewTools: 'View tools',
+    viewAll: 'View all',
     rated: 'Private by design · runs fully on-device',
     catalogKicker: 'The toolbox',
     catalogTitle: 'Pick a tool',
@@ -87,6 +89,7 @@ export const DICTIONARY: Readonly<Record<Lang, Dict>> = {
     heroTitleB: '都在瀏覽器裡',
     heroSubtitle: '轉檔、計算、整理文字 — 快速、隱私、可離線。資料完全不離開你的裝置。',
     viewTools: '瀏覽工具',
+    viewAll: '查看全部',
     rated: '隱私優先 · 全程於裝置上運算',
     catalogKicker: '工具箱',
     catalogTitle: '選擇工具',
@@ -115,6 +118,7 @@ export const DICTIONARY: Readonly<Record<Lang, Dict>> = {
     heroTitleB: '都喺瀏覽器裡',
     heroSubtitle: '轉檔、計算、整理文字 — 快速、私隱、可離線。資料完全唔離開你嘅裝置。',
     viewTools: '瀏覽工具',
+    viewAll: '查看全部',
     rated: '私隱優先 · 全程喺裝置上運算',
     catalogKicker: '工具箱',
     catalogTitle: '選擇工具',
@@ -144,6 +148,7 @@ export const DICTIONARY: Readonly<Record<Lang, Dict>> = {
     heroSubtitle:
       'ファイル変換、計算、テキスト整形 — 高速・プライベート・オフライン。データが端末から出ることはありません。',
     viewTools: 'ツールを見る',
+    viewAll: 'すべて見る',
     rated: 'プライバシー重視 · すべて端末上で動作',
     catalogKicker: 'ツールボックス',
     catalogTitle: 'ツールを選ぶ',
@@ -173,6 +178,7 @@ export const DICTIONARY: Readonly<Record<Lang, Dict>> = {
     heroSubtitle:
       '파일 변환, 계산, 텍스트 정리 — 빠르고 안전하며 오프라인. 데이터는 기기를 벗어나지 않습니다.',
     viewTools: '도구 보기',
+    viewAll: '전체 보기',
     rated: '개인정보 우선 · 전부 기기에서 실행',
     catalogKicker: '도구 상자',
     catalogTitle: '도구 선택',
@@ -202,6 +208,7 @@ export const DICTIONARY: Readonly<Record<Lang, Dict>> = {
     heroSubtitle:
       'Convierte archivos, haz cálculos y limpia texto — rápido, privado y sin conexión. Nada sale de tu dispositivo.',
     viewTools: 'Ver herramientas',
+    viewAll: 'Ver todas',
     rated: 'Privado por diseño · funciona 100 % en tu dispositivo',
     catalogKicker: 'La caja de herramientas',
     catalogTitle: 'Elige una herramienta',
@@ -231,6 +238,7 @@ export const DICTIONARY: Readonly<Record<Lang, Dict>> = {
     heroSubtitle:
       'Convertissez des fichiers, calculez et nettoyez du texte — rapide, privé et hors ligne. Rien ne quitte votre appareil.',
     viewTools: 'Voir les outils',
+    viewAll: 'Tout voir',
     rated: 'Confidentiel par conception · 100 % sur votre appareil',
     catalogKicker: 'La boîte à outils',
     catalogTitle: 'Choisissez un outil',
@@ -260,6 +268,7 @@ export const DICTIONARY: Readonly<Record<Lang, Dict>> = {
     heroSubtitle:
       'Dateien umwandeln, rechnen und Text aufräumen — schnell, privat und offline. Nichts verlässt dein Gerät.',
     viewTools: 'Werkzeuge ansehen',
+    viewAll: 'Alle ansehen',
     rated: 'Privat by Design · läuft komplett auf deinem Gerät',
     catalogKicker: 'Der Werkzeugkasten',
     catalogTitle: 'Wähle ein Werkzeug',

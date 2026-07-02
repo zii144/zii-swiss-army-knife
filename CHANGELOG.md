@@ -4,6 +4,46 @@ All notable changes to this project. Format loosely follows Keep a Changelog.
 
 ## [Unreleased]
 
+### Added — App: market packs batch 3 — UK market + 6 tools (2026-07-01)
+- Opened a new selectable **UK (`en-gb`)** market (fully-localized label) and added six more pure/offline `IdTool` validators with 8-language strings: **US Employer ID Number (EIN)** and **US phone number (NANP)** (`en-us`); **UK postcode**, **UK National Insurance number**, and **UK bank sort code** (`en-gb`); and **Taiwan postal code** (`tw`). Logic extends `src/lib/regionkit.ts` (now 16 tests; generators still round-trip through their validators). App now ships **76 tool screens**; prerender emits **616 pages**; bundle budget held (**88.0 KB gz** initial). Scoping test now also covers `en-gb`.
+
+### Added — App: market packs batch 2 — 6 region tools (2026-07-01)
+- Six more region-scoped validators, all pure/offline and using the shared `IdTool` (validate + generate) with fully-localized 8-language strings: **US Social Security Number**, **US ZIP code**, **US bank routing number (ABA)** (`en-us` — previously had no tools), **Japan postal code** (`jp`), **Hong Kong phone number** (`hk`), and **Taiwan mobile number** (`tw`). Logic lives in a new tested `src/lib/regionkit.ts` (10 tests; generators round-trip through their validators). App now ships **70 tool screens**; prerender emits **568 pages**; bundle budget held (**87.0 KB gz** initial). The market-scoping test now also covers `en-us`.
+
+### Added — App: full 8-language tool names (2026-07-01)
+- Every tool's display name is now translated into all eight UI languages (en, zh-TW, zh-HK, ja, ko, es, fr, de). Previously ~48 tools had only English + Traditional Chinese, so the sidebar, grid, breadcrumb and page `<title>` fell back to English in Japanese/Korean/European locales. Language-neutral format names (JSON ↔ CSV, JSON ↔ YAML, XML ↔ JSON, CSV ↔ Excel, HEIC → JPG) are intentionally left untranslated since they render identically everywhere. Verified across the 520 prerendered pages (e.g. Japanese now shows 関数電卓, パスワード生成, PDF を回転).
+
+### Fixed — App: in-tool sidebar no longer remounts on tool switch (2026-07-01)
+- The route-remount `key` was on the workspace wrapper that contains **both** the sidebar (`ToolNav`) and the tool panel, so switching tools tore down and rebuilt the whole subtree — the sidebar flickered/re-animated and lost its scroll position. Moved the `key` onto `<main>` only: the sidebar now stays mounted and calm (keeps scroll position, just updates its active row) while the tool content still remounts and re-animates.
+- Made `ToolNav` app-level consistent: category headers now use localized `categoryLabel(...)` (matching the home sections) instead of raw category ids, and items gained the standard `:focus-visible` lime ring used by the other UI components.
+- Replaced the sidebar's native Chromium/WebKit scrollbar with a themed thin, rounded, semi-transparent thumb on a transparent track (plus Firefox `scrollbar-width`/`scrollbar-color`), via new `--scrollbar-thumb` / `--scrollbar-thumb-hover` tokens for light and dark.
+
+### Added — P0 launch readiness + P3 market packs (2026-07-01)
+- **P3 — market locale packs scaffolded (all four markets):** the catalogue now supports a per-tool `markets` field, wired through `metaFor` into the registry's market filter (a tool shows when its region is selected, or always if `global`). Five region-specific validators ship on the `@zii/id` engine: **Taiwan National ID** and **Taiwan business number (統一編號)** (`tw`), **Hong Kong ID / HKID** (`hk`), **Japan My Number** and **Japan Corporate / Invoice №** (`jp`) — all on-device, most with a "generate sample" helper via the new shared `IdTool` component. App now ships **64 tool screens**; prerender emits **520 pages**; bundle budget held (**83.1 KB gz** initial). New tests assert market packs are scoped to their region and don't leak across markets.
+- **P0 — deploy readiness (Vercel):** added root [`vercel.json`](./vercel.json) (pnpm install, `pnpm --filter @zii/app build`, output `packages/app/dist`, `cleanUrls`, SPA-fallback rewrite, immutable caching for hashed `/assets/**`, revalidating `sw.js`) and [`DEPLOY.md`](./DEPLOY.md) documenting the Vercel setup, the `ZII_ORIGIN` env var for canonical URLs, the build pipeline, and Netlify/Cloudflare equivalents. Added a `preview` script to `@zii/app`.
+
+### Added — App: Phase 2 Batch 8 — dependency-backed tools (2026-07-01)
+- The previously-deferred tools, now that their libraries are installed: **XML ↔ JSON** (`fast-xml-parser`), **CSV ↔ Excel** (`xlsx`/SheetJS), **Barcode generator** (`bwip-js`, SVG output), **Image → text OCR** (`tesseract.js`), and **Remove background** (`@imgly/background-removal`). App now ships **59 tool screens**.
+- OCR and background-remove are flagged `offline: false` ("model downloads on first use"); every heavy library stays in its own lazy chunk so the **initial bundle budget still holds (82 KB gz)**. Prerender emits 480 pages. This completes the Phase 2 universal catalogue.
+
+### Added — App: Phase 2 Batch 7 — CJK / calendar tools (2026-07-01)
+- Five more tools off the built `@zii/text` and `@zii/calendar` engines (no new deps): **Chinese converter** (Simplified↔Traditional, Taiwan idioms via OpenCC), **HTML entities** (escape/unescape), **Lunar calendar** (Gregorian→農曆, leap-aware, 干支/生肖), **Rokuyō 六曜**, and **Solar terms 二十四節氣** (24 terms + dates for a year). App now ships **54 tool screens**; budget held (~82 KB gz); prerender 440 pages.
+
+### Added — App: Phase 2 Batch 6 — 5 tools surfacing built engines (2026-07-01)
+- Wired three engine packages that were built but unused in the app: **Checksum validator** (Luhn / IBAN / ABA, `@zii/id`), **Sales tax / VAT / GST** (`@zii/payroll`), **Business days** + **Era converter** (ROC/Minguo + Japanese era) + **Chinese zodiac** (`@zii/calendar`). App now ships **49 tool screens**; new Identity + Everyday category sections; budget held (~81 KB gz); prerender 400 pages.
+- Added `@zii/calendar`, `@zii/id`, `@zii/payroll` as `@zii/app` workspace deps (run `pnpm install` to regenerate the lockfile).
+
+### Added — App: Phase 2 Batches 2–5 — 16 more tools (2026-07-01)
+- **Batch 2 (dev/generators, no deps):** Password generator, UUID generator, JWT decoder, Number base converter, Color converter, Cron explainer — pure logic in a new tested `src/lib/toolkit.ts`.
+- **Batch 3 (image, Canvas-based, no deps):** Resize image (with presets), Crop image, Strip image metadata (EXIF), Favicon generator — via a new browser `src/lib/imagekit.ts`.
+- **Batch 4 (PDF, via bundled pdf-lib):** Rotate PDF, Watermark PDF, Organize PDF pages (reorder/delete), Add page numbers — new wrappers in `@zii/compute-wasm/pdf` (`rotatePdf`, `watermarkPdf`, `organizePdf`, `addPageNumbers`).
+- **Batch 5 (dep-free part):** Scientific calculator (hand-rolled safe expression evaluator, no `eval`) and Time-zone planner (`Intl`).
+- App now ships **44 tool screens**; bundle budget held (~80 KB gz initial); prerender emits 360 localized pages; 26 unit tests. Deferred (need new deps, tracked in `docs/PHASE-2-PLAN.md`): XML↔JSON, CSV↔Excel, barcode, OCR, background-remove, live-FX currency.
+
+### Added — App: Phase 2 Batch 1 — 7 more tools (2026-07-01)
+- Seven new on-device tools wired to already-shipped engine ops (no new dependencies), per `docs/PHASE-2-PLAN.md` Batch 1: **Compress PDF** (`compressPdf`), **Create ZIP** / **Extract ZIP** (`@zii/compute-wasm/archive`), **HEIC → JPG** (`heicToJpg`), **Discount calculator**, **Savings & interest** (simple + compound), and **Cooking converter** (`convertCooking`). App now ships **28 tool screens** (was 21); adds a new "Files" category section.
+- Fixed the app typecheck to follow `@zii/compute-wasm/heic`'s ambient `heic-convert` declaration (triple-slash reference). Bundle budget held (76.8 KB gz initial); prerender now emits 232 localized pages.
+
 ### Changed — App: performance / bundle optimization (2026-06-30)
 - **Vendor split**: React + scheduler are now a separate `vendor-react` chunk (~59 KB gz) so app-code changes don't bust the framework cache. The app-code entry chunk dropped to ~17 KB gz; initial payload ~75 KB gz total (unchanged bytes, better caching). Build target raised to `es2022`.
 - **Bundle-budget guard** (`scripts/check-bundle.mjs`, wired into `build` + a `check:bundle` script): reads the Vite manifest, sums the gzipped initial payload (entry + static imports), and fails the build if it exceeds the budget (110 KB gz) — enforcing the roadmap's "breadth without bloat" guardrail as the catalogue grows.

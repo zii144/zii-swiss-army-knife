@@ -1,3 +1,5 @@
+// eslint-disable-next-line @typescript-eslint/triple-slash-reference -- ambient types for untyped heic-convert
+/// <reference path="./heic-convert.d.ts" />
 /**
  * HEIC/HEIF → JPEG (or PNG), powered by `heic-convert` (ISC), which wraps
  * libheif (LGPL, dynamically linked — allowed by the licence guardrail).

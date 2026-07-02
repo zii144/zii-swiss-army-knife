@@ -58,5 +58,30 @@ export async function convertVideo(
   return typeof data === 'string' ? new TextEncoder().encode(data) : new Uint8Array(data);
 }
 
+/** Options for {@link extractAudio}. */
+export interface ExtractAudioOptions {
+  /** Input filename hint (extension matters to ffmpeg). */
+  inputName?: string;
+  /** Output audio codec/container. Default `mp3`. */
+  format?: 'mp3' | 'm4a';
+}
+
+/**
+ * Strip the video track and extract audio on-device with ffmpeg.wasm. Requires
+ * the same cross-origin-isolated browser context as {@link convertVideo}.
+ */
+export async function extractAudio(
+  input: Uint8Array,
+  opts: ExtractAudioOptions = {},
+): Promise<Uint8Array> {
+  const format = opts.format ?? 'mp3';
+  const inName = opts.inputName ?? 'input';
+  const args =
+    format === 'mp3'
+      ? ['-i', inName, '-vn', '-acodec', 'libmp3lame', '-q:a', '2']
+      : ['-i', inName, '-vn', '-acodec', 'aac', '-b:a', '192k'];
+  return convertVideo(input, { to: format === 'mp3' ? 'mp3' : 'm4a', inputName: inName, args });
+}
+
 /** Re-export so the op table can reference the still-image formats too. */
 export type { ImageFormat };

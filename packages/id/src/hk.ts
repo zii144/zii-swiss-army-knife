@@ -88,3 +88,47 @@ export function generateHkid(seed = 0): string {
   const checkChar = checkValue === 10 ? 'A' : String(checkValue);
   return `${letter}${digitsStr}(${checkChar})`;
 }
+
+const HK_BR_WEIGHTS = [2, 9, 8, 7, 4, 3, 2] as const;
+
+/**
+ * Validate a Hong Kong Business Registration Number (商業登記號碼, 8 digits).
+ * The 8th digit is a weighted mod-10 check digit over the first seven digits.
+ */
+export function validateHkBr(value: string): boolean {
+  const digits = value.replace(/\D/g, '');
+  if (!/^\d{8}$/.test(digits)) return false;
+  let sum = 0;
+  for (let i = 0; i < 7; i++) {
+    const ch = digits[i];
+    const w = HK_BR_WEIGHTS[i];
+    if (ch === undefined || w === undefined) return false;
+    sum += (ch.charCodeAt(0) - 48) * w;
+  }
+  const remainder = sum % 10;
+  const expected = remainder === 0 ? 0 : 10 - remainder;
+  const check = digits[7];
+  if (check === undefined) return false;
+  return check.charCodeAt(0) - 48 === expected;
+}
+
+/** Generate a checksum-valid HK BRN for TEST / QA use only. */
+export function generateHkBr(seed = 0): string {
+  const s = Math.abs(Math.trunc(seed));
+  let acc = s;
+  const body: number[] = [];
+  for (let i = 0; i < 7; i++) {
+    acc = (acc * 1103515245 + 12345) & 0x7fffffff;
+    body.push(acc % 10);
+  }
+  let sum = 0;
+  for (let i = 0; i < 7; i++) {
+    const d = body[i];
+    const w = HK_BR_WEIGHTS[i];
+    if (d === undefined || w === undefined) throw new Error('index out of range');
+    sum += d * w;
+  }
+  const remainder = sum % 10;
+  const check = remainder === 0 ? 0 : 10 - remainder;
+  return body.join('') + String(check);
+}

@@ -23,8 +23,12 @@ export interface ServerHandlers {
   fetchEtaRaw: (routeId: string) => Promise<unknown>;
   /** The conversion worker (LibreOffice/Gotenberg/ffmpeg lives behind this). */
   doConvert: DoConvert;
+  /** Optional FX rate resolver (units of `to` per 1 unit of `from`). */
+  fetchFxRate?: (from: string, to: string) => Promise<number>;
   /** Cache TTL for normalized ETA responses, in ms (default 30s). */
   etaTtlMs?: number;
+  /** Cache TTL for FX rates, in ms (default 15 minutes). */
+  fxTtlMs?: number;
 }
 
 /** Read an entire request body into a single Uint8Array. */
@@ -63,9 +67,11 @@ function sendJson(res: ServerResponse, status: number, body: unknown): void {
  */
 export function createBackendServer(handlers: ServerHandlers): Server {
   const ttl = handlers.etaTtlMs ?? 30_000;
+  const fxTtl = handlers.fxTtlMs ?? 15 * 60_000;
   // Cache lives per-server, holds only *normalized* (non-credential) data, and
   // self-expires; it is not durable storage.
   const etaCache = new TTLCache<NormalizedEta>();
+  const fxCache = new TTLCache<number>();
 
   return createServer((req: IncomingMessage, res: ServerResponse): void => {
     void (async () => {
@@ -89,6 +95,33 @@ export function createBackendServer(handlers: ServerHandlers): Server {
           const normalized = transitEtaAdapter.normalize(raw) as NormalizedEta;
           etaCache.set(routeId, normalized, ttl);
           sendJson(res, 200, normalized);
+          return;
+        }
+
+        if (method === 'GET' && path === '/fx') {
+          const from = (url.searchParams.get('from') ?? '').toUpperCase();
+          const to = (url.searchParams.get('to') ?? '').toUpperCase();
+          if (from === '' || to === '') {
+            sendJson(res, 400, { error: 'missing from/to' });
+            return;
+          }
+          if (from === to) {
+            sendJson(res, 200, { from, to, rate: 1 });
+            return;
+          }
+          const key = `${from}->${to}`;
+          const cached = fxCache.get(key);
+          if (cached !== undefined) {
+            sendJson(res, 200, { from, to, rate: cached });
+            return;
+          }
+          if (handlers.fetchFxRate === undefined) {
+            sendJson(res, 501, { error: 'fx not configured' });
+            return;
+          }
+          const rate = await handlers.fetchFxRate(from, to);
+          fxCache.set(key, rate, fxTtl);
+          sendJson(res, 200, { from, to, rate });
           return;
         }
 
