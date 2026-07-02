@@ -73,6 +73,96 @@ export async function pdfPageCount(input: Uint8Array): Promise<number> {
   return doc.getPageCount();
 }
 
+export type RasterImageFormat = 'jpeg' | 'png';
+
+function sniffRasterFormat(bytes: Uint8Array): RasterImageFormat | undefined {
+  if (bytes.length >= 3 && bytes[0] === 0xff && bytes[1] === 0xd8 && bytes[2] === 0xff) return 'jpeg';
+  if (bytes.length >= 8 && bytes[0] === 0x89 && bytes[1] === 0x50 && bytes[2] === 0x4e) return 'png';
+  return undefined;
+}
+
+/** Build a single-page PDF from one JPEG or PNG image. */
+export async function imagesToPdf(
+  images: readonly Uint8Array[],
+  opts: { format?: RasterImageFormat } = {},
+): Promise<Uint8Array> {
+  if (images.length === 0) throw new Error('imagesToPdf: at least one image is required');
+  const doc = await PDFDocument.create();
+  for (const bytes of images) {
+    const fmt = opts.format ?? sniffRasterFormat(bytes);
+    if (fmt === undefined) throw new Error('imagesToPdf: expected JPEG or PNG input');
+    const embedded =
+      fmt === 'jpeg' ? await doc.embedJpg(bytes) : await doc.embedPng(bytes);
+    const { width, height } = embedded.scale(1);
+    const page = doc.addPage([width, height]);
+    page.drawImage(embedded, { x: 0, y: 0, width, height });
+  }
+  return doc.save();
+}
+
+/** True when pdf.js can render to a DOM canvas (browser only). */
+export function canRenderPdfToImages(): boolean {
+  return (
+    typeof globalThis !== 'undefined' &&
+    typeof document !== 'undefined' &&
+    typeof document.createElement === 'function'
+  );
+}
+
+export interface PdfToImagesOptions {
+  /** Output raster format (default png). */
+  format?: 'png' | 'jpeg';
+  /** Viewport scale factor (default 2). */
+  scale?: number;
+  /** JPEG quality 0–1 when format is jpeg (default 0.92). */
+  quality?: number;
+}
+
+/**
+ * Rasterize each PDF page to PNG or JPEG using pdf.js. Requires a browser with
+ * canvas support; throws with guidance in Node or other headless environments.
+ */
+export async function pdfToImages(
+  input: Uint8Array,
+  opts: PdfToImagesOptions = {},
+): Promise<Uint8Array[]> {
+  if (!canRenderPdfToImages()) {
+    throw new Error(
+      'pdfToImages requires a browser with canvas support. Use imagesToPdf or server-side rendering in Node.',
+    );
+  }
+  const format = opts.format ?? 'png';
+  const scale = opts.scale ?? 2;
+  const quality = opts.quality ?? 0.92;
+  const pdfjs = await import('pdfjs-dist');
+  pdfjs.GlobalWorkerOptions.workerSrc = new URL(
+    'pdfjs-dist/build/pdf.worker.min.mjs',
+    import.meta.url,
+  ).toString();
+  const loading = pdfjs.getDocument({ data: input.slice() });
+  const doc = await loading.promise;
+  const out: Uint8Array[] = [];
+  for (let pageNum = 1; pageNum <= doc.numPages; pageNum += 1) {
+    const page = await doc.getPage(pageNum);
+    const viewport = page.getViewport({ scale });
+    const canvas = document.createElement('canvas');
+    canvas.width = Math.ceil(viewport.width);
+    canvas.height = Math.ceil(viewport.height);
+    const ctx = canvas.getContext('2d');
+    if (ctx === null) throw new Error('pdfToImages: could not acquire 2D canvas context');
+    await page.render({ canvasContext: ctx, viewport }).promise;
+    const blob: Blob = await new Promise((resolve, reject) => {
+      canvas.toBlob(
+        (b) => (b ? resolve(b) : reject(new Error('pdfToImages: canvas.toBlob failed'))),
+        format === 'jpeg' ? 'image/jpeg' : 'image/png',
+        format === 'jpeg' ? quality : undefined,
+      );
+    });
+    out.push(new Uint8Array(await blob.arrayBuffer()));
+  }
+  return out;
+}
+
 /** Rotate every page by `deg` degrees (added to any existing rotation). */
 export async function rotatePdf(input: Uint8Array, deg: number): Promise<Uint8Array> {
   const doc = await PDFDocument.load(input);

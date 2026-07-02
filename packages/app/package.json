@@ -25,6 +25,7 @@
     "@zii/locale": "workspace:*",
     "@zii/payroll": "workspace:*",
     "@zii/registry": "workspace:*",
+    "@zii/reminders": "workspace:*",
     "@zii/text": "workspace:*",
     "bwip-js": "^4",
     "fast-xml-parser": "^4",

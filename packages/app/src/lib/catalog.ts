@@ -77,8 +77,8 @@ export const CATALOG: readonly CatalogTool[] = [
       de: 'QR-Code-Generator',
     },
     blurb: {
-      en: 'Generate a QR code from any text or URL, offline.',
-      'zh-TW': '離線將任意文字或網址轉成 QR Code。',
+      en: 'Generate QR codes for text, URLs, Wi-Fi, contacts, or calendar events.',
+      'zh-TW': '產生文字、網址、Wi-Fi、聯絡人或行事曆活動的 QR Code。',
     },
   },
   {
@@ -1158,6 +1158,161 @@ export const CATALOG: readonly CatalogTool[] = [
       'zh-TW': '去除相片背景並輸出透明 PNG（模型於首次使用時下載）。',
     },
   },
+  {
+    id: 'currency-convert',
+    category: 'convert',
+    offline: true,
+    keywords: ['currency', 'exchange', 'rate', 'forex', 'fx', 'convert', 'money'],
+    name: {
+      en: 'Currency converter',
+      'zh-TW': '匯率換算',
+      'zh-HK': '匯率換算',
+      ja: '通貨換算',
+      ko: '환율 변환',
+      es: 'Conversor de divisas',
+      fr: 'Convertisseur de devises',
+      de: 'Währungsrechner',
+    },
+    blurb: {
+      en: 'Convert amounts between currencies using a rate you provide.',
+      'zh-TW': '以您提供的匯率換算不同幣別金額。',
+    },
+  },
+  {
+    id: 'json-format',
+    category: 'dev',
+    offline: true,
+    keywords: ['json', 'format', 'pretty', 'prettify', 'validate', 'indent'],
+    name: {
+      en: 'JSON formatter',
+      'zh-TW': 'JSON 格式化',
+      'zh-HK': 'JSON 格式化',
+      ja: 'JSON 整形',
+      ko: 'JSON 포맷터',
+      es: 'Formateador JSON',
+      fr: 'Formateur JSON',
+      de: 'JSON-Formatierer',
+    },
+    blurb: {
+      en: 'Validate and pretty-print JSON on your device.',
+      'zh-TW': '在裝置上驗證並美化 JSON。',
+    },
+  },
+  {
+    id: 'paycheck-calc',
+    category: 'finance',
+    offline: true,
+    keywords: ['paycheck', 'salary', 'net', 'gross', 'take home', 'deductions', 'payroll'],
+    name: {
+      en: 'Paycheck calculator',
+      'zh-TW': '薪資試算',
+      'zh-HK': '薪資試算',
+      ja: '手取り計算',
+      ko: '급여 계산기',
+      es: 'Calculadora de nómina',
+      fr: 'Calculatrice de paie',
+      de: 'Gehaltsrechner',
+    },
+    blurb: {
+      en: 'Estimate take-home pay or find the gross needed for a target net.',
+      'zh-TW': '估算實領薪資或由目標實領反推税前薪資。',
+    },
+  },
+  {
+    id: 'video-convert',
+    category: 'convert',
+    offline: false,
+    keywords: ['video', 'convert', 'transcode', 'mp4', 'webm', 'ffmpeg'],
+    name: {
+      en: 'Convert video',
+      'zh-TW': '影片轉檔',
+      'zh-HK': '影片轉檔',
+      ja: '動画変換',
+      ko: '동영상 변환',
+      es: 'Convertir video',
+      fr: 'Convertir une vidéo',
+      de: 'Video umwandeln',
+    },
+    blurb: {
+      en: 'Transcode a video file on your device with ffmpeg.wasm.',
+      'zh-TW': '使用 ffmpeg.wasm 在裝置上轉換影片。',
+    },
+  },
+  {
+    id: 'reminder-planner',
+    category: 'daily',
+    offline: true,
+    keywords: ['reminder', 'recurrence', 'schedule', 'repeat', 'notify', 'calendar'],
+    name: {
+      en: 'Reminder planner',
+      'zh-TW': '提醒規劃',
+      'zh-HK': '提醒規劃',
+      ja: 'リマインダー計画',
+      ko: '알림 플래너',
+      es: 'Planificador de recordatorios',
+      fr: 'Planificateur de rappels',
+      de: 'Erinnerungsplaner',
+    },
+    blurb: {
+      en: 'Preview upcoming reminder dates from a recurrence rule.',
+      'zh-TW': '依重複規則預覽 upcoming 提醒日期。',
+    },
+  },
+  {
+    id: 'images-to-pdf',
+    category: 'pdf',
+    offline: true,
+    keywords: ['image', 'jpg', 'png', 'pdf', 'combine', 'photos'],
+    name: { en: 'Images to PDF', 'zh-TW': '圖片轉 PDF', 'zh-HK': '圖片轉 PDF' },
+    blurb: {
+      en: 'Combine JPEG or PNG images into one PDF, one page per image.',
+      'zh-TW': '將 JPEG 或 PNG 合併為 PDF，每張圖片一頁。',
+    },
+  },
+  {
+    id: 'pdf-to-images',
+    category: 'pdf',
+    offline: true,
+    keywords: ['pdf', 'image', 'png', 'jpeg', 'rasterize', 'pages'],
+    name: { en: 'PDF to images', 'zh-TW': 'PDF 轉圖片', 'zh-HK': 'PDF 轉圖片' },
+    blurb: {
+      en: 'Rasterize each PDF page to PNG or JPEG on your device.',
+      'zh-TW': '將 PDF 每一頁轉為 PNG 或 JPEG。',
+    },
+  },
+  {
+    id: 'docx-to-pdf',
+    category: 'convert',
+    offline: false,
+    keywords: ['docx', 'word', 'pdf', 'document', 'convert', 'office'],
+    name: { en: 'Word to PDF', 'zh-TW': 'Word 轉 PDF', 'zh-HK': 'Word 轉 PDF' },
+    blurb: {
+      en: 'Convert a .docx file to PDF via the backend conversion worker.',
+      'zh-TW': '透過後端 worker 將 .docx 轉為 PDF。',
+    },
+  },
+  {
+    id: 'ca-sin',
+    category: 'id',
+    offline: true,
+    keywords: ['canada', 'sin', 'social insurance', 'luhn', 'validate'],
+    name: { en: 'Canadian SIN', 'zh-TW': '加拿大 SIN' },
+    blurb: {
+      en: 'Validate a Canadian Social Insurance Number (Luhn check).',
+      'zh-TW': '驗證加拿大社會保險號碼（Luhn）。',
+    },
+  },
+  {
+    id: 'au-tfn',
+    category: 'id',
+    offline: true,
+    keywords: ['australia', 'tfn', 'tax file number', 'validate'],
+    name: { en: 'Australian TFN', 'zh-TW': '澳洲 TFN' },
+    blurb: {
+      en: 'Validate an Australian Tax File Number (mod-11 check).',
+      'zh-TW': '驗證澳洲稅務檔案號碼（mod-11）。',
+    },
+  },
 
   // --- Market packs (Phase 3) — shown when the matching region is selected. ---
   {
@@ -1203,6 +1358,22 @@ export const CATALOG: readonly CatalogTool[] = [
     },
   },
   {
+    id: 'tw-arc',
+    category: 'id',
+    offline: true,
+    markets: ['tw'],
+    keywords: ['taiwan', 'arc', 'arc', '統一證號', 'resident', 'alien', 'validate'],
+    name: {
+      en: 'Taiwan ARC (統一證號)',
+      'zh-TW': '外來人口統一證號',
+      'zh-HK': '台灣統一證號',
+    },
+    blurb: {
+      en: 'Validate a new-format Alien Resident Certificate number.',
+      'zh-TW': '驗證新式外來人口統一證號。',
+    },
+  },
+  {
     id: 'hk-id',
     category: 'id',
     offline: true,
@@ -1221,6 +1392,22 @@ export const CATALOG: readonly CatalogTool[] = [
     blurb: {
       en: 'Validate or generate a Hong Kong Identity Card number.',
       'zh-TW': '驗證或產生香港身份證號碼。',
+    },
+  },
+  {
+    id: 'hk-br',
+    category: 'id',
+    offline: true,
+    markets: ['hk'],
+    keywords: ['hong kong', 'br', 'brn', 'business registration', '商業登記', 'validate'],
+    name: {
+      en: 'Hong Kong BR number',
+      'zh-TW': '香港商業登記號碼',
+      'zh-HK': '商業登記號碼',
+    },
+    blurb: {
+      en: 'Validate a Hong Kong Business Registration Number (8 digits).',
+      'zh-HK': '驗證香港商業登記號碼（8 碼）。',
     },
   },
   {

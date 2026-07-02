@@ -120,6 +120,30 @@ const TOOL_ICONS: Record<string, string> = {
     '<path d="M4 8V5.5A1.5 1.5 0 015.5 4H8M20 8V5.5A1.5 1.5 0 0018.5 4H16M4 16v2.5A1.5 1.5 0 005.5 20H8M20 16v2.5a1.5 1.5 0 01-1.5 1.5H16"/><path d="M8 10h8M8 13h8M8 16h5"/>',
   'bg-remove':
     '<rect x="3" y="3" width="18" height="18" rx="2" stroke-dasharray="3 2.5"/><path d="M9 14l2.5-3 2 2.5L15.5 10l2.5 4"/><circle cx="8.5" cy="8.5" r="1.3"/>',
+  'currency-convert':
+    '<circle cx="12" cy="12" r="8.5"/><path d="M12 7v10M9.5 9.5c.8-1.2 2.2-2 3.8-2 2.2 0 4 1.5 4 3.5S15.5 14 13.3 14H11M14.5 14.5c-.8 1.2-2.2 2-3.8 2-2.2 0-4-1.5-4-3.5S8.5 10 10.7 10H13"/>',
+  'json-format':
+    '<path d="M6 4l-3 8 3 8M18 4l3 8-3 8"/><path d="M10 8h4M10 12h4M10 16h4"/>',
+  'paycheck-calc':
+    '<rect x="3" y="5" width="18" height="14" rx="2"/><path d="M7 9.5h10M7 13h6"/><path d="M16 13l1.5 1.5L16 16"/>',
+  'video-convert':
+    '<rect x="3" y="6" width="18" height="12" rx="2"/><path d="M10 10l5 3-5 3z"/><path d="M4 8h16M4 16h16"/>',
+  'reminder-planner':
+    '<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 9.5h18M8 3v4M16 3v4M8.5 13.5l2 2 4-4"/>',
+  'images-to-pdf':
+    '<rect x="5" y="3" width="14" height="18" rx="2"/><rect x="3" y="5" width="10" height="8" rx="1.5"/><circle cx="6" cy="8" r="1"/><path d="M11 12l2-2 2 2"/>',
+  'pdf-to-images':
+    '<rect x="5" y="3" width="14" height="18" rx="2"/><rect x="3" y="5" width="10" height="8" rx="1.5"/><path d="M11 12l2-2 2 2"/>',
+  'docx-to-pdf':
+    '<path d="M14 3v5h5M6 3h8l5 5v11a1 1 0 01-1 1H6a1 1 0 01-1-1V4a1 1 0 011-1z"/><path d="M9 13h6M9 16h4"/>',
+  'ca-sin':
+    '<rect x="3" y="5" width="18" height="14" rx="2"/><path d="M7 9.5h10M7 12.5h10M7 15.5h6"/>',
+  'au-tfn':
+    '<rect x="3" y="5" width="18" height="14" rx="2"/><path d="M7 9.5h10M7 12.5h10M7 15.5h6"/>',
+  'tw-arc':
+    '<rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="8.5" cy="11" r="2"/><path d="M13 9.5h5M13 13h4M5.5 16c.5-1.6 1.7-2.5 3-2.5s2.5.9 3 2.5"/>',
+  'hk-br':
+    '<path d="M4 20V8l8-4 8 4v12M4 20h16M9 20v-5h6v5M9 11h.01M15 11h.01"/>',
   'tw-national-id':
     '<rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="8.5" cy="11" r="2"/><path d="M13 9.5h5M13 13h4M5.5 16c.5-1.6 1.7-2.5 3-2.5s2.5.9 3 2.5"/>',
   'tw-ubn':

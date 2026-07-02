@@ -40,10 +40,14 @@ const TW_LETTER_CODE: Readonly<Record<string, number>> = {
 };
 
 const TW_ID_RE = /^[A-Z][12]\d{8}$/;
+const TW_ARC_RE = /^[A-Z][89]\d{8}$/;
 
-/** Compute the National-ID weighted sum for a well-formed id, or null. */
-function twNationalIdSum(id: string): number | null {
-  if (!TW_ID_RE.test(id)) return null;
+/** Letters no longer assigned on new-format ARC numbers (Immigration Bureau). */
+const TW_ARC_STOP_LETTERS = new Set(['L', 'R', 'S', 'Y']);
+
+/** Compute the weighted sum for a 10-char TW id (letter + 9 digits), or null. */
+function twTenCharIdSum(id: string): number | null {
+  if (!/^[A-Z]\d{9}$/.test(id)) return null;
   const letter = id[0];
   if (letter === undefined) return null;
   const code = TW_LETTER_CODE[letter];
@@ -77,8 +81,29 @@ function twNationalIdSum(id: string): number | null {
  * letter is expanded to its two-digit area code and the weighted sum must be
  * a multiple of 10.
  */
+function twNationalIdSum(id: string): number | null {
+  if (!TW_ID_RE.test(id)) return null;
+  return twTenCharIdSum(id);
+}
+
 export function validateTwNationalId(id: string): boolean {
-  const sum = twNationalIdSum(id);
+  const trimmed = id.trim();
+  if (!/^[A-Za-z][12]\d{8}$/.test(trimmed) || trimmed !== trimmed.toUpperCase()) return false;
+  const sum = twNationalIdSum(trimmed);
+  return sum !== null && sum % 10 === 0;
+}
+
+/**
+ * Validate a Taiwan Alien Resident Certificate (外來人口統一證號, new format).
+ * Same checksum as the National ID; gender digit is 8 (male) or 9 (female).
+ */
+export function validateTwArc(id: string): boolean {
+  const trimmed = id.trim();
+  if (!/^[A-Za-z][89]\d{8}$/.test(trimmed) || trimmed !== trimmed.toUpperCase()) return false;
+  const normalized = trimmed.toUpperCase();
+  const letter = normalized[0];
+  if (letter !== undefined && TW_ARC_STOP_LETTERS.has(letter)) return false;
+  const sum = twTenCharIdSum(normalized);
   return sum !== null && sum % 10 === 0;
 }
 
@@ -105,6 +130,39 @@ export function generateTwNationalId(seed = 0): string {
     free.push(acc % 10);
   }
   const body = [gender, ...free]; // digits[0..7]
+  const weights = [8, 7, 6, 5, 4, 3, 2, 1];
+  let sum = firstCodeDigit * 1 + secondCodeDigit * 9;
+  for (let i = 0; i < 8; i++) {
+    const d = body[i];
+    const w = weights[i];
+    if (d === undefined || w === undefined) throw new Error('index out of range');
+    sum += d * w;
+  }
+  const check = (10 - (sum % 10)) % 10;
+  return letter + body.join('') + String(check);
+}
+
+/**
+ * Generate a checksum-valid Taiwan ARC (new format) for TEST / QA use only.
+ * Deterministic for a given seed.
+ */
+export function generateTwArc(seed = 0): string {
+  const letters = Object.keys(TW_LETTER_CODE).filter((l) => !TW_ARC_STOP_LETTERS.has(l));
+  const s = Math.abs(Math.trunc(seed));
+  const letter = letters[s % letters.length];
+  if (letter === undefined) throw new Error('letter table empty');
+  const code = TW_LETTER_CODE[letter];
+  if (code === undefined) throw new Error('letter code missing');
+  const firstCodeDigit = Math.floor(code / 10);
+  const secondCodeDigit = code % 10;
+  const gender = (s % 2) + 8; // 8 or 9
+  const free: number[] = [];
+  let acc = s;
+  for (let i = 0; i < 7; i++) {
+    acc = (acc * 1103515245 + 12345) & 0x7fffffff;
+    free.push(acc % 10);
+  }
+  const body = [gender, ...free];
   const weights = [8, 7, 6, 5, 4, 3, 2, 1];
   let sum = firstCodeDigit * 1 + secondCodeDigit * 9;
   for (let i = 0; i < 8; i++) {

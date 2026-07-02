@@ -3,8 +3,8 @@
  * `@zii/compute` op descriptors. License-clean (MIT/Apache/ISC + LGPL libheif,
  * dynamically linked): no AGPL/GPL.
  */
-export { mergePdfs, splitPdf, compressPdf, pdfPageCount } from './pdf';
-export type { SplitPdfOptions } from './pdf';
+export { mergePdfs, splitPdf, compressPdf, pdfPageCount, imagesToPdf, pdfToImages, canRenderPdfToImages } from './pdf';
+export type { SplitPdfOptions, PdfToImagesOptions, RasterImageFormat } from './pdf';
 
 export {
   convertImage,
