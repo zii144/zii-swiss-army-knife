@@ -2,10 +2,10 @@ import { describe, it, expect } from 'vitest';
 import { convertHandler, describeConversion, retainedCount } from '../src/index';
 
 /** A trivial worker that XORs every byte with 0xff (deterministic, reversible). */
-function invertBytes(bytes: Uint8Array): Promise<Uint8Array> {
-  const out = new Uint8Array(bytes.length);
-  for (let i = 0; i < bytes.length; i += 1) {
-    out[i] = (bytes[i] ?? 0) ^ 0xff;
+function invertBytes(req: { bytes: Uint8Array }): Promise<Uint8Array> {
+  const out = new Uint8Array(req.bytes.length);
+  for (let i = 0; i < req.bytes.length; i += 1) {
+    out[i] = (req.bytes[i] ?? 0) ^ 0xff;
   }
   return Promise.resolve(out);
 }

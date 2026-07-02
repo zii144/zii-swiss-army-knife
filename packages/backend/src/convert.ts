@@ -21,7 +21,7 @@ export interface ConvertRequest {
 }
 
 /** The worker that performs the actual byte transformation. */
-export type DoConvert = (bytes: Uint8Array) => Promise<Uint8Array>;
+export type DoConvert = (req: ConvertRequest) => Promise<Uint8Array>;
 
 /**
  * Number of inputs/outputs currently retained by this module. It is wired to
@@ -48,7 +48,7 @@ export async function convertHandler(
   if (req.from === req.to) {
     throw new RangeError(`Nothing to convert: from and to are both "${req.from}"`);
   }
-  const result = await doConvert(req.bytes);
+  const result = await doConvert(req);
   if (!(result instanceof Uint8Array)) {
     throw new TypeError('doConvert must resolve to a Uint8Array');
   }

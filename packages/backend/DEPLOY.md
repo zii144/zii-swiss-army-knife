@@ -4,75 +4,79 @@ The backend unlocks **document conversion** (Word/PowerPoint/PDF routes) and an
 optional **live FX proxy** for the app. It is stateless and no-retention by
 design — bytes stream through and are never stored.
 
+## Quick start (Docker)
+
+From this directory:
+
+```bash
+docker compose up
+```
+
+| Service | Port | Purpose |
+|---------|------|---------|
+| Gotenberg | 3000 | LibreOffice document conversion |
+| `@zii/backend` | 8787 | `/convert`, `/fx`, `/health` |
+
+Point the app at the backend:
+
+```bash
+VITE_BACKEND_URL=http://localhost:8787 pnpm --filter @zii/app dev
+```
+
 ## What you need
 
 | Route | Worker | Used by |
 |-------|--------|---------|
-| `POST /convert?from=&to=` | LibreOffice via [Gotenberg](https://gotenberg.dev/) or similar | `docx-to-pdf`, `pptx-to-pdf`, `pdf-to-word` |
-| `GET /fx?from=&to=` | Optional upstream FX API (Frankfurter, etc.) | `currency-convert` live rates |
+| `POST /convert?from=&to=` | Gotenberg LibreOffice | `docx-to-pdf`, `pptx-to-pdf`, `pdf-to-word` |
+| `GET /fx?from=&to=` | Frankfurter (cached) | `currency-convert` live rates |
+| `GET /health` | — | load balancer probe |
 
-Supported `from` / `to` pairs depend on your Gotenberg/LibreOffice setup. Typical
-pairs:
+Supported conversion routes (via Gotenberg):
 
 - `docx` → `pdf`
 - `pptx` → `pdf`
-- `pdf` → `docx`
+- `xlsx` → `pdf`
+- `pdf` → `docx` (best-effort; many Gotenberg builds only guarantee office → PDF)
 
-## Minimal Node server
+## Run without Docker
 
-```ts
-import { createBackendServer } from '@zii/backend';
-import { gotenbergConvert } from './your-gotenberg-adapter'; // you implement
-
-const server = createBackendServer({
-  doConvert: gotenbergConvert,
-  fetchFxRate: async (from, to) => {
-    const res = await fetch(
-      `https://api.frankfurter.app/latest?from=${from}&to=${to}`,
-    );
-    const data = await res.json();
-    return data.rates[to];
-  },
-});
-
-server.listen(8787, () => console.log('backend on :8787'));
-```
-
-Wire the app with:
+1. Start [Gotenberg](https://gotenberg.dev/) locally on port 3000.
+2. Start the backend:
 
 ```bash
+pnpm --filter @zii/backend start
+```
+
+Environment variables:
+
+| Variable | Default | Purpose |
+|----------|---------|---------|
+| `PORT` | `8787` | HTTP listen port |
+| `GOTENBERG_URL` | `http://127.0.0.1:3000` | Gotenberg base URL |
+| `CORS_ORIGIN` | `*` | Browser origin allowed to call the API |
+
+## Production wiring
+
+Set in Vercel (or your app host):
+
+```
 VITE_BACKEND_URL=https://api.your-domain.com
 ```
 
-## Docker Compose (Gotenberg + backend)
+Set on the backend host:
 
-Example stack — adjust the `doConvert` adapter in your deployment repo to POST
-files to Gotenberg's `/forms/libreoffice/convert` endpoint:
-
-```yaml
-services:
-  gotenberg:
-    image: gotenberg/gotenberg:8
-    ports:
-      - '3000:3000'
-
-  zii-backend:
-    build: ./packages/backend
-    environment:
-      GOTENBERG_URL: http://gotenberg:3000
-      PORT: '8787'
-    ports:
-      - '8787:8787'
-    depends_on:
-      - gotenberg
 ```
+CORS_ORIGIN=https://your-app-domain.com
+GOTENBERG_URL=http://gotenberg:3000
+```
+
+Deploy Gotenberg as a sidecar or internal service; expose only `@zii/backend` publicly.
 
 ## Health check
 
 ```bash
+curl -sS http://localhost:8787/health
 curl -sS "http://localhost:8787/fx?from=USD&to=EUR"
-# → {"rate":0.92,...}
-
 curl -sS -X POST "http://localhost:8787/convert?from=docx&to=pdf" \
   --data-binary @sample.docx -o out.pdf
 ```
@@ -81,4 +85,21 @@ curl -sS -X POST "http://localhost:8787/convert?from=docx&to=pdf" \
 
 - Put the backend behind HTTPS and rate limiting in production.
 - Do not log request bodies.
-- CORS: allow only your app origin if the browser calls the backend directly.
+- CORS: set `CORS_ORIGIN` to your app origin — avoid `*` in production.
+
+## Programmatic use
+
+```ts
+import { createBackendServer, createGotenbergConverter } from '@zii/backend';
+
+const server = createBackendServer({
+  fetchEtaRaw: async () => {
+    throw new Error('ETA not configured');
+  },
+  doConvert: createGotenbergConverter(process.env.GOTENBERG_URL!),
+  fetchFxRate: async (from, to) => { /* ... */ },
+  corsOrigin: process.env.CORS_ORIGIN,
+});
+
+server.listen(8787);
+```

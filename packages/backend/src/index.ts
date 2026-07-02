@@ -14,5 +14,7 @@ export type { GovDataAdapter, NormalizedEta, NormalizedStop } from './adapter';
 export { convertHandler, describeConversion, retainedCount } from './convert';
 export type { ConvertRequest, DoConvert } from './convert';
 
+export { createGotenbergConverter, GOTENBERG_ROUTES } from './gotenberg';
+
 export { createBackendServer } from './server';
 export type { ServerHandlers } from './server';

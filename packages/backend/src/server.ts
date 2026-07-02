@@ -29,6 +29,8 @@ export interface ServerHandlers {
   etaTtlMs?: number;
   /** Cache TTL for FX rates, in ms (default 15 minutes). */
   fxTtlMs?: number;
+  /** Allowed browser origin for CORS (`*` default). Set to your app origin in production. */
+  corsOrigin?: string;
 }
 
 /** Read an entire request body into a single Uint8Array. */
@@ -59,6 +61,18 @@ function sendJson(res: ServerResponse, status: number, body: unknown): void {
   res.end(payload);
 }
 
+function applyCors(res: ServerResponse, origin: string, reqOrigin: string | undefined): void {
+  const allow =
+    origin === '*'
+      ? '*'
+      : reqOrigin !== undefined && reqOrigin === origin
+        ? origin
+        : origin;
+  res.setHeader('access-control-allow-origin', allow);
+  res.setHeader('access-control-allow-methods', 'GET, POST, OPTIONS');
+  res.setHeader('access-control-allow-headers', 'content-type');
+}
+
 /**
  * Build a stateless HTTP server. The returned {@link Server} is NOT started;
  * the caller decides when/whether to `listen()`. Routes:
@@ -68,6 +82,7 @@ function sendJson(res: ServerResponse, status: number, body: unknown): void {
 export function createBackendServer(handlers: ServerHandlers): Server {
   const ttl = handlers.etaTtlMs ?? 30_000;
   const fxTtl = handlers.fxTtlMs ?? 15 * 60_000;
+  const corsOrigin = handlers.corsOrigin ?? '*';
   // Cache lives per-server, holds only *normalized* (non-credential) data, and
   // self-expires; it is not durable storage.
   const etaCache = new TTLCache<NormalizedEta>();
@@ -79,6 +94,18 @@ export function createBackendServer(handlers: ServerHandlers): Server {
         const method = req.method ?? 'GET';
         const url = new URL(req.url ?? '/', 'http://localhost');
         const path = url.pathname;
+        applyCors(res, corsOrigin, req.headers.origin);
+
+        if (method === 'OPTIONS') {
+          res.writeHead(204);
+          res.end();
+          return;
+        }
+
+        if (method === 'GET' && path === '/health') {
+          sendJson(res, 200, { ok: true });
+          return;
+        }
 
         if (method === 'GET' && path === '/eta') {
           const routeId = url.searchParams.get('route') ?? '';
