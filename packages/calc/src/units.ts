@@ -17,6 +17,8 @@ export type DataUnit = 'B' | 'KB' | 'MB' | 'GB' | 'KiB' | 'MiB' | 'GiB';
 export type PressureUnit = 'Pa' | 'kPa' | 'bar' | 'psi' | 'atm' | 'mmHg';
 export type EnergyUnit = 'J' | 'kJ' | 'cal' | 'kcal' | 'Wh' | 'kWh' | 'BTU';
 export type AngleUnit = 'rad' | 'deg' | 'grad';
+export type PowerUnit = 'W' | 'kW' | 'MW' | 'hp';
+export type FrequencyUnit = 'Hz' | 'kHz' | 'MHz' | 'GHz';
 
 export type Unit =
   | LengthUnit
@@ -28,7 +30,9 @@ export type Unit =
   | DataUnit
   | PressureUnit
   | EnergyUnit
-  | AngleUnit;
+  | AngleUnit
+  | PowerUnit
+  | FrequencyUnit;
 
 // --- Linear factor tables (value-in-base-unit per 1 of the listed unit) ---
 
@@ -116,6 +120,22 @@ const ANGLE: Record<AngleUnit, number> = {
   grad: Math.PI / 200,
 };
 
+// Base: watt.
+const POWER: Record<PowerUnit, number> = {
+  W: 1,
+  kW: 1000,
+  MW: 1_000_000,
+  hp: 745.699872,
+};
+
+// Base: hertz.
+const FREQUENCY: Record<FrequencyUnit, number> = {
+  Hz: 1,
+  kHz: 1000,
+  MHz: 1_000_000,
+  GHz: 1_000_000_000,
+};
+
 type LinearTable = Record<string, number>;
 
 const LINEAR_DIMENSIONS: Record<string, LinearTable> = {
@@ -128,6 +148,8 @@ const LINEAR_DIMENSIONS: Record<string, LinearTable> = {
   pressure: PRESSURE,
   energy: ENERGY,
   angle: ANGLE,
+  power: POWER,
+  frequency: FREQUENCY,
 };
 
 const TEMPERATURE_UNITS: readonly TemperatureUnit[] = ['C', 'F', 'K'];

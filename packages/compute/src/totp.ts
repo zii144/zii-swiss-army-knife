@@ -33,6 +33,33 @@ export function base32Decode(input: string): Uint8Array {
   return Uint8Array.from(out);
 }
 
+/** Encode bytes as base32 (RFC 4648, no padding). */
+export function base32Encode(bytes: Uint8Array): string {
+  let bits = 0;
+  let value = 0;
+  let out = '';
+  for (const b of bytes) {
+    value = (value << 8) | b;
+    bits += 8;
+    while (bits >= 5) {
+      out += B32[(value >>> (bits - 5)) & 31];
+      bits -= 5;
+    }
+  }
+  if (bits > 0) out += B32[(value << (5 - bits)) & 31];
+  return out;
+}
+
+/** Encode UTF-8 text to base32. */
+export function base32EncodeText(text: string): string {
+  return base32Encode(new TextEncoder().encode(text));
+}
+
+/** Decode base32 to UTF-8 text. */
+export function base32DecodeText(input: string): string {
+  return new TextDecoder().decode(base32Decode(input));
+}
+
 function counterBytes(counter: number): Uint8Array {
   const buf = new ArrayBuffer(8);
   const view = new DataView(buf);

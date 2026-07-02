@@ -52,6 +52,14 @@ export function hexToText(hex: string): string {
   return out.join('');
 }
 
+/** Atbash cipher (reverse alphabet), self-inverse for letters. */
+export function atbash(text: string): string {
+  return text.replace(/[A-Za-z]/g, (ch) => {
+    const base = ch <= 'Z' ? 65 : 97;
+    return String.fromCharCode(base + 25 - (ch.charCodeAt(0) - base));
+  });
+}
+
 /** ROT47 encode/decode (self-inverse, printable ASCII). */
 export function rot47(s: string): string {
   return s.replace(/[!-~]/g, (ch) => {

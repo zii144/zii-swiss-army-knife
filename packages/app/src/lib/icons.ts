@@ -132,6 +132,26 @@ const TOOL_ICONS: Record<string, string> = {
     '<path d="M5 18V8M9 18V4M13 18v-6M17 18V10M21 18V6"/>',
   'line-prefix':
     '<path d="M4 8h6M4 12h10M4 16h8"/><path d="M16 6v12"/>',
+  'mass-convert':
+    '<path d="M12 4v16M8 8h8M6 20h12"/>',
+  'temperature-convert':
+    '<path d="M9 4a3 3 0 016 0v8a4 4 0 11-6 0V4z"/><path d="M12 16v4"/>',
+  'power-convert':
+    '<path d="M13 2L4 14h7l-1 8 9-12h-7l1-8z"/>',
+  'frequency-convert':
+    '<path d="M4 12c2-4 4 4 6 0s4 4 6 0 4 4 6 0"/>',
+  'truncate-text':
+    '<path d="M4 8h10M4 12h14M4 16h6"/><path d="M18 14l2 2-2 2"/>',
+  'pad-text':
+    '<rect x="4" y="8" width="16" height="8" rx="1"/><path d="M8 12h8"/>',
+  'zero-width-clean':
+    '<circle cx="12" cy="12" r="9"/><path d="M8 12h8"/>',
+  'markdown-strip':
+    '<path d="M4 6h16M4 12h16M4 18h10"/><path d="M18 16l2 2-2 2"/>',
+  'atbash-cipher':
+    '<path d="M4 12h16M7 7l5 10M13 7l5 10"/>',
+  'base32-codec':
+    '<path d="M6 4v16M10 4v16M14 8v8M18 6v12"/>',
   'json-yaml':
     '<path d="M9 4C7 4 7 6 7 8s0 4-2 4c2 0 2 2 2 4s0 4 2 4M15 4c2 0 2 2 2 4s0 4 2 4c-2 0-2 2-2 4s0 4-2 4"/>',
   hash: '<path d="M9 4L7 20M17 4l-2 16M5 9.5h14M4 14.5h14"/>',
