@@ -40,3 +40,9 @@ export { jsonToYaml, yamlToJson, jsonStringToYaml, yamlToJsonString } from './se
 
 export { testRegex } from './regex';
 export type { RegexMatch, RegexResult } from './regex';
+
+export { slugify } from './slug';
+export { dedupeLines, sortLines, normalizeText, reverseText } from './lines';
+export type { SortLinesOrder } from './lines';
+export { loremIpsum } from './lorem';
+export { toRoman, fromRoman } from './roman';

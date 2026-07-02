@@ -45,6 +45,17 @@ export function passwordBits(o: PasswordOptions): number {
   return pool > 0 ? Math.round(Math.max(1, Math.trunc(o.length)) * Math.log2(pool)) : 0;
 }
 
+/** Cryptographically-random string from a custom character pool. */
+export function randomString(length: number, pool: string): string {
+  if (!pool) return '';
+  const n = Math.max(1, Math.min(512, Math.trunc(length)));
+  const buf = new Uint32Array(n);
+  crypto.getRandomValues(buf);
+  let out = '';
+  for (let i = 0; i < n; i++) out += pool[buf[i]! % pool.length];
+  return out;
+}
+
 /* ---------------------------------------------------------------------- uuid */
 
 export function uuidV4(): string {
