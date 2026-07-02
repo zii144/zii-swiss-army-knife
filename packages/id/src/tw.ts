@@ -99,8 +99,9 @@ export function validateTwNationalId(id: string): boolean {
  */
 export function validateTwArc(id: string): boolean {
   const trimmed = id.trim();
-  if (!/^[A-Za-z][89]\d{8}$/.test(trimmed) || trimmed !== trimmed.toUpperCase()) return false;
+  if (trimmed !== trimmed.toUpperCase()) return false;
   const normalized = trimmed.toUpperCase();
+  if (!TW_ARC_RE.test(normalized)) return false;
   const letter = normalized[0];
   if (letter !== undefined && TW_ARC_STOP_LETTERS.has(letter)) return false;
   const sum = twTenCharIdSum(normalized);
