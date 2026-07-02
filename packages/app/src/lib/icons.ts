@@ -92,6 +92,26 @@ const TOOL_ICONS: Record<string, string> = {
     '<circle cx="12" cy="12" r="8"/><path d="M12 8v8M8 12h8"/>',
   'timestamp-convert':
     '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/>',
+  'repeat-text':
+    '<path d="M8 6h8v12H8z"/><path d="M4 10h2M4 14h2M18 10h2M18 14h2"/>',
+  'join-lines':
+    '<path d="M4 8h16M4 16h16"/><path d="M12 8v8M9 11l3-3 3 3M9 21l3-3 3 3"/>',
+  'split-text':
+    '<path d="M4 8h16M4 16h16"/><path d="M12 8v8M15 11l-3-3-3 3M15 21l-3 3-3-3"/>',
+  'caesar-cipher':
+    '<circle cx="8" cy="12" r="4"/><path d="M12 12h8M16 8v8"/>',
+  'remove-diacritics':
+    '<path d="M6 18l6-12 6 12"/><path d="M8 14h8"/>',
+  'palindrome-check':
+    '<path d="M4 12h16"/><path d="M8 8l-4 4 4 4M16 8l4 4-4 4"/>',
+  'grep-lines':
+    '<circle cx="10" cy="10" r="6"/><path d="M15 15l4 4M8 10h4"/>',
+  'indent-lines':
+    '<path d="M4 6h16M4 12h12M4 18h16"/><path d="M18 8v8"/>',
+  'energy-convert':
+    '<path d="M13 2L4 14h7l-1 8 9-12h-7l1-8z"/>',
+  'duration-format':
+    '<rect x="4" y="6" width="16" height="12" rx="2"/><path d="M8 10h8M8 14h5"/>',
   'json-yaml':
     '<path d="M9 4C7 4 7 6 7 8s0 4-2 4c2 0 2 2 2 4s0 4 2 4M15 4c2 0 2 2 2 4s0 4 2 4c-2 0-2 2-2 4s0 4-2 4"/>',
   hash: '<path d="M9 4L7 20M17 4l-2 16M5 9.5h14M4 14.5h14"/>',
