@@ -17,6 +17,9 @@ export type { TipResult, DiscountResult, AmortizationRow, BmiCategory, BmiResult
 
 export { daysBetween, addDays, ageInYears } from './dates';
 
+export { unixToIso, isoToUnix, nowUnix, parseUnixTimestamp } from './timestamp';
+export type { UnixUnit } from './timestamp';
+
 export { convert } from './units';
 export type {
   Unit,
@@ -27,6 +30,7 @@ export type {
   AreaUnit,
   SpeedUnit,
   DataUnit,
+  PressureUnit,
 } from './units';
 
 export { convertCooking, DENSITY_G_PER_ML, US_CUP_ML } from './cooking';

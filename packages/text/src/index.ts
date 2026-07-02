@@ -42,12 +42,16 @@ export { testRegex } from './regex';
 export type { RegexMatch, RegexResult } from './regex';
 
 export { slugify } from './slug';
-export { dedupeLines, sortLines, normalizeText, reverseText, findReplace, shuffleLines } from './lines';
+export { dedupeLines, sortLines, normalizeText, reverseText, findReplace, shuffleLines, trimLines, removeEmptyLines, numberLines } from './lines';
 export type { SortLinesOrder } from './lines';
 export { extractEmails, extractUrls } from './extract';
-export { rot13, jsonEscapeString, jsonUnescapeString } from './cipher';
+export { rot13, jsonEscapeString, jsonUnescapeString, textToBinary, binaryToText } from './cipher';
 export { wordFrequency } from './freq';
 export type { WordCount } from './freq';
 export { nanoid } from './nanoid';
 export { loremIpsum } from './lorem';
 export { toRoman, fromRoman } from './roman';
+export { wrapText } from './wrap';
+export { morseEncode, morseDecode } from './morse';
+export { levenshtein } from './distance';
+export { stripHtml } from './html';

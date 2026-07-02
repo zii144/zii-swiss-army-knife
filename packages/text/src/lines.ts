@@ -78,3 +78,20 @@ export function shuffleLines(s: string): string {
   }
   return lines.join('\n');
 }
+
+/** Trim leading and trailing whitespace on each line. */
+export function trimLines(s: string): string {
+  return splitLines(s).map((l) => l.trim()).join('\n');
+}
+
+/** Remove lines that are empty or whitespace-only. */
+export function removeEmptyLines(s: string): string {
+  return splitLines(s).filter((l) => l.trim() !== '').join('\n');
+}
+
+/** Prefix each line with a line number. */
+export function numberLines(s: string, start = 1, sep = ': '): string {
+  return splitLines(s)
+    .map((line, i) => `${start + i}${sep}${line}`)
+    .join('\n');
+}

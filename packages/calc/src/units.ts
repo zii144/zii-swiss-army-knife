@@ -14,9 +14,17 @@ export type VolumeUnit = 'l' | 'ml' | 'usGal' | 'impGal' | 'usPint' | 'impPint' 
 export type AreaUnit = 'm2' | 'ft2' | 'acre' | 'ha';
 export type SpeedUnit = 'kmh' | 'mph' | 'ms';
 export type DataUnit = 'B' | 'KB' | 'MB' | 'GB' | 'KiB' | 'MiB' | 'GiB';
+export type PressureUnit = 'Pa' | 'kPa' | 'bar' | 'psi' | 'atm' | 'mmHg';
 
 export type Unit =
-  LengthUnit | MassUnit | TemperatureUnit | VolumeUnit | AreaUnit | SpeedUnit | DataUnit;
+  | LengthUnit
+  | MassUnit
+  | TemperatureUnit
+  | VolumeUnit
+  | AreaUnit
+  | SpeedUnit
+  | DataUnit
+  | PressureUnit;
 
 // --- Linear factor tables (value-in-base-unit per 1 of the listed unit) ---
 
@@ -76,6 +84,16 @@ const DATA: Record<DataUnit, number> = {
   GiB: 1024 ** 3,
 };
 
+// Base: pascal.
+const PRESSURE: Record<PressureUnit, number> = {
+  Pa: 1,
+  kPa: 1000,
+  bar: 100_000,
+  psi: 6894.757293168,
+  atm: 101_325,
+  mmHg: 133.322387415,
+};
+
 type LinearTable = Record<string, number>;
 
 const LINEAR_DIMENSIONS: Record<string, LinearTable> = {
@@ -85,6 +103,7 @@ const LINEAR_DIMENSIONS: Record<string, LinearTable> = {
   area: AREA,
   speed: SPEED,
   data: DATA,
+  pressure: PRESSURE,
 };
 
 const TEMPERATURE_UNITS: readonly TemperatureUnit[] = ['C', 'F', 'K'];
