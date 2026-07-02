@@ -16,3 +16,16 @@ export function wordFrequency(text: string, limit = 50): WordCount[] {
     .sort((a, b) => b.count - a.count || a.word.localeCompare(b.word))
     .slice(0, Math.max(1, Math.min(500, Math.trunc(limit))));
 }
+
+/** Count character frequencies (ignores whitespace by default). */
+export function charFrequency(text: string, limit = 50, includeWhitespace = false): WordCount[] {
+  const counts = new Map<string, number>();
+  for (const ch of text) {
+    if (!includeWhitespace && /\s/.test(ch)) continue;
+    counts.set(ch, (counts.get(ch) ?? 0) + 1);
+  }
+  return [...counts.entries()]
+    .map(([word, count]) => ({ word, count }))
+    .sort((a, b) => b.count - a.count || a.word.localeCompare(b.word))
+    .slice(0, Math.max(1, Math.min(500, Math.trunc(limit))));
+}

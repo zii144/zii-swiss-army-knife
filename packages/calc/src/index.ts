@@ -34,6 +34,7 @@ export type {
   DataUnit,
   PressureUnit,
   EnergyUnit,
+  AngleUnit,
 } from './units';
 
 export { convertCooking, DENSITY_G_PER_ML, US_CUP_ML } from './cooking';

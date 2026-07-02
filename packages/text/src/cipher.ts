@@ -51,3 +51,53 @@ export function hexToText(hex: string): string {
   }
   return out.join('');
 }
+
+/** ROT47 encode/decode (self-inverse, printable ASCII). */
+export function rot47(s: string): string {
+  return s.replace(/[!-~]/g, (ch) => {
+    const code = ch.charCodeAt(0);
+    return String.fromCharCode(33 + ((code - 33 + 47) % 94));
+  });
+}
+
+/** Escape non-ASCII and control chars as \\uXXXX. */
+export function unicodeEscape(text: string): string {
+  return [...text]
+    .map((ch) => {
+      const cp = ch.codePointAt(0)!;
+      if (cp >= 0x20 && cp <= 0x7e) return ch === '\\' ? '\\\\' : ch;
+      if (cp <= 0xffff) return `\\u${cp.toString(16).padStart(4, '0')}`;
+      return `\\u${(0xd800 + ((cp - 0x10000) >> 10)).toString(16).padStart(4, '0')}\\u${(0xdc00 + ((cp - 0x10000) & 0x3ff)).toString(16).padStart(4, '0')}`;
+    })
+    .join('');
+}
+
+/** Unescape \\uXXXX (including surrogate pairs) to characters. */
+export function unicodeUnescape(text: string): string {
+  let out = '';
+  for (let i = 0; i < text.length; i += 1) {
+    if (text[i] === '\\' && text[i + 1] === 'u') {
+      const hex = text.slice(i + 2, i + 6);
+      if (/^[0-9a-fA-F]{4}$/.test(hex)) {
+        const code = Number.parseInt(hex, 16);
+        const next = text.slice(i + 6, i + 12);
+        if (code >= 0xd800 && code <= 0xdbff && next.startsWith('\\u')) {
+          const loHex = next.slice(2, 6);
+          if (/^[0-9a-fA-F]{4}$/.test(loHex)) {
+            const lo = Number.parseInt(loHex, 16);
+            if (lo >= 0xdc00 && lo <= 0xdfff) {
+              out += String.fromCodePoint((code - 0xd800) * 0x400 + (lo - 0xdc00) + 0x10000);
+              i += 11;
+              continue;
+            }
+          }
+        }
+        out += String.fromCharCode(code);
+        i += 5;
+        continue;
+      }
+    }
+    out += text[i];
+  }
+  return out;
+}
