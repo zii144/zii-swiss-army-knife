@@ -44,3 +44,5 @@ export type { Ingredient, CookingUnit } from './cooking';
 
 export { convertCurrency } from './currency';
 export type { RateProvider } from './currency';
+
+export { gcd, lcm } from './math';

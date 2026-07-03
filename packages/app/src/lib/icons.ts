@@ -152,6 +152,26 @@ const TOOL_ICONS: Record<string, string> = {
     '<path d="M4 12h16M7 7l5 10M13 7l5 10"/>',
   'base32-codec':
     '<path d="M6 4v16M10 4v16M14 8v8M18 6v12"/>',
+  'length-convert':
+    '<path d="M4 12h16M6 8v8M18 8v8"/>',
+  soundex:
+    '<circle cx="12" cy="10" r="6"/><path d="M8 16h8"/>',
+  'jaccard-similarity':
+    '<circle cx="8" cy="12" r="4"/><circle cx="16" cy="12" r="4"/><path d="M10.5 12h3"/>',
+  'quoted-printable':
+    '<path d="M4 6h16M4 12h12M4 18h8"/><path d="M18 16l2 2"/>',
+  'extract-numbers':
+    '<path d="M4 18V6M8 18V10M12 18V4M16 18v-6M20 18V8"/>',
+  'extract-ipv4':
+    '<rect x="4" y="6" width="16" height="12" rx="2"/><path d="M8 10h8M8 14h4"/>',
+  'transpose-grid':
+    '<path d="M4 4h6v6H4zM14 4h6v6h-6zM4 14h6v6H4zM14 14h6v6h-6z"/>',
+  'gcd-lcm':
+    '<path d="M8 6v12M16 6v12"/><path d="M6 10h12M6 14h12"/>',
+  'string-similarity':
+    '<path d="M6 18L18 6"/><path d="M8 8h2v2M16 16h2v2"/>',
+  'mask-emails':
+    '<rect x="4" y="8" width="16" height="10" rx="2"/><path d="M4 10l8 5 8-5"/>',
   'json-yaml':
     '<path d="M9 4C7 4 7 6 7 8s0 4-2 4c2 0 2 2 2 4s0 4 2 4M15 4c2 0 2 2 2 4s0 4 2 4c-2 0-2 2-2 4s0 4-2 4"/>',
   hash: '<path d="M9 4L7 20M17 4l-2 16M5 9.5h14M4 14.5h14"/>',
