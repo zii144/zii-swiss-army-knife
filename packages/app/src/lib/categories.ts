@@ -133,11 +133,57 @@ const CATEGORY_LABELS: Record<string, L10n> = {
   },
 };
 
+const CATEGORY_DESCRIPTIONS: Record<string, string> = {
+  pdf: 'Merge, split, compress, rotate, watermark, organize, and convert PDF files in the browser.',
+  image:
+    'Convert, compress, resize, crop, clean metadata, OCR, and edit images locally in the browser.',
+  text: 'Count, clean, transform, compare, encode, decode, and normalize text without uploading it.',
+  dev: 'Format, convert, encode, decode, inspect, and generate developer data directly in the browser.',
+  calc: 'Run practical everyday calculators for percentages, discounts, health, math, finance, and more.',
+  finance:
+    'Calculate prices, savings, tax, loans, currency conversions, and payroll-related figures.',
+  convert:
+    'Convert units, files, media, office documents, dates, data formats, and measurements privately.',
+  datetime:
+    'Work with dates, times, durations, time zones, calendars, holidays, eras, and lunar dates.',
+  generator:
+    'Generate QR codes, passwords, IDs, placeholder text, barcodes, and other useful assets.',
+  id: 'Validate regional identity numbers, postal codes, phone numbers, bank formats, and business IDs.',
+  file: 'Create, inspect, extract, and convert files and archives in a browser-first utility workspace.',
+  daily:
+    'Handle everyday chores such as reminders, formatting, planning, quick checks, and small tasks.',
+};
+
+const CATEGORY_KEYWORDS: Record<string, readonly string[]> = {
+  pdf: ['pdf tools', 'merge pdf', 'split pdf', 'compress pdf', 'pdf converter'],
+  image: ['image tools', 'image converter', 'compress image', 'resize image', 'ocr'],
+  text: ['text tools', 'word counter', 'case converter', 'text cleaner', 'text formatter'],
+  dev: ['developer tools', 'json tools', 'csv converter', 'base64', 'hash generator'],
+  calc: ['calculator', 'percentage calculator', 'scientific calculator', 'bmi calculator'],
+  finance: ['finance calculator', 'loan calculator', 'sales tax', 'currency converter'],
+  convert: ['unit converter', 'file converter', 'measurement converter', 'media converter'],
+  datetime: ['date calculator', 'time zone converter', 'calendar tools', 'timestamp converter'],
+  generator: ['generator tools', 'qr code generator', 'password generator', 'uuid generator'],
+  id: ['id validator', 'postal code checker', 'phone validator', 'business id validator'],
+  file: ['file tools', 'zip tools', 'archive tools', 'file converter'],
+  daily: ['everyday tools', 'daily utilities', 'browser utilities', 'offline tools'],
+};
+
 /** Localized label for a category, falling back to English then the raw key. */
 export function categoryLabel(category: string, lang: Lang): string {
   const map = CATEGORY_LABELS[category];
   if (!map) return category;
   return map[lang] ?? map.en;
+}
+
+/** Search-oriented description for category landing pages and LLM indexes. */
+export function categoryDescription(category: string): string {
+  return CATEGORY_DESCRIPTIONS[category] ?? `${category} tools for everyday browser workflows.`;
+}
+
+/** Search-oriented keyword set for category landing pages. */
+export function categoryKeywords(category: string): readonly string[] {
+  return CATEGORY_KEYWORDS[category] ?? [category, `${category} tools`, 'browser tools'];
 }
 
 /**

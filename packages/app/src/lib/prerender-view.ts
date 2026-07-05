@@ -1,6 +1,6 @@
 import { DICTIONARY, LANGS, LANG_LABELS, type Lang } from './i18n';
 import { CATALOG, categoryColor, localizedBlurb, localizedName } from './catalog';
-import { categoryLabel, presentCategories } from './categories';
+import { categoryDescription, categoryLabel, presentCategories } from './categories';
 import { categoryIconSvg, iconSvg } from './icons';
 import { buildPath } from './router';
 
@@ -78,24 +78,33 @@ function card(lang: Lang, tool: (typeof CATALOG)[number], offlineLabel: string):
       </a></li>`;
 }
 
-function catalogSections(lang: Lang, offlineLabel: string): string {
+function catalogSections(lang: Lang, offlineLabel: string, activeCategory = 'all'): string {
   const d = DICTIONARY[lang];
   const cats = presentCategories(CATALOG.map((t) => t.category));
+  const visibleCats =
+    activeCategory === 'all' ? cats : cats.filter((cat) => cat === activeCategory);
+  const visibleTools =
+    activeCategory === 'all' ? CATALOG : CATALOG.filter((tool) => tool.category === activeCategory);
+  const title =
+    activeCategory === 'all' ? d.catalogTitle : `${categoryLabel(activeCategory, lang)} tools`;
+  const subtitle =
+    activeCategory === 'all' ? d.catalogSubtitle : categoryDescription(activeCategory);
 
   const chips =
-    `<button class="catchip is-active">${esc(d.allCategories)}<span class="catchip__count">${CATALOG.length}</span></button>` +
+    `<a class="catchip${activeCategory === 'all' ? ' is-active' : ''}" href="${buildPath(lang, 'tools')}">${esc(d.allCategories)}<span class="catchip__count">${CATALOG.length}</span></a>` +
     cats
       .map((cat) => {
         const n = CATALOG.filter((t) => t.category === cat).length;
-        return `<button class="catchip"><span class="catchip__ico" style="color:${categoryColor(cat)}">${categoryIconSvg(cat, '', 15)}</span>${esc(categoryLabel(cat, lang))}<span class="catchip__count">${n}</span></button>`;
+        return `<a class="catchip${activeCategory === cat ? ' is-active' : ''}" href="${buildPath(lang, 'category', cat)}"><span class="catchip__ico" style="color:${categoryColor(cat)}">${categoryIconSvg(cat, '', 15)}</span>${esc(categoryLabel(cat, lang))}<span class="catchip__count">${n}</span></a>`;
       })
       .join('');
 
-  const sections = cats
+  const sections = visibleCats
     .map((cat) => {
       const items = CATALOG.filter((t) => t.category === cat);
       return `<section class="catgroup">
       <div class="catgroup__head"><span class="catgroup__ico" style="color:${categoryColor(cat)}">${categoryIconSvg(cat, '', 18)}</span><h3 class="catgroup__title">${esc(categoryLabel(cat, lang))}</h3><span class="catgroup__count">${items.length}</span></div>
+      <p class="tool__hint">${esc(categoryLabel(cat, lang))}: ${esc(items.map((tool) => localizedName(tool.id, lang)).join(', '))}.</p>
       <ul class="app__list">
         ${items.map((tool) => card(lang, tool, offlineLabel)).join('\n        ')}
       </ul>
@@ -107,8 +116,9 @@ function catalogSections(lang: Lang, offlineLabel: string): string {
     <div class="catalog__head">
       <div>
         <span class="catalog__kicker">${esc(d.catalogKicker)}</span>
-        <h2 class="catalog__title">${esc(d.catalogTitle)}</h2>
-        <p class="catalog__subtitle">${esc(d.catalogSubtitle)}</p>
+        <h1 class="catalog__title">${esc(title)}</h1>
+        <p class="catalog__subtitle">${esc(subtitle)}</p>
+        <p class="tool__hint">Browse ${visibleTools.length} privacy-first browser tools${activeCategory === 'all' ? ` across ${esc(cats.map((cat) => categoryLabel(cat, lang)).join(', '))}` : ''}.</p>
       </div>
     </div>
     <div class="catfilter">${chips}</div>
@@ -158,14 +168,54 @@ export function renderToolsBody(lang: Lang): string {
 </div>`;
 }
 
+/** Static category listing for crawlers — replaced by the SPA on load. */
+export function renderCategoryBody(lang: Lang, category: string): string {
+  const d = DICTIONARY[lang];
+  return `<div class="app">
+  ${nav(lang, 'tools')}
+  <main>
+    <nav class="tool__crumbs tool__crumbs--catalog" aria-label="Breadcrumb">
+      <a href="${buildPath(lang, 'home')}">${esc(d.navHome)}</a> /
+      <a href="${buildPath(lang, 'tools')}">${esc(d.navTools)}</a> /
+      <span>${esc(categoryLabel(category, lang))}</span>
+    </nav>
+  </main>
+  ${catalogSections(lang, d.offline, category)}
+  ${footer(lang)}
+</div>`;
+}
+
 /** Static tool-page markup for crawlers — replaced by the interactive view on load. */
 export function renderToolBody(lang: Lang, toolId: string): string {
   const d = DICTIONARY[lang];
+  const tool = CATALOG.find((t) => t.id === toolId);
   const name = localizedName(toolId, lang);
   const blurb = localizedBlurb(toolId, lang);
-  const cat = CATALOG.find((t) => t.id === toolId)?.category;
+  const cat = tool?.category;
+  const related = cat
+    ? CATALOG.filter((t) => t.category === cat && t.id !== toolId).slice(0, 6)
+    : [];
   const catCrumb = cat
-    ? `<a href="${buildPath(lang, 'tools')}">${esc(categoryLabel(cat, lang))}</a> / `
+    ? `<a href="${buildPath(lang, 'category', cat)}">${esc(categoryLabel(cat, lang))}</a> / `
+    : '';
+  const keywordList = tool?.keywords.length
+    ? `<section class="tool__seo">
+        <h2>Keywords</h2>
+        <p>${tool.keywords.map(esc).join(', ')}</p>
+      </section>`
+    : '';
+  const relatedList = related.length
+    ? `<section class="tool__seo">
+        <h2>Related ${cat ? esc(categoryLabel(cat, lang)) : esc(d.navTools)}</h2>
+        <ul>
+          ${related
+            .map(
+              (t) =>
+                `<li><a href="${buildPath(lang, 'tool', t.id)}">${esc(localizedName(t.id, lang))}</a> — ${esc(localizedBlurb(t.id, lang))}</li>`,
+            )
+            .join('\n          ')}
+        </ul>
+      </section>`
     : '';
   return `<div class="app">
   ${nav(lang, 'tools')}
@@ -182,6 +232,13 @@ export function renderToolBody(lang: Lang, toolId: string): string {
         <span class="app__badge">${esc(d.offline)}</span>
       </header>
       <p class="tool__desc">${esc(blurb)}</p>
+      <section class="tool__seo">
+        <h2>What this tool does</h2>
+        <p>${esc(blurb)} ${tool?.offline ? esc('It runs in your browser, supports offline use after loading, and does not upload your data.') : esc('It is available directly in the browser.')}</p>
+        ${cat ? `<p>Category: <a href="${buildPath(lang, 'category', cat)}">${esc(categoryLabel(cat, lang))}</a>.</p>` : ''}
+      </section>
+      ${keywordList}
+      ${relatedList}
       <p class="tool__hint">${esc(d.loading)}</p>
     </section>
   </main>

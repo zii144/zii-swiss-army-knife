@@ -1,7 +1,9 @@
 # Deploying Zii
 
 Zii is a static PWA. The build produces a fully prerendered `dist/` (one crawlable
-`index.html` per locale and per tool, plus `sitemap.xml`, `robots.txt`, `llms.txt`).
+`index.html` per locale, category, and tool, plus `sitemap.xml`, `robots.txt`,
+`llms.txt`, `llms-full.txt`, category LLM indexes, `tools.json`, and
+`opensearch.xml`).
 There is no server runtime — any static host works. The canonical target is **Vercel**.
 
 ## Vercel (recommended)
@@ -64,8 +66,9 @@ pnpm --filter @zii/app dev   # VITE_BACKEND_URL=http://localhost:8787
    the gzipped entry + its static imports exceed 110 KB).
 3. `vite build --ssr src/lib/prerender-entry.ts` — a DOM-free bundle of the locale/SEO
    helpers.
-4. `node scripts/prerender.mjs` — emits the per-locale / per-tool static HTML, `sitemap.xml`,
-   `robots.txt`, and `llms.txt` into `dist/`.
+4. `node scripts/prerender.mjs` — emits the per-locale / per-category / per-tool static
+   HTML, `sitemap.xml`, `robots.txt`, `llms.txt`, `llms-full.txt`, category LLM indexes,
+   `tools.json`, and `opensearch.xml` into `dist/`.
 
 ## Other static hosts
 

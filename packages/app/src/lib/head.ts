@@ -1,5 +1,5 @@
 import type { HeadMeta } from './seo';
-import { SITE_NAME } from './seo';
+import { SITE_IMAGE, SITE_NAME } from './seo';
 
 function setMeta(attr: 'name' | 'property', key: string, content: string): void {
   let el = document.head.querySelector<HTMLMetaElement>(`meta[${attr}="${key}"]`);
@@ -38,6 +38,9 @@ export function applyHead(meta: HeadMeta): void {
   document.title = meta.title;
 
   setMeta('name', 'description', meta.description);
+  setMeta('name', 'keywords', meta.keywords.join(', '));
+  setMeta('name', 'robots', 'index, follow, max-image-preview:large');
+  setMeta('name', 'application-name', SITE_NAME);
   setLink('canonical', meta.canonical);
 
   setMeta('property', 'og:type', 'website');
@@ -46,9 +49,12 @@ export function applyHead(meta: HeadMeta): void {
   setMeta('property', 'og:description', meta.description);
   setMeta('property', 'og:url', meta.canonical);
   setMeta('property', 'og:locale', meta.htmlLang.replace('-', '_'));
+  setMeta('property', 'og:image', SITE_IMAGE);
+  setMeta('property', 'og:image:type', 'image/svg+xml');
   setMeta('name', 'twitter:card', 'summary_large_image');
   setMeta('name', 'twitter:title', meta.title);
   setMeta('name', 'twitter:description', meta.description);
+  setMeta('name', 'twitter:image', SITE_IMAGE);
 
   for (const alt of meta.alternates) setLink('alternate', alt.href, alt.hreflang);
 

@@ -41,7 +41,9 @@ export function App(): React.JSX.Element {
   );
   const [market, setMarket] = useState<Market>('global');
   const [query, setQuery] = useState('');
-  const [category, setCategory] = useState<string>('all');
+  const [category, setCategory] = useState<string>(
+    initial.view === 'category' ? (initial.categoryId ?? 'all') : 'all',
+  );
   const [dark, setDark] = useState(false);
   const [lang, setLang] = useState<Lang>(initial.locale);
   const [view, setView] = useState<AppView>(initial.view);
@@ -59,14 +61,15 @@ export function App(): React.JSX.Element {
   const go = (
     nextLocale: Lang,
     nextView: AppView,
-    nextTool: string | null = null,
+    nextRouteId: string | null = null,
     push = true,
   ): void => {
     setLang(nextLocale);
     setView(nextView);
-    setSelected(nextView === 'tool' ? nextTool : null);
+    setSelected(nextView === 'tool' ? nextRouteId : null);
+    setCategory(nextView === 'category' ? (nextRouteId ?? 'all') : 'all');
     if (push && typeof window !== 'undefined') {
-      const path = buildPath(nextLocale, nextView, nextTool);
+      const path = buildPath(nextLocale, nextView, nextRouteId);
       if (path !== window.location.pathname) window.history.pushState({}, '', path);
     }
   };
@@ -75,10 +78,10 @@ export function App(): React.JSX.Element {
   const goTools = (): void => go(lang, 'tools');
   const back = (): void => go(lang, 'tools');
   const openTool = (id: string): void => go(lang, 'tool', id);
-  const changeLang = (next: Lang): void => go(next, view, selected);
+  const changeLang = (next: Lang): void =>
+    go(next, view, selected ?? (view === 'category' ? category : null));
   const openCategory = (cat: string): void => {
-    setCategory(cat);
-    go(lang, 'tools');
+    go(lang, cat === 'all' ? 'tools' : 'category', cat === 'all' ? null : cat);
     requestAnimationFrame(() => catalogRef.current?.scrollIntoView({ behavior: 'smooth' }));
   };
 
@@ -86,8 +89,10 @@ export function App(): React.JSX.Element {
 
   // Keep the document head + <html lang> in sync with the active route.
   useEffect(() => {
-    applyHead(buildHead(originOf(), lang, view, selected));
-  }, [lang, view, selected]);
+    applyHead(
+      buildHead(originOf(), lang, view, selected ?? (view === 'category' ? category : null)),
+    );
+  }, [category, lang, view, selected]);
 
   // Entering (or switching) a tool scrolls back to the top.
   useEffect(() => {
@@ -98,7 +103,7 @@ export function App(): React.JSX.Element {
   useEffect(() => {
     const onPop = (): void => {
       const r = parsePath(window.location.pathname);
-      go(r.locale, r.view, r.toolId, false);
+      go(r.locale, r.view, r.toolId ?? r.categoryId, false);
     };
     window.addEventListener('popstate', onPop);
     return () => window.removeEventListener('popstate', onPop);
@@ -147,7 +152,7 @@ export function App(): React.JSX.Element {
           </button>
           <button
             type="button"
-            className={`app__nav-link${view === 'tools' || view === 'tool' ? ' is-active' : ''}`}
+            className={`app__nav-link${view === 'tools' || view === 'category' || view === 'tool' ? ' is-active' : ''}`}
             onClick={goTools}
           >
             {t('navTools')}
@@ -237,7 +242,7 @@ export function App(): React.JSX.Element {
             </Suspense>
           </main>
         </div>
-      ) : view === 'tools' ? (
+      ) : view === 'tools' || view === 'category' ? (
         <>
           <ToolCatalog
             tools={tools}
@@ -247,7 +252,7 @@ export function App(): React.JSX.Element {
             category={category}
             onMarket={setMarket}
             onQuery={setQuery}
-            onCategory={setCategory}
+            onCategory={openCategory}
             onOpenTool={openTool}
             catalogRef={catalogRef}
             standalone

@@ -4,7 +4,7 @@ import { formatToolCount, marketLabel, SELECTABLE_MARKETS } from '../lib/tools';
 import type { Lang } from '../lib/i18n';
 import { useT } from '../lib/i18n';
 import { categoryColor, localizedName } from '../lib/catalog';
-import { categoryLabel, presentCategories } from '../lib/categories';
+import { categoryDescription, categoryLabel, presentCategories } from '../lib/categories';
 import { prefetchTool } from '../tools';
 import { ToolIcon, CategoryIcon } from './ToolIcon';
 import { Select, TextField } from './ui';
@@ -48,6 +48,8 @@ export function ToolCatalog({
   const sectionCategories = presentCategories(tools.map((tool) => tool.category));
   const visibleCategories =
     category === 'all' ? sectionCategories : sectionCategories.filter((c) => c === category);
+  const title = category === 'all' ? t('catalogTitle') : `${categoryLabel(category, lang)} tools`;
+  const subtitle = category === 'all' ? t('catalogSubtitle') : categoryDescription(category);
 
   const marketOptions: SelectOption[] = SELECTABLE_MARKETS.map((m) => ({
     value: m,
@@ -84,8 +86,8 @@ export function ToolCatalog({
       <div className="catalog__head">
         <div>
           <span className="catalog__kicker">{t('catalogKicker')}</span>
-          <h2 className="catalog__title">{t('catalogTitle')}</h2>
-          <p className="catalog__subtitle">{t('catalogSubtitle')}</p>
+          <h2 className="catalog__title">{title}</h2>
+          <p className="catalog__subtitle">{subtitle}</p>
         </div>
         <div className="catalog__controls">
           <Select

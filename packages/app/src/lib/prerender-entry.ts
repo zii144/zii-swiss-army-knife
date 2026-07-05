@@ -4,7 +4,20 @@
 export { LANGS, HREFLANG, DICTIONARY } from './i18n';
 export type { Lang } from './i18n';
 export { CATALOG, CATALOG_IDS, categoryColor, localizedName, localizedBlurb } from './catalog';
+export {
+  CATEGORY_ORDER,
+  categoryDescription,
+  categoryKeywords,
+  categoryLabel,
+  presentCategories,
+} from './categories';
 export { iconSvg } from './icons';
 export { buildPath, allRoutes } from './router';
 export { buildHead, alternatesFor, SITE_ORIGIN, SITE_NAME } from './seo';
-export { renderHomeBody, renderToolsBody, renderToolBody, esc } from './prerender-view';
+export {
+  renderHomeBody,
+  renderToolsBody,
+  renderCategoryBody,
+  renderToolBody,
+  esc,
+} from './prerender-view';

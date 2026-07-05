@@ -49,7 +49,14 @@
   --dur-3: 420ms;
 
   font-family:
-    'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    'Inter',
+    system-ui,
+    -apple-system,
+    'Segoe UI',
+    Roboto,
+    'Helvetica Neue',
+    Arial,
+    sans-serif;
   color-scheme: light;
 }
 
@@ -646,6 +653,7 @@ body {
   font: inherit;
   font-size: 0.85rem;
   font-weight: 600;
+  text-decoration: none;
   cursor: pointer;
   backdrop-filter: blur(10px);
   transition:
@@ -1048,6 +1056,36 @@ main {
   line-height: 1.5;
 }
 
+.tool__seo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  color: var(--ink-soft);
+  font-size: 0.88rem;
+  line-height: 1.55;
+}
+
+.tool__seo h2 {
+  margin: 0;
+  color: var(--ink);
+  font-size: 0.95rem;
+  font-weight: 800;
+}
+
+.tool__seo p,
+.tool__seo ul {
+  margin: 0;
+}
+
+.tool__seo ul {
+  padding-left: 1.1rem;
+}
+
+.tool__seo a {
+  color: var(--accent);
+  text-decoration: none;
+}
+
 .tool__crumbs {
   font-size: 0.8rem;
   color: var(--ink-soft);
@@ -1056,6 +1094,12 @@ main {
 .tool__crumbs a {
   color: var(--accent);
   text-decoration: none;
+}
+
+.tool__crumbs--catalog {
+  max-width: 1140px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
 }
 
 .tool__body {

@@ -1,11 +1,14 @@
 import { DICTIONARY, HREFLANG, LANGS, type Lang } from './i18n';
 import { CATALOG, getTool, localizedBlurb, localizedName } from './catalog';
-import { categoryLabel } from './categories';
+import { categoryDescription, categoryKeywords, categoryLabel } from './categories';
 import { buildPath, type AppView } from './router';
 
 /** Public origin used for canonical/alternate URLs in prerendered output. */
 export const SITE_ORIGIN = 'https://zii.tools';
 export const SITE_NAME = 'Zii';
+export const SITE_TAGLINE =
+  'Privacy-first browser tools for files, PDFs, images, text, calculators, generators, and developer utilities.';
+export const SITE_IMAGE = `${SITE_ORIGIN}/icon.svg`;
 
 export interface AltLink {
   hreflang: string;
@@ -17,11 +20,25 @@ export interface HeadMeta {
   htmlLang: string;
   title: string;
   description: string;
+  keywords: string[];
   canonical: string;
   alternates: AltLink[];
   /** JSON-LD objects to embed as <script type="application/ld+json">. */
   jsonLd: object[];
 }
+
+const SITE_KEYWORDS = [
+  'online tools',
+  'browser tools',
+  'offline tools',
+  'privacy-first tools',
+  'file converter',
+  'PDF tools',
+  'image tools',
+  'text tools',
+  'calculators',
+  'developer tools',
+];
 
 function homeTitle(lang: Lang): string {
   const d = DICTIONARY[lang];
@@ -29,16 +46,12 @@ function homeTitle(lang: Lang): string {
 }
 
 /** hreflang alternates for a route across every locale, plus x-default (en). */
-export function alternatesFor(
-  origin: string,
-  view: AppView,
-  toolId: string | null,
-): AltLink[] {
+export function alternatesFor(origin: string, view: AppView, routeId: string | null): AltLink[] {
   const links: AltLink[] = LANGS.map((l) => ({
     hreflang: HREFLANG[l],
-    href: origin + buildPath(l, view, toolId),
+    href: origin + buildPath(l, view, routeId),
   }));
-  links.push({ hreflang: 'x-default', href: origin + buildPath('en', view, toolId) });
+  links.push({ hreflang: 'x-default', href: origin + buildPath('en', view, routeId) });
   return links;
 }
 
@@ -47,11 +60,11 @@ export function buildHead(
   origin: string,
   lang: Lang,
   view: AppView,
-  toolId: string | null,
+  routeId: string | null,
 ): HeadMeta {
   const d = DICTIONARY[lang];
-  const canonical = origin + buildPath(lang, view, toolId);
-  const alternates = alternatesFor(origin, view, toolId);
+  const canonical = origin + buildPath(lang, view, routeId);
+  const alternates = alternatesFor(origin, view, routeId);
   const base = {
     lang,
     htmlLang: HREFLANG[lang],
@@ -59,30 +72,76 @@ export function buildHead(
     alternates,
   };
 
-  if (view === 'tool' && toolId) {
-    const name = localizedName(toolId, lang);
-    const description = localizedBlurb(toolId, lang) || d.heroSubtitle;
+  const websiteJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    name: SITE_NAME,
+    alternateName: 'Zii Swiss Army Knife',
+    url: origin + buildPath(lang, 'home'),
+    description: d.heroSubtitle,
+    inLanguage: HREFLANG[lang],
+    potentialAction: {
+      '@type': 'SearchAction',
+      target: `${origin + buildPath(lang, 'tools')}?q={search_term_string}`,
+      'query-input': 'required name=search_term_string',
+    },
+  };
+
+  const publisherJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    name: SITE_NAME,
+    url: origin + buildPath(lang, 'home'),
+    logo: `${origin}/icon.svg`,
+  };
+
+  if (view === 'tool' && routeId) {
+    const tool = getTool(routeId);
+    const name = localizedName(routeId, lang);
+    const description = localizedBlurb(routeId, lang) || d.heroSubtitle;
+    const category = tool?.category;
+    const keywords = [
+      name,
+      ...(tool?.keywords ?? []),
+      ...(category ? [categoryLabel(category, lang), `${category} tool`] : []),
+      ...SITE_KEYWORDS.slice(0, 4),
+    ];
     return {
       ...base,
       title: `${name} — ${SITE_NAME}`,
       description,
+      keywords: Array.from(new Set(keywords)),
       jsonLd: [
+        websiteJsonLd,
         {
           '@context': 'https://schema.org',
           '@type': 'SoftwareApplication',
-          name: `${name} — ${SITE_NAME}`,
+          name,
+          alternateName: `${name} — ${SITE_NAME}`,
           applicationCategory: 'UtilitiesApplication',
+          applicationSubCategory: category ? categoryLabel(category, lang) : undefined,
           operatingSystem: 'Web',
           description,
           url: canonical,
+          image: `${origin}/icon.svg`,
+          publisher: { '@type': 'Organization', name: SITE_NAME, url: origin },
           offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
           isAccessibleForFree: true,
+          browserRequirements: 'Requires a modern browser with JavaScript enabled.',
+          featureList: [
+            description,
+            'Runs in the browser',
+            'No account required',
+            tool?.offline ? 'Works offline after loading' : 'Web-based utility',
+            'No server-side data retention',
+          ],
+          inLanguage: HREFLANG[lang],
+          keywords: Array.from(new Set(keywords)).join(', '),
         },
         {
           '@context': 'https://schema.org',
           '@type': 'BreadcrumbList',
           itemListElement: (() => {
-            const cat = getTool(toolId)?.category;
             const items: object[] = [
               {
                 '@type': 'ListItem',
@@ -97,12 +156,12 @@ export function buildHead(
                 item: origin + buildPath(lang, 'tools'),
               },
             ];
-            if (cat) {
+            if (category) {
               items.push({
                 '@type': 'ListItem',
                 position: 3,
-                name: categoryLabel(cat, lang),
-                item: origin + buildPath(lang, 'tools'),
+                name: categoryLabel(category, lang),
+                item: origin + buildPath(lang, 'category', category),
               });
             }
             items.push({
@@ -118,19 +177,101 @@ export function buildHead(
     };
   }
 
+  if (view === 'category' && routeId) {
+    const name = categoryLabel(routeId, lang);
+    const description = categoryDescription(routeId);
+    const tools = CATALOG.filter((t) => t.category === routeId);
+    const keywords = [
+      `${name} tools`,
+      ...categoryKeywords(routeId),
+      ...Array.from(new Set(tools.flatMap((t) => t.keywords))).slice(0, 24),
+      ...SITE_KEYWORDS,
+    ];
+
+    return {
+      ...base,
+      title: `${name} tools — ${SITE_NAME}`,
+      description,
+      keywords: Array.from(new Set(keywords)),
+      jsonLd: [
+        websiteJsonLd,
+        {
+          '@context': 'https://schema.org',
+          '@type': 'CollectionPage',
+          name: `${name} tools`,
+          description,
+          url: canonical,
+          isPartOf: {
+            '@type': 'WebApplication',
+            name: SITE_NAME,
+            url: origin + buildPath(lang, 'home'),
+          },
+          inLanguage: HREFLANG[lang],
+        },
+        {
+          '@context': 'https://schema.org',
+          '@type': 'ItemList',
+          name: `${name} tools`,
+          itemListElement: tools.map((t, i) => ({
+            '@type': 'ListItem',
+            position: i + 1,
+            name: localizedName(t.id, lang),
+            description: localizedBlurb(t.id, lang),
+            url: origin + buildPath(lang, 'tool', t.id),
+          })),
+        },
+        {
+          '@context': 'https://schema.org',
+          '@type': 'BreadcrumbList',
+          itemListElement: [
+            {
+              '@type': 'ListItem',
+              position: 1,
+              name: d.navHome,
+              item: origin + buildPath(lang, 'home'),
+            },
+            {
+              '@type': 'ListItem',
+              position: 2,
+              name: d.navTools,
+              item: origin + buildPath(lang, 'tools'),
+            },
+            {
+              '@type': 'ListItem',
+              position: 3,
+              name,
+              item: canonical,
+            },
+          ],
+        },
+      ],
+    };
+  }
+
   if (view === 'tools') {
+    const keywords = [
+      d.catalogTitle,
+      ...SITE_KEYWORDS,
+      ...Array.from(new Set(CATALOG.flatMap((t) => t.keywords))).slice(0, 30),
+    ];
     return {
       ...base,
       title: `${d.catalogTitle} — ${SITE_NAME}`,
       description: d.catalogSubtitle,
+      keywords: Array.from(new Set(keywords)),
       jsonLd: [
+        websiteJsonLd,
         {
           '@context': 'https://schema.org',
           '@type': 'CollectionPage',
           name: d.catalogTitle,
           description: d.catalogSubtitle,
           url: canonical,
-          isPartOf: { '@type': 'WebApplication', name: SITE_NAME, url: origin + buildPath(lang, 'home') },
+          isPartOf: {
+            '@type': 'WebApplication',
+            name: SITE_NAME,
+            url: origin + buildPath(lang, 'home'),
+          },
         },
         {
           '@context': 'https://schema.org',
@@ -140,6 +281,7 @@ export function buildHead(
             '@type': 'ListItem',
             position: i + 1,
             name: localizedName(t.id, lang),
+            description: localizedBlurb(t.id, lang),
             url: origin + buildPath(lang, 'tool', t.id),
           })),
         },
@@ -151,17 +293,32 @@ export function buildHead(
     ...base,
     title: homeTitle(lang),
     description: d.heroSubtitle,
+    keywords: SITE_KEYWORDS,
     jsonLd: [
+      websiteJsonLd,
+      publisherJsonLd,
       {
         '@context': 'https://schema.org',
         '@type': 'WebApplication',
         name: SITE_NAME,
+        alternateName: 'Zii Swiss Army Knife',
         url: canonical,
         applicationCategory: 'UtilitiesApplication',
         operatingSystem: 'Web',
         description: d.heroSubtitle,
+        image: `${origin}/icon.svg`,
         offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
         isAccessibleForFree: true,
+        inLanguage: HREFLANG[lang],
+        featureList: [
+          'PDF tools',
+          'Image conversion and compression',
+          'Text cleanup and formatting',
+          'Calculators and unit converters',
+          'Developer utilities',
+          'QR and barcode generators',
+          'Regional identity and format validators',
+        ],
       },
     ],
   };
