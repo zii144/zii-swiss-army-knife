@@ -25,3 +25,16 @@ export {
   FURUSATO_STANDARD,
 } from './jp-furusato';
 export type { FurusatoConfig, FurusatoResult } from './jp-furusato';
+
+// Japan take-home pay (手取り) — 協会けんぽ 東京 令和6年度.
+export {
+  jpTakeHome,
+  jpSocialInsuranceMonthly,
+  jpHealthStandardRemuneration,
+  jpPensionStandardRemuneration,
+  jpEmploymentIncomeDeduction,
+  jpIncomeTaxAnnual,
+  jpResidentTaxAnnual,
+  JP_TAKEHOME_TOKYO_2024,
+} from './jp-takehome';
+export type { JpTakeHomeConfig, JpSocialInsurance, JpTakeHomeResult } from './jp-takehome';
