@@ -2089,6 +2089,27 @@ export const CATALOG: readonly CatalogTool[] = [
     },
   },
   {
+    id: 'jp-romaji',
+    category: 'text',
+    offline: true,
+    markets: ['jp'],
+    keywords: ['japan', 'romaji', 'hepburn', 'kana', 'ローマ字', '假名', 'かな', 'hiragana', 'katakana', 'romanize'],
+    name: {
+      en: 'Kana → romaji',
+      ja: 'かな → ローマ字',
+      'zh-TW': '假名轉羅馬字',
+      'zh-HK': '假名轉羅馬字',
+      ko: '가나 → 로마자',
+      es: 'Kana → romaji',
+      fr: 'Kana → romaji',
+      de: 'Kana → Rōmaji',
+    },
+    blurb: {
+      en: 'Convert hiragana/katakana to Hepburn rōmaji.',
+      ja: 'ひらがな・カタカナをヘボン式ローマ字に変換。',
+    },
+  },
+  {
     id: 'jp-takehome',
     category: 'finance',
     offline: true,

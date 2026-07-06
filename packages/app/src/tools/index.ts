@@ -163,6 +163,7 @@ const LOADERS: Record<string, ViewLoader> = {
   'hk-br': () => import('./hk-br'),
   'jp-furusato': () => import('./jp-furusato'),
   'jp-takehome': () => import('./jp-takehome'),
+  'jp-romaji': () => import('./jp-romaji'),
   'jp-mynumber': () => import('./jp-mynumber'),
   'jp-corp-number': () => import('./jp-corp-number'),
   'us-ssn': () => import('./us-ssn'),

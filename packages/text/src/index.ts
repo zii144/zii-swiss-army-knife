@@ -18,6 +18,8 @@ export {
 
 export { toSimplified, toTraditional, toTraditionalTaiwan } from './cjk';
 
+export { kanaToRomaji } from './romaji';
+
 export {
   jsonToCsv,
   csvToJson,
