@@ -1931,6 +1931,27 @@ export const CATALOG: readonly CatalogTool[] = [
 
   // --- Market packs (Phase 3) — shown when the matching region is selected. ---
   {
+    id: 'tw-invoice',
+    category: 'finance',
+    offline: true,
+    markets: ['tw'],
+    keywords: ['taiwan', 'invoice', 'lottery', '統一發票', '對獎', '發票', '中獎', 'receipt'],
+    name: {
+      en: 'Taiwan invoice lottery',
+      'zh-TW': '統一發票對獎',
+      'zh-HK': '台灣統一發票對獎',
+      ja: '台湾統一発票くじ',
+      ko: '대만 통일발표 복권',
+      es: 'Lotería de facturas (Taiwán)',
+      fr: 'Loterie des factures (Taïwan)',
+      de: 'Rechnungslotterie (Taiwan)',
+    },
+    blurb: {
+      en: 'Check a 統一發票 receipt against the period’s winning numbers, on-device.',
+      'zh-TW': '輸入本期中獎號碼即可對獎，全程於裝置上運算。',
+    },
+  },
+  {
     id: 'tw-national-id',
     category: 'id',
     offline: true,

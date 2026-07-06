@@ -153,6 +153,7 @@ const LOADERS: Record<string, ViewLoader> = {
   'pdf-to-word': () => import('./pdf-to-word'),
   'ca-sin': () => import('./ca-sin'),
   'au-tfn': () => import('./au-tfn'),
+  'tw-invoice': () => import('./tw-invoice'),
   'tw-national-id': () => import('./tw-national-id'),
   'tw-ubn': () => import('./tw-ubn'),
   'tw-arc': () => import('./tw-arc'),

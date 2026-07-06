@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "zii-app",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": ["--filter", "@zii/app", "dev"],
+      "port": 5173
+    }
+  ]
+}

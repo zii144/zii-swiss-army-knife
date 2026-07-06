@@ -65,6 +65,9 @@ importers:
       '@zii/payroll':
         specifier: workspace:*
         version: link:../payroll
+      '@zii/receipt':
+        specifier: workspace:*
+        version: link:../receipt
       '@zii/registry':
         specifier: workspace:*
         version: link:../registry
@@ -183,6 +186,8 @@ importers:
       '@zii/locale':
         specifier: workspace:*
         version: link:../locale
+
+  packages/receipt: {}
 
   packages/registry: {}
 

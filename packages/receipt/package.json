@@ -1,0 +1,16 @@
+{
+  "name": "@zii/receipt",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Receipt & invoice utilities — Taiwan Uniform-Invoice Lottery (統一發票對獎) prize matching. Pure, offline, deterministic. Per-period numbers are dated, sourced data, never fabricated.",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json",
+    "test": "vitest run",
+    "lint": "eslint ."
+  }
+}
