@@ -77,6 +77,9 @@ Last updated: June 29, 2026
 - **🇭🇰 薪俸稅 + MPF** (`hk-salaries-tax`, `@zii/payroll/hk`) — dated YA 2024/25 constants, min(progressive, standard-rate), MPF cap, take-home.
 - **🇯🇵 ふるさと納税** (`jp-furusato`, `@zii/payroll/jp-furusato`) — 総務省 ceiling formula over 課税所得.
 - **🇯🇵 手取り take-home** (`jp-takehome`, `@zii/payroll/jp-takehome`) — 協会けんぽ 東京 令和6年度 social insurance (健保/介護/厚年/雇用) from the canonical 標準報酬月額 grade table + confirmed FY2024 rates, layered with 所得税 and 住民税. Single-earner 概算; social-insurance part is exact for this basis.
+- **🇭🇰 遣散費/長服金 severance** (`hk-severance`, `@zii/payroll/hk`) — Employment Ordinance formula, 2/3 × capped wages × years, HK$390,000 cap.
+- **🇯🇵 かな→ローマ字** (`jp-romaji`, `@zii/text/romaji`) — rule-based Hepburn romanization (kana, not kanji).
+- **🌐 Subscription tracker** (`subscription-tracker`, `@zii/calc/subscriptions`) — offline recurring-cost tracker (localStorage), monthly/yearly totals.
 
 **Deliberately deferred (integrity / capability gates — NOT fabricated):**
 
