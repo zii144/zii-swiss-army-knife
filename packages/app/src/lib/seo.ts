@@ -27,6 +27,32 @@ export interface HeadMeta {
   jsonLd: object[];
 }
 
+/** Market → country name for geo-targeting (schema.org areaServed). */
+const MARKET_COUNTRY: Readonly<Record<string, string>> = {
+  tw: 'Taiwan',
+  hk: 'Hong Kong',
+  jp: 'Japan',
+  'en-us': 'United States',
+  'en-gb': 'United Kingdom',
+  'en-ca': 'Canada',
+  'en-au': 'Australia',
+};
+
+/** schema.org Country[] a market-specific tool serves (empty for global tools). */
+function areaServedFor(markets: readonly string[] | undefined): object[] {
+  if (!markets) return [];
+  const seen = new Set<string>();
+  const out: object[] = [];
+  for (const m of markets) {
+    const name = MARKET_COUNTRY[m];
+    if (name && !seen.has(name)) {
+      seen.add(name);
+      out.push({ '@type': 'Country', name });
+    }
+  }
+  return out;
+}
+
 const SITE_KEYWORDS = [
   'online tools',
   'browser tools',
@@ -100,6 +126,7 @@ export function buildHead(
     const name = localizedName(routeId, lang);
     const description = localizedBlurb(routeId, lang) || d.heroSubtitle;
     const category = tool?.category;
+    const areaServed = areaServedFor(tool?.markets);
     const keywords = [
       name,
       ...(tool?.keywords ?? []),
@@ -137,6 +164,7 @@ export function buildHead(
           ],
           inLanguage: HREFLANG[lang],
           keywords: Array.from(new Set(keywords)).join(', '),
+          ...(areaServed.length > 0 ? { areaServed } : {}),
         },
         {
           '@context': 'https://schema.org',

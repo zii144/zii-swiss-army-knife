@@ -4,6 +4,7 @@
 export { LANGS, HREFLANG, DICTIONARY } from './i18n';
 export type { Lang } from './i18n';
 export { CATALOG, CATALOG_IDS, categoryColor, localizedName, localizedBlurb } from './catalog';
+export { marketLabel } from './tools';
 export {
   CATEGORY_ORDER,
   categoryDescription,

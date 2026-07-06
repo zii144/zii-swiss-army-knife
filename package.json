@@ -9,6 +9,8 @@
     "node": ">=20"
   },
   "scripts": {
+    "dev": "pnpm --filter @zii/app dev",
+    "preview": "pnpm --filter @zii/app preview",
     "build": "turbo run build",
     "test": "turbo run test",
     "lint": "turbo run lint",
