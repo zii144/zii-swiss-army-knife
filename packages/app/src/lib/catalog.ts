@@ -2068,6 +2068,27 @@ export const CATALOG: readonly CatalogTool[] = [
     },
   },
   {
+    id: 'jp-takehome',
+    category: 'finance',
+    offline: true,
+    markets: ['jp'],
+    keywords: ['japan', 'take home', '手取り', '給料', '社会保険', '所得税', '住民税', 'net salary', 'payroll'],
+    name: {
+      en: 'Japan take-home pay',
+      ja: '手取り計算',
+      'zh-TW': '日本手取（實領）試算',
+      'zh-HK': '日本手取（實領）試算',
+      ko: '일본 실수령액 계산',
+      es: 'Salario neto (Japón)',
+      fr: 'Salaire net (Japon)',
+      de: 'Nettogehalt (Japan)',
+    },
+    blurb: {
+      en: 'Estimate monthly 手取り: social insurance + income tax + resident tax.',
+      ja: '社会保険・所得税・住民税を差し引いた手取りを概算します。',
+    },
+  },
+  {
     id: 'jp-furusato',
     category: 'finance',
     offline: true,

@@ -1111,6 +1111,26 @@ main {
   line-height: 1.5;
 }
 
+.tool__table {
+  width: 100%;
+  max-width: 22rem;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+.tool__table td {
+  padding: 0.35rem 0;
+  border-bottom: 1px solid var(--border, rgba(0, 0, 0, 0.08));
+  color: var(--ink-soft);
+}
+
+.tool__table-total td {
+  border-bottom: none;
+  padding-top: 0.5rem;
+  font-weight: 800;
+  color: var(--ink);
+}
+
 .tool__link {
   align-self: flex-start;
   color: var(--accent);

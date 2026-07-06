@@ -76,11 +76,11 @@ Last updated: June 29, 2026
 - **🇹🇼 統一發票對獎** (`tw-invoice`, `@zii/receipt`) — fixed prize-matching engine; per-period winning numbers are user-entered/dated data, never fabricated (empty bundled table + documented update process).
 - **🇭🇰 薪俸稅 + MPF** (`hk-salaries-tax`, `@zii/payroll/hk`) — dated YA 2024/25 constants, min(progressive, standard-rate), MPF cap, take-home.
 - **🇯🇵 ふるさと納税** (`jp-furusato`, `@zii/payroll/jp-furusato`) — 総務省 ceiling formula over 課税所得.
+- **🇯🇵 手取り take-home** (`jp-takehome`, `@zii/payroll/jp-takehome`) — 協会けんぽ 東京 令和6年度 social insurance (健保/介護/厚年/雇用) from the canonical 標準報酬月額 grade table + confirmed FY2024 rates, layered with 所得税 and 住民税. Single-earner 概算; social-insurance part is exact for this basis.
 
 **Deliberately deferred (integrity / capability gates — NOT fabricated):**
 
 - **Live gov-data feeds** — 統一發票 official numbers, MTR/巴士/捷運/YouBike/乗換 ETAs, 気象庁/CWA weather·quake·typhoon·AQI, 中電/煤氣/差餉 utility bills, 垃圾車/ゴミ分別 schedules. These need the deployed no-retention gov-data proxy + cache; no live feed is wired yet, so they are not built. Wrong/stale numbers would break the data-trust guardrail.
-- **JP 手取り take-home** — needs the 50-grade 標準報酬月額 tables (健保 prefecture-specific, 厚生年金 capped) + 雇用保険/所得税/住民税 layering. Deferred until verified grade tables + reference-payslip validation exist.
 - **Transit-card balance (八達通/Suica/PASMO)** — requires native NFC (Phase 4), not a web capability.
 
 ---
