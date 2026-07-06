@@ -1099,6 +1099,26 @@ export const CATALOG: readonly CatalogTool[] = [
     },
   },
   {
+    id: 'subscription-tracker',
+    category: 'finance',
+    offline: true,
+    keywords: ['subscription', 'recurring', 'tracker', 'budget', 'monthly', 'yearly', 'spend', '訂閱', 'サブスク'],
+    name: {
+      en: 'Subscription tracker',
+      'zh-TW': '訂閱追蹤',
+      'zh-HK': '訂閱追蹤',
+      ja: 'サブスク管理',
+      ko: '구독 관리',
+      es: 'Gestor de suscripciones',
+      fr: 'Suivi des abonnements',
+      de: 'Abo-Tracker',
+    },
+    blurb: {
+      en: 'Track recurring subscriptions and see true monthly/yearly cost.',
+      'zh-TW': '追蹤定期訂閱，換算實際每月與每年花費。',
+    },
+  },
+  {
     id: 'savings',
     category: 'finance',
     offline: true,
@@ -2031,6 +2051,27 @@ export const CATALOG: readonly CatalogTool[] = [
     },
   },
   {
+    id: 'hk-severance',
+    category: 'finance',
+    offline: true,
+    markets: ['hk'],
+    keywords: ['hong kong', 'severance', 'long service', '遣散費', '長服金', '長期服務金', 'redundancy', 'labour'],
+    name: {
+      en: 'HK severance / long-service',
+      'zh-HK': '遣散費 / 長服金',
+      'zh-TW': '香港遣散費 / 長服金',
+      ja: '香港 退職金（遣散費）',
+      ko: '홍콩 퇴직금',
+      es: 'Indemnización HK',
+      fr: 'Indemnité de licenciement HK',
+      de: 'HK-Abfindung',
+    },
+    blurb: {
+      en: 'Estimate a statutory severance or long-service payment.',
+      'zh-HK': '估算法定遣散費或長期服務金。',
+    },
+  },
+  {
     id: 'hk-id',
     category: 'id',
     offline: true,
@@ -2065,6 +2106,27 @@ export const CATALOG: readonly CatalogTool[] = [
     blurb: {
       en: 'Validate a Hong Kong Business Registration Number (8 digits).',
       'zh-HK': '驗證香港商業登記號碼（8 碼）。',
+    },
+  },
+  {
+    id: 'jp-romaji',
+    category: 'text',
+    offline: true,
+    markets: ['jp'],
+    keywords: ['japan', 'romaji', 'hepburn', 'kana', 'ローマ字', '假名', 'かな', 'hiragana', 'katakana', 'romanize'],
+    name: {
+      en: 'Kana → romaji',
+      ja: 'かな → ローマ字',
+      'zh-TW': '假名轉羅馬字',
+      'zh-HK': '假名轉羅馬字',
+      ko: '가나 → 로마자',
+      es: 'Kana → romaji',
+      fr: 'Kana → romaji',
+      de: 'Kana → Rōmaji',
+    },
+    blurb: {
+      en: 'Convert hiragana/katakana to Hepburn rōmaji.',
+      ja: 'ひらがな・カタカナをヘボン式ローマ字に変換。',
     },
   },
   {

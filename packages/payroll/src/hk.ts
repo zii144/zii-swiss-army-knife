@@ -110,6 +110,62 @@ export interface HkSalariesTaxResult {
   effectiveRate: number;
 }
 
+/**
+ * HK statutory Severance Payment (遣散費) / Long Service Payment (長服金).
+ * Both use the same computation; only eligibility differs. Source: Employment
+ * Ordinance / Labour Department (labour.gov.hk).
+ */
+export interface HkSeveranceConfig {
+  /** Monthly wage cap for the reckonable amount (HK$22,500). */
+  monthlyWageCap: number;
+  /** Fraction of monthly wages payable per year of service (2/3). */
+  fractionPerYear: number;
+  /** Absolute cap on the total payment (HK$390,000). */
+  totalCap: number;
+  source: string;
+}
+
+/** Statutory constants (stable for recent years). */
+export const HK_SEVERANCE: HkSeveranceConfig = {
+  monthlyWageCap: 22_500,
+  fractionPerYear: 2 / 3,
+  totalCap: 390_000,
+  source: 'https://www.labour.gov.hk/eng/public/wcp/ConciseGuide/11.pdf',
+};
+
+/** A severance / long-service payment estimate. */
+export interface HkSeveranceResult {
+  /** Reckonable amount per year of service (2/3 × capped monthly wages). */
+  perYear: number;
+  /** Years of service used (whole years + months/12). */
+  years: number;
+  /** Payment before the absolute cap. */
+  gross: number;
+  /** Final payment, after the HK$390,000 cap. */
+  payment: number;
+  /** True when the total cap reduced the payment. */
+  capped: boolean;
+}
+
+/**
+ * Compute a statutory severance / long-service payment for a monthly-rated
+ * employee: `(2/3 × min(monthlyWages, 22500)) × (years + months/12)`, with the
+ * total capped at HK$390,000.
+ */
+export function hkSeverancePayment(
+  monthlyWages: number,
+  years: number,
+  months = 0,
+  cfg: HkSeveranceConfig = HK_SEVERANCE,
+): HkSeveranceResult {
+  const wage = Math.min(Math.max(0, monthlyWages), cfg.monthlyWageCap);
+  const perYear = wage * cfg.fractionPerYear;
+  const totalYears = Math.max(0, years) + Math.max(0, Math.min(11, months)) / 12;
+  const gross = perYear * totalYears;
+  const payment = Math.min(gross, cfg.totalCap);
+  return { perYear, years: totalYears, gross, payment, capped: gross > cfg.totalCap };
+}
+
 /** Estimate HK salaries tax for one year of assessment. */
 export function hkSalariesTax(
   input: HkSalariesTaxInput,
