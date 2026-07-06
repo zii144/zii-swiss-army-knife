@@ -13,6 +13,9 @@ export interface Dict {
   back: string;
   comingSoon: string;
   loading: string;
+  errorTitle: string;
+  errorBody: string;
+  errorRetry: string;
   // Brand + navigation
   brand: string;
   navHome: string;
@@ -49,6 +52,9 @@ export const DICTIONARY: Readonly<Record<Lang, Dict>> = {
     back: 'Back to tools',
     comingSoon: "This tool's interface isn't built yet.",
     loading: 'Loading…',
+    errorTitle: 'This tool ran into a problem',
+    errorBody: 'Something went wrong while loading or running this tool. The rest of the app is unaffected.',
+    errorRetry: 'Try again',
     brand: 'Zii',
     navHome: 'Home',
     navTools: 'Tools',
@@ -79,6 +85,9 @@ export const DICTIONARY: Readonly<Record<Lang, Dict>> = {
     back: '返回工具列表',
     comingSoon: '此工具的介面尚未完成。',
     loading: '載入中…',
+    errorTitle: '此工具發生問題',
+    errorBody: '載入或執行此工具時發生錯誤，其餘功能不受影響。',
+    errorRetry: '重試',
     brand: 'Zii',
     navHome: '首頁',
     navTools: '工具',
@@ -108,6 +117,9 @@ export const DICTIONARY: Readonly<Record<Lang, Dict>> = {
     back: '返回工具列表',
     comingSoon: '此工具的介面尚未完成。',
     loading: '載入中…',
+    errorTitle: '此工具發生問題',
+    errorBody: '載入或執行此工具時發生錯誤，其餘功能不受影響。',
+    errorRetry: '重試',
     brand: 'Zii',
     navHome: '主頁',
     navTools: '工具',
@@ -137,6 +149,9 @@ export const DICTIONARY: Readonly<Record<Lang, Dict>> = {
     back: 'ツール一覧へ戻る',
     comingSoon: 'このツールの画面はまだ準備中です。',
     loading: '読み込み中…',
+    errorTitle: 'このツールで問題が発生しました',
+    errorBody: 'ツールの読み込みまたは実行中にエラーが発生しました。他の機能には影響ありません。',
+    errorRetry: '再試行',
     brand: 'Zii',
     navHome: 'ホーム',
     navTools: 'ツール',
@@ -167,6 +182,9 @@ export const DICTIONARY: Readonly<Record<Lang, Dict>> = {
     back: '도구 목록으로',
     comingSoon: '이 도구의 화면은 아직 준비 중입니다.',
     loading: '불러오는 중…',
+    errorTitle: '이 도구에 문제가 발생했습니다',
+    errorBody: '도구를 불러오거나 실행하는 중 오류가 발생했습니다. 나머지 기능은 영향을 받지 않습니다.',
+    errorRetry: '다시 시도',
     brand: 'Zii',
     navHome: '홈',
     navTools: '도구',
@@ -197,6 +215,9 @@ export const DICTIONARY: Readonly<Record<Lang, Dict>> = {
     back: 'Volver a herramientas',
     comingSoon: 'La interfaz de esta herramienta aún no está lista.',
     loading: 'Cargando…',
+    errorTitle: 'Esta herramienta tuvo un problema',
+    errorBody: 'Algo salió mal al cargar o ejecutar esta herramienta. El resto de la app no se ve afectada.',
+    errorRetry: 'Reintentar',
     brand: 'Zii',
     navHome: 'Inicio',
     navTools: 'Herramientas',
@@ -227,6 +248,9 @@ export const DICTIONARY: Readonly<Record<Lang, Dict>> = {
     back: 'Retour aux outils',
     comingSoon: "L'interface de cet outil n'est pas encore prête.",
     loading: 'Chargement…',
+    errorTitle: 'Cet outil a rencontré un problème',
+    errorBody: "Une erreur s'est produite lors du chargement ou de l'exécution de cet outil. Le reste de l'application n'est pas affecté.",
+    errorRetry: 'Réessayer',
     brand: 'Zii',
     navHome: 'Accueil',
     navTools: 'Outils',
@@ -257,6 +281,9 @@ export const DICTIONARY: Readonly<Record<Lang, Dict>> = {
     back: 'Zurück zu den Werkzeugen',
     comingSoon: 'Die Oberfläche dieses Werkzeugs ist noch nicht fertig.',
     loading: 'Wird geladen…',
+    errorTitle: 'Bei diesem Tool ist ein Problem aufgetreten',
+    errorBody: 'Beim Laden oder Ausführen dieses Tools ist ein Fehler aufgetreten. Der Rest der App ist nicht betroffen.',
+    errorRetry: 'Erneut versuchen',
     brand: 'Zii',
     navHome: 'Start',
     navTools: 'Werkzeuge',

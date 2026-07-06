@@ -2,11 +2,11 @@
 
 A multi-market, privacy-first everyday-utility suite — file conversion, calculators, PDF/image tools, text utilities, and region-specific validators in one offline-capable PWA.
 
-**Current state:** platform foundation (M1–M10) complete; **Phase 2 universal catalog shipped** (76 tool screens); **Phase 3 market locale packs** underway (TW / HK / JP / EN-US / EN-GB). See `ROADMAP.md` for what comes next.
+**Current state:** platform foundation (M1–M10) complete; **Phase 2 universal catalog shipped** (163 tool screens); **Phase 3 market locale packs** underway (TW / HK / JP / EN-US / EN-GB). See `ROADMAP.md` for what comes next.
 
 ## Highlights
 
-- **76 tools** across calc, files, PDF, image, text, dev, identity, and everyday categories — lazy-loaded, code-split, with an ~88 KB gz initial bundle budget
+- **163 tools** across calc, files, PDF, image, text, dev, identity, and everyday categories — lazy-loaded, code-split, with a ~103 KB gz initial payload (110 KB gz budget)
 - **8 UI languages** (en, zh-TW, zh-HK, ja, ko, es, fr, de) with fully localized tool names
 - **6 selectable markets** (global, tw, hk, jp, en-us, en-gb) — region-specific tools appear only in their market
 - **Offline-first** — most tools run entirely on-device; heavy WASM/OCR models download on first use
@@ -54,7 +54,7 @@ packages/
   registry/      # @zii/registry       — tool registry + lazy plugin loader (M1)
   hello-tool/    # @zii/hello-tool     — sample tool / smoke test (M1)
   locale/        # @zii/locale         — locale-pack schema, loader, config gate (M2)
-  app/           # @zii/app            — Vite + React PWA (76 tools, prerender, i18n) (M3+)
+  app/           # @zii/app            — Vite + React PWA (163 tools, prerender, i18n) (M3+)
   compute/       # @zii/compute        — WASM compute registry + lazy ops (M4)
   compute-wasm/  # @zii/compute-wasm   — pdf/image/heic/qr/archive WASM bundles (M4)
   calc/          # @zii/calc           — calculators + unit/cooking/currency (M5)

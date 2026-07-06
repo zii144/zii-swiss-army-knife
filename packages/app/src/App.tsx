@@ -11,6 +11,7 @@ import { buildHead, SITE_ORIGIN } from './lib/seo';
 import { applyHead } from './lib/head';
 import { prefetchTool, registerAppTools, TOOL_VIEWS } from './tools';
 import { ToolPage } from './components/ToolPage';
+import { ErrorBoundary } from './components/ErrorBoundary';
 import { Footer } from './components/Footer';
 import { Clouds } from './components/Clouds';
 import { ToolNav } from './components/ToolNav';
@@ -220,26 +221,33 @@ export function App(): React.JSX.Element {
               </span>
               <span className="crumbs__current">{localizedName(selected, lang)}</span>
             </nav>
-            <Suspense fallback={<p className="app__empty">{t('loading')}</p>}>
-              {SelectedView ? (
-                <SelectedView
-                  onBack={back}
-                  lang={lang}
-                  backLabel={t('back')}
-                  offlineLabel={t('offline')}
-                />
-              ) : (
-                <ToolPage
-                  title={localizedName(selected, lang)}
-                  description={t('comingSoon')}
-                  onBack={back}
-                  backLabel={t('back')}
-                  offlineLabel={t('offline')}
-                >
-                  <p className="tool__hint">{t('comingSoon')}</p>
-                </ToolPage>
-              )}
-            </Suspense>
+            <ErrorBoundary
+              resetKey={selected}
+              title={t('errorTitle')}
+              body={t('errorBody')}
+              retryLabel={t('errorRetry')}
+            >
+              <Suspense fallback={<p className="app__empty">{t('loading')}</p>}>
+                {SelectedView ? (
+                  <SelectedView
+                    onBack={back}
+                    lang={lang}
+                    backLabel={t('back')}
+                    offlineLabel={t('offline')}
+                  />
+                ) : (
+                  <ToolPage
+                    title={localizedName(selected, lang)}
+                    description={t('comingSoon')}
+                    onBack={back}
+                    backLabel={t('back')}
+                    offlineLabel={t('offline')}
+                  >
+                    <p className="tool__hint">{t('comingSoon')}</p>
+                  </ToolPage>
+                )}
+              </Suspense>
+            </ErrorBoundary>
           </main>
         </div>
       ) : view === 'tools' || view === 'category' ? (

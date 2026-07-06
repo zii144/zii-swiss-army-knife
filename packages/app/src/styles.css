@@ -1086,6 +1086,31 @@ main {
   text-decoration: none;
 }
 
+.tool__error {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.75rem;
+  padding: 1.25rem;
+  border: 1px solid var(--border, rgba(0, 0, 0, 0.1));
+  border-radius: 12px;
+  background: var(--surface-soft, rgba(0, 0, 0, 0.02));
+}
+
+.tool__error-title {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: var(--ink);
+}
+
+.tool__error-body {
+  margin: 0;
+  color: var(--ink-soft);
+  font-size: 0.92rem;
+  line-height: 1.5;
+}
+
 .tool__crumbs {
   font-size: 0.8rem;
   color: var(--ink-soft);
