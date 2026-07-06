@@ -51,9 +51,9 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
   override render(): ReactNode {
     if (this.state.error !== null) {
       return (
-        <div className="tool__error" role="alert">
-          <h3 className="tool__error-title">{this.props.title}</h3>
-          <p className="tool__error-body">{this.props.body}</p>
+        <div className="tool__boundary" role="alert">
+          <h3 className="tool__boundary-title">{this.props.title}</h3>
+          <p className="tool__boundary-body">{this.props.body}</p>
           <button type="button" className="tool__primary" onClick={this.handleRetry}>
             {this.props.retryLabel}
           </button>

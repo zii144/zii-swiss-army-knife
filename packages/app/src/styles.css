@@ -1086,7 +1086,7 @@ main {
   text-decoration: none;
 }
 
-.tool__error {
+.tool__boundary {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -1097,18 +1097,30 @@ main {
   background: var(--surface-soft, rgba(0, 0, 0, 0.02));
 }
 
-.tool__error-title {
+.tool__boundary-title {
   margin: 0;
   font-size: 1.1rem;
   font-weight: 800;
   color: var(--ink);
 }
 
-.tool__error-body {
+.tool__boundary-body {
   margin: 0;
   color: var(--ink-soft);
   font-size: 0.92rem;
   line-height: 1.5;
+}
+
+.tool__link {
+  align-self: flex-start;
+  color: var(--accent);
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.tool__link:hover {
+  text-decoration: underline;
 }
 
 .tool__crumbs {

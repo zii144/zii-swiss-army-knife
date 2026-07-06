@@ -1931,6 +1931,27 @@ export const CATALOG: readonly CatalogTool[] = [
 
   // --- Market packs (Phase 3) — shown when the matching region is selected. ---
   {
+    id: 'tw-invoice',
+    category: 'finance',
+    offline: true,
+    markets: ['tw'],
+    keywords: ['taiwan', 'invoice', 'lottery', '統一發票', '對獎', '發票', '中獎', 'receipt'],
+    name: {
+      en: 'Taiwan invoice lottery',
+      'zh-TW': '統一發票對獎',
+      'zh-HK': '台灣統一發票對獎',
+      ja: '台湾統一発票くじ',
+      ko: '대만 통일발표 복권',
+      es: 'Lotería de facturas (Taiwán)',
+      fr: 'Loterie des factures (Taïwan)',
+      de: 'Rechnungslotterie (Taiwan)',
+    },
+    blurb: {
+      en: 'Check a 統一發票 receipt against the period’s winning numbers, on-device.',
+      'zh-TW': '輸入本期中獎號碼即可對獎，全程於裝置上運算。',
+    },
+  },
+  {
     id: 'tw-national-id',
     category: 'id',
     offline: true,
@@ -1989,6 +2010,27 @@ export const CATALOG: readonly CatalogTool[] = [
     },
   },
   {
+    id: 'hk-salaries-tax',
+    category: 'finance',
+    offline: true,
+    markets: ['hk'],
+    keywords: ['hong kong', 'salaries tax', 'mpf', '薪俸稅', '強積金', 'take home', 'payroll', 'ird'],
+    name: {
+      en: 'HK salaries tax + MPF',
+      'zh-HK': '薪俸稅 + 強積金',
+      'zh-TW': '香港薪俸稅 + 強積金',
+      ja: '香港給与税＋MPF',
+      ko: '홍콩 급여세 + MPF',
+      es: 'Impuesto salarial de HK + MPF',
+      fr: 'Impôt sur salaire HK + MPF',
+      de: 'HK-Gehaltssteuer + MPF',
+    },
+    blurb: {
+      en: 'Estimate Hong Kong salaries tax, mandatory MPF, and take-home pay.',
+      'zh-HK': '估算香港薪俸稅、強積金及稅後實收。',
+    },
+  },
+  {
     id: 'hk-id',
     category: 'id',
     offline: true,
@@ -2023,6 +2065,27 @@ export const CATALOG: readonly CatalogTool[] = [
     blurb: {
       en: 'Validate a Hong Kong Business Registration Number (8 digits).',
       'zh-HK': '驗證香港商業登記號碼（8 碼）。',
+    },
+  },
+  {
+    id: 'jp-furusato',
+    category: 'finance',
+    offline: true,
+    markets: ['jp'],
+    keywords: ['japan', 'furusato', 'hometown tax', 'ふるさと納税', '納税', '寄附', '控除', 'donation'],
+    name: {
+      en: 'Furusato tax limit',
+      ja: 'ふるさと納税 上限額',
+      'zh-TW': '日本故鄉稅上限',
+      'zh-HK': '日本故鄉稅上限',
+      ko: '후루사토 납세 한도',
+      es: 'Límite furusato (Japón)',
+      fr: 'Plafond furusato (Japon)',
+      de: 'Furusato-Steuerlimit (Japan)',
+    },
+    blurb: {
+      en: 'Estimate your ふるさと納税 hometown-tax donation ceiling.',
+      ja: 'ふるさと納税の寄附上限額の目安を計算します。',
     },
   },
   {

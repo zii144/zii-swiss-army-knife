@@ -24,6 +24,7 @@
     "@zii/id": "workspace:*",
     "@zii/locale": "workspace:*",
     "@zii/payroll": "workspace:*",
+    "@zii/receipt": "workspace:*",
     "@zii/registry": "workspace:*",
     "@zii/reminders": "workspace:*",
     "@zii/text": "workspace:*",
