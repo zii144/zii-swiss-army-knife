@@ -157,6 +157,7 @@ const LOADERS: Record<string, ViewLoader> = {
   'tw-national-id': () => import('./tw-national-id'),
   'tw-ubn': () => import('./tw-ubn'),
   'tw-arc': () => import('./tw-arc'),
+  'hk-salaries-tax': () => import('./hk-salaries-tax'),
   'hk-id': () => import('./hk-id'),
   'hk-br': () => import('./hk-br'),
   'jp-mynumber': () => import('./jp-mynumber'),

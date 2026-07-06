@@ -12,3 +12,7 @@ export type {
   PayrollRuleModule,
   FlatRateModuleConfig,
 } from './rules';
+
+// Hong Kong salaries tax (薪俸稅) + MPF.
+export { hkSalariesTax, hkMpfEmployeeAnnual, HK_SALARIES_TAX_2024_25 } from './hk';
+export type { HkSalariesTaxConfig, HkSalariesTaxInput, HkSalariesTaxResult } from './hk';

@@ -2010,6 +2010,27 @@ export const CATALOG: readonly CatalogTool[] = [
     },
   },
   {
+    id: 'hk-salaries-tax',
+    category: 'finance',
+    offline: true,
+    markets: ['hk'],
+    keywords: ['hong kong', 'salaries tax', 'mpf', '薪俸稅', '強積金', 'take home', 'payroll', 'ird'],
+    name: {
+      en: 'HK salaries tax + MPF',
+      'zh-HK': '薪俸稅 + 強積金',
+      'zh-TW': '香港薪俸稅 + 強積金',
+      ja: '香港給与税＋MPF',
+      ko: '홍콩 급여세 + MPF',
+      es: 'Impuesto salarial de HK + MPF',
+      fr: 'Impôt sur salaire HK + MPF',
+      de: 'HK-Gehaltssteuer + MPF',
+    },
+    blurb: {
+      en: 'Estimate Hong Kong salaries tax, mandatory MPF, and take-home pay.',
+      'zh-HK': '估算香港薪俸稅、強積金及稅後實收。',
+    },
+  },
+  {
     id: 'hk-id',
     category: 'id',
     offline: true,
