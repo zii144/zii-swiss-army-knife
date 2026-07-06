@@ -2031,6 +2031,27 @@ export const CATALOG: readonly CatalogTool[] = [
     },
   },
   {
+    id: 'hk-severance',
+    category: 'finance',
+    offline: true,
+    markets: ['hk'],
+    keywords: ['hong kong', 'severance', 'long service', '遣散費', '長服金', '長期服務金', 'redundancy', 'labour'],
+    name: {
+      en: 'HK severance / long-service',
+      'zh-HK': '遣散費 / 長服金',
+      'zh-TW': '香港遣散費 / 長服金',
+      ja: '香港 退職金（遣散費）',
+      ko: '홍콩 퇴직금',
+      es: 'Indemnización HK',
+      fr: 'Indemnité de licenciement HK',
+      de: 'HK-Abfindung',
+    },
+    blurb: {
+      en: 'Estimate a statutory severance or long-service payment.',
+      'zh-HK': '估算法定遣散費或長期服務金。',
+    },
+  },
+  {
     id: 'hk-id',
     category: 'id',
     offline: true,

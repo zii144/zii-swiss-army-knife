@@ -13,9 +13,21 @@ export type {
   FlatRateModuleConfig,
 } from './rules';
 
-// Hong Kong salaries tax (薪俸稅) + MPF.
-export { hkSalariesTax, hkMpfEmployeeAnnual, HK_SALARIES_TAX_2024_25 } from './hk';
-export type { HkSalariesTaxConfig, HkSalariesTaxInput, HkSalariesTaxResult } from './hk';
+// Hong Kong salaries tax (薪俸稅) + MPF + severance (遣散費/長服金).
+export {
+  hkSalariesTax,
+  hkMpfEmployeeAnnual,
+  hkSeverancePayment,
+  HK_SALARIES_TAX_2024_25,
+  HK_SEVERANCE,
+} from './hk';
+export type {
+  HkSalariesTaxConfig,
+  HkSalariesTaxInput,
+  HkSalariesTaxResult,
+  HkSeveranceConfig,
+  HkSeveranceResult,
+} from './hk';
 
 // Japan ふるさと納税 (hometown-tax) donation ceiling.
 export {
