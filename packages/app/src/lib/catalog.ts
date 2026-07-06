@@ -1099,6 +1099,26 @@ export const CATALOG: readonly CatalogTool[] = [
     },
   },
   {
+    id: 'subscription-tracker',
+    category: 'finance',
+    offline: true,
+    keywords: ['subscription', 'recurring', 'tracker', 'budget', 'monthly', 'yearly', 'spend', '訂閱', 'サブスク'],
+    name: {
+      en: 'Subscription tracker',
+      'zh-TW': '訂閱追蹤',
+      'zh-HK': '訂閱追蹤',
+      ja: 'サブスク管理',
+      ko: '구독 관리',
+      es: 'Gestor de suscripciones',
+      fr: 'Suivi des abonnements',
+      de: 'Abo-Tracker',
+    },
+    blurb: {
+      en: 'Track recurring subscriptions and see true monthly/yearly cost.',
+      'zh-TW': '追蹤定期訂閱，換算實際每月與每年花費。',
+    },
+  },
+  {
     id: 'savings',
     category: 'finance',
     offline: true,

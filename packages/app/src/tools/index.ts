@@ -15,6 +15,7 @@ const LOADERS: Record<string, ViewLoader> = {
   'qr-batch': () => import('./qr-batch'),
   'image-compress': () => import('./image-compress'),
   'percent-tip': () => import('./percent-tip'),
+  'subscription-tracker': () => import('./subscription-tracker'),
   'unit-convert': () => import('./unit-convert'),
   'text-count': () => import('./text-count'),
   'text-case': () => import('./text-case'),
