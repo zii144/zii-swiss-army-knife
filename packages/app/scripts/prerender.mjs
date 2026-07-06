@@ -31,6 +31,7 @@ const {
   localizedName,
   localizedBlurb,
   categoryLabel,
+  marketLabel,
   presentCategories,
   renderHomeBody,
   renderToolsBody,
@@ -44,6 +45,12 @@ const {
 
 const ORIGIN = (process.env.ZII_ORIGIN ?? SITE_ORIGIN).replace(/\/$/, '');
 const CATEGORY_IDS = presentCategories(CATALOG.map((t) => t.category));
+
+// Region/market taxonomy — surfaces the market-specific tools (Taiwan, Hong
+// Kong, Japan, etc.) as a first-class dimension for search + LLM discovery.
+const MARKET_ORDER = ['tw', 'hk', 'jp', 'en-us', 'en-gb', 'en-ca', 'en-au'];
+const marketTools = (m) => CATALOG.filter((t) => (t.markets ?? []).includes(m));
+const MARKETS_PRESENT = MARKET_ORDER.filter((m) => marketTools(m).length > 0);
 
 const template = await readFile(join(DIST, 'index.html'), 'utf8');
 
@@ -175,9 +182,31 @@ const opensearch = `<?xml version="1.0" encoding="UTF-8"?>
 `;
 await writeFile(join(DIST, 'opensearch.xml'), opensearch, 'utf8');
 
+// robots.txt — welcome all crawlers, and explicitly opt in the major AI/LLM
+// crawlers (they already match `*`, but listing them documents intent).
+const AI_CRAWLERS = [
+  'GPTBot',
+  'OAI-SearchBot',
+  'ChatGPT-User',
+  'ClaudeBot',
+  'Claude-Web',
+  'anthropic-ai',
+  'PerplexityBot',
+  'Google-Extended',
+  'Applebot-Extended',
+  'CCBot',
+];
 await writeFile(
   join(DIST, 'robots.txt'),
-  `User-agent: *\nAllow: /\n\nSitemap: ${ORIGIN}/sitemap.xml\n`,
+  `# ${SITE_NAME} — all tools are free, privacy-first, and open to crawlers.
+# LLM-readable catalog: ${ORIGIN}/llms.txt (full: ${ORIGIN}/llms-full.txt, JSON: ${ORIGIN}/tools.json)
+User-agent: *
+Allow: /
+
+${AI_CRAWLERS.map((ua) => `User-agent: ${ua}\nAllow: /`).join('\n\n')}
+
+Sitemap: ${ORIGIN}/sitemap.xml
+`,
   'utf8',
 );
 
@@ -195,6 +224,10 @@ ${CATALOG.map((t) => `- [${localizedName(t.id, 'en')}](${ORIGIN + buildPath('en'
 
 ## Categories
 ${CATEGORY_IDS.map((cat) => `- [${categoryLabel(cat, 'en')} tools](${ORIGIN + buildPath('en', 'category', cat)}): ${categoryDescription(cat)} LLM index: ${ORIGIN}/llms/${cat}.txt`).join('\n')}
+
+## Regions
+Market-specific tools appear only when their region is selected. Region-aware tools:
+${MARKETS_PRESENT.map((m) => `- ${marketLabel(m, 'en')}: ${marketTools(m).map((t) => `${localizedName(t.id, 'en')} (${ORIGIN + buildPath('en', 'tool', t.id)})`).join('; ')}`).join('\n')}
 
 ## Data
 - ${ORIGIN}/llms-full.txt — expanded tool catalog with categories, keywords, and localized URLs.
@@ -236,6 +269,18 @@ ${DICTIONARY.en.heroSubtitle}
 
 ## Categories
 ${categoryGroups}
+
+## Regions
+Tools tailored to a specific market (identity/tax/finance/format rules for that region). They surface when the market is selected in the app; direct URLs work in any locale.
+${MARKETS_PRESENT.map(
+  (m) => `### ${marketLabel(m, 'en')}
+${marketTools(m)
+  .map(
+    (t) =>
+      `- ${localizedName(t.id, 'en')} (${ORIGIN + buildPath('en', 'tool', t.id)}): ${localizedBlurb(t.id, 'en')} Keywords: ${t.keywords.join(', ')}.`,
+  )
+  .join('\n')}`,
+).join('\n\n')}
 
 ## Localized Entrypoints
 ${LANGS.map((l) => `- ${l}: ${ORIGIN + buildPath(l, 'home')} / ${ORIGIN + buildPath(l, 'tools')}`).join('\n')}
@@ -287,6 +332,12 @@ const toolsJson = {
       LANGS.map((lang) => [lang, ORIGIN + buildPath(lang, 'category', category)]),
     ),
     llmsUrl: `${ORIGIN}/llms/${category}.txt`,
+  })),
+  markets: MARKETS_PRESENT.map((m) => ({
+    id: m,
+    name: Object.fromEntries(LANGS.map((lang) => [lang, marketLabel(m, lang)])),
+    toolCount: marketTools(m).length,
+    toolIds: marketTools(m).map((t) => t.id),
   })),
   languages: LANGS.map((lang) => ({
     lang,

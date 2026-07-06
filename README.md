@@ -10,7 +10,7 @@ A multi-market, privacy-first everyday-utility suite — file conversion, calcul
 - **8 UI languages** (en, zh-TW, zh-HK, ja, ko, es, fr, de) with fully localized tool names
 - **6 selectable markets** (global, tw, hk, jp, en-us, en-gb) — region-specific tools appear only in their market
 - **Offline-first** — most tools run entirely on-device; heavy WASM/OCR models download on first use
-- **Static PWA** — prerendered pages for SEO (`sitemap.xml`, `robots.txt`, JSON-LD), hand-rolled service worker, deployable to any static host (Vercel config included)
+- **Static PWA** — prerendered pages for SEO (`sitemap.xml`, `robots.txt`, JSON-LD with `areaServed` geo-targeting) and LLM discovery (`llms.txt`, `llms-full.txt`, `tools.json` with a region/market taxonomy), hand-rolled service worker, deployable to any static host (Vercel config included)
 
 ## App routes
 
