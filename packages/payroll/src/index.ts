@@ -16,3 +16,12 @@ export type {
 // Hong Kong salaries tax (薪俸稅) + MPF.
 export { hkSalariesTax, hkMpfEmployeeAnnual, HK_SALARIES_TAX_2024_25 } from './hk';
 export type { HkSalariesTaxConfig, HkSalariesTaxInput, HkSalariesTaxResult } from './hk';
+
+// Japan ふるさと納税 (hometown-tax) donation ceiling.
+export {
+  furusatoLimit,
+  jpMarginalIncomeTaxRate,
+  JP_INCOME_TAX_BRACKETS,
+  FURUSATO_STANDARD,
+} from './jp-furusato';
+export type { FurusatoConfig, FurusatoResult } from './jp-furusato';

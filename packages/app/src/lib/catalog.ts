@@ -2068,6 +2068,27 @@ export const CATALOG: readonly CatalogTool[] = [
     },
   },
   {
+    id: 'jp-furusato',
+    category: 'finance',
+    offline: true,
+    markets: ['jp'],
+    keywords: ['japan', 'furusato', 'hometown tax', 'ふるさと納税', '納税', '寄附', '控除', 'donation'],
+    name: {
+      en: 'Furusato tax limit',
+      ja: 'ふるさと納税 上限額',
+      'zh-TW': '日本故鄉稅上限',
+      'zh-HK': '日本故鄉稅上限',
+      ko: '후루사토 납세 한도',
+      es: 'Límite furusato (Japón)',
+      fr: 'Plafond furusato (Japon)',
+      de: 'Furusato-Steuerlimit (Japan)',
+    },
+    blurb: {
+      en: 'Estimate your ふるさと納税 hometown-tax donation ceiling.',
+      ja: 'ふるさと納税の寄附上限額の目安を計算します。',
+    },
+  },
+  {
     id: 'jp-mynumber',
     category: 'id',
     offline: true,
