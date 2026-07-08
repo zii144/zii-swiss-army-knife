@@ -2,7 +2,7 @@
 
 A multi-market, privacy-first everyday-utility suite — file conversion, calculators, PDF/image tools, text utilities, and region-specific validators in one offline-capable PWA.
 
-**Current state:** platform foundation (M1–M10) complete; **Phase 2 universal catalog shipped** (170 tool screens); **Phase 3 market locale packs** underway (TW / HK / JP / EN-US / EN-GB). See `ROADMAP.md` for what comes next.
+**Current state:** platform foundation (M1–M10) complete; **Phase 2 universal catalog shipped** (170 tool screens); **Phase 3 market locale packs** underway (TW / HK / JP / EN-US / EN-GB); **Phase 4 mobile shell** started — iOS/Android wrapped with Capacitor (iOS build verified in-simulator). See `ROADMAP.md` for what comes next.
 
 ## Highlights
 
@@ -84,6 +84,18 @@ pnpm --filter @zii/app dev       # Vite dev server
 pnpm --filter @zii/app build     # SPA + prerender → packages/app/dist/
 pnpm --filter @zii/app preview   # serve the production build locally
 ```
+
+## Mobile (Capacitor)
+
+The web app doubles as the native iOS/Android shell via [Capacitor](https://capacitorjs.com/). The same offline PWA is bundled into each app — no server, no live-data tools added.
+
+```bash
+pnpm --filter @zii/app mobile:sync       # build SPA + copy assets into ios/ & android/
+pnpm --filter @zii/app mobile:ios        # sync, then open the Xcode project
+pnpm --filter @zii/app mobile:android    # sync, then open Android Studio
+```
+
+`appId: dev.zii.knife`. Native project sources are committed; build artifacts and copied web assets are git-ignored. iOS builds today (Xcode); Android needs an Android SDK on the build machine. Native camera OCR / push / NFC plugins are Phase 4 follow-ups — see `ROADMAP.md`.
 
 ## Deploy
 

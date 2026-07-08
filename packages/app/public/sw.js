@@ -1,7 +1,7 @@
 // Minimal hand-rolled service worker: caches the app shell for offline use.
 // Cache-first for navigations; network falls back to the cached shell.
 /* global self, caches */
-const CACHE = 'zii-shell-v1';
+const CACHE = 'zii-shell-v2';
 const SHELL = ['/', '/index.html', '/manifest.webmanifest'];
 
 self.addEventListener('install', (event) => {

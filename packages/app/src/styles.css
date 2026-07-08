@@ -105,11 +105,45 @@ body {
   min-height: 100vh;
   color: var(--ink);
   background:
+    /* lime "sun" glow, upper-right — ties the accent into the sky */
+    radial-gradient(34% 26% at 90% 4%, rgba(198, 242, 78, 0.3), transparent 62%),
+    /* cool counter-glow, lower-left, for depth */
+    radial-gradient(48% 40% at 4% 96%, rgba(120, 178, 255, 0.22), transparent 68%),
     radial-gradient(120% 80% at 80% -10%, rgba(255, 255, 255, 0.35), transparent 60%),
     radial-gradient(90% 60% at 10% 0%, rgba(255, 255, 255, 0.18), transparent 55%),
     linear-gradient(180deg, var(--sky-top) 0%, var(--sky-mid) 42%, var(--sky-low) 100%);
   background-attachment: fixed;
   padding-bottom: 4rem;
+}
+
+/* Fine film grain over the whole page — adds tactile texture without color.
+   Soft-light blend keeps it invisible as "dots" and only felt as surface. */
+.app::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.4;
+  mix-blend-mode: soft-light;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 160px 160px;
+}
+
+.app--dark::before {
+  opacity: 0.28;
+}
+
+.app--dark.app {
+  /* Dial the lime glow back on the deep-night sky so it reads as a horizon
+     shimmer rather than a spotlight. */
+  background:
+    radial-gradient(34% 26% at 90% 4%, rgba(198, 242, 78, 0.16), transparent 62%),
+    radial-gradient(48% 40% at 4% 96%, rgba(120, 178, 255, 0.16), transparent 68%),
+    radial-gradient(120% 80% at 80% -10%, rgba(255, 255, 255, 0.12), transparent 60%),
+    radial-gradient(90% 60% at 10% 0%, rgba(255, 255, 255, 0.06), transparent 55%),
+    linear-gradient(180deg, var(--sky-top) 0%, var(--sky-mid) 42%, var(--sky-low) 100%);
+  background-attachment: fixed;
 }
 
 /* Soft "cloud" band beneath the hero. */
@@ -1693,6 +1727,9 @@ button {
 }
 
 .ui-file__btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
   background: var(--field-bg);
   border: 1px solid var(--border);
   color: var(--ink);
@@ -1704,6 +1741,25 @@ button {
 
 .ui-file__btn:hover {
   border-color: var(--lime-strong);
+}
+
+.ui-file__plus {
+  display: inline-grid;
+  place-items: center;
+  width: 1.05rem;
+  height: 1.05rem;
+  margin-left: -0.15rem;
+  border-radius: 999px;
+  background: var(--lime);
+  color: var(--ink-pill);
+  font-weight: 800;
+  line-height: 1;
+  transition: transform var(--dur-2) var(--ease-out);
+}
+
+/* The signature move: ＋ spins 45° into a ✕ as the button lifts. */
+.ui-file__btn:hover .ui-file__plus {
+  transform: rotate(45deg) scale(1.1);
 }
 
 .ui-file__name {
@@ -2117,5 +2173,175 @@ button {
   .footer__inner {
     grid-template-columns: 1fr;
     gap: 1.5rem;
+  }
+}
+
+/* =========================================================================
+   Interactive polish — a shared hover language for the ui/ components.
+   Motif: gentle lift + scale, a lime glow, and a signature 45° icon rotate.
+   All motion is wrapped in a prefers-reduced-motion guard at the bottom so
+   reduced-motion users still get the color/border feedback, just no movement.
+   ========================================================================= */
+
+/* --- Arrow badges: rotate the ↗ 45° and pop it on parent hover ----------- */
+.app__cta-dot,
+.hero__primary-dot {
+  transition:
+    transform var(--dur-2) var(--ease-out),
+    box-shadow var(--dur-2) var(--ease-out);
+}
+
+.app__cta:hover .app__cta-dot,
+.hero__primary:hover .hero__primary-dot {
+  transform: rotate(45deg) scale(1.14);
+  box-shadow: 0 6px 16px -6px rgba(12, 19, 34, 0.5);
+}
+
+/* --- Text inputs & textareas: hover lifts + lime ring -------------------- */
+.ui-input,
+.ui-textarea {
+  transition:
+    transform var(--dur-1) var(--ease-out),
+    border-color var(--dur-1) var(--ease-out),
+    box-shadow var(--dur-1) var(--ease-out),
+    background var(--dur-1) var(--ease-out);
+}
+
+.ui-input:hover:not(:focus),
+.ui-textarea:hover:not(:focus) {
+  border-color: var(--lime-strong);
+  background: var(--menu-bg);
+  box-shadow: 0 8px 22px -14px rgba(180, 230, 54, 0.8);
+  transform: translateY(-1px) scale(1.006);
+}
+
+.ui-input:focus,
+.ui-textarea:focus {
+  box-shadow: 0 8px 26px -14px rgba(180, 230, 54, 0.9);
+}
+
+/* --- Select trigger: same lift language; chevron animates its state ------ */
+.ui-select__trigger {
+  transition:
+    transform var(--dur-1) var(--ease-out),
+    border-color var(--dur-1) var(--ease-out),
+    box-shadow var(--dur-1) var(--ease-out),
+    background var(--dur-1) var(--ease-out);
+}
+
+.ui-select--field .ui-select__trigger:hover {
+  border-color: var(--lime-strong);
+  transform: translateY(-1px) scale(1.02);
+  box-shadow: 0 10px 24px -14px rgba(180, 230, 54, 0.85);
+}
+
+.ui-select--pill .ui-select__trigger:hover {
+  background: rgba(255, 255, 255, 0.26);
+  border-color: rgba(255, 255, 255, 0.5);
+  transform: translateY(-1px) scale(1.04);
+}
+
+.app--dark .ui-select--pill .ui-select__trigger:hover {
+  background: rgba(255, 255, 255, 0.16);
+}
+
+.ui-select__chev {
+  display: inline-block;
+  transition: transform var(--dur-2) var(--ease-out);
+}
+
+/* Nudge + grow on hover... */
+.ui-select__trigger:hover .ui-select__chev {
+  transform: translateY(1px) scale(1.25);
+  opacity: 1;
+}
+
+/* ...and flip when the menu is open (trigger carries aria-expanded). */
+.ui-select__trigger[aria-expanded='true'] .ui-select__chev {
+  transform: rotate(180deg) scale(1.1);
+}
+
+/* --- Menu options: slide + scale, with a lime rail on the active row ----- */
+.ui-select__option {
+  position: relative;
+  transition:
+    transform var(--dur-1) var(--ease-out),
+    background var(--dur-1) var(--ease-out);
+}
+
+.ui-select__option.is-active {
+  transform: translateX(3px) scale(1.01);
+}
+
+.ui-select__option.is-active::before {
+  content: '';
+  position: absolute;
+  left: -0.35rem;
+  top: 0.4rem;
+  bottom: 0.4rem;
+  width: 3px;
+  border-radius: 3px;
+  background: var(--lime-strong);
+}
+
+/* --- File-picker button: lift + scale, 45° pop on the ＋ glyph ----------- */
+.ui-file__btn {
+  transition:
+    transform var(--dur-1) var(--ease-out),
+    border-color var(--dur-1) var(--ease-out),
+    box-shadow var(--dur-1) var(--ease-out);
+}
+
+.ui-file__btn:hover {
+  transform: translateY(-1px) scale(1.03);
+  box-shadow: 0 10px 24px -14px rgba(180, 230, 54, 0.8);
+}
+
+/* --- Primary button: firmer lift + scale, springy press ------------------ */
+.ui-btn--primary {
+  transition:
+    transform var(--dur-1) var(--ease-out),
+    box-shadow var(--dur-1) var(--ease-out);
+}
+
+.ui-btn--primary:hover:not(:disabled) {
+  transform: translateY(-2px) scale(1.04);
+  box-shadow: 0 16px 30px -12px rgba(180, 230, 54, 0.95);
+}
+
+.ui-btn--primary:active:not(:disabled) {
+  transform: translateY(0) scale(0.97);
+}
+
+.ui-btn--ghost {
+  transition:
+    transform var(--dur-1) var(--ease-out),
+    border-color var(--dur-1) var(--ease-out);
+}
+
+.ui-btn--ghost:hover {
+  transform: translateY(-1px) scale(1.03);
+}
+
+/* Honor reduced-motion: keep the color/border cues, drop the movement. */
+@media (prefers-reduced-motion: reduce) {
+  .app__cta:hover .app__cta-dot,
+  .hero__primary:hover .hero__primary-dot,
+  .ui-input:hover:not(:focus),
+  .ui-textarea:hover:not(:focus),
+  .ui-select--field .ui-select__trigger:hover,
+  .ui-select--pill .ui-select__trigger:hover,
+  .ui-select__trigger:hover .ui-select__chev,
+  .ui-select__option.is-active,
+  .ui-file__btn:hover,
+  .ui-file__btn:hover .ui-file__plus,
+  .ui-btn--primary:hover:not(:disabled),
+  .ui-btn--primary:active:not(:disabled),
+  .ui-btn--ghost:hover {
+    transform: none;
+  }
+  /* The open-state chevron flip is state, not decoration — keep it. */
+  .ui-select__trigger[aria-expanded='true'] .ui-select__chev {
+    transform: rotate(180deg);
   }
 }

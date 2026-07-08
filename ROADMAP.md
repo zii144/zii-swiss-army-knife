@@ -100,6 +100,20 @@ Last updated: June 29, 2026
 
 **Exit criteria:** installable iOS/Android/desktop builds passing store review; native OCR + push + NFC working on device; reminders fire offline; E2E suite green in CI.
 
+### Phase 4 status (as of 2026-07-08)
+
+**Shipped — mobile shell (Capacitor):**
+
+- **Capacitor iOS + Android scaffolding** (`@capacitor/core` v8, `capacitor.config.ts` → `appId: dev.zii.knife`, `webDir: dist`). The same offline-first PWA is bundled into each native app via `cap sync`; no live/gov-data tools are added — this is a packaging layer over the existing on-device engines.
+- **iOS build verified end-to-end** — `App.app` compiles (Xcode 26, SPM, no CocoaPods) and runs in the simulator with the full PWA rendering inside the WKWebView (home, catalog, tools all live, offline).
+- **Android project generated** — Gradle project synced; not built in this environment (no Android SDK present). Config commits clean and builds once an SDK is wired.
+- Native platform sources are committed; build artifacts, copied web assets, and generated configs are git-ignored (Capacitor defaults). Run `pnpm --filter @zii/app mobile:ios` / `mobile:android` to build + open.
+
+**Not yet wired (follow-ups):**
+
+- Native plugins — camera OCR (Apple Vision / ML Kit), push notifications for reminders, capability-detected NFC transit-card reads, share-sheet — each added as a Capacitor plugin behind capability detection.
+- Tauri desktop shell; Playwright E2E (deferred from M3); app-store packaging + privacy nutrition labels.
+
 ---
 
 ## Phase 5 — AI layer & intelligence
