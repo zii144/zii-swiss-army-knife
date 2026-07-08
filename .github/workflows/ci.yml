@@ -25,3 +25,23 @@ jobs:
         run: pnpm build
       - name: License scan (no AGPL/GPL)
         run: pnpm check:licenses
+
+  e2e:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: corepack enable
+      - run: pnpm install --no-frozen-lockfile
+      - name: Install Playwright browser
+        run: pnpm --filter @zii/app exec playwright install --with-deps chromium
+      - name: E2E (headless — every tool loads + functional spot-checks)
+        run: pnpm --filter @zii/app test:e2e
+      - uses: actions/upload-artifact@v4
+        if: ${{ !cancelled() }}
+        with:
+          name: playwright-report
+          path: packages/app/playwright-report/
+          retention-days: 7

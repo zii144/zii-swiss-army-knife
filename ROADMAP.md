@@ -109,10 +109,15 @@ Last updated: June 29, 2026
 - **Android project generated** — Gradle project synced; not built in this environment (no Android SDK present). Config commits clean and builds once an SDK is wired.
 - Native platform sources are committed; build artifacts, copied web assets, and generated configs are git-ignored (Capacitor defaults). Run `pnpm --filter @zii/app mobile:ios` / `mobile:android` to build + open.
 
+**Shipped — Playwright headless E2E:**
+
+- `pnpm --filter @zii/app test:e2e` runs against the production build (prerender + hydration). An all-tools smoke sweep loads every one of the 170 catalogue tools and asserts each mounts, exposes a control, and throws no console/page errors; functional spot-checks drive real inputs and assert outputs across categories. Wired into CI as a separate `e2e` job (uploads the HTML report artifact).
+- The sweep immediately caught a real bug: `heic-convert` was bundling its Node-only entry (pngjs + Node streams) and crashing in the browser — fixed by aliasing to its `<canvas>` browser build in `vite.config.ts`.
+
 **Not yet wired (follow-ups):**
 
 - Native plugins — camera OCR (Apple Vision / ML Kit), push notifications for reminders, capability-detected NFC transit-card reads, share-sheet — each added as a Capacitor plugin behind capability detection.
-- Tauri desktop shell; Playwright E2E (deferred from M3); app-store packaging + privacy nutrition labels.
+- Tauri desktop shell; app-store packaging + privacy nutrition labels.
 
 ---
 
