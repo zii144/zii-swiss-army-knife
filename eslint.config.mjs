@@ -4,7 +4,18 @@ import tseslint from 'typescript-eslint';
 import globals from 'globals';
 
 export default tseslint.config(
-  { ignores: ['**/dist/**', '**/node_modules/**', '**/.turbo/**', '**/coverage/**'] },
+  {
+    ignores: [
+      '**/dist/**',
+      '**/node_modules/**',
+      '**/.turbo/**',
+      '**/coverage/**',
+      // Capacitor native shells (Phase 4): generated Xcode/Gradle projects and
+      // copied web assets are not part of our source tree.
+      '**/ios/**',
+      '**/android/**',
+    ],
+  },
   js.configs.recommended,
   ...tseslint.configs.recommended,
   {

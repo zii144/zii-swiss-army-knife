@@ -12,9 +12,13 @@
     "check:bundle": "node scripts/check-bundle.mjs",
     "typecheck": "tsc -p tsconfig.json",
     "test": "vitest run",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "mobile:sync": "pnpm build:spa && cap sync",
+    "mobile:ios": "pnpm mobile:sync && cap open ios",
+    "mobile:android": "pnpm mobile:sync && cap open android"
   },
   "dependencies": {
+    "@capacitor/core": "^8.4.1",
     "@imgly/background-removal": "^1",
     "@zii/calc": "workspace:*",
     "@zii/calendar": "workspace:*",
@@ -36,6 +40,9 @@
     "xlsx": "^0.18"
   },
   "devDependencies": {
+    "@capacitor/android": "^8.4.1",
+    "@capacitor/cli": "^8.4.1",
+    "@capacitor/ios": "^8.4.1",
     "@types/react": "^19.2.0",
     "@types/react-dom": "^19.2.0",
     "@vitejs/plugin-react": "^5.2.0",
