@@ -28,6 +28,9 @@ export function FileField({
   return (
     <div className="ui-file">
       <button type="button" className="ui-file__btn" onClick={() => inputRef.current?.click()}>
+        <span className="ui-file__plus" aria-hidden="true">
+          +
+        </span>
         {buttonLabel}
       </button>
       <span className="ui-file__name">{summary ?? placeholder ?? ''}</span>
