@@ -4,6 +4,17 @@ All notable changes to this project. Format loosely follows Keep a Changelog.
 
 ## [Unreleased]
 
+### Added — E2E: Playwright headless suite over every tool (2026-07-08)
+- New Playwright suite (`packages/app/e2e/`) that runs headless against the **production build** (prerender + hydration, pre-bundled chunks, service workers blocked). `tools-smoke.spec.ts` is data-driven over `CATALOG` — it loads **all 170 tools** and asserts each mounts, renders an interactive control, isn't the "coming soon" fallback, and logs no console/page errors. `tools-functional.spec.ts` drives real inputs and asserts outputs (case convert, ROT13, Base64, slugify, area convert, tip split). Added `test:e2e` script, a dedicated preview server on `:4321`, and a separate **`e2e` CI job** (uploads the HTML report). **176/176 tests pass.**
+- **Fixed a real bug the sweep caught:** `heic-convert` (HEIC → JPG) was bundling its Node-only entry (pngjs + Node streams) and crashing in the browser with *"Object prototype may only be an Object or null"*. Aliased `heic-convert` → its `<canvas>` browser build in `vite.config.ts`; the Node-side heic tests in `@zii/compute-wasm` keep the default entry.
+
+### Added — Phase 4: Capacitor iOS + Android mobile shell (2026-07-08)
+- Wrapped the offline PWA as native apps via Capacitor v8 (`appId: dev.zii.knife`, `webDir: dist`) with `mobile:sync` / `mobile:ios` / `mobile:android` scripts. Generated iOS (SPM) and Android (Gradle) native projects; native sources committed, build artifacts + copied web assets git-ignored. **iOS verified end-to-end** — `App.app` compiles (Xcode 26) and renders the full PWA in the simulator's WKWebView. Android project synced (needs an Android SDK to build). No live/gov-data tools touched — packaging layer only.
+
+### Changed — Brand + UI polish (2026-07-08)
+- **Logo redesign:** the Z's diagonal is now a folding-knife blade with a pivot rivet — a Swiss-army-knife nod to the suite's purpose. `Logo.tsx` and `public/icon.svg` kept geometrically identical so the in-app mark and favicon stay consistent. Versioned the favicon URL (`/icon.svg?v=2`) in the dev template and prerenderer, and bumped the service-worker cache (`v1 → v2`) so the redesigned tab icon replaces the cached one.
+- **Background + hover motion:** added a lime sun-glow + cool counter-glow + fine soft-light grain to the sky (tuned for light/dark), and a shared hover language for the `ui/` controls — gentle lift + scale + lime ring; the select chevron flips 180° when open; arrow badges and a new file-picker `+` badge rotate 45° on hover; active menu options gain a lime rail. All motion behind `prefers-reduced-motion`.
+
 ### Added — App: market packs batch 3 — UK market + 6 tools (2026-07-01)
 - Opened a new selectable **UK (`en-gb`)** market (fully-localized label) and added six more pure/offline `IdTool` validators with 8-language strings: **US Employer ID Number (EIN)** and **US phone number (NANP)** (`en-us`); **UK postcode**, **UK National Insurance number**, and **UK bank sort code** (`en-gb`); and **Taiwan postal code** (`tw`). Logic extends `src/lib/regionkit.ts` (now 16 tests; generators still round-trip through their validators). App now ships **76 tool screens**; prerender emits **616 pages**; bundle budget held (**88.0 KB gz** initial). Scoping test now also covers `en-gb`.
 
