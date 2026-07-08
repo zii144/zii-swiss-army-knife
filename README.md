@@ -2,11 +2,11 @@
 
 A multi-market, privacy-first everyday-utility suite — file conversion, calculators, PDF/image tools, text utilities, and region-specific validators in one offline-capable PWA.
 
-**Current state:** platform foundation (M1–M10) complete; **Phase 2 universal catalog shipped** (170 tool screens); **Phase 3 market locale packs** underway (TW / HK / JP / EN-US / EN-GB); **Phase 4 mobile shell** started — iOS/Android wrapped with Capacitor (iOS build verified in-simulator). See `ROADMAP.md` for what comes next.
+**Current state:** platform foundation (M1–M10) complete; **Phase 2 universal catalog shipped** (170 tool screens); **Phase 3 market locale packs** underway (TW / HK / JP / EN-US / EN-GB); **Phase 4 mobile shell** started — iOS/Android wrapped with Capacitor (iOS build verified in-simulator) — plus a **Playwright headless E2E** suite that loads and checks every tool on each CI run. See `ROADMAP.md` for what comes next.
 
 ## Highlights
 
-- **170 tools** across calc, files, PDF, image, text, dev, identity, and everyday categories — lazy-loaded, code-split, with a ~103 KB gz initial payload (110 KB gz budget)
+- **170 tools** across calc, files, PDF, image, text, dev, identity, and everyday categories — lazy-loaded, code-split, with a ~105 KB gz initial payload (110 KB gz budget)
 - **8 UI languages** (en, zh-TW, zh-HK, ja, ko, es, fr, de) with fully localized tool names
 - **6 selectable markets** (global, tw, hk, jp, en-us, en-gb) — region-specific tools appear only in their market
 - **Offline-first** — most tools run entirely on-device; heavy WASM/OCR models download on first use
@@ -76,6 +76,16 @@ pnpm verify      # typecheck + lint + test + build + license-scan
 ```
 
 Individual gates: `pnpm typecheck` · `pnpm lint` · `pnpm test` · `pnpm build` · `pnpm check:licenses`
+
+Everything above runs in CI on every push/PR ([`.github/workflows/ci.yml`](.github/workflows/ci.yml)), alongside a separate **E2E job**.
+
+### End-to-end tests
+
+Playwright drives the real production build (prerender + hydration) headlessly — an all-tools smoke sweep loads every one of the 170 tools and asserts each mounts, exposes a control, and throws no errors, plus functional spot-checks that assert real outputs.
+
+```bash
+pnpm --filter @zii/app test:e2e     # requires: pnpm --filter @zii/app exec playwright install chromium
+```
 
 App shell:
 
