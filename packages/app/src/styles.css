@@ -762,6 +762,151 @@ body {
   color: var(--on-blue-soft);
 }
 
+/* ------------------------------------------------------- category hub ---- */
+/* Browsable grid of category cards shown on /tools (all + no search) instead
+   of stacking every tool. Each card is colour-accented by its category. */
+.cathub {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  gap: 1rem;
+}
+
+.catcard {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  min-height: 9.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  text-align: left;
+  cursor: pointer;
+  padding: 1.05rem 1.1rem;
+  border-radius: 16px;
+  background: var(--glass);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--glass-shadow);
+  backdrop-filter: blur(10px);
+  color: var(--ink);
+  text-decoration: none;
+  transition:
+    transform var(--dur-2) var(--ease-out),
+    border-color var(--dur-2) var(--ease-out),
+    box-shadow var(--dur-2) var(--ease-out);
+}
+
+/* Faint category-coloured glow in the corner. */
+.catcard::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(80% 70% at 100% 0%, var(--cat), transparent 62%);
+  opacity: 0.12;
+  transition: opacity var(--dur-2) var(--ease-out);
+}
+
+.catcard:hover,
+.catcard:focus-visible {
+  transform: translateY(-4px) scale(1.02);
+  border-color: color-mix(in srgb, var(--cat) 55%, var(--glass-border));
+  box-shadow: 0 22px 40px -22px color-mix(in srgb, var(--cat) 60%, transparent);
+  outline: none;
+}
+
+.catcard:hover::before,
+.catcard:focus-visible::before {
+  opacity: 0.22;
+}
+
+.catcard__top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.catcard__ico {
+  display: grid;
+  place-items: center;
+  width: 2.6rem;
+  height: 2.6rem;
+  border-radius: 12px;
+  color: var(--cat);
+  background: color-mix(in srgb, var(--cat) 16%, transparent);
+  transition: transform var(--dur-2) var(--ease-out);
+}
+
+.catcard:hover .catcard__ico {
+  transform: rotate(-6deg) scale(1.08);
+}
+
+.catcard__count {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--ink-soft);
+  background: color-mix(in srgb, var(--cat) 14%, transparent);
+  padding: 0.15rem 0.55rem;
+  border-radius: 999px;
+}
+
+.catcard__name {
+  font-size: 1.08rem;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+}
+
+.catcard__samples {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin-top: auto;
+}
+
+.catcard__chip {
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 0.72rem;
+  color: var(--ink-soft);
+  background: var(--field-bg);
+  border: 1px solid var(--border);
+  padding: 0.12rem 0.5rem;
+  border-radius: 999px;
+}
+
+.catcard__go {
+  position: absolute;
+  right: 1.1rem;
+  bottom: 1.05rem;
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: var(--cat);
+  opacity: 0;
+  transform: translateX(-4px);
+  transition:
+    opacity var(--dur-2) var(--ease-out),
+    transform var(--dur-2) var(--ease-out);
+}
+
+.catcard:hover .catcard__go,
+.catcard:focus-visible .catcard__go {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .catcard:hover,
+  .catcard:focus-visible,
+  .catcard:hover .catcard__ico {
+    transform: none;
+  }
+}
+
 /* Tool grid */
 .app__list {
   list-style: none;

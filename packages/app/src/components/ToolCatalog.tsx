@@ -51,10 +51,48 @@ export function ToolCatalog({
   const title = category === 'all' ? t('catalogTitle') : `${categoryLabel(category, lang)} tools`;
   const subtitle = category === 'all' ? t('catalogSubtitle') : categoryDescription(category);
 
+  // On the "all" view with no active search, browsing 170 stacked tools is a
+  // slog — show a category hub instead. A search or a picked category drops
+  // straight to the grouped tool grid.
+  const showHub = category === 'all' && query.trim().length === 0;
+
   const marketOptions: SelectOption[] = SELECTABLE_MARKETS.map((m) => ({
     value: m,
     label: marketLabel(m, lang),
   }));
+
+  const renderCategoryCard = (cat: string): React.JSX.Element => {
+    const items = tools.filter((tl) => tl.category === cat);
+    const samples = items.slice(0, 3).map((tl) => localizedName(tl.id, lang));
+    return (
+      <li key={cat}>
+        <button
+          type="button"
+          className="catcard"
+          style={{ '--cat': categoryColor(cat) } as React.CSSProperties}
+          onClick={() => onCategory(cat)}
+        >
+          <span className="catcard__top">
+            <span className="catcard__ico">
+              <CategoryIcon category={cat} size={22} />
+            </span>
+            <span className="catcard__count">{items.length}</span>
+          </span>
+          <span className="catcard__name">{categoryLabel(cat, lang)}</span>
+          <span className="catcard__samples">
+            {samples.map((s, i) => (
+              <span key={i} className="catcard__chip">
+                {s}
+              </span>
+            ))}
+          </span>
+          <span className="catcard__go" aria-hidden="true">
+            →
+          </span>
+        </button>
+      </li>
+    );
+  };
 
   const renderGridCard = (tool: CatalogTool, i: number): React.JSX.Element => (
     <li key={tool.id}>
@@ -145,6 +183,8 @@ export function ToolCatalog({
 
       {tools.length === 0 ? (
         <p className="app__empty">{t('noResults')}</p>
+      ) : showHub ? (
+        <ul className="cathub">{sectionCategories.map((cat) => renderCategoryCard(cat))}</ul>
       ) : (
         visibleCategories.map((cat) => {
           const items = tools.filter((tl) => tl.category === cat);

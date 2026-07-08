@@ -23,7 +23,7 @@ function toolIco(id: string, category: string): string {
 function nav(lang: Lang, active: 'home' | 'tools'): string {
   const d = DICTIONARY[lang];
   return `<nav class="app__nav">
-    <a class="app__brand" href="${buildPath(lang, 'home')}"><span class="app__brand-mark"><svg class="zlogo" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="5" y="5" width="14" height="3.4" rx="1.2" fill="currentColor"/><rect x="5" y="15.6" width="14" height="3.4" rx="1.2" fill="currentColor"/><path d="M16.6 7 L7.4 17" stroke="#b4e636" stroke-width="3.4" stroke-linecap="round"/></svg></span>${esc(d.brand)}</a>
+    <a class="app__brand" href="${buildPath(lang, 'home')}"><span class="app__brand-mark"><svg class="zlogo" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="5.5" y="5.6" width="13" height="2.75" rx="1.1" fill="currentColor"/><rect x="5.5" y="15.65" width="13" height="2.75" rx="1.1" fill="currentColor"/><path d="M6.5 17 L18 6.75 L19.75 9.5 Q14.5 14.5 6.5 17 Z" fill="#b4e636"/><circle cx="18.25" cy="8.25" r="1.05" fill="currentColor"/></svg></span>${esc(d.brand)}</a>
     <div class="app__nav-links">
       <a class="app__nav-link${active === 'home' ? ' is-active' : ''}" href="${buildPath(lang, 'home')}">${esc(d.navHome)}</a>
       <a class="app__nav-link${active === 'tools' ? ' is-active' : ''}" href="${buildPath(lang, 'tools')}">${esc(d.navTools)}</a>
@@ -48,7 +48,7 @@ function footer(lang: Lang): string {
   return `<footer class="footer">
     <div class="footer__inner">
       <div class="footer__brand">
-        <div class="footer__logo"><span class="app__brand-mark"><svg class="zlogo" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="5" y="5" width="14" height="3.4" rx="1.2" fill="currentColor"/><rect x="5" y="15.6" width="14" height="3.4" rx="1.2" fill="currentColor"/><path d="M16.6 7 L7.4 17" stroke="#b4e636" stroke-width="3.4" stroke-linecap="round"/></svg></span><span class="footer__name">${esc(d.brand)}</span></div>
+        <div class="footer__logo"><span class="app__brand-mark"><svg class="zlogo" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="5.5" y="5.6" width="13" height="2.75" rx="1.1" fill="currentColor"/><rect x="5.5" y="15.65" width="13" height="2.75" rx="1.1" fill="currentColor"/><path d="M6.5 17 L18 6.75 L19.75 9.5 Q14.5 14.5 6.5 17 Z" fill="#b4e636"/><circle cx="18.25" cy="8.25" r="1.05" fill="currentColor"/></svg></span><span class="footer__name">${esc(d.brand)}</span></div>
         <p class="footer__tagline">${esc(d.heroKicker)}</p>
         <p class="footer__note">${esc(d.rated)}</p>
       </div>
@@ -99,18 +99,42 @@ function catalogSections(lang: Lang, offlineLabel: string, activeCategory = 'all
       })
       .join('');
 
-  const sections = visibleCats
-    .map((cat) => {
-      const items = CATALOG.filter((t) => t.category === cat);
-      return `<section class="catgroup">
+  // The "all" landing is a browsable category hub (each card links to its
+  // category page — real crawlable links). A specific category shows its full
+  // tool list. Either way every tool stays reachable (category pages + sitemap).
+  const body =
+    activeCategory === 'all'
+      ? `<ul class="cathub">
+      ${cats
+        .map((cat) => {
+          const items = CATALOG.filter((t) => t.category === cat);
+          const samples = items
+            .slice(0, 3)
+            .map(
+              (tool) => `<span class="catcard__chip">${esc(localizedName(tool.id, lang))}</span>`,
+            )
+            .join('');
+          return `<li><a class="catcard" style="--cat:${categoryColor(cat)}" href="${buildPath(lang, 'category', cat)}">
+        <span class="catcard__top"><span class="catcard__ico">${categoryIconSvg(cat, '', 22)}</span><span class="catcard__count">${items.length}</span></span>
+        <span class="catcard__name">${esc(categoryLabel(cat, lang))}</span>
+        <span class="catcard__samples">${samples}</span>
+        <span class="catcard__go" aria-hidden="true">→</span>
+      </a></li>`;
+        })
+        .join('\n      ')}
+    </ul>`
+      : visibleCats
+          .map((cat) => {
+            const items = CATALOG.filter((t) => t.category === cat);
+            return `<section class="catgroup">
       <div class="catgroup__head"><span class="catgroup__ico" style="color:${categoryColor(cat)}">${categoryIconSvg(cat, '', 18)}</span><h3 class="catgroup__title">${esc(categoryLabel(cat, lang))}</h3><span class="catgroup__count">${items.length}</span></div>
       <p class="tool__hint">${esc(categoryLabel(cat, lang))}: ${esc(items.map((tool) => localizedName(tool.id, lang)).join(', '))}.</p>
       <ul class="app__list">
         ${items.map((tool) => card(lang, tool, offlineLabel)).join('\n        ')}
       </ul>
     </section>`;
-    })
-    .join('\n');
+          })
+          .join('\n');
 
   return `<section class="catalog catalog--standalone" id="tools">
     <div class="catalog__head">
@@ -122,7 +146,7 @@ function catalogSections(lang: Lang, offlineLabel: string, activeCategory = 'all
       </div>
     </div>
     <div class="catfilter">${chips}</div>
-    ${sections}
+    ${body}
   </section>`;
 }
 
