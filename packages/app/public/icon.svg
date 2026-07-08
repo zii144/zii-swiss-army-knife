@@ -6,7 +6,11 @@
     </linearGradient>
   </defs>
   <rect width="192" height="192" rx="44" fill="url(#zii-tile)" />
-  <rect x="48" y="46" width="96" height="22" rx="8" fill="#ffffff" />
-  <rect x="48" y="124" width="96" height="22" rx="8" fill="#ffffff" />
-  <path d="M132 60 L60 132" stroke="#c6f24e" stroke-width="24" stroke-linecap="round" />
+  <!-- Z bars -->
+  <rect x="44" y="44.8" width="104" height="22" rx="8.8" fill="#ffffff" />
+  <rect x="44" y="125.2" width="104" height="22" rx="8.8" fill="#ffffff" />
+  <!-- Folding-knife blade: straight spine, bellied cutting edge -->
+  <path d="M52 136 L144 54 L158 76 Q116 116 52 136 Z" fill="#c6f24e" />
+  <!-- Pivot rivet at the blade's base -->
+  <circle cx="146" cy="66" r="8.4" fill="url(#zii-tile)" />
 </svg>
