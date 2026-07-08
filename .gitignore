@@ -9,3 +9,10 @@ coverage/
 _tmp_*
 dist-ssr/
 *.timestamp-*.mjs
+
+# Playwright E2E artifacts
+test-results/
+playwright-report/
+blob-report/
+.last-run.json
+
