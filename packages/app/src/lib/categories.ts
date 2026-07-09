@@ -133,25 +133,55 @@ const CATEGORY_LABELS: Record<string, L10n> = {
   },
 };
 
-const CATEGORY_DESCRIPTIONS: Record<string, string> = {
-  pdf: 'Merge, split, compress, rotate, watermark, organize, and convert PDF files in the browser.',
-  image:
-    'Convert, compress, resize, crop, clean metadata, OCR, and edit images locally in the browser.',
-  text: 'Count, clean, transform, compare, encode, decode, and normalize text without uploading it.',
-  dev: 'Format, convert, encode, decode, inspect, and generate developer data directly in the browser.',
-  calc: 'Run practical everyday calculators for percentages, discounts, health, math, finance, and more.',
-  finance:
-    'Calculate prices, savings, tax, loans, currency conversions, and payroll-related figures.',
-  convert:
-    'Convert units, files, media, office documents, dates, data formats, and measurements privately.',
-  datetime:
-    'Work with dates, times, durations, time zones, calendars, holidays, eras, and lunar dates.',
-  generator:
-    'Generate QR codes, passwords, IDs, placeholder text, barcodes, and other useful assets.',
-  id: 'Validate regional identity numbers, postal codes, phone numbers, bank formats, and business IDs.',
-  file: 'Create, inspect, extract, and convert files and archives in a browser-first utility workspace.',
-  daily:
-    'Handle everyday chores such as reminders, formatting, planning, quick checks, and small tasks.',
+const CATEGORY_DESCRIPTIONS: Record<string, L10n> = {
+  pdf: {
+    en: 'Merge, split, compress, rotate, watermark, organize, and convert PDF files in the browser.',
+    ja: 'PDF の結合・分割・圧縮・回転・透かし・並べ替え・変換をブラウザ内で。',
+  },
+  image: {
+    en: 'Convert, compress, resize, crop, clean metadata, OCR, and edit images locally in the browser.',
+    ja: '画像の変換・圧縮・リサイズ・切り抜き・メタデータ削除・OCR をすべて端末内で。',
+  },
+  text: {
+    en: 'Count, clean, transform, compare, encode, decode, and normalize text without uploading it.',
+    ja: 'テキストのカウント・整形・変換・比較・エンコード・正規化をアップロードなしで。',
+  },
+  dev: {
+    en: 'Format, convert, encode, decode, inspect, and generate developer data directly in the browser.',
+    ja: '開発者向けのデータを整形・変換・エンコード・検査・生成、すべてブラウザで。',
+  },
+  calc: {
+    en: 'Run practical everyday calculators for percentages, discounts, health, math, finance, and more.',
+    ja: '割合・割引・健康・数学・金融など、日常の計算ツールをまとめて。',
+  },
+  finance: {
+    en: 'Calculate prices, savings, tax, loans, currency conversions, and payroll-related figures.',
+    ja: '価格・貯蓄・税金・ローン・為替・給与関連の金額を計算。',
+  },
+  convert: {
+    en: 'Convert units, files, media, office documents, dates, data formats, and measurements privately.',
+    ja: '単位・ファイル・メディア・文書・日付・データ形式・計量をプライベートに変換。',
+  },
+  datetime: {
+    en: 'Work with dates, times, durations, time zones, calendars, holidays, eras, and lunar dates.',
+    ja: '日付・時刻・経過時間・タイムゾーン・カレンダー・祝日・和暦・旧暦を扱う。',
+  },
+  generator: {
+    en: 'Generate QR codes, passwords, IDs, placeholder text, barcodes, and other useful assets.',
+    ja: 'QR コード・パスワード・ID・ダミーテキスト・バーコードなどを生成。',
+  },
+  id: {
+    en: 'Validate regional identity numbers, postal codes, phone numbers, bank formats, and business IDs.',
+    ja: '各地域の身分証番号・郵便番号・電話番号・銀行番号・事業者番号を検証。',
+  },
+  file: {
+    en: 'Create, inspect, extract, and convert files and archives in a browser-first utility workspace.',
+    ja: 'ファイルやアーカイブの作成・検査・展開・変換をブラウザ完結で。',
+  },
+  daily: {
+    en: 'Handle everyday chores such as reminders, formatting, planning, quick checks, and small tasks.',
+    ja: 'リマインダー・書式整え・計画・ちょっとした確認など、日常の作業をこなす。',
+  },
 };
 
 const CATEGORY_KEYWORDS: Record<string, readonly string[]> = {
@@ -177,8 +207,10 @@ export function categoryLabel(category: string, lang: Lang): string {
 }
 
 /** Search-oriented description for category landing pages and LLM indexes. */
-export function categoryDescription(category: string): string {
-  return CATEGORY_DESCRIPTIONS[category] ?? `${category} tools for everyday browser workflows.`;
+export function categoryDescription(category: string, lang: Lang = 'en'): string {
+  const map = CATEGORY_DESCRIPTIONS[category];
+  if (!map) return `${category} tools for everyday browser workflows.`;
+  return map[lang] ?? map.en;
 }
 
 /** Search-oriented keyword set for category landing pages. */

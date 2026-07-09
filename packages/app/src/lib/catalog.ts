@@ -1,5 +1,6 @@
 import type { Market, ToolCategory } from '@zii/registry';
 import type { Lang } from './i18n';
+import { NAME_OVERRIDES } from './tool-names-extra';
 
 /** Localized string map — English required, other locales optional (fallback to en). */
 export type L10n = { en: string } & Partial<Record<Lang, string>>;
@@ -2505,8 +2506,11 @@ function pick(map: L10n, lang: Lang): string {
   return map[lang] ?? map.en;
 }
 
-/** Localized display name for a tool id, falling back to English then the id. */
+/** Localized display name for a tool id, falling back to English then the id.
+ * Supplementary translations in NAME_OVERRIDES win over the catalogue map. */
 export function localizedName(id: string, lang: Lang): string {
+  const override = NAME_OVERRIDES[lang]?.[id];
+  if (override) return override;
   const tool = BY_ID.get(id);
   return tool ? pick(tool.name, lang) : id;
 }

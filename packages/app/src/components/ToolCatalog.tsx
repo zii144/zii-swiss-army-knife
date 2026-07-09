@@ -49,8 +49,8 @@ export function ToolCatalog({
   const sectionCategories = presentCategories(tools.map((tool) => tool.category));
   const visibleCategories =
     category === 'all' ? sectionCategories : sectionCategories.filter((c) => c === category);
-  const title = category === 'all' ? t('catalogTitle') : `${categoryLabel(category, lang)} tools`;
-  const subtitle = category === 'all' ? t('catalogSubtitle') : categoryDescription(category);
+  const title = category === 'all' ? t('catalogTitle') : categoryLabel(category, lang);
+  const subtitle = category === 'all' ? t('catalogSubtitle') : categoryDescription(category, lang);
 
   // On the "all" view with no active search, browsing 170 stacked tools is a
   // slog — show a category hub instead. A search or a picked category drops
@@ -144,7 +144,7 @@ export function ToolCatalog({
             onChange={(e) => onQuery(e.target.value)}
             aria-label={t('searchPlaceholder')}
           />
-          <span className="app__count">{formatToolCount(tools.length)}</span>
+          <span className="app__count">{formatToolCount(tools.length, lang)}</span>
         </div>
       </div>
 

@@ -93,10 +93,26 @@ export function filterTools(registry: ToolRegistry, filter: ToolFilter): ToolEnt
   return [...results].sort((a, b) => a.name.localeCompare(b.name));
 }
 
-/** Pluralized, human-friendly count label (e.g. "0 tools", "1 tool", "3 tools"). */
-export function formatToolCount(count: number): string {
+/** Localized, human-friendly count label (e.g. "3 tools", "3 個のツール"). */
+export function formatToolCount(count: number, lang: Lang = 'en'): string {
   const n = Math.max(0, Math.trunc(count));
-  return `${n} ${n === 1 ? 'tool' : 'tools'}`;
+  switch (lang) {
+    case 'ja':
+      return `${n} 個のツール`;
+    case 'zh-TW':
+    case 'zh-HK':
+      return `${n} 個工具`;
+    case 'ko':
+      return `${n}개 도구`;
+    case 'es':
+      return `${n} herramientas`;
+    case 'fr':
+      return `${n} outils`;
+    case 'de':
+      return `${n} Werkzeuge`;
+    default:
+      return `${n} ${n === 1 ? 'tool' : 'tools'}`;
+  }
 }
 
 /** Localized label for a market, falling back to English then the raw value. */
