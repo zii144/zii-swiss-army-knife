@@ -72,6 +72,12 @@ export function App(): React.JSX.Element {
     if (push && typeof window !== 'undefined') {
       const path = buildPath(nextLocale, nextView, nextRouteId);
       if (path !== window.location.pathname) window.history.pushState({}, '', path);
+      // Land at the top of the new page. Category navigations manage their own
+      // smooth scroll (openCategory), and tools get it via the `selected`
+      // effect — so only reset here for the home / tools landings.
+      if (nextView === 'home' || nextView === 'tools') {
+        requestAnimationFrame(() => window.scrollTo({ top: 0 }));
+      }
     }
   };
 

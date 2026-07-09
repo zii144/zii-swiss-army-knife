@@ -762,6 +762,38 @@ body {
   color: var(--on-blue-soft);
 }
 
+/* Sub-sections within a large category page (JSON, encoding, hashing…). */
+.subgroup {
+  margin: 0 0 1.5rem;
+}
+
+.subgroup__title {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0 0 0.75rem;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--on-blue-soft);
+}
+
+.subgroup__title::before {
+  content: '';
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 2px;
+  background: currentColor;
+  opacity: 0.5;
+}
+
+.subgroup__count {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--on-blue-faint);
+}
+
 /* ------------------------------------------------------- category hub ---- */
 /* Browsable grid of category cards shown on /tools (all + no search) instead
    of stacking every tool. Each card is colour-accented by its category. */

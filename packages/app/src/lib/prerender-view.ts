@@ -1,6 +1,7 @@
 import { DICTIONARY, LANGS, LANG_LABELS, type Lang } from './i18n';
 import { CATALOG, categoryColor, localizedBlurb, localizedName } from './catalog';
 import { categoryDescription, categoryLabel, presentCategories } from './categories';
+import { subGroupsFor, subLabel } from './subcategories';
 import { categoryIconSvg, iconSvg } from './icons';
 import { buildPath } from './router';
 
@@ -126,12 +127,32 @@ function catalogSections(lang: Lang, offlineLabel: string, activeCategory = 'all
       : visibleCats
           .map((cat) => {
             const items = CATALOG.filter((t) => t.category === cat);
+            const byId = new Map(items.map((tool) => [tool.id, tool]));
+            const subs = subGroupsFor(
+              cat,
+              items.map((tool) => tool.id),
+            );
+            const listFor = (ids: readonly string[]): string =>
+              `<ul class="app__list">
+        ${ids
+          .map((id) => byId.get(id))
+          .filter((tool): tool is (typeof CATALOG)[number] => Boolean(tool))
+          .map((tool) => card(lang, tool, offlineLabel))
+          .join('\n        ')}
+      </ul>`;
+            const inner =
+              subs.length > 0
+                ? subs
+                    .map(
+                      (sg) =>
+                        `<div class="subgroup"><h4 class="subgroup__title">${esc(subLabel(sg.label, lang))}<span class="subgroup__count">${sg.tools.length}</span></h4>${listFor(sg.tools)}</div>`,
+                    )
+                    .join('\n      ')
+                : listFor(items.map((tool) => tool.id));
             return `<section class="catgroup">
       <div class="catgroup__head"><span class="catgroup__ico" style="color:${categoryColor(cat)}">${categoryIconSvg(cat, '', 18)}</span><h3 class="catgroup__title">${esc(categoryLabel(cat, lang))}</h3><span class="catgroup__count">${items.length}</span></div>
       <p class="tool__hint">${esc(categoryLabel(cat, lang))}: ${esc(items.map((tool) => localizedName(tool.id, lang)).join(', '))}.</p>
-      <ul class="app__list">
-        ${items.map((tool) => card(lang, tool, offlineLabel)).join('\n        ')}
-      </ul>
+      ${inner}
     </section>`;
           })
           .join('\n');

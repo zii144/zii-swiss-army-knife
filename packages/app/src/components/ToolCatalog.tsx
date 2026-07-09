@@ -5,6 +5,7 @@ import type { Lang } from '../lib/i18n';
 import { useT } from '../lib/i18n';
 import { categoryColor, localizedName } from '../lib/catalog';
 import { categoryDescription, categoryLabel, presentCategories } from '../lib/categories';
+import { subGroupsFor, subLabel } from '../lib/subcategories';
 import { prefetchTool } from '../tools';
 import { ToolIcon, CategoryIcon } from './ToolIcon';
 import { Select, TextField } from './ui';
@@ -188,6 +189,15 @@ export function ToolCatalog({
       ) : (
         visibleCategories.map((cat) => {
           const items = tools.filter((tl) => tl.category === cat);
+          const byId = new Map(items.map((tl) => [tl.id, tl]));
+          // Sub-group only a focused category page, not cross-category search.
+          const subs =
+            category !== 'all'
+              ? subGroupsFor(
+                  cat,
+                  items.map((tl) => tl.id),
+                )
+              : [];
           return (
             <section key={cat} className="catgroup">
               <div className="catgroup__head">
@@ -197,7 +207,24 @@ export function ToolCatalog({
                 <h3 className="catgroup__title">{categoryLabel(cat, lang)}</h3>
                 <span className="catgroup__count">{items.length}</span>
               </div>
-              <ul className="app__list">{items.map((tl, i) => renderGridCard(tl, i))}</ul>
+              {subs.length > 0 ? (
+                subs.map((sg) => (
+                  <div key={sg.key} className="subgroup">
+                    <h4 className="subgroup__title">
+                      {subLabel(sg.label, lang)}
+                      <span className="subgroup__count">{sg.tools.length}</span>
+                    </h4>
+                    <ul className="app__list">
+                      {sg.tools.map((id, i) => {
+                        const tl = byId.get(id);
+                        return tl ? renderGridCard(tl, i) : null;
+                      })}
+                    </ul>
+                  </div>
+                ))
+              ) : (
+                <ul className="app__list">{items.map((tl, i) => renderGridCard(tl, i))}</ul>
+              )}
             </section>
           );
         })

@@ -4,6 +4,12 @@ All notable changes to this project. Format loosely follows Keep a Changelog.
 
 ## [Unreleased]
 
+### Changed — Catalog UX: category hub, sub-sections, scroll-to-top (2026-07-09)
+- **`/tools` is a browsable category hub** — 12 colour-accented cards (icon, count, sample tools) instead of a 170-tool wall; picking a category or searching drops to the tool grid. (Shipped earlier; noted here for the set.)
+- **Large category pages split into sub-sections** — Developer, Text, Converters, Generators, and Finance now group their tools into scannable subgroups (e.g. Developer → JSON & data formats · Encoding & escaping · Hashing & tokens · Inspect & test · Text & data utilities · Similarity & distance) via a curated `src/lib/subcategories.ts`. A unit test guards the curation (no unknown ids, no duplicates, full coverage); mirrored in the SSR prerender for first-paint/SEO parity.
+- **Scroll-to-top on navigation** — clicking "View all" (or Home/Tools) from a scrolled page now lands at the top of the destination instead of mid-scroll.
+- New E2E cover the hub, category drill-down, search bypass, sub-section grouping, and the scroll-to-top behaviour.
+
 ### Added — E2E: Playwright headless suite over every tool (2026-07-08)
 - New Playwright suite (`packages/app/e2e/`) that runs headless against the **production build** (prerender + hydration, pre-bundled chunks, service workers blocked). `tools-smoke.spec.ts` is data-driven over `CATALOG` — it loads **all 170 tools** and asserts each mounts, renders an interactive control, isn't the "coming soon" fallback, and logs no console/page errors. `tools-functional.spec.ts` drives real inputs and asserts outputs (case convert, ROT13, Base64, slugify, area convert, tip split). Added `test:e2e` script, a dedicated preview server on `:4321`, and a separate **`e2e` CI job** (uploads the HTML report). **176/176 tests pass.**
 - **Fixed a real bug the sweep caught:** `heic-convert` (HEIC → JPG) was bundling its Node-only entry (pngjs + Node streams) and crashing in the browser with *"Object prototype may only be an Object or null"*. Aliased `heic-convert` → its `<canvas>` browser build in `vite.config.ts`; the Node-side heic tests in `@zii/compute-wasm` keep the default entry.
