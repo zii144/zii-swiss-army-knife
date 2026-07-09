@@ -86,10 +86,9 @@ function catalogSections(lang: Lang, offlineLabel: string, activeCategory = 'all
     activeCategory === 'all' ? cats : cats.filter((cat) => cat === activeCategory);
   const visibleTools =
     activeCategory === 'all' ? CATALOG : CATALOG.filter((tool) => tool.category === activeCategory);
-  const title =
-    activeCategory === 'all' ? d.catalogTitle : `${categoryLabel(activeCategory, lang)} tools`;
+  const title = activeCategory === 'all' ? d.catalogTitle : categoryLabel(activeCategory, lang);
   const subtitle =
-    activeCategory === 'all' ? d.catalogSubtitle : categoryDescription(activeCategory);
+    activeCategory === 'all' ? d.catalogSubtitle : categoryDescription(activeCategory, lang);
 
   const chips =
     `<a class="catchip${activeCategory === 'all' ? ' is-active' : ''}" href="${buildPath(lang, 'tools')}">${esc(d.allCategories)}<span class="catchip__count">${CATALOG.length}</span></a>` +

@@ -207,7 +207,7 @@ export function buildHead(
 
   if (view === 'category' && routeId) {
     const name = categoryLabel(routeId, lang);
-    const description = categoryDescription(routeId);
+    const description = categoryDescription(routeId, lang);
     const tools = CATALOG.filter((t) => t.category === routeId);
     const keywords = [
       `${name} tools`,

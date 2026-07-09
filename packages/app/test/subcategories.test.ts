@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { CATALOG } from '../src/lib/catalog';
-import { SUBCATEGORIES, subGroupsFor } from '../src/lib/subcategories';
+import { LANGS } from '../src/lib/i18n';
+import { SUBCATEGORIES, subGroupsFor, subLabel } from '../src/lib/subcategories';
 
 describe('subcategories', () => {
   const catalogIds = new Set(CATALOG.map((t) => t.id));
@@ -37,6 +38,29 @@ describe('subcategories', () => {
       });
     });
   }
+
+  it('localizes every sub-group label into all supported languages', () => {
+    for (const [category, groups] of Object.entries(SUBCATEGORIES)) {
+      for (const g of groups!) {
+        for (const lang of LANGS) {
+          const text = subLabel(g.label, lang);
+          expect(text.length, `${category}/${g.key} empty in ${lang}`).toBeGreaterThan(0);
+          expect(g.label[lang], `${category}/${g.key} missing ${lang}`).toBeDefined();
+        }
+      }
+    }
+  });
+
+  it('localizes the trailing "More" bucket into all supported languages', () => {
+    // Force a leftover so subGroupsFor emits the "more" group.
+    const groups = subGroupsFor('generator', ['qr-generate', 'not-a-real-tool']);
+    const more = groups.find((g) => g.key === 'more');
+    expect(more).toBeDefined();
+    for (const lang of LANGS) {
+      expect(more!.label[lang], `More missing ${lang}`).toBeDefined();
+      expect(subLabel(more!.label, lang).length).toBeGreaterThan(0);
+    }
+  });
 
   it('returns no sub-groups for an un-subcategorized category', () => {
     expect(subGroupsFor('pdf', ['pdf-merge'])).toEqual([]);

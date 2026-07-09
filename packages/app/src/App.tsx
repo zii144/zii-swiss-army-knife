@@ -1,4 +1,4 @@
-import { Suspense, useEffect, useMemo, useRef, useState } from 'react';
+import { lazy, Suspense, useEffect, useMemo, useRef, useState } from 'react';
 import type { Market } from '@zii/registry';
 import { createRegistry } from '@zii/registry';
 import { filterTools } from './lib/tools';
@@ -16,7 +16,11 @@ import { Footer } from './components/Footer';
 import { Clouds } from './components/Clouds';
 import { ToolNav } from './components/ToolNav';
 import { ToolIcon } from './components/ToolIcon';
-import { ToolCatalog } from './components/ToolCatalog';
+// Lazy so the catalogue (and its multi-language subgroup/description tables)
+// stays out of the initial home payload — it only renders on /tools.
+const ToolCatalog = lazy(() =>
+  import('./components/ToolCatalog').then((m) => ({ default: m.ToolCatalog })),
+);
 import { Logo } from './components/Logo';
 import { Select } from './components/ui';
 import type { SelectOption } from './components/ui';
@@ -257,7 +261,7 @@ export function App(): React.JSX.Element {
           </main>
         </div>
       ) : view === 'tools' || view === 'category' ? (
-        <>
+        <Suspense fallback={<p className="app__empty">{t('loading')}</p>}>
           <ToolCatalog
             tools={tools}
             lang={lang}
@@ -271,7 +275,7 @@ export function App(): React.JSX.Element {
             catalogRef={catalogRef}
             standalone
           />
-        </>
+        </Suspense>
       ) : (
         <>
           <Clouds />

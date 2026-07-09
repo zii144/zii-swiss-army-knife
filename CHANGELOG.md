@@ -4,6 +4,13 @@ All notable changes to this project. Format loosely follows Keep a Changelog.
 
 ## [Unreleased]
 
+### Fixed — i18n: complete Japanese tool names + localized catalog chrome (2026-07-09)
+- Verified the multi-language system end-to-end: all 8 locales route, switch, and render with the correct `<html lang>`, hreflang alternates, localized titles, and CJK/accented text — 11 new Playwright specs (per-locale + the language switcher) prove it with zero runtime errors.
+- **Completed Japanese tool names.** ~80 tool names had been falling back to English in Japanese (the tools added after the earlier translation batch). Added a `src/lib/tool-names-extra.ts` overlay so every tool has a Japanese name except the deliberate language-neutral ones (JSON ↔ CSV, HEIC → JPG, ROT13, Soundex…). Also finished two zh-HK region names.
+- **Localized the catalog chrome.** Category pages no longer bleed English into other locales: dropped the hardcoded "… tools" H1 suffix (now the localized category label), made category descriptions locale-aware (with Japanese), localized all sub-section labels (8 languages), and localized the "{n} tools" count.
+- A unit test guards Japanese coverage (only the intentional-English set may fall back). Lazy-loaded the catalogue so the added translation tables stay out of the initial payload — home bundle held at **107.1 KB gz** (110 KB budget).
+- Follow-up: ko/es/fr/de tool *names* still fall back to English (UI chrome and sub-section labels are fully localized); those languages have no dedicated market pack.
+
 ### Changed — Catalog UX: category hub, sub-sections, scroll-to-top (2026-07-09)
 - **`/tools` is a browsable category hub** — 12 colour-accented cards (icon, count, sample tools) instead of a 170-tool wall; picking a category or searching drops to the tool grid. (Shipped earlier; noted here for the set.)
 - **Large category pages split into sub-sections** — Developer, Text, Converters, Generators, and Finance now group their tools into scannable subgroups (e.g. Developer → JSON & data formats · Encoding & escaping · Hashing & tokens · Inspect & test · Text & data utilities · Similarity & distance) via a curated `src/lib/subcategories.ts`. A unit test guards the curation (no unknown ids, no duplicates, full coverage); mirrored in the SSR prerender for first-paint/SEO parity.
