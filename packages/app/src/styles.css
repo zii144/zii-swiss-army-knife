@@ -1823,10 +1823,23 @@ button {
   background: rgba(255, 255, 255, 0.1);
 }
 
+.ui-select__lead {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  min-width: 0;
+}
+
 .ui-select__value {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+.ui-select__flag {
+  flex: none;
+  font-size: 1.05em;
+  line-height: 1;
 }
 
 .ui-select__chev {
