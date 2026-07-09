@@ -1,6 +1,6 @@
 import type { RefObject } from 'react';
 import type { Market } from '@zii/registry';
-import { formatToolCount, marketLabel, SELECTABLE_MARKETS } from '../lib/tools';
+import { formatToolCount, marketFlag, marketLabel, SELECTABLE_MARKETS } from '../lib/tools';
 import type { Lang } from '../lib/i18n';
 import { useT } from '../lib/i18n';
 import { categoryColor, localizedName } from '../lib/catalog';
@@ -60,6 +60,7 @@ export function ToolCatalog({
   const marketOptions: SelectOption[] = SELECTABLE_MARKETS.map((m) => ({
     value: m,
     label: marketLabel(m, lang),
+    icon: marketFlag(m),
   }));
 
   const renderCategoryCard = (cat: string): React.JSX.Element => {

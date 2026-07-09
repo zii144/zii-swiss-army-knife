@@ -78,6 +78,27 @@ export const MARKET_LABELS: Readonly<Record<Market, L10n>> = {
   'en-au': { en: 'Australia (English)' },
 };
 
+/**
+ * Flag glyph for each market. Regional-indicator emoji, so they need no bundled
+ * assets and stay offline-safe; `global` uses a globe since it has no country.
+ * (Windows renders region flags as two letters — an accepted platform fallback.)
+ */
+export const MARKET_FLAGS: Readonly<Record<Market, string>> = {
+  global: '\u{1F310}', // globe
+  tw: '\u{1F1F9}\u{1F1FC}',
+  hk: '\u{1F1ED}\u{1F1F0}',
+  jp: '\u{1F1EF}\u{1F1F5}',
+  'en-us': '\u{1F1FA}\u{1F1F8}',
+  'en-gb': '\u{1F1EC}\u{1F1E7}',
+  'en-ca': '\u{1F1E8}\u{1F1E6}',
+  'en-au': '\u{1F1E6}\u{1F1FA}',
+};
+
+/** Flag glyph for a market, or an empty string if none is defined. */
+export function marketFlag(market: Market): string {
+  return MARKET_FLAGS[market] ?? '';
+}
+
 export interface ToolFilter {
   market: Market;
   query: string;

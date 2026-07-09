@@ -3,6 +3,8 @@ import { useEffect, useId, useMemo, useRef, useState } from 'react';
 export interface SelectOption {
   value: string;
   label: string;
+  /** Optional leading glyph (e.g. a flag emoji) shown before the label. */
+  icon?: string;
 }
 
 export interface SelectProps {
@@ -117,7 +119,14 @@ export function Select({
         onClick={() => setOpen((o) => !o)}
         onKeyDown={onKeyDown}
       >
-        <span className="ui-select__value">{current?.label ?? ''}</span>
+        <span className="ui-select__lead">
+          {current?.icon ? (
+            <span className="ui-select__flag" aria-hidden="true">
+              {current.icon}
+            </span>
+          ) : null}
+          <span className="ui-select__value">{current?.label ?? ''}</span>
+        </span>
         <span className="ui-select__chev" aria-hidden="true">
           ▾
         </span>
@@ -142,6 +151,11 @@ export function Select({
               <span className="ui-select__check" aria-hidden="true">
                 {o.value === value ? '✓' : ''}
               </span>
+              {o.icon ? (
+                <span className="ui-select__flag" aria-hidden="true">
+                  {o.icon}
+                </span>
+              ) : null}
               <span>{o.label}</span>
             </li>
           ))}

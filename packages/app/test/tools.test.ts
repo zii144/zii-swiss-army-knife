@@ -2,7 +2,13 @@ import { describe, it, expect } from 'vitest';
 import { createRegistry } from '@zii/registry';
 import type { ToolMeta, ToolRegistry } from '@zii/registry';
 import { registerHelloTool } from '@zii/hello-tool';
-import { filterTools, formatToolCount, marketLabel, SELECTABLE_MARKETS } from '../src/lib/tools';
+import {
+  filterTools,
+  formatToolCount,
+  marketFlag,
+  marketLabel,
+  SELECTABLE_MARKETS,
+} from '../src/lib/tools';
 
 const meta = (id: string, name: string, markets: ToolMeta['markets']): ToolMeta => ({
   id,
@@ -72,5 +78,19 @@ describe('marketLabel', () => {
     for (const m of SELECTABLE_MARKETS) {
       expect(marketLabel(m).length).toBeGreaterThan(0);
     }
+  });
+});
+
+describe('marketFlag', () => {
+  it('every selectable market has a non-empty flag glyph', () => {
+    for (const m of SELECTABLE_MARKETS) {
+      expect(marketFlag(m).length, `${m} has no flag`).toBeGreaterThan(0);
+    }
+  });
+
+  it('uses a globe for global and region flags for countries', () => {
+    expect(marketFlag('global')).toBe('\u{1F310}');
+    expect(marketFlag('tw')).toBe('\u{1F1F9}\u{1F1FC}');
+    expect(marketFlag('jp')).toBe('\u{1F1EF}\u{1F1F5}');
   });
 });
