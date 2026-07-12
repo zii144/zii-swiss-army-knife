@@ -15,7 +15,7 @@ that ties them together — and the Capacitor shell that ships them as native ap
     tools appear only in their market; and
   - a **search box** over names/keywords.
 - **170 tools**, lazy-loaded and code-split, keeping the initial payload at
-  ~**105 KB gz** against a hard **110 KB gz** budget (enforced on every build by
+  ~**111 KB gz** against a hard **112 KB gz** budget (enforced on every build by
   `scripts/check-bundle.mjs`).
 - **8 UI languages** (`en, zh-TW, zh-HK, ja, ko, es, fr, de`) with fully
   localized tool names, via a small in-house dictionary (`src/lib/i18n.ts`) — no

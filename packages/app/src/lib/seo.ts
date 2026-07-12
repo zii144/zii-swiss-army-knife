@@ -41,9 +41,6 @@ const MARKET_COUNTRY: Readonly<Record<string, string>> = {
   'en-gb': 'United Kingdom',
   'en-ca': 'Canada',
   'en-au': 'Australia',
-  ko: 'South Korea',
-  de: 'Germany',
-  fr: 'France',
 };
 
 /** schema.org Country[] a market-specific tool serves (empty for global tools). */

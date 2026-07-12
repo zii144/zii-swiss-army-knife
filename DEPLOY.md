@@ -64,7 +64,7 @@ pnpm --filter @zii/app dev   # VITE_BACKEND_URL=http://localhost:8787
 1. `vite build` — the SPA bundle (workspace engine packages are consumed as TS source, so
    no separate package build is required).
 2. `node scripts/check-bundle.mjs` — enforces the entry bundle budget (fails the build if
-   the gzipped entry + its static imports exceed 110 KB).
+   the gzipped entry + its static imports exceed 112 KB).
 3. `vite build --ssr src/lib/prerender-entry.ts` — a DOM-free bundle of the locale/SEO
    helpers.
 4. `node scripts/prerender.mjs` — emits the per-locale / per-category / per-tool static

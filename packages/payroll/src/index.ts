@@ -50,3 +50,67 @@ export {
   JP_TAKEHOME_TOKYO_2024,
 } from './jp-takehome';
 export type { JpTakeHomeConfig, JpSocialInsurance, JpTakeHomeResult } from './jp-takehome';
+
+// Canada 2026.
+export {
+  caTakeHome,
+  caCppEmployee,
+  caEiEmployee,
+  caFederalTax,
+  caProvincialTax,
+  caGstHst,
+  caRrspTaxImpact,
+  caTfsaRoom,
+  CA_2026,
+} from './ca';
+export type { CaProvince, CaTakeHomeResult } from './ca';
+
+// Australia FY 2025–26.
+export {
+  auTakeHome,
+  auIncomeTax,
+  auMedicareLevy,
+  auMls,
+  auHelpRepayment,
+  auSuper,
+  auLeaveAccrual,
+  AU_2026,
+} from './au';
+export type { AuTakeHomeResult } from './au';
+
+// Korea 2026.
+export {
+  koTakeHome,
+  koFourInsurances,
+  koSeverance,
+  koAnnualLeaveDays,
+  koAnnualLeavePay,
+  koOvertimePay,
+  KO_2026,
+} from './ko';
+export type { KoFourInsurances, KoTakeHomeResult } from './ko';
+
+// Germany 2026.
+export {
+  deTakeHome,
+  deIncomeTaxAnnual,
+  deVacationDays,
+  deCommuteAllowance,
+  deSeveranceTax,
+  DE_2026,
+  DE_HOLIDAYS_2026_FEDERAL,
+} from './de';
+export type { DeTaxClass, DeTakeHomeResult } from './de';
+
+// France 2026.
+export {
+  frBrutNet,
+  frEmployerCost,
+  frPasAmount,
+  frCongesAccrual,
+  frIncomeTaxAnnual,
+  FR_2026,
+  FR_HOLIDAYS_2026,
+  FR_HOLIDAYS_ALSACE_EXTRA,
+} from './fr';
+export type { FrBrutNetResult } from './fr';

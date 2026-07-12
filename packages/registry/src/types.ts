@@ -1,16 +1,5 @@
 /** Markets the suite targets. `global` = shown everywhere. */
-export type Market =
-  | 'tw'
-  | 'hk'
-  | 'jp'
-  | 'en-us'
-  | 'en-gb'
-  | 'en-ca'
-  | 'en-au'
-  | 'ko'
-  | 'de'
-  | 'fr'
-  | 'global';
+export type Market = 'tw' | 'hk' | 'jp' | 'en-us' | 'en-gb' | 'en-ca' | 'en-au' | 'global';
 
 /** Top-level tool categories (see FEATURE-CATALOG.md). */
 export type ToolCategory =

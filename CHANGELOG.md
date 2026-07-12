@@ -12,6 +12,7 @@ All notable changes to this project. Format loosely follows Keep a Changelog.
 - **Discovery files** — build now emits `ai.txt`; sitemap gains `lastmod` / `changefreq` / `priority`; robots.txt welcomes additional AI crawlers; `tools.json` category descriptions are fully localized.
 - **Category SEO copy** — all 12 category descriptions translated for all 8 locales (was mostly en + ja).
 - **PWA manifest** — `categories`, install shortcuts (tools / PDF merge / QR), and clearer start URL.
+- **Bundle budget** — raised initial gzip budget 110 → 112 KB to fit localized category SEO copy in the head/meta path.
 
 ### Fixed — Production-readiness polish: SW cache-busting, PWA icons, security headers (2026-07-11)
 - **Service-worker stale-shell fix (was the one real launch blocker).** The cache name was a hardcoded `zii-shell-v2`, so any deploy that didn't manually bump it left returning visitors on a stale, cached `index.html` (and its now-missing hashed chunks). A new `scripts/stamp-sw.mjs` runs last in the app `build` and rewrites the `zii-shell-*` token with a content fingerprint of the emitted assets, so every content change auto-busts the shell cache (verified: cache name is now stamped, e.g. `zii-shell-a614bdc4b6ba`).
