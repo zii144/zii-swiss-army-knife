@@ -3,17 +3,61 @@
   "short_name": "Zii",
   "description": "Privacy-first everyday-utility suite. File conversion, PDF tools, calculators, and text tools — all on-device and offline.",
   "lang": "en",
-  "start_url": "/",
+  "dir": "ltr",
+  "start_url": "/en",
   "scope": "/",
   "display": "standalone",
+  "orientation": "any",
   "background_color": "#2b66c4",
   "theme_color": "#2b66c4",
+  "categories": ["utilities", "productivity", "tools"],
+  "shortcuts": [
+    {
+      "name": "All tools",
+      "short_name": "Tools",
+      "description": "Browse the full Zii tool catalog",
+      "url": "/en/tools",
+      "icons": [{ "src": "/icon-192.png", "sizes": "192x192", "type": "image/png" }]
+    },
+    {
+      "name": "Merge PDF",
+      "short_name": "PDF",
+      "description": "Merge PDF files in the browser",
+      "url": "/en/tools/pdf-merge",
+      "icons": [{ "src": "/icon-192.png", "sizes": "192x192", "type": "image/png" }]
+    },
+    {
+      "name": "QR generator",
+      "short_name": "QR",
+      "description": "Generate a QR code offline",
+      "url": "/en/tools/qr-generate",
+      "icons": [{ "src": "/icon-192.png", "sizes": "192x192", "type": "image/png" }]
+    }
+  ],
   "icons": [
     {
       "src": "/icon.svg",
       "sizes": "any",
       "type": "image/svg+xml",
-      "purpose": "any maskable"
+      "purpose": "any"
+    },
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
     }
   ]
 }

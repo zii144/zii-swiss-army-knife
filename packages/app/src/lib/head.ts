@@ -1,5 +1,12 @@
 import type { HeadMeta } from './seo';
-import { SITE_IMAGE, SITE_NAME } from './seo';
+import {
+  SITE_IMAGE_HEIGHT,
+  SITE_IMAGE_PATH,
+  SITE_IMAGE_TYPE,
+  SITE_IMAGE_WIDTH,
+  SITE_NAME,
+  SITE_ORIGIN,
+} from './seo';
 
 function setMeta(attr: 'name' | 'property', key: string, content: string): void {
   let el = document.head.querySelector<HTMLMetaElement>(`meta[${attr}="${key}"]`);
@@ -26,6 +33,21 @@ function setLink(rel: string, href: string, hreflang?: string): HTMLLinkElement 
   return el;
 }
 
+/** Keep LLM / machine-readable discovery links present after SPA navigations. */
+function setTypedAlternate(type: string, href: string, title: string): void {
+  let el = document.head.querySelector<HTMLLinkElement>(
+    `link[rel="alternate"][type="${type}"]:not([hreflang])`,
+  );
+  if (!el) {
+    el = document.createElement('link');
+    el.setAttribute('rel', 'alternate');
+    el.setAttribute('type', type);
+    document.head.appendChild(el);
+  }
+  el.setAttribute('href', href);
+  el.setAttribute('title', title);
+}
+
 /**
  * Apply route metadata to the live document head — title, description,
  * canonical, hreflang alternates, Open Graph / Twitter, JSON-LD, and the
@@ -33,6 +55,12 @@ function setLink(rel: string, href: string, hreflang?: string): HTMLLinkElement 
  */
 export function applyHead(meta: HeadMeta): void {
   if (typeof document === 'undefined') return;
+
+  const origin =
+    typeof window !== 'undefined' && window.location.origin
+      ? window.location.origin
+      : SITE_ORIGIN;
+  const image = `${origin}${SITE_IMAGE_PATH}`;
 
   document.documentElement.lang = meta.htmlLang;
   document.title = meta.title;
@@ -49,12 +77,23 @@ export function applyHead(meta: HeadMeta): void {
   setMeta('property', 'og:description', meta.description);
   setMeta('property', 'og:url', meta.canonical);
   setMeta('property', 'og:locale', meta.htmlLang.replace('-', '_'));
-  setMeta('property', 'og:image', SITE_IMAGE);
-  setMeta('property', 'og:image:type', 'image/svg+xml');
-  setMeta('name', 'twitter:card', 'summary_large_image');
+  setMeta('property', 'og:image', image);
+  setMeta('property', 'og:image:type', SITE_IMAGE_TYPE);
+  setMeta('property', 'og:image:width', String(SITE_IMAGE_WIDTH));
+  setMeta('property', 'og:image:height', String(SITE_IMAGE_HEIGHT));
+  setMeta('name', 'twitter:card', 'summary');
   setMeta('name', 'twitter:title', meta.title);
   setMeta('name', 'twitter:description', meta.description);
-  setMeta('name', 'twitter:image', SITE_IMAGE);
+  setMeta('name', 'twitter:image', image);
+
+  setTypedAlternate('text/plain', `${origin}/llms.txt`, 'LLMs text summary');
+  setTypedAlternate('application/json', `${origin}/tools.json`, `${SITE_NAME} tool catalog`);
+  setLink('search', `${origin}/opensearch.xml`);
+  const searchLink = document.head.querySelector<HTMLLinkElement>('link[rel="search"]');
+  if (searchLink) {
+    searchLink.setAttribute('type', 'application/opensearchdescription+xml');
+    searchLink.setAttribute('title', `${SITE_NAME} tools`);
+  }
 
   for (const alt of meta.alternates) setLink('alternate', alt.href, alt.hreflang);
 

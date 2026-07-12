@@ -4,6 +4,23 @@ All notable changes to this project. Format loosely follows Keep a Changelog.
 
 ## [Unreleased]
 
+### Changed — SEO + LLM discoverability (2026-07-12)
+- **Unified social / share meta** across prerender and the live SPA: PNG `icon-512.png` for Open Graph + Twitter (SVG unfurlers fail), matching card type (`summary`), image dimensions, and JSON-LD logos.
+- **SPA head parity** — client `applyHead` now also injects `llms.txt` / `tools.json` / OpenSearch alternate links so client navigations stay LLM-discoverable.
+- **Service worker** — navigations are network-first (correct per-route prerendered HTML online; shell only as offline fallback), so crawlers and returning users are not stuck on the root shell.
+- **Canonical root** — Vercel permanently redirects `/` → `/en`; PWA `start_url` follows `/en`.
+- **Discovery files** — build now emits `ai.txt`; sitemap gains `lastmod` / `changefreq` / `priority`; robots.txt welcomes additional AI crawlers; `tools.json` category descriptions are fully localized.
+- **Category SEO copy** — all 12 category descriptions translated for all 8 locales (was mostly en + ja).
+- **PWA manifest** — `categories`, install shortcuts (tools / PDF merge / QR), and clearer start URL.
+- **Bundle budget** — raised initial gzip budget 110 → 112 KB to fit localized category SEO copy in the head/meta path.
+
+### Fixed — Production-readiness polish: SW cache-busting, PWA icons, security headers (2026-07-11)
+- **Service-worker stale-shell fix (was the one real launch blocker).** The cache name was a hardcoded `zii-shell-v2`, so any deploy that didn't manually bump it left returning visitors on a stale, cached `index.html` (and its now-missing hashed chunks). A new `scripts/stamp-sw.mjs` runs last in the app `build` and rewrites the `zii-shell-*` token with a content fingerprint of the emitted assets, so every content change auto-busts the shell cache (verified: cache name is now stamped, e.g. `zii-shell-a614bdc4b6ba`).
+- **PWA install icons.** The manifest shipped only an SVG icon and there was no `apple-touch-icon` (degraded install prompts + iOS home-screen icon). Added PNG icons — `icon-192.png`, `icon-512.png`, a full-bleed square `icon-maskable-512.png` (purpose `maskable`), and a 180px `apple-touch-icon.png` — wired into the manifest, the prerendered `<head>`, and the dev template. Also switched OG/Twitter images from SVG (which social unfurlers can't render) to `icon-512.png`.
+- **Security headers.** `vercel.json` now sends a Content-Security-Policy (`default-src 'self'`; `script-src 'self' 'wasm-unsafe-eval' blob:`; `worker-src 'self' blob:`; `connect-src 'self' https:` for the on-demand model/WASM CDNs; `frame-ancestors 'none'`; `object-src 'none'`), plus `X-Content-Type-Options: nosniff`, `X-Frame-Options: DENY`, `Referrer-Policy: strict-origin-when-cross-origin`, a locked-down `Permissions-Policy` (camera off — nothing uses `getUserMedia`), and HSTS. **Verified in-browser** against the exact policy: the app hydrates, `WebAssembly` compiles under `'wasm-unsafe-eval'`, blob-URL workers run, the real `image-convert` WASM tool mounts, and there are zero CSP violations.
+- **Heavy-tool loading hint.** Tools that pull a large lazy chunk or download a WASM codec / ML model on first use (`HEAVY_TOOLS` in `catalog.ts`) now show a fuller "fetching a larger engine…" message (8 locales) instead of a bare "Loading…", so a slow first open doesn't read as a hang. A unit test guards that every id is a real catalogue tool.
+- **Repo cleanup.** Removed the superseded, unreferenced standalone `demo-app/` + `zii-demo.html`, and cleared the stray `vite.config.ts.timestamp-*.mjs` scratch files. (Crash telemetry stays intentionally absent — the `ErrorBoundary` logs to the console only, a deliberate privacy-first choice.)
+
 ### Fixed — i18n: complete Japanese tool names + localized catalog chrome (2026-07-09)
 - Verified the multi-language system end-to-end: all 8 locales route, switch, and render with the correct `<html lang>`, hreflang alternates, localized titles, and CJK/accented text — 11 new Playwright specs (per-locale + the language switcher) prove it with zero runtime errors.
 - **Completed Japanese tool names.** ~80 tool names had been falling back to English in Japanese (the tools added after the earlier translation batch). Added a `src/lib/tool-names-extra.ts` overlay so every tool has a Japanese name except the deliberate language-neutral ones (JSON ↔ CSV, HEIC → JPG, ROT13, Soundex…). Also finished two zh-HK region names.

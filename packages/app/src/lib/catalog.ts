@@ -2496,6 +2496,36 @@ export function categoryColor(category: string): string {
 /** All tool ids, in catalogue order. */
 export const CATALOG_IDS: readonly string[] = CATALOG.map((t) => t.id);
 
+/**
+ * Tools whose lazy chunk is large (hundreds of KB) or that download a WASM
+ * codec / ML model on first use. The shell shows a fuller "fetching a larger
+ * engine…" hint while these load, so a slow first open doesn't read as a hang.
+ * A wrong id merely falls back to the generic loading text; a test guards that
+ * every id here is real.
+ */
+export const HEAVY_TOOLS: ReadonlySet<string> = new Set([
+  'heic-convert',
+  'cjk-convert',
+  'barcode',
+  'csv-excel',
+  'ocr',
+  'bg-remove',
+  'video-convert',
+  'audio-extract',
+  'pdf-merge',
+  'pdf-split',
+  'pdf-compress',
+  'pdf-rotate',
+  'pdf-watermark',
+  'pdf-organize',
+  'pdf-page-numbers',
+  'images-to-pdf',
+  'pdf-to-images',
+  'docx-to-pdf',
+  'pptx-to-pdf',
+  'pdf-to-word',
+]);
+
 const BY_ID: ReadonlyMap<string, CatalogTool> = new Map(CATALOG.map((t) => [t.id, t]));
 
 export function getTool(id: string): CatalogTool | undefined {

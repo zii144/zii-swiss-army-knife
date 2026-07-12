@@ -4,7 +4,7 @@ import { createRegistry } from '@zii/registry';
 import { filterTools } from './lib/tools';
 import { LANG_LABELS, LANGS, useT } from './lib/i18n';
 import type { Lang } from './lib/i18n';
-import { categoryColor, getTool, localizedName } from './lib/catalog';
+import { categoryColor, getTool, HEAVY_TOOLS, localizedName } from './lib/catalog';
 import { categoryLabel } from './lib/categories';
 import { buildPath, parsePath, type AppView } from './lib/router';
 import { buildHead, SITE_ORIGIN } from './lib/seo';
@@ -237,7 +237,13 @@ export function App(): React.JSX.Element {
               body={t('errorBody')}
               retryLabel={t('errorRetry')}
             >
-              <Suspense fallback={<p className="app__empty">{t('loading')}</p>}>
+              <Suspense
+                fallback={
+                  <p className="app__empty">
+                    {t(selected && HEAVY_TOOLS.has(selected) ? 'loadingEngine' : 'loading')}
+                  </p>
+                }
+              >
                 {SelectedView ? (
                   <SelectedView
                     onBack={back}

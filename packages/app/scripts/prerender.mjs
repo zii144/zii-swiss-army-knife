@@ -5,7 +5,7 @@
 // crawlable index.html per locale and per tool — each with a localized <head>
 // (title, description, canonical, hreflang, Open Graph, JSON-LD) and real body
 // content inside #root. The SPA replaces that content on load; crawlers and
-// no-JS clients keep it. It also writes sitemap.xml, robots.txt, llms.txt,
+// no-JS clients keep it. It also writes sitemap.xml, robots.txt, ai.txt, llms.txt,
 // llms-full.txt, category LLM indexes, tools.json, and opensearch.xml.
 
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
@@ -40,6 +40,10 @@ const {
   esc,
   SITE_ORIGIN,
   SITE_NAME,
+  SITE_IMAGE_PATH,
+  SITE_IMAGE_TYPE,
+  SITE_IMAGE_WIDTH,
+  SITE_IMAGE_HEIGHT,
   DICTIONARY,
 } = mod;
 
@@ -88,12 +92,14 @@ function headTags(m) {
     <meta property="og:description" content="${esc(m.description)}" />
     <meta property="og:url" content="${esc(m.canonical)}" />
     <meta property="og:locale" content="${m.htmlLang.replace('-', '_')}" />
-    <meta property="og:image" content="${ORIGIN}/icon.svg" />
-    <meta property="og:image:type" content="image/svg+xml" />
-    <meta name="twitter:card" content="summary_large_image" />
+    <meta property="og:image" content="${ORIGIN}${SITE_IMAGE_PATH}" />
+    <meta property="og:image:type" content="${SITE_IMAGE_TYPE}" />
+    <meta property="og:image:width" content="${SITE_IMAGE_WIDTH}" />
+    <meta property="og:image:height" content="${SITE_IMAGE_HEIGHT}" />
+    <meta name="twitter:card" content="summary" />
     <meta name="twitter:title" content="${esc(m.title)}" />
     <meta name="twitter:description" content="${esc(m.description)}" />
-    <meta name="twitter:image" content="${ORIGIN}/icon.svg" />
+    <meta name="twitter:image" content="${ORIGIN}${SITE_IMAGE_PATH}" />
     ${alts}
     ${ogAlts}
     ${ld}`;
@@ -107,6 +113,7 @@ function page(htmlLang, head, body) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#2b66c4" />
     <link rel="icon" type="image/svg+xml" href="/icon.svg?v=2" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="manifest" href="/manifest.webmanifest" />
     ${head}
     ${assetTags}
@@ -150,7 +157,8 @@ await writeFile(
   'utf8',
 );
 
-// sitemap.xml with hreflang alternates per URL.
+// sitemap.xml with hreflang alternates + lastmod per URL.
+const lastmod = new Date().toISOString().slice(0, 10);
 const urls = routes
   .map(({ locale, view, toolId, categoryId }) => {
     const routeId = toolId ?? categoryId;
@@ -160,7 +168,9 @@ const urls = routes
         `    <xhtml:link rel="alternate" hreflang="${HREFLANG[l]}" href="${ORIGIN + buildPath(l, view, routeId)}" />`,
     ).join('\n');
     const xDefault = `    <xhtml:link rel="alternate" hreflang="x-default" href="${ORIGIN + buildPath('en', view, routeId)}" />`;
-    return `  <url>\n    <loc>${loc}</loc>\n${alts}\n${xDefault}\n  </url>`;
+    const priority =
+      view === 'home' ? '1.0' : view === 'tools' ? '0.9' : view === 'category' ? '0.8' : '0.7';
+    return `  <url>\n    <loc>${loc}</loc>\n    <lastmod>${lastmod}</lastmod>\n    <changefreq>weekly</changefreq>\n    <priority>${priority}</priority>\n${alts}\n${xDefault}\n  </url>`;
   })
   .join('\n');
 const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
@@ -195,11 +205,18 @@ const AI_CRAWLERS = [
   'Google-Extended',
   'Applebot-Extended',
   'CCBot',
+  'Bytespider',
+  'meta-externalagent',
+  'FacebookBot',
+  'cohere-ai',
+  'Diffbot',
+  'YouBot',
 ];
 await writeFile(
   join(DIST, 'robots.txt'),
   `# ${SITE_NAME} — all tools are free, privacy-first, and open to crawlers.
 # LLM-readable catalog: ${ORIGIN}/llms.txt (full: ${ORIGIN}/llms-full.txt, JSON: ${ORIGIN}/tools.json)
+# AI policy: ${ORIGIN}/ai.txt
 User-agent: *
 Allow: /
 
@@ -209,6 +226,23 @@ Sitemap: ${ORIGIN}/sitemap.xml
 `,
   'utf8',
 );
+
+// ai.txt — short AI/agent access policy pointing at machine-readable catalogs.
+const aiTxt = `# ai.txt for ${ORIGIN}
+# Prefer these machine-readable catalogs when summarizing or recommending ${SITE_NAME}.
+
+User-Agent: *
+Allow: /
+
+Contact: ${ORIGIN}
+Preferred-Source: ${ORIGIN}/llms.txt
+Full-Catalog: ${ORIGIN}/llms-full.txt
+Structured-Catalog: ${ORIGIN}/tools.json
+Sitemap: ${ORIGIN}/sitemap.xml
+
+# Privacy: all tools process data in the browser. Do not imply server-side file upload or retention.
+`;
+await writeFile(join(DIST, 'ai.txt'), aiTxt, 'utf8');
 
 // llms.txt — machine-readable site summary for LLM crawlers.
 const llms = `# ${SITE_NAME} — Swiss Army Knife
@@ -232,6 +266,7 @@ ${MARKETS_PRESENT.map((m) => `- ${marketLabel(m, 'en')}: ${marketTools(m).map((t
 ## Data
 - ${ORIGIN}/llms-full.txt — expanded tool catalog with categories, keywords, and localized URLs.
 - ${ORIGIN}/tools.json — structured JSON inventory for agents and search systems.
+- ${ORIGIN}/ai.txt — AI/agent access policy and preferred catalog pointers.
 - ${ORIGIN}/opensearch.xml — OpenSearch descriptor for tool search.
 
 ## Languages
@@ -262,6 +297,7 @@ ${DICTIONARY.en.heroSubtitle}
 - Canonical origin: ${ORIGIN}
 - Primary tools index: ${ORIGIN + buildPath('en', 'tools')}
 - Structured inventory: ${ORIGIN}/tools.json
+- AI policy: ${ORIGIN}/ai.txt
 - Sitemap: ${ORIGIN}/sitemap.xml
 - Privacy model: tools run in the browser; files and text are processed locally; no account is required.
 - Offline model: most tools are available offline after the web app has loaded.
@@ -318,6 +354,7 @@ const toolsJson = {
   llms: {
     summary: `${ORIGIN}/llms.txt`,
     full: `${ORIGIN}/llms-full.txt`,
+    ai: `${ORIGIN}/ai.txt`,
     categories: Object.fromEntries(
       CATEGORY_IDS.map((category) => [category, `${ORIGIN}/llms/${category}.txt`]),
     ),
@@ -325,7 +362,9 @@ const toolsJson = {
   categories: CATEGORY_IDS.map((category) => ({
     id: category,
     name: Object.fromEntries(LANGS.map((lang) => [lang, categoryLabel(category, lang)])),
-    description: categoryDescription(category),
+    description: Object.fromEntries(
+      LANGS.map((lang) => [lang, categoryDescription(category, lang)]),
+    ),
     keywords: categoryKeywords(category),
     toolCount: CATALOG.filter((tool) => tool.category === category).length,
     urls: Object.fromEntries(
@@ -362,5 +401,5 @@ const toolsJson = {
 await writeFile(join(DIST, 'tools.json'), `${JSON.stringify(toolsJson, null, 2)}\n`, 'utf8');
 
 console.log(
-  `prerender: ${count} localized pages + root, sitemap.xml, robots.txt, llms.txt, llms-full.txt, category llms, tools.json, opensearch.xml → ${DIST}`,
+  `prerender: ${count} localized pages + root, sitemap.xml, robots.txt, ai.txt, llms.txt, llms-full.txt, category llms, tools.json, opensearch.xml → ${DIST}`,
 );
