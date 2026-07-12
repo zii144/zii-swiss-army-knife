@@ -22,6 +22,24 @@ import {
   generateDeTaxId,
   validateKoRrn,
   generateKoRrn,
+  validateEsDni,
+  generateEsDni,
+  validateBsn,
+  generateBsn,
+  validateNric,
+  generateNric,
+  validatePan,
+  generatePan,
+  validateAadhaar,
+  generateAadhaar,
+  validateCodiceFiscale,
+  generateCodiceFiscale,
+  validatePartitaIva,
+  generatePartitaIva,
+  validateNlPostcode,
+  validateIfsc,
+  validateInPincode,
+  validateSgPostal,
 } from '../src/index';
 
 describe('validateKoBrn', () => {
@@ -119,5 +137,27 @@ describe('other generators', () => {
       expect(validateKoRrn(generateKoRrn(seed))).toBe(true);
       expect(validateDeTaxId(generateDeTaxId(seed))).toBe(true);
     }
+  });
+});
+
+describe('ES / IT / NL / SG / IN validators', () => {
+  it('round-trips DNI, BSN, NRIC, PAN, Aadhaar', () => {
+    for (let seed = 0; seed < 25; seed++) {
+      expect(validateEsDni(generateEsDni(seed))).toBe(true);
+      expect(validateBsn(generateBsn(seed))).toBe(true);
+      expect(validateNric(generateNric(seed))).toBe(true);
+      expect(validatePan(generatePan(seed))).toBe(true);
+      expect(validateAadhaar(generateAadhaar(seed))).toBe(true);
+      expect(validateCodiceFiscale(generateCodiceFiscale(seed))).toBe(true);
+      expect(validatePartitaIva(generatePartitaIva(seed))).toBe(true);
+    }
+  });
+
+  it('accepts known goldens', () => {
+    expect(validateEsDni('12345678Z')).toBe(true);
+    expect(validateNlPostcode('1012 AB')).toBe(true);
+    expect(validateIfsc('SBIN0001234')).toBe(true);
+    expect(validateInPincode('110001')).toBe(true);
+    expect(validateSgPostal('018956')).toBe(true);
   });
 });

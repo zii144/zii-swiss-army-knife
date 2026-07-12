@@ -8,6 +8,8 @@ import type { LocalePack, Market } from './schema';
 export const FALLBACK: Readonly<Record<Market, readonly Market[]>> = {
   'en-ca': ['en-gb', 'en-us'],
   'en-au': ['en-gb', 'en-us'],
+  'en-sg': ['en-gb', 'en-us'],
+  'en-in': ['en-gb', 'en-us'],
   'en-gb': ['en-us'],
   'en-us': [],
   tw: [],
@@ -16,6 +18,9 @@ export const FALLBACK: Readonly<Record<Market, readonly Market[]>> = {
   ko: [],
   de: [],
   fr: [],
+  es: [],
+  it: [],
+  nl: [],
   global: [],
 };
 

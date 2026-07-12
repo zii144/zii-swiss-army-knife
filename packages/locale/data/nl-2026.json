@@ -1,0 +1,14 @@
+{
+  "market": "nl",
+  "year": 2026,
+  "effectiveDate": "2026-01-01",
+  "dateFormat": "yyyy-MM-dd",
+  "calendars": ["gregorian"],
+  "currency": "EUR",
+  "units": "metric",
+  "payroll": {}, "tax": {"salesTaxRate": 0.21}, "id": {"validators": ["bsn","kvk"]}, "address": {"postcode": "1234 AB"},
+  "holidays": {"list": [], "makeUpWorkdays": false},
+  "dataSources": {},
+  "tools": {"enabled": []},
+  "toggles": {}
+}

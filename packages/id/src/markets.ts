@@ -425,3 +425,374 @@ export function ribToIban(bank: string, branch: string, account: string, key: st
   const check = String(98 - mod97(expanded)).padStart(2, '0');
   return `FR${check}${bban}`;
 }
+
+// --- Spain DNI / NIE ---------------------------------------------------------
+
+const ES_DNI_LETTERS = 'TRWAGMYFPDXBNJZSQVHLCKE';
+
+/** Spanish DNI (8 digits + letter) or NIE (X/Y/Z + 7 digits + letter). */
+export function validateEsDni(value: string): boolean {
+  const v = value.replace(/[\s-]/g, '').toUpperCase();
+  let num: number;
+  let letter: string;
+  if (/^\d{8}[A-Z]$/.test(v)) {
+    num = Number(v.slice(0, 8));
+    letter = v.slice(8);
+  } else if (/^[XYZ]\d{7}[A-Z]$/.test(v)) {
+    const map: Record<string, string> = { X: '0', Y: '1', Z: '2' };
+    num = Number(map[v[0]!]! + v.slice(1, 8));
+    letter = v.slice(8);
+  } else return false;
+  return ES_DNI_LETTERS[num % 23] === letter;
+}
+
+/** Generate a checksum-valid DNI for TEST / QA use only. */
+export function generateEsDni(seed = 0): string {
+  const body = String(Math.abs(Math.trunc(seed)) % 100_000_000).padStart(8, '0');
+  return body + ES_DNI_LETTERS[Number(body) % 23]!;
+}
+
+/** Spanish CIF (letter + 7 digits + check). Simplified: letter + 7 digits + Luhn-like digit. */
+export function validateEsCif(value: string): boolean {
+  const v = value.replace(/[\s-]/g, '').toUpperCase();
+  if (!/^[ABCDEFGHJNPQRSUVW]\d{7}[\dA-J]$/.test(v)) return false;
+  const digits = v.slice(1, 8);
+  let sum = 0;
+  for (let i = 0; i < 7; i++) {
+    let n = Number(digits[i]);
+    if (i % 2 === 0) {
+      n *= 2;
+      if (n > 9) n = Math.floor(n / 10) + (n % 10);
+    }
+    sum += n;
+  }
+  const check = (10 - (sum % 10)) % 10;
+  const last = v[8]!;
+  if (/\d/.test(last)) return Number(last) === check;
+  return 'JABCDEFGHI'[check] === last;
+}
+
+/** Generate a checksum-valid CIF for TEST / QA use only. */
+export function generateEsCif(seed = 0): string {
+  const next = lcg(seed);
+  const letter = 'ABCDEFGHJNPQRSUVW'[next() % 17]!;
+  const body = randomDigits(next, 7);
+  let sum = 0;
+  for (let i = 0; i < 7; i++) {
+    let n = Number(body[i]);
+    if (i % 2 === 0) {
+      n *= 2;
+      if (n > 9) n = Math.floor(n / 10) + (n % 10);
+    }
+    sum += n;
+  }
+  const check = (10 - (sum % 10)) % 10;
+  return letter + body + String(check);
+}
+
+/** 5-digit Spanish código postal. */
+export function validateEsPostal(value: string): boolean {
+  const d = digitsOnly(value);
+  if (!/^\d{5}$/.test(d)) return false;
+  const n = Number(d.slice(0, 2));
+  return n >= 1 && n <= 52;
+}
+
+export function generateEsPostal(seed = 0): string {
+  const prov = (Math.abs(Math.trunc(seed)) % 52) + 1;
+  const rest = Math.abs(Math.trunc(seed * 7)) % 1000;
+  return String(prov).padStart(2, '0') + String(rest).padStart(3, '0');
+}
+
+// --- Italy codice fiscale / P.IVA / CAP --------------------------------------
+
+const IT_CF_ODD: Record<string, number> = {
+  '0': 1, '1': 0, '2': 5, '3': 7, '4': 9, '5': 13, '6': 15, '7': 17, '8': 19, '9': 21,
+  A: 1, B: 0, C: 5, D: 7, E: 9, F: 13, G: 15, H: 17, I: 19, J: 21,
+  K: 2, L: 4, M: 18, N: 20, O: 11, P: 3, Q: 6, R: 8, S: 12, T: 14,
+  U: 16, V: 10, W: 22, X: 25, Y: 24, Z: 23,
+};
+const IT_CF_EVEN: Record<string, number> = {
+  '0': 0, '1': 1, '2': 2, '3': 3, '4': 4, '5': 5, '6': 6, '7': 7, '8': 8, '9': 9,
+  A: 0, B: 1, C: 2, D: 3, E: 4, F: 5, G: 6, H: 7, I: 8, J: 9,
+  K: 10, L: 11, M: 12, N: 13, O: 14, P: 15, Q: 16, R: 17, S: 18, T: 19,
+  U: 20, V: 21, W: 22, X: 23, Y: 24, Z: 25,
+};
+const IT_CF_CHECK = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+
+/** 16-char Italian codice fiscale (format + check character). */
+export function validateCodiceFiscale(value: string): boolean {
+  const v = value.replace(/\s+/g, '').toUpperCase();
+  if (!/^[A-Z]{6}\d{2}[A-EHLMPRST]\d{2}[A-Z]\d{3}[A-Z]$/.test(v)) return false;
+  let sum = 0;
+  for (let i = 0; i < 15; i++) {
+    const ch = v[i]!;
+    sum += i % 2 === 0 ? IT_CF_ODD[ch]! : IT_CF_EVEN[ch]!;
+  }
+  return IT_CF_CHECK[sum % 26] === v[15];
+}
+
+export function generateCodiceFiscale(seed = 0): string {
+  const next = lcg(seed);
+  const letters = () => String.fromCharCode(65 + (next() % 26));
+  const body =
+    letters() + letters() + letters() + letters() + letters() + letters() +
+    String(next() % 100).padStart(2, '0') +
+    'ABCDEHLMPRST'[next() % 12]! +
+    String((next() % 28) + 1).padStart(2, '0') +
+    letters() +
+    String(next() % 1000).padStart(3, '0');
+  let sum = 0;
+  for (let i = 0; i < 15; i++) {
+    const ch = body[i]!;
+    sum += i % 2 === 0 ? IT_CF_ODD[ch]! : IT_CF_EVEN[ch]!;
+  }
+  return body + IT_CF_CHECK[sum % 26]!;
+}
+
+/** 11-digit Italian partita IVA (Luhn-like Italian check). */
+export function validatePartitaIva(value: string): boolean {
+  const d = digitsOnly(value);
+  if (!/^\d{11}$/.test(d)) return false;
+  let s = 0;
+  for (let i = 0; i < 10; i++) {
+    let n = d.charCodeAt(i) - 48;
+    if (i % 2 === 1) {
+      n *= 2;
+      if (n > 9) n -= 9;
+    }
+    s += n;
+  }
+  const check = (10 - (s % 10)) % 10;
+  return check === d.charCodeAt(10) - 48;
+}
+
+export function generatePartitaIva(seed = 0): string {
+  const body = randomDigits(lcg(seed), 10);
+  let s = 0;
+  for (let i = 0; i < 10; i++) {
+    let n = body.charCodeAt(i) - 48;
+    if (i % 2 === 1) {
+      n *= 2;
+      if (n > 9) n -= 9;
+    }
+    s += n;
+  }
+  return body + String((10 - (s % 10)) % 10);
+}
+
+/** 5-digit Italian CAP. */
+export function validateItCap(value: string): boolean {
+  return /^\d{5}$/.test(digitsOnly(value));
+}
+
+export function generateItCap(seed = 0): string {
+  return String(Math.abs(Math.trunc(seed)) % 100000).padStart(5, '0');
+}
+
+// --- Netherlands BSN / KvK / postcode ----------------------------------------
+
+/** 9-digit BSN with "11-proef". */
+export function validateBsn(value: string): boolean {
+  const d = digitsOnly(value);
+  if (!/^\d{9}$/.test(d) || d === '000000000') return false;
+  let sum = 0;
+  for (let i = 0; i < 8; i++) sum += (d.charCodeAt(i) - 48) * (9 - i);
+  sum -= d.charCodeAt(8) - 48;
+  return sum % 11 === 0;
+}
+
+export function generateBsn(seed = 0): string {
+  const next = lcg(seed);
+  for (let attempt = 0; attempt < 2000; attempt++) {
+    const body = randomDigits(next, 8);
+    let sum = 0;
+    for (let i = 0; i < 8; i++) sum += (body.charCodeAt(i) - 48) * (9 - i);
+    const check = sum % 11;
+    if (check === 10) continue;
+    const full = body + String(check);
+    if (validateBsn(full)) return full;
+  }
+  throw new Error('generateBsn: could not find a valid number');
+}
+
+/** Dutch KvK number: 8 digits. */
+export function validateKvk(value: string): boolean {
+  return /^\d{8}$/.test(digitsOnly(value));
+}
+
+export function generateKvk(seed = 0): string {
+  return String(Math.abs(Math.trunc(seed)) % 100_000_000).padStart(8, '0');
+}
+
+/** Dutch postcode: 1234 AB. */
+export function validateNlPostcode(value: string): boolean {
+  return /^\d{4}\s?[A-Za-z]{2}$/.test(value.trim());
+}
+
+export function generateNlPostcode(seed = 0): string {
+  const next = lcg(seed);
+  const n = 1000 + (next() % 9000);
+  const a = String.fromCharCode(65 + (next() % 26));
+  const b = String.fromCharCode(65 + (next() % 26));
+  return `${n} ${a}${b}`;
+}
+
+// --- Singapore NRIC / UEN / postal / phone -----------------------------------
+
+const SG_NRIC_ST = 'JZIHGFEDCBA';
+const SG_NRIC_FG = 'XWUTRQPNMLK';
+
+/** Singapore NRIC/FIN: S/T/F/G/M + 7 digits + checksum letter. */
+export function validateNric(value: string): boolean {
+  const v = value.replace(/[\s-]/g, '').toUpperCase();
+  if (!/^[STFGM]\d{7}[A-Z]$/.test(v)) return false;
+  const weights = [2, 7, 6, 5, 4, 3, 2];
+  let sum = 0;
+  for (let i = 0; i < 7; i++) sum += (v.charCodeAt(i + 1) - 48) * weights[i]!;
+  if (v[0] === 'T' || v[0] === 'G') sum += 4;
+  if (v[0] === 'M') sum += 3;
+  const offset = sum % 11;
+  const table = v[0] === 'S' || v[0] === 'T' ? SG_NRIC_ST : SG_NRIC_FG;
+  return table[offset] === v[8];
+}
+
+export function generateNric(seed = 0): string {
+  const next = lcg(seed);
+  const prefix = 'STFG'[next() % 4]!;
+  const body = randomDigits(next, 7);
+  const weights = [2, 7, 6, 5, 4, 3, 2];
+  let sum = 0;
+  for (let i = 0; i < 7; i++) sum += (body.charCodeAt(i) - 48) * weights[i]!;
+  if (prefix === 'T' || prefix === 'G') sum += 4;
+  const table = prefix === 'S' || prefix === 'T' ? SG_NRIC_ST : SG_NRIC_FG;
+  return prefix + body + table[sum % 11]!;
+}
+
+/** UEN: several formats; accept 9–10 alphanumeric common patterns. */
+export function validateUen(value: string): boolean {
+  const v = value.replace(/\s+/g, '').toUpperCase();
+  return /^(?:\d{8}[A-Z]|\d{9}[A-Z]|[ST]\d{2}[A-Z]{2}\d{4}[A-Z])$/.test(v);
+}
+
+export function generateUen(seed = 0): string {
+  const body = randomDigits(lcg(seed), 8);
+  const letter = String.fromCharCode(65 + (Math.abs(Math.trunc(seed)) % 26));
+  return body + letter;
+}
+
+export function validateSgPostal(value: string): boolean {
+  return /^\d{6}$/.test(digitsOnly(value));
+}
+
+export function generateSgPostal(seed = 0): string {
+  return String(Math.abs(Math.trunc(seed)) % 1_000_000).padStart(6, '0');
+}
+
+export function validateSgPhone(value: string): boolean {
+  const d = digitsOnly(value);
+  return /^[689]\d{7}$/.test(d);
+}
+
+export function generateSgPhone(seed = 0): string {
+  const next = lcg(seed);
+  const first = '689'[next() % 3]!;
+  return first + randomDigits(next, 7);
+}
+
+// --- India PAN / Aadhaar / GSTIN / IFSC / PIN --------------------------------
+
+/** PAN: AAAAA9999A. */
+export function validatePan(value: string): boolean {
+  return /^[A-Z]{5}\d{4}[A-Z]$/.test(value.replace(/\s+/g, '').toUpperCase());
+}
+
+export function generatePan(seed = 0): string {
+  const next = lcg(seed);
+  const L = () => String.fromCharCode(65 + (next() % 26));
+  return L() + L() + L() + L() + L() + randomDigits(next, 4) + L();
+}
+
+/** Aadhaar Verhoeff checksum (12 digits). */
+const VERHOEFF_D = [
+  [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+  [1, 2, 3, 4, 0, 6, 7, 8, 9, 5],
+  [2, 3, 4, 0, 1, 7, 8, 9, 5, 6],
+  [3, 4, 0, 1, 2, 8, 9, 5, 6, 7],
+  [4, 0, 1, 2, 3, 9, 5, 6, 7, 8],
+  [5, 9, 8, 7, 6, 0, 4, 3, 2, 1],
+  [6, 5, 9, 8, 7, 1, 0, 4, 3, 2],
+  [7, 6, 5, 9, 8, 2, 1, 0, 4, 3],
+  [8, 7, 6, 5, 9, 3, 2, 1, 0, 4],
+  [9, 8, 7, 6, 5, 4, 3, 2, 1, 0],
+] as const;
+const VERHOEFF_P = [
+  [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+  [1, 5, 7, 6, 2, 8, 3, 0, 9, 4],
+  [5, 8, 0, 3, 7, 9, 6, 1, 4, 2],
+  [8, 9, 1, 6, 0, 4, 3, 5, 2, 7],
+  [9, 4, 5, 3, 1, 2, 6, 8, 7, 0],
+  [4, 2, 8, 6, 5, 7, 3, 9, 0, 1],
+  [2, 7, 9, 3, 8, 0, 6, 4, 1, 5],
+  [7, 0, 4, 6, 9, 1, 3, 2, 5, 8],
+] as const;
+
+export function validateAadhaar(value: string): boolean {
+  const d = digitsOnly(value);
+  if (!/^[2-9]\d{11}$/.test(d)) return false;
+  let c = 0;
+  const reversed = d.split('').reverse();
+  for (let i = 0; i < reversed.length; i++) {
+    c = VERHOEFF_D[c]![VERHOEFF_P[i % 8]![reversed[i]!.charCodeAt(0) - 48]!]!;
+  }
+  return c === 0;
+}
+
+export function generateAadhaar(seed = 0): string {
+  const next = lcg(seed);
+  for (let attempt = 0; attempt < 500; attempt++) {
+    const body = String(2 + (next() % 8)) + randomDigits(next, 10);
+    for (let check = 0; check < 10; check++) {
+      const full = body + String(check);
+      if (validateAadhaar(full)) return full;
+    }
+  }
+  throw new Error('generateAadhaar: could not find a valid number');
+}
+
+/** GSTIN: 15 chars — state + PAN + entity + Z + check. */
+export function validateGstin(value: string): boolean {
+  const v = value.replace(/\s+/g, '').toUpperCase();
+  if (!/^\d{2}[A-Z]{5}\d{4}[A-Z][A-Z0-9]Z[A-Z0-9]$/.test(v)) return false;
+  return validatePan(v.slice(2, 12));
+}
+
+export function generateGstin(seed = 0): string {
+  const next = lcg(seed);
+  const state = String(1 + (next() % 37)).padStart(2, '0');
+  const pan = generatePan(seed);
+  const entity = String.fromCharCode(65 + (next() % 26));
+  const check = String.fromCharCode(65 + (next() % 26));
+  return state + pan + entity + 'Z' + check;
+}
+
+/** IFSC: 4 letters + 0 + 6 alphanumeric. */
+export function validateIfsc(value: string): boolean {
+  return /^[A-Z]{4}0[A-Z0-9]{6}$/.test(value.replace(/\s+/g, '').toUpperCase());
+}
+
+export function generateIfsc(seed = 0): string {
+  const next = lcg(seed);
+  const L = () => String.fromCharCode(65 + (next() % 26));
+  return L() + L() + L() + L() + '0' + randomDigits(next, 6);
+}
+
+/** Indian PIN: 6 digits, first digit 1–9. */
+export function validateInPincode(value: string): boolean {
+  return /^[1-9]\d{5}$/.test(digitsOnly(value));
+}
+
+export function generateInPincode(seed = 0): string {
+  const n = 100_000 + (Math.abs(Math.trunc(seed)) % 900_000);
+  return String(n);
+}

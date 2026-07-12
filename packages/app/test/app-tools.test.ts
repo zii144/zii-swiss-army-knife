@@ -95,6 +95,41 @@ describe('app tool catalogue', () => {
     expect(fr).not.toContain('ko-takehome');
     expect(fr).toContain('image-convert');
 
+    const es = filterTools(r, { market: 'es', query: '' }).map((t) => t.id);
+    expect(es).toEqual(
+      expect.arrayContaining(['es-takehome', 'es-dni', 'es-iva', 'es-postal']),
+    );
+    expect(es).not.toContain('it-takehome');
+    expect(es).toContain('image-convert');
+
+    const it = filterTools(r, { market: 'it', query: '' }).map((t) => t.id);
+    expect(it).toEqual(
+      expect.arrayContaining(['it-takehome', 'it-codice-fiscale', 'it-iva', 'it-cap']),
+    );
+    expect(it).not.toContain('nl-bsn');
+    expect(it).toContain('image-convert');
+
+    const nl = filterTools(r, { market: 'nl', query: '' }).map((t) => t.id);
+    expect(nl).toEqual(
+      expect.arrayContaining(['nl-takehome', 'nl-bsn', 'nl-btw', 'nl-postcode']),
+    );
+    expect(nl).not.toContain('sg-nric');
+    expect(nl).toContain('image-convert');
+
+    const sg = filterTools(r, { market: 'en-sg', query: '' }).map((t) => t.id);
+    expect(sg).toEqual(
+      expect.arrayContaining(['sg-takehome', 'sg-nric', 'sg-gst', 'sg-postal']),
+    );
+    expect(sg).not.toContain('in-pan');
+    expect(sg).toContain('image-convert');
+
+    const india = filterTools(r, { market: 'en-in', query: '' }).map((t) => t.id);
+    expect(india).toEqual(
+      expect.arrayContaining(['in-takehome', 'in-pan', 'in-gst', 'in-pincode']),
+    );
+    expect(india).not.toContain('es-dni');
+    expect(india).toContain('image-convert');
+
     // Global market must not surface region-only packs (incl. rescope SIN/TFN).
     const global = filterTools(r, { market: 'global', query: '' }).map((t) => t.id);
     expect(global).not.toContain('ca-sin');
@@ -102,6 +137,11 @@ describe('app tool catalogue', () => {
     expect(global).not.toContain('ko-takehome');
     expect(global).not.toContain('de-takehome');
     expect(global).not.toContain('fr-brut-net');
+    expect(global).not.toContain('es-takehome');
+    expect(global).not.toContain('it-takehome');
+    expect(global).not.toContain('nl-takehome');
+    expect(global).not.toContain('sg-takehome');
+    expect(global).not.toContain('in-takehome');
   });
 
   it('only lists real catalogue ids as heavy tools', () => {

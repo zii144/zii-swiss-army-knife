@@ -113,3 +113,52 @@ export {
   FR_HOLIDAYS_2026,
   FR_HOLIDAYS_ALSACE_EXTRA,
 } from './fr';
+
+// Spain 2026.
+export {
+  ES_2026,
+  esTakeHome,
+  esIrpfAnnual,
+  esSsEmployee,
+  esVacationDays,
+  ES_HOLIDAYS_2026,
+} from './es';
+
+// Italy 2026.
+export {
+  IT_2026,
+  itTakeHome,
+  itIrpefAnnual,
+  itInpsEmployee,
+  itTfr,
+  IT_HOLIDAYS_2026,
+} from './it';
+
+// Netherlands 2026.
+export {
+  NL_2026,
+  nlTakeHome,
+  nlLoonheffing,
+  nlHolidayAllowance,
+  nlVacationDays,
+  NL_HOLIDAYS_2026,
+} from './nl';
+
+// Singapore 2026.
+export {
+  SG_2026,
+  sgTakeHome,
+  sgCpf,
+  sgIncomeTax,
+  sgLeaveDays,
+  SG_HOLIDAYS_2026,
+} from './sg';
+
+// India FY 2025–26.
+export {
+  IN_2026,
+  inTakeHome,
+  inIncomeTax,
+  inEpfEmployee,
+  IN_HOLIDAYS_2026,
+} from './in';

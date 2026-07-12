@@ -424,6 +424,106 @@ const TOOL_ICONS: Record<string, string> = {
     '<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/>',
   'fr-conges':
     '<path d="M4 19V5M8 19v-8M12 19V9M16 19v-5M20 19V7"/>',
+  'es-takehome':
+    '<path d="M4 19V5M8 19v-8M12 19V9M16 19v-5M20 19V7"/>',
+  'es-irpf':
+    '<path d="M4 19V5M8 19v-8M12 19V9M16 19v-5M20 19V7"/>',
+  'es-ss':
+    '<path d="M4 19V5M8 19v-8M12 19V9M16 19v-5M20 19V7"/>',
+  'es-iva':
+    '<path d="M4 19V5M8 19v-8M12 19V9M16 19v-5M20 19V7"/>',
+  'es-vacation':
+    '<path d="M4 19V5M8 19v-8M12 19V9M16 19v-5M20 19V7"/>',
+  'es-holidays':
+    '<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/>',
+  'es-dni':
+    '<rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="8.5" cy="11" r="2"/><path d="M13 9.5h5M13 13h4"/>',
+  'es-cif':
+    '<rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="8.5" cy="11" r="2"/><path d="M13 9.5h5M13 13h4"/>',
+  'es-iban':
+    '<rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="8.5" cy="11" r="2"/><path d="M13 9.5h5M13 13h4"/>',
+  'es-postal':
+    '<rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="8.5" cy="11" r="2"/><path d="M13 9.5h5M13 13h4"/>',
+  'it-takehome':
+    '<path d="M4 19V5M8 19v-8M12 19V9M16 19v-5M20 19V7"/>',
+  'it-irpef':
+    '<path d="M4 19V5M8 19v-8M12 19V9M16 19v-5M20 19V7"/>',
+  'it-inps':
+    '<path d="M4 19V5M8 19v-8M12 19V9M16 19v-5M20 19V7"/>',
+  'it-iva':
+    '<path d="M4 19V5M8 19v-8M12 19V9M16 19v-5M20 19V7"/>',
+  'it-tfr':
+    '<path d="M4 19V5M8 19v-8M12 19V9M16 19v-5M20 19V7"/>',
+  'it-holidays':
+    '<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/>',
+  'it-codice-fiscale':
+    '<rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="8.5" cy="11" r="2"/><path d="M13 9.5h5M13 13h4"/>',
+  'it-partita-iva':
+    '<rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="8.5" cy="11" r="2"/><path d="M13 9.5h5M13 13h4"/>',
+  'it-iban':
+    '<rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="8.5" cy="11" r="2"/><path d="M13 9.5h5M13 13h4"/>',
+  'it-cap':
+    '<rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="8.5" cy="11" r="2"/><path d="M13 9.5h5M13 13h4"/>',
+  'nl-takehome':
+    '<path d="M4 19V5M8 19v-8M12 19V9M16 19v-5M20 19V7"/>',
+  'nl-loonheffing':
+    '<path d="M4 19V5M8 19v-8M12 19V9M16 19v-5M20 19V7"/>',
+  'nl-holiday-allowance':
+    '<path d="M4 19V5M8 19v-8M12 19V9M16 19v-5M20 19V7"/>',
+  'nl-btw':
+    '<path d="M4 19V5M8 19v-8M12 19V9M16 19v-5M20 19V7"/>',
+  'nl-vacation':
+    '<path d="M4 19V5M8 19v-8M12 19V9M16 19v-5M20 19V7"/>',
+  'nl-holidays':
+    '<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/>',
+  'nl-bsn':
+    '<rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="8.5" cy="11" r="2"/><path d="M13 9.5h5M13 13h4"/>',
+  'nl-kvk':
+    '<rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="8.5" cy="11" r="2"/><path d="M13 9.5h5M13 13h4"/>',
+  'nl-iban':
+    '<rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="8.5" cy="11" r="2"/><path d="M13 9.5h5M13 13h4"/>',
+  'nl-postcode':
+    '<rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="8.5" cy="11" r="2"/><path d="M13 9.5h5M13 13h4"/>',
+  'sg-takehome':
+    '<path d="M4 19V5M8 19v-8M12 19V9M16 19v-5M20 19V7"/>',
+  'sg-cpf':
+    '<path d="M4 19V5M8 19v-8M12 19V9M16 19v-5M20 19V7"/>',
+  'sg-income-tax':
+    '<path d="M4 19V5M8 19v-8M12 19V9M16 19v-5M20 19V7"/>',
+  'sg-gst':
+    '<path d="M4 19V5M8 19v-8M12 19V9M16 19v-5M20 19V7"/>',
+  'sg-leave':
+    '<path d="M4 19V5M8 19v-8M12 19V9M16 19v-5M20 19V7"/>',
+  'sg-holidays':
+    '<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/>',
+  'sg-nric':
+    '<rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="8.5" cy="11" r="2"/><path d="M13 9.5h5M13 13h4"/>',
+  'sg-uen':
+    '<rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="8.5" cy="11" r="2"/><path d="M13 9.5h5M13 13h4"/>',
+  'sg-postal':
+    '<rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="8.5" cy="11" r="2"/><path d="M13 9.5h5M13 13h4"/>',
+  'sg-phone':
+    '<rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="8.5" cy="11" r="2"/><path d="M13 9.5h5M13 13h4"/>',
+  'in-takehome':
+    '<path d="M4 19V5M8 19v-8M12 19V9M16 19v-5M20 19V7"/>',
+  'in-income-tax':
+    '<path d="M4 19V5M8 19v-8M12 19V9M16 19v-5M20 19V7"/>',
+  'in-epf':
+    '<path d="M4 19V5M8 19v-8M12 19V9M16 19v-5M20 19V7"/>',
+  'in-gst':
+    '<path d="M4 19V5M8 19v-8M12 19V9M16 19v-5M20 19V7"/>',
+  'in-holidays':
+    '<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/>',
+  'in-pan':
+    '<rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="8.5" cy="11" r="2"/><path d="M13 9.5h5M13 13h4"/>',
+  'in-aadhaar':
+    '<rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="8.5" cy="11" r="2"/><path d="M13 9.5h5M13 13h4"/>',
+  'in-gstin':
+    '<rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="8.5" cy="11" r="2"/><path d="M13 9.5h5M13 13h4"/>',
+  'in-ifsc':
+    '<rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="8.5" cy="11" r="2"/><path d="M13 9.5h5M13 13h4"/>',
+  'in-pincode':
+    '<rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="8.5" cy="11" r="2"/><path d="M13 9.5h5M13 13h4"/>',
 };
 
 /** Per-category fallback when a tool has no specific icon. */

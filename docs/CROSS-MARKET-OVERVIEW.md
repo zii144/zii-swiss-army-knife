@@ -133,3 +133,14 @@ Live gov feeds and NFC remain out of scope; engines live in `@zii/payroll` + `@z
 
 All facts and citations live in the per-market files; each has its own linked **Sources** section:
 `FEATURE-CATALOG.md` · `FEATURE-CATALOG-TAIWAN.md` · `FEATURE-CATALOG-HONGKONG.md` · `FEATURE-CATALOG-JAPAN.md` · `FEATURE-CATALOG-ENGLISH.md`
+
+
+## Additional market packs (2026-07)
+
+| Market | Doc |
+|--------|-----|
+| Spain (`es`) | `FEATURE-CATALOG-SPAIN.md` |
+| Italy (`it`) | `FEATURE-CATALOG-ITALY.md` |
+| Netherlands (`nl`) | `FEATURE-CATALOG-NETHERLANDS.md` |
+| Singapore (`en-sg`) | `FEATURE-CATALOG-SINGAPORE.md` |
+| India (`en-in`) | `FEATURE-CATALOG-INDIA.md` |

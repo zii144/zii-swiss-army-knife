@@ -6,11 +6,21 @@ import {
   koTakeHome,
   deTakeHome,
   frBrutNet,
+  esTakeHome,
+  itTakeHome,
+  nlTakeHome,
+  sgTakeHome,
+  inTakeHome,
   CA_2026,
   AU_2026,
   KO_2026,
   DE_2026,
   FR_2026,
+  ES_2026,
+  IT_2026,
+  NL_2026,
+  SG_2026,
+  IN_2026,
 } from '../src/index';
 
 describe('market payroll smoke', () => {
@@ -62,5 +72,41 @@ describe('market payroll smoke', () => {
     expect(r.netBeforePas).toBeCloseTo(3_000 * (1 - FR_2026.employeeCotisationsRate), 0);
     expect(r.netAfterPas).toBeLessThanOrEqual(r.netBeforePas);
     expect(r.pas).toBeGreaterThanOrEqual(0);
+  });
+
+  it('esTakeHome deducts SS and IRPF', () => {
+    const r = esTakeHome(40_000);
+    expect(r.net).toBeLessThan(40_000);
+    expect(r.ss).toBeGreaterThan(0);
+    expect(r.irpf).toBeGreaterThan(0);
+    expect(ES_2026.label).toMatch(/2026/);
+  });
+
+  it('itTakeHome deducts INPS and IRPEF', () => {
+    const r = itTakeHome(40_000);
+    expect(r.net).toBeLessThan(40_000);
+    expect(r.inps).toBeGreaterThan(0);
+    expect(IT_2026.label).toMatch(/2026/);
+  });
+
+  it('nlTakeHome applies loonheffing and holiday allowance', () => {
+    const r = nlTakeHome(50_000);
+    expect(r.loonheffing).toBeGreaterThan(0);
+    expect(r.holidayAllowance).toBeCloseTo(50_000 * NL_2026.holidayAllowanceRate, 0);
+    expect(NL_2026.label).toMatch(/2026/);
+  });
+
+  it('sgTakeHome deducts CPF and tax', () => {
+    const r = sgTakeHome(80_000);
+    expect(r.net).toBeLessThan(80_000);
+    expect(r.cpfEmployee).toBeGreaterThan(0);
+    expect(SG_2026.label).toMatch(/2026/);
+  });
+
+  it('inTakeHome deducts EPF and tax', () => {
+    const r = inTakeHome(1_200_000);
+    expect(r.net).toBeLessThan(1_200_000);
+    expect(r.epf).toBeGreaterThan(0);
+    expect(IN_2026.label).toMatch(/2025|2026/);
   });
 });
