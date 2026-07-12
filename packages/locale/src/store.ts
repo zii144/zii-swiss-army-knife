@@ -13,6 +13,9 @@ export const FALLBACK: Readonly<Record<Market, readonly Market[]>> = {
   tw: [],
   hk: [],
   jp: [],
+  ko: [],
+  de: [],
+  fr: [],
   global: [],
 };
 

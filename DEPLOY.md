@@ -2,7 +2,7 @@
 
 Zii is a static PWA. The build produces a fully prerendered `dist/` (one crawlable
 `index.html` per locale, category, and tool, plus `sitemap.xml`, `robots.txt`,
-`llms.txt`, `llms-full.txt`, category LLM indexes, `tools.json`, and
+`ai.txt`, `llms.txt`, `llms-full.txt`, category LLM indexes, `tools.json`, and
 `opensearch.xml`).
 There is no server runtime — any static host works. The canonical target is **Vercel**.
 
@@ -21,9 +21,10 @@ Vercel dashboard and it picks up the config automatically — no framework prese
 
 `framework` is set to `null` so Vercel does not override the output directory with its
 Vite preset. `cleanUrls` serves the prerendered `…/index.html` files at extension-less
-paths, and a catch-all rewrite falls back to the SPA shell for any route that has no
-prerendered file (client-side navigation). Hashed assets under `/assets/**` are served
-`immutable` for a year; `sw.js` is served `must-revalidate` so updates roll out promptly.
+paths, `/` permanently redirects to `/en`, and a catch-all rewrite falls back to the SPA
+shell for any route that has no prerendered file (client-side navigation). Hashed assets
+under `/assets/**` are served `immutable` for a year; `sw.js` is served `must-revalidate`
+so updates roll out promptly.
 
 ### Environment variables
 
@@ -67,7 +68,7 @@ pnpm --filter @zii/app dev   # VITE_BACKEND_URL=http://localhost:8787
 3. `vite build --ssr src/lib/prerender-entry.ts` — a DOM-free bundle of the locale/SEO
    helpers.
 4. `node scripts/prerender.mjs` — emits the per-locale / per-category / per-tool static
-   HTML, `sitemap.xml`, `robots.txt`, `llms.txt`, `llms-full.txt`, category LLM indexes,
+   HTML, `sitemap.xml`, `robots.txt`, `ai.txt`, `llms.txt`, `llms-full.txt`, category LLM indexes,
    `tools.json`, and `opensearch.xml` into `dist/`.
 
 ## Other static hosts
@@ -77,6 +78,8 @@ Any static host works if you replicate the two behaviors `vercel.json` encodes:
 - **Directory-index / clean URLs** — serve `…/index.html` for extension-less paths.
 - **SPA fallback** — serve the root `index.html` for paths with no matching file so the
   client router can take over.
+- **Root redirect (recommended)** — permanently redirect `/` to `/en` to avoid duplicate
+  English home URLs.
 
 Netlify: set publish directory to `packages/app/dist`, build command
 `pnpm --filter @zii/app build`, and add a `/* /index.html 200` redirect (lowest priority,

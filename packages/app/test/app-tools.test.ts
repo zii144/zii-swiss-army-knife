@@ -2,6 +2,7 @@ import { describe, it, expect } from 'vitest';
 import { createRegistry } from '@zii/registry';
 import { registerAppTools, TOOL_VIEWS, APP_TOOL_IDS } from '../src/tools';
 import { filterTools } from '../src/lib/tools';
+import { CATALOG_IDS, HEAVY_TOOLS } from '../src/lib/catalog';
 
 describe('app tool catalogue', () => {
   it('registers every app tool into the registry', () => {
@@ -58,6 +59,13 @@ describe('app tool catalogue', () => {
     expect(uk).toEqual(expect.arrayContaining(['uk-postcode', 'uk-nino', 'uk-sort-code']));
     expect(uk).not.toContain('us-ssn');
     expect(uk).toContain('image-convert');
+  });
+
+  it('only lists real catalogue ids as heavy tools', () => {
+    const ids = new Set(CATALOG_IDS);
+    for (const id of HEAVY_TOOLS) {
+      expect(ids.has(id), `HEAVY_TOOLS id "${id}" is not in the catalogue`).toBe(true);
+    }
   });
 
   it('finds a tool by keyword search', () => {

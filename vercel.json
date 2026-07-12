@@ -6,13 +6,26 @@
   "outputDirectory": "packages/app/dist",
   "cleanUrls": true,
   "trailingSlash": false,
+  "redirects": [{ "source": "/", "destination": "/en", "permanent": true }],
   "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }],
   "headers": [
     {
       "source": "/(.*)",
       "headers": [
         { "key": "Cross-Origin-Opener-Policy", "value": "same-origin" },
-        { "key": "Cross-Origin-Embedder-Policy", "value": "require-corp" }
+        { "key": "Cross-Origin-Embedder-Policy", "value": "require-corp" },
+        {
+          "key": "Content-Security-Policy",
+          "value": "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; form-action 'self'; img-src 'self' data: blob:; media-src 'self' blob:; font-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self' 'wasm-unsafe-eval' blob:; worker-src 'self' blob:; connect-src 'self' https: data: blob:; manifest-src 'self'; upgrade-insecure-requests"
+        },
+        { "key": "X-Content-Type-Options", "value": "nosniff" },
+        { "key": "X-Frame-Options", "value": "DENY" },
+        { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" },
+        {
+          "key": "Permissions-Policy",
+          "value": "camera=(), microphone=(), geolocation=(), payment=(), usb=(), magnetometer=(), gyroscope=(), accelerometer=(), interest-cohort=()"
+        },
+        { "key": "Strict-Transport-Security", "value": "max-age=31536000; includeSubDomains" }
       ]
     },
     {
@@ -20,7 +33,7 @@
       "headers": [{ "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }]
     },
     {
-      "source": "/icon.svg",
+      "source": "/(icon.svg|icon-192.png|icon-512.png|icon-maskable-512.png|apple-touch-icon.png)",
       "headers": [{ "key": "Cache-Control", "value": "public, max-age=86400" }]
     },
     {
@@ -35,7 +48,7 @@
       "headers": [{ "key": "Cache-Control", "value": "public, max-age=0, must-revalidate" }]
     },
     {
-      "source": "/(sitemap.xml|robots.txt|llms.txt|llms-full.txt|tools.json|opensearch.xml|llms/(.*))",
+      "source": "/(sitemap.xml|robots.txt|ai.txt|llms.txt|llms-full.txt|tools.json|opensearch.xml|llms/(.*))",
       "headers": [{ "key": "Cache-Control", "value": "public, max-age=3600" }]
     }
   ]

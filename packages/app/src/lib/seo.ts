@@ -8,7 +8,12 @@ export const SITE_ORIGIN = 'https://zii.tools';
 export const SITE_NAME = 'Zii';
 export const SITE_TAGLINE =
   'Privacy-first browser tools for files, PDFs, images, text, calculators, generators, and developer utilities.';
-export const SITE_IMAGE = `${SITE_ORIGIN}/icon.svg`;
+/** PNG social preview — many unfurlers cannot render SVG. */
+export const SITE_IMAGE_PATH = '/icon-512.png';
+export const SITE_IMAGE = `${SITE_ORIGIN}${SITE_IMAGE_PATH}`;
+export const SITE_IMAGE_TYPE = 'image/png';
+export const SITE_IMAGE_WIDTH = 512;
+export const SITE_IMAGE_HEIGHT = 512;
 
 export interface AltLink {
   hreflang: string;
@@ -118,7 +123,7 @@ export function buildHead(
     '@type': 'Organization',
     name: SITE_NAME,
     url: origin + buildPath(lang, 'home'),
-    logo: `${origin}/icon.svg`,
+    logo: `${origin}${SITE_IMAGE_PATH}`,
   };
 
   if (view === 'tool' && routeId) {
@@ -150,7 +155,7 @@ export function buildHead(
           operatingSystem: 'Web',
           description,
           url: canonical,
-          image: `${origin}/icon.svg`,
+          image: `${origin}${SITE_IMAGE_PATH}`,
           publisher: { '@type': 'Organization', name: SITE_NAME, url: origin },
           offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
           isAccessibleForFree: true,
@@ -334,7 +339,7 @@ export function buildHead(
         applicationCategory: 'UtilitiesApplication',
         operatingSystem: 'Web',
         description: d.heroSubtitle,
-        image: `${origin}/icon.svg`,
+        image: `${origin}${SITE_IMAGE_PATH}`,
         offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
         isAccessibleForFree: true,
         inLanguage: HREFLANG[lang],

@@ -14,7 +14,16 @@ export {
 } from './categories';
 export { iconSvg } from './icons';
 export { buildPath, allRoutes } from './router';
-export { buildHead, alternatesFor, SITE_ORIGIN, SITE_NAME } from './seo';
+export {
+  buildHead,
+  alternatesFor,
+  SITE_ORIGIN,
+  SITE_NAME,
+  SITE_IMAGE_PATH,
+  SITE_IMAGE_TYPE,
+  SITE_IMAGE_WIDTH,
+  SITE_IMAGE_HEIGHT,
+} from './seo';
 export {
   renderHomeBody,
   renderToolsBody,
