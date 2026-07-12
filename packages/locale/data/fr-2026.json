@@ -1,0 +1,48 @@
+{
+  "market": "fr",
+  "year": 2026,
+  "effectiveDate": "2026-01-01",
+  "dateFormat": "dd/MM/yyyy",
+  "calendars": ["gregorian"],
+  "currency": "EUR",
+  "units": "metric",
+  "payroll": {
+    "socialInsurance": {
+      "employeeApproxRate": 0.22,
+      "employerApproxRate": 0.42
+    },
+    "notes": "2026 PMSS €3,925/mo. Employee cotisations ~22% of brut; employer ~42% approx. PAS rate supplied by DGFiP or taux neutre."
+  },
+  "tax": {
+    "salesTaxRate": 0.2,
+    "incomeBrackets": [
+      { "upTo": 11600, "rate": 0 },
+      { "upTo": 29500, "rate": 0.11 },
+      { "upTo": 84200, "rate": 0.3 },
+      { "upTo": 180800, "rate": 0.41 },
+      { "upTo": null, "rate": 0.45 }
+    ]
+  },
+  "holidays": { "source": "service-public.fr", "list": [], "makeUpWorkdays": false },
+  "id": { "validators": ["nir", "siren", "siret", "iban", "code-postal"] },
+  "address": { "postcode": "5-digit", "order": "little-endian" },
+  "dataSources": {
+    "urssaf": "urssaf.fr",
+    "dgfip": "impots.gouv.fr"
+  },
+  "tools": {
+    "enabled": [
+      "fr-brut-net",
+      "fr-employer-cost",
+      "fr-pas",
+      "fr-tva",
+      "fr-iban-rib",
+      "fr-siren-siret",
+      "fr-nir",
+      "fr-code-postal",
+      "fr-holidays",
+      "fr-conges"
+    ]
+  },
+  "toggles": {}
+}
