@@ -1474,6 +1474,20 @@ button {
   margin: 0;
 }
 
+.tool__list {
+  margin: 0;
+  padding-left: 1.2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  color: var(--ink);
+  font-size: 0.95rem;
+}
+
+.tool__list li {
+  line-height: 1.4;
+}
+
 .tool__error {
   color: #d62f3c;
   font-size: 0.85rem;

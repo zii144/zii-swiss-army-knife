@@ -10,6 +10,11 @@ export const SELECTABLE_MARKETS: readonly Market[] = [
   'jp',
   'en-us',
   'en-gb',
+  'en-ca',
+  'en-au',
+  'ko',
+  'de',
+  'fr',
 ] as const;
 
 /** Localized labels for the selectable markets (English required, others fall back). */
@@ -74,8 +79,56 @@ export const MARKET_LABELS: Readonly<Record<Market, L10n>> = {
     fr: 'Royaume-Uni (anglais)',
     de: 'UK (Englisch)',
   },
-  'en-ca': { en: 'Canada (English)' },
-  'en-au': { en: 'Australia (English)' },
+  'en-ca': {
+    en: 'Canada (English)',
+    'zh-TW': '加拿大（英文）',
+    'zh-HK': '加拿大（英文）',
+    ja: 'カナダ（英語）',
+    ko: '캐나다(영어)',
+    es: 'Canadá (inglés)',
+    fr: 'Canada (anglais)',
+    de: 'Kanada (Englisch)',
+  },
+  'en-au': {
+    en: 'Australia (English)',
+    'zh-TW': '澳洲（英文）',
+    'zh-HK': '澳洲（英文）',
+    ja: 'オーストラリア（英語）',
+    ko: '호주(영어)',
+    es: 'Australia (inglés)',
+    fr: 'Australie (anglais)',
+    de: 'Australien (Englisch)',
+  },
+  ko: {
+    en: 'Korea',
+    'zh-TW': '韓國',
+    'zh-HK': '韓國',
+    ja: '韓国',
+    ko: '한국',
+    es: 'Corea',
+    fr: 'Corée',
+    de: 'Korea',
+  },
+  de: {
+    en: 'Germany',
+    'zh-TW': '德國',
+    'zh-HK': '德國',
+    ja: 'ドイツ',
+    ko: '독일',
+    es: 'Alemania',
+    fr: 'Allemagne',
+    de: 'Deutschland',
+  },
+  fr: {
+    en: 'France',
+    'zh-TW': '法國',
+    'zh-HK': '法國',
+    ja: 'フランス',
+    ko: '프랑스',
+    es: 'Francia',
+    fr: 'France',
+    de: 'Frankreich',
+  },
 };
 
 /**
@@ -92,6 +145,9 @@ export const MARKET_FLAGS: Readonly<Record<Market, string>> = {
   'en-gb': '\u{1F1EC}\u{1F1E7}',
   'en-ca': '\u{1F1E8}\u{1F1E6}',
   'en-au': '\u{1F1E6}\u{1F1FA}',
+  ko: '\u{1F1F0}\u{1F1F7}',
+  de: '\u{1F1E9}\u{1F1EA}',
+  fr: '\u{1F1EB}\u{1F1F7}',
 };
 
 /** Flag glyph for a market, or an empty string if none is defined. */

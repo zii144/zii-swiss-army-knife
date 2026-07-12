@@ -1,0 +1,14 @@
+{
+  "market": "fr",
+  "year": 2026,
+  "effectiveDate": "2026-01-01",
+  "dateFormat": "yyyy-MM-dd",
+  "calendars": ["gregorian"],
+  "currency": "EUR",
+  "units": "metric",
+  "payroll": {"socialInsurance": {"employeeApproxRate": 0.22}}, "tax": {"salesTaxRate": 0.2}, "id": {"validators": ["nir", "siren"]}, "address": {"postcode": "5-digit"},
+  "holidays": {"list": [], "makeUpWorkdays": false},
+  "dataSources": {},
+  "tools": {"enabled": []},
+  "toggles": {}
+}

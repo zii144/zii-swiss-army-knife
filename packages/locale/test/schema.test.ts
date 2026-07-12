@@ -35,6 +35,12 @@ describe('LocalePackSchema', () => {
   });
 
   it('rejects an unknown market', () => {
-    expect(safeParseLocalePack({ ...valid, market: 'fr' }).success).toBe(false);
+    expect(safeParseLocalePack({ ...valid, market: 'zz' }).success).toBe(false);
+  });
+
+  it('accepts new markets ko/de/fr', () => {
+    expect(safeParseLocalePack({ ...valid, market: 'fr', currency: 'EUR' }).success).toBe(true);
+    expect(safeParseLocalePack({ ...valid, market: 'de', currency: 'EUR' }).success).toBe(true);
+    expect(safeParseLocalePack({ ...valid, market: 'ko', currency: 'KRW' }).success).toBe(true);
   });
 });

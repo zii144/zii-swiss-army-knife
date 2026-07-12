@@ -122,6 +122,13 @@ See `TECH-STACK-PLAN.md` for how to implement this architecture.
 
 ---
 
+## 5b. New markets (2026-07) — KR / CA / AU / DE / FR
+
+Phase 3 expansion shipped **10 offline tools each** for `ko`, `en-ca`, `en-au`, `de`, and `fr`. See:
+`FEATURE-CATALOG-KOREA.md` · `FEATURE-CATALOG-CANADA.md` · `FEATURE-CATALOG-AUSTRALIA.md` · `FEATURE-CATALOG-GERMANY.md` · `FEATURE-CATALOG-FRANCE.md`.
+
+Live gov feeds and NFC remain out of scope; engines live in `@zii/payroll` + `@zii/id` with dated configs.
+
 ## 6. Source files
 
 All facts and citations live in the per-market files; each has its own linked **Sources** section:

@@ -4,6 +4,11 @@ All notable changes to this project. Format loosely follows Keep a Changelog.
 
 ## [Unreleased]
 
+### Added — Five new market packs: Korea, Canada, Australia, Germany, France (2026-07-12)
+- **50 regional tools** (48 new + SIN/TFN re-scoped): selectable markets `ko`, `en-ca`, `en-au`, `de`, `fr` with offline payroll/ID engines in `@zii/payroll` + `@zii/id`, dated locale packs, and FEATURE-CATALOG docs with annual refresh calendars.
+- Canada provincial tax now varies by province (ON brackets; other provinces approximate flat rates). Holiday list tools use a shared `.tool__list` style.
+- **Bundle budget** — raised initial gzip budget 112 → 116 KB for the five new market labels in the shell selector.
+
 ### Changed — SEO + LLM discoverability (2026-07-12)
 - **Unified social / share meta** across prerender and the live SPA: PNG `icon-512.png` for Open Graph + Twitter (SVG unfurlers fail), matching card type (`summary`), image dimensions, and JSON-LD logos.
 - **SPA head parity** — client `applyHead` now also injects `llms.txt` / `tools.json` / OpenSearch alternate links so client navigations stay LLM-discoverable.
@@ -26,7 +31,7 @@ All notable changes to this project. Format loosely follows Keep a Changelog.
 - **Completed Japanese tool names.** ~80 tool names had been falling back to English in Japanese (the tools added after the earlier translation batch). Added a `src/lib/tool-names-extra.ts` overlay so every tool has a Japanese name except the deliberate language-neutral ones (JSON ↔ CSV, HEIC → JPG, ROT13, Soundex…). Also finished two zh-HK region names.
 - **Localized the catalog chrome.** Category pages no longer bleed English into other locales: dropped the hardcoded "… tools" H1 suffix (now the localized category label), made category descriptions locale-aware (with Japanese), localized all sub-section labels (8 languages), and localized the "{n} tools" count.
 - A unit test guards Japanese coverage (only the intentional-English set may fall back). Lazy-loaded the catalogue so the added translation tables stay out of the initial payload — home bundle held at **107.1 KB gz** (110 KB budget).
-- Follow-up: ko/es/fr/de tool *names* still fall back to English (UI chrome and sub-section labels are fully localized); those languages have no dedicated market pack.
+- Follow-up: ko/es/fr/de tool *names* still often fall back to English (UI chrome and sub-section labels are fully localized). Market packs now exist for `ko`, `de`, and `fr` (plus `en-ca` / `en-au`).
 
 ### Changed — Catalog UX: category hub, sub-sections, scroll-to-top (2026-07-09)
 - **`/tools` is a browsable category hub** — 12 colour-accented cards (icon, count, sample tools) instead of a 170-tool wall; picking a category or searching drops to the tool grid. (Shipped earlier; noted here for the set.)

@@ -59,6 +59,49 @@ describe('app tool catalogue', () => {
     expect(uk).toEqual(expect.arrayContaining(['uk-postcode', 'uk-nino', 'uk-sort-code']));
     expect(uk).not.toContain('us-ssn');
     expect(uk).toContain('image-convert');
+
+    const ca = filterTools(r, { market: 'en-ca', query: '' }).map((t) => t.id);
+    expect(ca).toEqual(
+      expect.arrayContaining(['ca-sin', 'ca-takehome', 'ca-postal', 'ca-gst-hst']),
+    );
+    expect(ca).not.toContain('au-tfn');
+    expect(ca).toContain('image-convert');
+
+    const au = filterTools(r, { market: 'en-au', query: '' }).map((t) => t.id);
+    expect(au).toEqual(
+      expect.arrayContaining(['au-tfn', 'au-takehome', 'au-abn', 'au-gst']),
+    );
+    expect(au).not.toContain('ca-sin');
+    expect(au).toContain('image-convert');
+
+    const ko = filterTools(r, { market: 'ko', query: '' }).map((t) => t.id);
+    expect(ko).toEqual(
+      expect.arrayContaining(['ko-takehome', 'ko-brn', 'ko-vat', 'ko-postal']),
+    );
+    expect(ko).not.toContain('de-takehome');
+    expect(ko).toContain('image-convert');
+
+    const de = filterTools(r, { market: 'de', query: '' }).map((t) => t.id);
+    expect(de).toEqual(
+      expect.arrayContaining(['de-takehome', 'de-iban', 'de-vat', 'de-plz']),
+    );
+    expect(de).not.toContain('fr-brut-net');
+    expect(de).toContain('image-convert');
+
+    const fr = filterTools(r, { market: 'fr', query: '' }).map((t) => t.id);
+    expect(fr).toEqual(
+      expect.arrayContaining(['fr-brut-net', 'fr-siren-siret', 'fr-tva', 'fr-code-postal']),
+    );
+    expect(fr).not.toContain('ko-takehome');
+    expect(fr).toContain('image-convert');
+
+    // Global market must not surface region-only packs (incl. rescope SIN/TFN).
+    const global = filterTools(r, { market: 'global', query: '' }).map((t) => t.id);
+    expect(global).not.toContain('ca-sin');
+    expect(global).not.toContain('au-tfn');
+    expect(global).not.toContain('ko-takehome');
+    expect(global).not.toContain('de-takehome');
+    expect(global).not.toContain('fr-brut-net');
   });
 
   it('only lists real catalogue ids as heavy tools', () => {

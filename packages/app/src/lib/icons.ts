@@ -328,6 +328,102 @@ const TOOL_ICONS: Record<string, string> = {
     '<path d="M4 20h16M5 10h14M6 10v7M10 10v7M14 10v7M18 10v7M12 3 4 8h16z"/>',
   'tw-postal':
     '<path d="M12 21s6-5.3 6-10a6 6 0 1 0-12 0c0 4.7 6 10 6 10z"/><circle cx="12" cy="11" r="2.3"/>',
+  'ca-takehome':
+    '<path d="M4 19V5M8 19v-8M12 19V9M16 19v-5M20 19V7"/>',
+  'ca-income-tax':
+    '<path d="M4 19V5M8 19v-8M12 19V9M16 19v-5M20 19V7"/>',
+  'ca-cpp':
+    '<path d="M4 19V5M8 19v-8M12 19V9M16 19v-5M20 19V7"/>',
+  'ca-ei':
+    '<path d="M4 19V5M8 19v-8M12 19V9M16 19v-5M20 19V7"/>',
+  'ca-gst-hst':
+    '<path d="M4 19V5M8 19v-8M12 19V9M16 19v-5M20 19V7"/>',
+  'ca-rrsp':
+    '<path d="M4 19V5M8 19v-8M12 19V9M16 19v-5M20 19V7"/>',
+  'ca-tfsa':
+    '<path d="M4 19V5M8 19v-8M12 19V9M16 19v-5M20 19V7"/>',
+  'ca-postal':
+    '<rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="8.5" cy="11" r="2"/><path d="M13 9.5h5M13 13h4"/>',
+  'ca-transit':
+    '<rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="8.5" cy="11" r="2"/><path d="M13 9.5h5M13 13h4"/>',
+  'au-takehome':
+    '<path d="M4 19V5M8 19v-8M12 19V9M16 19v-5M20 19V7"/>',
+  'au-help':
+    '<path d="M4 19V5M8 19v-8M12 19V9M16 19v-5M20 19V7"/>',
+  'au-medicare':
+    '<path d="M4 19V5M8 19v-8M12 19V9M16 19v-5M20 19V7"/>',
+  'au-super':
+    '<path d="M4 19V5M8 19v-8M12 19V9M16 19v-5M20 19V7"/>',
+  'au-gst':
+    '<path d="M4 19V5M8 19v-8M12 19V9M16 19v-5M20 19V7"/>',
+  'au-abn':
+    '<rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="8.5" cy="11" r="2"/><path d="M13 9.5h5M13 13h4"/>',
+  'au-bsb':
+    '<rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="8.5" cy="11" r="2"/><path d="M13 9.5h5M13 13h4"/>',
+  'au-postcode':
+    '<rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="8.5" cy="11" r="2"/><path d="M13 9.5h5M13 13h4"/>',
+  'au-leave':
+    '<path d="M4 19V5M8 19v-8M12 19V9M16 19v-5M20 19V7"/>',
+  'ko-takehome':
+    '<path d="M4 19V5M8 19v-8M12 19V9M16 19v-5M20 19V7"/>',
+  'ko-four-insurances':
+    '<path d="M4 19V5M8 19v-8M12 19V9M16 19v-5M20 19V7"/>',
+  'ko-severance':
+    '<path d="M4 19V5M8 19v-8M12 19V9M16 19v-5M20 19V7"/>',
+  'ko-annual-leave':
+    '<path d="M4 19V5M8 19v-8M12 19V9M16 19v-5M20 19V7"/>',
+  'ko-overtime':
+    '<path d="M4 19V5M8 19v-8M12 19V9M16 19v-5M20 19V7"/>',
+  'ko-brn':
+    '<rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="8.5" cy="11" r="2"/><path d="M13 9.5h5M13 13h4"/>',
+  'ko-rrn':
+    '<rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="8.5" cy="11" r="2"/><path d="M13 9.5h5M13 13h4"/>',
+  'ko-postal':
+    '<rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="8.5" cy="11" r="2"/><path d="M13 9.5h5M13 13h4"/>',
+  'ko-phone':
+    '<rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="8.5" cy="11" r="2"/><path d="M13 9.5h5M13 13h4"/>',
+  'ko-vat':
+    '<path d="M4 19V5M8 19v-8M12 19V9M16 19v-5M20 19V7"/>',
+  'de-takehome':
+    '<path d="M4 19V5M8 19v-8M12 19V9M16 19v-5M20 19V7"/>',
+  'de-income-tax':
+    '<path d="M4 19V5M8 19v-8M12 19V9M16 19v-5M20 19V7"/>',
+  'de-vat':
+    '<path d="M4 19V5M8 19v-8M12 19V9M16 19v-5M20 19V7"/>',
+  'de-iban':
+    '<rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="8.5" cy="11" r="2"/><path d="M13 9.5h5M13 13h4"/>',
+  'de-plz':
+    '<rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="8.5" cy="11" r="2"/><path d="M13 9.5h5M13 13h4"/>',
+  'de-tax-id':
+    '<rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="8.5" cy="11" r="2"/><path d="M13 9.5h5M13 13h4"/>',
+  'de-holidays':
+    '<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/>',
+  'de-vacation':
+    '<path d="M4 19V5M8 19v-8M12 19V9M16 19v-5M20 19V7"/>',
+  'de-commute':
+    '<path d="M4 19V5M8 19v-8M12 19V9M16 19v-5M20 19V7"/>',
+  'de-severance':
+    '<path d="M4 19V5M8 19v-8M12 19V9M16 19v-5M20 19V7"/>',
+  'fr-brut-net':
+    '<path d="M4 19V5M8 19v-8M12 19V9M16 19v-5M20 19V7"/>',
+  'fr-employer-cost':
+    '<path d="M4 19V5M8 19v-8M12 19V9M16 19v-5M20 19V7"/>',
+  'fr-pas':
+    '<path d="M4 19V5M8 19v-8M12 19V9M16 19v-5M20 19V7"/>',
+  'fr-tva':
+    '<path d="M4 19V5M8 19v-8M12 19V9M16 19v-5M20 19V7"/>',
+  'fr-iban-rib':
+    '<rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="8.5" cy="11" r="2"/><path d="M13 9.5h5M13 13h4"/>',
+  'fr-siren-siret':
+    '<rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="8.5" cy="11" r="2"/><path d="M13 9.5h5M13 13h4"/>',
+  'fr-nir':
+    '<rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="8.5" cy="11" r="2"/><path d="M13 9.5h5M13 13h4"/>',
+  'fr-code-postal':
+    '<rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="8.5" cy="11" r="2"/><path d="M13 9.5h5M13 13h4"/>',
+  'fr-holidays':
+    '<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/>',
+  'fr-conges':
+    '<path d="M4 19V5M8 19v-8M12 19V9M16 19v-5M20 19V7"/>',
 };
 
 /** Per-category fallback when a tool has no specific icon. */

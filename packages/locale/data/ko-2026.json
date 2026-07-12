@@ -1,0 +1,14 @@
+{
+  "market": "ko",
+  "year": 2026,
+  "effectiveDate": "2026-01-01",
+  "dateFormat": "yyyy-MM-dd",
+  "calendars": ["gregorian"],
+  "currency": "KRW",
+  "units": "metric",
+  "payroll": {"socialInsurance": {"nationalPension": 0.0475, "healthInsurance": 0.03595}}, "tax": {"salesTaxRate": 0.1}, "id": {"validators": ["rrn", "brn"]}, "address": {"postcode": "5-digit"},
+  "holidays": {"list": [], "makeUpWorkdays": false},
+  "dataSources": {},
+  "tools": {"enabled": []},
+  "toggles": {}
+}
