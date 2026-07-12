@@ -1,0 +1,54 @@
+{
+  "market": "ko",
+  "year": 2026,
+  "effectiveDate": "2026-01-01",
+  "dateFormat": "yyyy.MM.dd",
+  "calendars": ["gregorian", "lunar"],
+  "currency": "KRW",
+  "units": "metric",
+  "payroll": {
+    "socialInsurance": {
+      "nationalPension": 0.0475,
+      "healthInsurance": 0.03595,
+      "longTermCareOfHealth": 0.1314,
+      "employmentInsurance": 0.009
+    },
+    "notes": "2026 4대보험 employee rates: NP 4.75%, HI 3.595%, LTC 13.14% of HI, EI 0.9%. Income tax via 간이세액표 approximation."
+  },
+  "tax": {
+    "salesTaxRate": 0.1,
+    "incomeBrackets": [
+      { "upTo": 14000000, "rate": 0.06 },
+      { "upTo": 50000000, "rate": 0.15 },
+      { "upTo": 88000000, "rate": 0.24 },
+      { "upTo": 150000000, "rate": 0.35 },
+      { "upTo": 300000000, "rate": 0.38 },
+      { "upTo": 500000000, "rate": 0.4 },
+      { "upTo": 1000000000, "rate": 0.42 },
+      { "upTo": null, "rate": 0.45 }
+    ]
+  },
+  "holidays": { "source": "mois.go.kr", "list": [], "makeUpWorkdays": false },
+  "id": { "validators": ["rrn", "brn", "postal", "phone"] },
+  "address": { "postcode": "5-digit", "order": "big-endian" },
+  "dataSources": {
+    "nts": "hometax.go.kr",
+    "nps": "nps.or.kr",
+    "nhis": "nhis.or.kr"
+  },
+  "tools": {
+    "enabled": [
+      "ko-takehome",
+      "ko-four-insurances",
+      "ko-severance",
+      "ko-annual-leave",
+      "ko-overtime",
+      "ko-brn",
+      "ko-rrn",
+      "ko-postal",
+      "ko-phone",
+      "ko-vat"
+    ]
+  },
+  "toggles": {}
+}

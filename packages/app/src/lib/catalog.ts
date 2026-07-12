@@ -1931,8 +1931,9 @@ export const CATALOG: readonly CatalogTool[] = [
     id: 'ca-sin',
     category: 'id',
     offline: true,
+    markets: ['en-ca'],
     keywords: ['canada', 'sin', 'social insurance', 'luhn', 'validate'],
-    name: { en: 'Canadian SIN', 'zh-TW': '加拿大 SIN' },
+    name: { en: 'Canadian SIN', 'zh-TW': '加拿大 SIN', fr: 'NAS canadien', de: 'Kanadische SIN' },
     blurb: {
       en: 'Validate a Canadian Social Insurance Number (Luhn check).',
       'zh-TW': '驗證加拿大社會保險號碼（Luhn）。',
@@ -1942,8 +1943,9 @@ export const CATALOG: readonly CatalogTool[] = [
     id: 'au-tfn',
     category: 'id',
     offline: true,
+    markets: ['en-au'],
     keywords: ['australia', 'tfn', 'tax file number', 'validate'],
-    name: { en: 'Australian TFN', 'zh-TW': '澳洲 TFN' },
+    name: { en: 'Australian TFN', 'zh-TW': '澳洲 TFN', fr: 'TFN australien', de: 'Australische TFN' },
     blurb: {
       en: 'Validate an Australian Tax File Number (mod-11 check).',
       'zh-TW': '驗證澳洲稅務檔案號碼（mod-11）。',

@@ -1,0 +1,46 @@
+{
+  "market": "en-ca",
+  "year": 2026,
+  "effectiveDate": "2026-01-01",
+  "dateFormat": "yyyy-MM-dd",
+  "calendars": ["gregorian"],
+  "currency": "CAD",
+  "units": "metric",
+  "payroll": {
+    "pensionEmployeeRate": 0.0595,
+    "notes": "CPP 5.95% YMPE $74,600; CPP2 4% to YAMPE $85,000; EI 1.63% to $68,900 (2026). Provincial tax is jurisdiction-specific."
+  },
+  "tax": {
+    "salesTaxRate": 0.05,
+    "incomeBrackets": [
+      { "upTo": 58523, "rate": 0.14 },
+      { "upTo": 117045, "rate": 0.205 },
+      { "upTo": 181440, "rate": 0.26 },
+      { "upTo": 258482, "rate": 0.29 },
+      { "upTo": null, "rate": 0.33 }
+    ],
+    "deductions": { "basicPersonalAmount": 16452 }
+  },
+  "holidays": { "source": "canada.ca", "list": [], "makeUpWorkdays": false },
+  "id": { "validators": ["sin", "postal", "transit"] },
+  "address": { "postcode": "A1A 1A1", "order": "little-endian" },
+  "dataSources": {
+    "cra": "canada.ca/en/revenue-agency",
+    "cpp": "canada.ca/en/services/benefits/publicpensions/cpp"
+  },
+  "tools": {
+    "enabled": [
+      "ca-takehome",
+      "ca-income-tax",
+      "ca-cpp",
+      "ca-ei",
+      "ca-gst-hst",
+      "ca-rrsp",
+      "ca-tfsa",
+      "ca-postal",
+      "ca-transit",
+      "ca-sin"
+    ]
+  },
+  "toggles": {}
+}
