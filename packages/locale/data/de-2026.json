@@ -1,0 +1,14 @@
+{
+  "market": "de",
+  "year": 2026,
+  "effectiveDate": "2026-01-01",
+  "dateFormat": "yyyy-MM-dd",
+  "calendars": ["gregorian"],
+  "currency": "EUR",
+  "units": "metric",
+  "payroll": {"socialInsurance": {"pension": 0.093}}, "tax": {"salesTaxRate": 0.19}, "id": {"validators": ["iban", "plz"]}, "address": {"postcode": "5-digit"},
+  "holidays": {"list": [], "makeUpWorkdays": false},
+  "dataSources": {},
+  "tools": {"enabled": []},
+  "toggles": {}
+}

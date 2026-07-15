@@ -1,0 +1,14 @@
+{
+  "market": "en-ca",
+  "year": 2026,
+  "effectiveDate": "2026-01-01",
+  "dateFormat": "yyyy-MM-dd",
+  "calendars": ["gregorian"],
+  "currency": "CAD",
+  "units": "metric",
+  "payroll": {"pensionEmployeeRate": 0.0595}, "tax": {"salesTaxRate": 0.05}, "id": {"validators": ["sin"]}, "address": {"postcode": "A1A 1A1"},
+  "holidays": {"list": [], "makeUpWorkdays": false},
+  "dataSources": {},
+  "tools": {"enabled": []},
+  "toggles": {}
+}

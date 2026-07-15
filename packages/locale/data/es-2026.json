@@ -1,0 +1,14 @@
+{
+  "market": "es",
+  "year": 2026,
+  "effectiveDate": "2026-01-01",
+  "dateFormat": "yyyy-MM-dd",
+  "calendars": ["gregorian"],
+  "currency": "EUR",
+  "units": "metric",
+  "payroll": {}, "tax": {"salesTaxRate": 0.21}, "id": {"validators": ["dni","cif"]}, "address": {"postcode": "5-digit"},
+  "holidays": {"list": [], "makeUpWorkdays": false},
+  "dataSources": {},
+  "tools": {"enabled": []},
+  "toggles": {}
+}

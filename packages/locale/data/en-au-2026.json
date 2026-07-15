@@ -1,0 +1,14 @@
+{
+  "market": "en-au",
+  "year": 2026,
+  "effectiveDate": "2026-01-01",
+  "dateFormat": "yyyy-MM-dd",
+  "calendars": ["gregorian"],
+  "currency": "AUD",
+  "units": "metric",
+  "payroll": {"pensionEmployerRate": 0.12}, "tax": {"salesTaxRate": 0.1}, "id": {"validators": ["tfn", "abn"]}, "address": {"postcode": "4-digit"},
+  "holidays": {"list": [], "makeUpWorkdays": false},
+  "dataSources": {},
+  "tools": {"enabled": []},
+  "toggles": {}
+}
