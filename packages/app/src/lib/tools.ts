@@ -20,6 +20,11 @@ export const SELECTABLE_MARKETS: readonly Market[] = [
   'nl',
   'en-sg',
   'en-in',
+  'pt',
+  'br',
+  'mx',
+  'pl',
+  'en-nz',
 ] as const;
 
 /** Localized labels for the selectable markets (English required, others fall back). */
@@ -184,6 +189,56 @@ export const MARKET_LABELS: Readonly<Record<Market, L10n>> = {
     fr: 'Inde (anglais)',
     de: 'Indien (Englisch)',
   },
+  pt: {
+    en: 'Portugal',
+    'zh-TW': '葡萄牙',
+    'zh-HK': '葡萄牙',
+    ja: 'ポルトガル',
+    ko: '포르투갈',
+    es: 'Portugal',
+    fr: 'Portugal',
+    de: 'Portugal',
+  },
+  br: {
+    en: 'Brazil',
+    'zh-TW': '巴西',
+    'zh-HK': '巴西',
+    ja: 'ブラジル',
+    ko: '브라질',
+    es: 'Brasil',
+    fr: 'Brésil',
+    de: 'Brasilien',
+  },
+  mx: {
+    en: 'Mexico',
+    'zh-TW': '墨西哥',
+    'zh-HK': '墨西哥',
+    ja: 'メキシコ',
+    ko: '멕시코',
+    es: 'México',
+    fr: 'Mexique',
+    de: 'Mexiko',
+  },
+  pl: {
+    en: 'Poland',
+    'zh-TW': '波蘭',
+    'zh-HK': '波蘭',
+    ja: 'ポーランド',
+    ko: '폴란드',
+    es: 'Polonia',
+    fr: 'Pologne',
+    de: 'Polen',
+  },
+  'en-nz': {
+    en: 'New Zealand (English)',
+    'zh-TW': '紐西蘭（英文）',
+    'zh-HK': '紐西蘭（英文）',
+    ja: 'ニュージーランド（英語）',
+    ko: '뉴질랜드(영어)',
+    es: 'Nueva Zelanda (inglés)',
+    fr: 'Nouvelle-Zélande (anglais)',
+    de: 'Neuseeland (Englisch)',
+  },
 };
 
 /**
@@ -208,6 +263,11 @@ export const MARKET_FLAGS: Readonly<Record<Market, string>> = {
   nl: '\u{1F1F3}\u{1F1F1}',
   'en-sg': '\u{1F1F8}\u{1F1EC}',
   'en-in': '\u{1F1EE}\u{1F1F3}',
+  pt: '\u{1F1F5}\u{1F1F9}',
+  br: '\u{1F1E7}\u{1F1F7}',
+  mx: '\u{1F1F2}\u{1F1FD}',
+  pl: '\u{1F1F5}\u{1F1F1}',
+  'en-nz': '\u{1F1F3}\u{1F1FF}',
 };
 
 /** Flag glyph for a market, or an empty string if none is defined. */

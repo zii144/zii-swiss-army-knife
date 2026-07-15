@@ -10,7 +10,7 @@ import { fileURLToPath } from 'node:url';
 
 const here = dirname(fileURLToPath(import.meta.url));
 const DIST = resolve(here, '..', process.env.ZII_DIST ?? 'dist');
-const BUDGET_KB = Number(process.env.ZII_BUNDLE_BUDGET_KB ?? 122); // gzipped
+const BUDGET_KB = Number(process.env.ZII_BUNDLE_BUDGET_KB ?? 128); // gzipped
 
 const manifest = JSON.parse(await readFile(join(DIST, '.vite', 'manifest.json'), 'utf8'));
 
