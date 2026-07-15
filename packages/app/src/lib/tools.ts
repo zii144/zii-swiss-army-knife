@@ -15,6 +15,11 @@ export const SELECTABLE_MARKETS: readonly Market[] = [
   'ko',
   'de',
   'fr',
+  'es',
+  'it',
+  'nl',
+  'en-sg',
+  'en-in',
 ] as const;
 
 /** Localized labels for the selectable markets (English required, others fall back). */
@@ -129,6 +134,56 @@ export const MARKET_LABELS: Readonly<Record<Market, L10n>> = {
     fr: 'France',
     de: 'Frankreich',
   },
+  es: {
+    en: 'Spain',
+    'zh-TW': '西班牙',
+    'zh-HK': '西班牙',
+    ja: 'スペイン',
+    ko: '스페인',
+    es: 'España',
+    fr: 'Espagne',
+    de: 'Spanien',
+  },
+  it: {
+    en: 'Italy',
+    'zh-TW': '義大利',
+    'zh-HK': '意大利',
+    ja: 'イタリア',
+    ko: '이탈리아',
+    es: 'Italia',
+    fr: 'Italie',
+    de: 'Italien',
+  },
+  nl: {
+    en: 'Netherlands',
+    'zh-TW': '荷蘭',
+    'zh-HK': '荷蘭',
+    ja: 'オランダ',
+    ko: '네덜란드',
+    es: 'Países Bajos',
+    fr: 'Pays-Bas',
+    de: 'Niederlande',
+  },
+  'en-sg': {
+    en: 'Singapore (English)',
+    'zh-TW': '新加坡（英文）',
+    'zh-HK': '新加坡（英文）',
+    ja: 'シンガポール（英語）',
+    ko: '싱가포르(영어)',
+    es: 'Singapur (inglés)',
+    fr: 'Singapour (anglais)',
+    de: 'Singapur (Englisch)',
+  },
+  'en-in': {
+    en: 'India (English)',
+    'zh-TW': '印度（英文）',
+    'zh-HK': '印度（英文）',
+    ja: 'インド（英語）',
+    ko: '인도(영어)',
+    es: 'India (inglés)',
+    fr: 'Inde (anglais)',
+    de: 'Indien (Englisch)',
+  },
 };
 
 /**
@@ -148,6 +203,11 @@ export const MARKET_FLAGS: Readonly<Record<Market, string>> = {
   ko: '\u{1F1F0}\u{1F1F7}',
   de: '\u{1F1E9}\u{1F1EA}',
   fr: '\u{1F1EB}\u{1F1F7}',
+  es: '\u{1F1EA}\u{1F1F8}',
+  it: '\u{1F1EE}\u{1F1F9}',
+  nl: '\u{1F1F3}\u{1F1F1}',
+  'en-sg': '\u{1F1F8}\u{1F1EC}',
+  'en-in': '\u{1F1EE}\u{1F1F3}',
 };
 
 /** Flag glyph for a market, or an empty string if none is defined. */

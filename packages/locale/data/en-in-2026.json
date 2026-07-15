@@ -1,0 +1,14 @@
+{
+  "market": "en-in",
+  "year": 2026,
+  "effectiveDate": "2026-01-01",
+  "dateFormat": "yyyy-MM-dd",
+  "calendars": ["gregorian"],
+  "currency": "INR",
+  "units": "metric",
+  "payroll": {}, "tax": {"salesTaxRate": 0.18}, "id": {"validators": ["pan","aadhaar","gstin","ifsc"]}, "address": {"postcode": "6-digit"},
+  "holidays": {"list": [], "makeUpWorkdays": false},
+  "dataSources": {},
+  "tools": {"enabled": []},
+  "toggles": {}
+}

@@ -10,6 +10,11 @@ export type Market =
   | 'ko'
   | 'de'
   | 'fr'
+  | 'es'
+  | 'it'
+  | 'nl'
+  | 'en-sg'
+  | 'en-in'
   | 'global';
 
 /** Top-level tool categories (see FEATURE-CATALOG.md). */

@@ -1,0 +1,14 @@
+{
+  "market": "en-sg",
+  "year": 2026,
+  "effectiveDate": "2026-01-01",
+  "dateFormat": "yyyy-MM-dd",
+  "calendars": ["gregorian"],
+  "currency": "SGD",
+  "units": "metric",
+  "payroll": {}, "tax": {"salesTaxRate": 0.09}, "id": {"validators": ["nric","uen"]}, "address": {"postcode": "6-digit"},
+  "holidays": {"list": [], "makeUpWorkdays": false},
+  "dataSources": {},
+  "tools": {"enabled": []},
+  "toggles": {}
+}

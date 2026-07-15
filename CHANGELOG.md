@@ -4,6 +4,10 @@ All notable changes to this project. Format loosely follows Keep a Changelog.
 
 ## [Unreleased]
 
+### Added — Five more market packs: Spain, Italy, Netherlands, Singapore, India (2026-07-12)
+- **50 regional tools** for markets `es`, `it`, `nl`, `en-sg`, and `en-in`: take-home/tax/VAT, ID validators, holidays, and leave helpers with offline engines in `@zii/payroll` + `@zii/id` and dated locale packs.
+- Finance subcategory curation + Japanese display names for the new tools; initial gzip budget raised 116 → 122 KB for shell market labels.
+
 ### Added — Five new market packs: Korea, Canada, Australia, Germany, France (2026-07-12)
 - **50 regional tools** (48 new + SIN/TFN re-scoped): selectable markets `ko`, `en-ca`, `en-au`, `de`, `fr` with offline payroll/ID engines in `@zii/payroll` + `@zii/id`, dated locale packs, and FEATURE-CATALOG docs with annual refresh calendars.
 - Canada provincial tax now varies by province (ON brackets; other provinces approximate flat rates). Holiday list tools use a shared `.tool__list` style.
