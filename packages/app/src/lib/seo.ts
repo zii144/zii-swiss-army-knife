@@ -49,6 +49,11 @@ const MARKET_COUNTRY: Readonly<Record<string, string>> = {
   nl: 'Netherlands',
   'en-sg': 'Singapore',
   'en-in': 'India',
+  pt: 'Portugal',
+  br: 'Brazil',
+  mx: 'Mexico',
+  pl: 'Poland',
+  'en-nz': 'New Zealand',
 };
 
 /** schema.org Country[] a market-specific tool serves (empty for global tools). */

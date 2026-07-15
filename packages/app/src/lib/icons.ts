@@ -524,6 +524,106 @@ const TOOL_ICONS: Record<string, string> = {
     '<rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="8.5" cy="11" r="2"/><path d="M13 9.5h5M13 13h4"/>',
   'in-pincode':
     '<rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="8.5" cy="11" r="2"/><path d="M13 9.5h5M13 13h4"/>',
+  'pt-takehome':
+    '<path d="M4 19V5M8 19v-8M12 19V9M16 19v-5M20 19V7"/>',
+  'pt-irs':
+    '<path d="M4 19V5M8 19v-8M12 19V9M16 19v-5M20 19V7"/>',
+  'pt-ss':
+    '<path d="M4 19V5M8 19v-8M12 19V9M16 19v-5M20 19V7"/>',
+  'pt-iva':
+    '<path d="M4 19V5M8 19v-8M12 19V9M16 19v-5M20 19V7"/>',
+  'pt-vacation':
+    '<path d="M4 19V5M8 19v-8M12 19V9M16 19v-5M20 19V7"/>',
+  'pt-holidays':
+    '<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/>',
+  'pt-nif':
+    '<rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="8.5" cy="11" r="2"/><path d="M13 9.5h5M13 13h4"/>',
+  'pt-iban':
+    '<rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="8.5" cy="11" r="2"/><path d="M13 9.5h5M13 13h4"/>',
+  'pt-postal':
+    '<rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="8.5" cy="11" r="2"/><path d="M13 9.5h5M13 13h4"/>',
+  'pt-phone':
+    '<rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="8.5" cy="11" r="2"/><path d="M13 9.5h5M13 13h4"/>',
+  'br-takehome':
+    '<path d="M4 19V5M8 19v-8M12 19V9M16 19v-5M20 19V7"/>',
+  'br-irpf':
+    '<path d="M4 19V5M8 19v-8M12 19V9M16 19v-5M20 19V7"/>',
+  'br-inss':
+    '<path d="M4 19V5M8 19v-8M12 19V9M16 19v-5M20 19V7"/>',
+  'br-fgts':
+    '<path d="M4 19V5M8 19v-8M12 19V9M16 19v-5M20 19V7"/>',
+  'br-vacation':
+    '<path d="M4 19V5M8 19v-8M12 19V9M16 19v-5M20 19V7"/>',
+  'br-holidays':
+    '<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/>',
+  'br-cpf':
+    '<rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="8.5" cy="11" r="2"/><path d="M13 9.5h5M13 13h4"/>',
+  'br-cnpj':
+    '<rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="8.5" cy="11" r="2"/><path d="M13 9.5h5M13 13h4"/>',
+  'br-cep':
+    '<rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="8.5" cy="11" r="2"/><path d="M13 9.5h5M13 13h4"/>',
+  'br-phone':
+    '<rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="8.5" cy="11" r="2"/><path d="M13 9.5h5M13 13h4"/>',
+  'mx-takehome':
+    '<path d="M4 19V5M8 19v-8M12 19V9M16 19v-5M20 19V7"/>',
+  'mx-isr':
+    '<path d="M4 19V5M8 19v-8M12 19V9M16 19v-5M20 19V7"/>',
+  'mx-imss':
+    '<path d="M4 19V5M8 19v-8M12 19V9M16 19v-5M20 19V7"/>',
+  'mx-iva':
+    '<path d="M4 19V5M8 19v-8M12 19V9M16 19v-5M20 19V7"/>',
+  'mx-vacation':
+    '<path d="M4 19V5M8 19v-8M12 19V9M16 19v-5M20 19V7"/>',
+  'mx-holidays':
+    '<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/>',
+  'mx-rfc':
+    '<rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="8.5" cy="11" r="2"/><path d="M13 9.5h5M13 13h4"/>',
+  'mx-curp':
+    '<rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="8.5" cy="11" r="2"/><path d="M13 9.5h5M13 13h4"/>',
+  'mx-postal':
+    '<rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="8.5" cy="11" r="2"/><path d="M13 9.5h5M13 13h4"/>',
+  'mx-clabe':
+    '<rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="8.5" cy="11" r="2"/><path d="M13 9.5h5M13 13h4"/>',
+  'pl-takehome':
+    '<path d="M4 19V5M8 19v-8M12 19V9M16 19v-5M20 19V7"/>',
+  'pl-pit':
+    '<path d="M4 19V5M8 19v-8M12 19V9M16 19v-5M20 19V7"/>',
+  'pl-zus':
+    '<path d="M4 19V5M8 19v-8M12 19V9M16 19v-5M20 19V7"/>',
+  'pl-vat':
+    '<path d="M4 19V5M8 19v-8M12 19V9M16 19v-5M20 19V7"/>',
+  'pl-vacation':
+    '<path d="M4 19V5M8 19v-8M12 19V9M16 19v-5M20 19V7"/>',
+  'pl-holidays':
+    '<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/>',
+  'pl-pesel':
+    '<rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="8.5" cy="11" r="2"/><path d="M13 9.5h5M13 13h4"/>',
+  'pl-nip':
+    '<rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="8.5" cy="11" r="2"/><path d="M13 9.5h5M13 13h4"/>',
+  'pl-iban':
+    '<rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="8.5" cy="11" r="2"/><path d="M13 9.5h5M13 13h4"/>',
+  'pl-postal':
+    '<rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="8.5" cy="11" r="2"/><path d="M13 9.5h5M13 13h4"/>',
+  'nz-takehome':
+    '<path d="M4 19V5M8 19v-8M12 19V9M16 19v-5M20 19V7"/>',
+  'nz-income-tax':
+    '<path d="M4 19V5M8 19v-8M12 19V9M16 19v-5M20 19V7"/>',
+  'nz-kiwisaver':
+    '<path d="M4 19V5M8 19v-8M12 19V9M16 19v-5M20 19V7"/>',
+  'nz-gst':
+    '<path d="M4 19V5M8 19v-8M12 19V9M16 19v-5M20 19V7"/>',
+  'nz-leave':
+    '<path d="M4 19V5M8 19v-8M12 19V9M16 19v-5M20 19V7"/>',
+  'nz-holidays':
+    '<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/>',
+  'nz-ird':
+    '<rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="8.5" cy="11" r="2"/><path d="M13 9.5h5M13 13h4"/>',
+  'nz-nzbn':
+    '<rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="8.5" cy="11" r="2"/><path d="M13 9.5h5M13 13h4"/>',
+  'nz-postal':
+    '<rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="8.5" cy="11" r="2"/><path d="M13 9.5h5M13 13h4"/>',
+  'nz-phone':
+    '<rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="8.5" cy="11" r="2"/><path d="M13 9.5h5M13 13h4"/>',
 };
 
 /** Per-category fallback when a tool has no specific icon. */

@@ -1,0 +1,33 @@
+{
+  "market": "pl",
+  "year": 2026,
+  "effectiveDate": "2026-01-01",
+  "dateFormat": "yyyy-MM-dd",
+  "calendars": [
+    "gregorian"
+  ],
+  "currency": "PLN",
+  "units": "metric",
+  "payroll": {},
+  "tax": {
+    "salesTaxRate": 0.23
+  },
+  "id": {
+    "validators": [
+      "pesel",
+      "nip"
+    ]
+  },
+  "address": {
+    "postcode": "NN-NNN"
+  },
+  "holidays": {
+    "list": [],
+    "makeUpWorkdays": false
+  },
+  "dataSources": {},
+  "tools": {
+    "enabled": []
+  },
+  "toggles": {}
+}

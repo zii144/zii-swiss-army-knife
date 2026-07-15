@@ -1,0 +1,33 @@
+{
+  "market": "mx",
+  "year": 2026,
+  "effectiveDate": "2026-01-01",
+  "dateFormat": "yyyy-MM-dd",
+  "calendars": [
+    "gregorian"
+  ],
+  "currency": "MXN",
+  "units": "metric",
+  "payroll": {},
+  "tax": {
+    "salesTaxRate": 0.16
+  },
+  "id": {
+    "validators": [
+      "rfc",
+      "curp"
+    ]
+  },
+  "address": {
+    "postcode": "5-digit"
+  },
+  "holidays": {
+    "list": [],
+    "makeUpWorkdays": false
+  },
+  "dataSources": {},
+  "tools": {
+    "enabled": []
+  },
+  "toggles": {}
+}

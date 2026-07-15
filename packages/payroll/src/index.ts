@@ -162,3 +162,54 @@ export {
   inEpfEmployee,
   IN_HOLIDAYS_2026,
 } from './in';
+
+// Portugal 2026.
+export {
+  PT_2026,
+  ptTakeHome,
+  ptIrsAnnual,
+  ptSsEmployee,
+  ptVacationDays,
+  PT_HOLIDAYS_2026,
+} from './pt';
+
+// Brazil 2026.
+export {
+  BR_2026,
+  brTakeHome,
+  brIrpfAnnual,
+  brInssEmployee,
+  brFgts,
+  brVacationDays,
+  BR_HOLIDAYS_2026,
+} from './br';
+
+// Mexico 2026.
+export {
+  MX_2026,
+  mxTakeHome,
+  mxIsrAnnual,
+  mxImssEmployee,
+  mxVacationDays,
+  MX_HOLIDAYS_2026,
+} from './mx';
+
+// Poland 2026.
+export {
+  PL_2026,
+  plTakeHome,
+  plPitAnnual,
+  plZusEmployee,
+  plVacationDays,
+  PL_HOLIDAYS_2026,
+} from './pl';
+
+// New Zealand 2026.
+export {
+  NZ_2026,
+  nzTakeHome,
+  nzIncomeTax,
+  nzKiwiSaver,
+  nzLeaveDays,
+  NZ_HOLIDAYS_2026,
+} from './nz';

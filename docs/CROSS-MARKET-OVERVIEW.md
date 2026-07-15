@@ -144,3 +144,8 @@ All facts and citations live in the per-market files; each has its own linked **
 | Netherlands (`nl`) | `FEATURE-CATALOG-NETHERLANDS.md` |
 | Singapore (`en-sg`) | `FEATURE-CATALOG-SINGAPORE.md` |
 | India (`en-in`) | `FEATURE-CATALOG-INDIA.md` |
+| Portugal (`pt`) | `FEATURE-CATALOG-PORTUGAL.md` |
+| Brazil (`br`) | `FEATURE-CATALOG-BRAZIL.md` |
+| Mexico (`mx`) | `FEATURE-CATALOG-MEXICO.md` |
+| Poland (`pl`) | `FEATURE-CATALOG-POLAND.md` |
+| New Zealand (`en-nz`) | `FEATURE-CATALOG-NEW-ZEALAND.md` |

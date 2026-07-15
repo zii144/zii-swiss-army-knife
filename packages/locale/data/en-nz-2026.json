@@ -1,0 +1,33 @@
+{
+  "market": "en-nz",
+  "year": 2026,
+  "effectiveDate": "2026-01-01",
+  "dateFormat": "yyyy-MM-dd",
+  "calendars": [
+    "gregorian"
+  ],
+  "currency": "NZD",
+  "units": "metric",
+  "payroll": {},
+  "tax": {
+    "salesTaxRate": 0.15
+  },
+  "id": {
+    "validators": [
+      "ird",
+      "nzbn"
+    ]
+  },
+  "address": {
+    "postcode": "4-digit"
+  },
+  "holidays": {
+    "list": [],
+    "makeUpWorkdays": false
+  },
+  "dataSources": {},
+  "tools": {
+    "enabled": []
+  },
+  "toggles": {}
+}
