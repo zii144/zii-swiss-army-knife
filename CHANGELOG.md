@@ -4,6 +4,10 @@ All notable changes to this project. Format loosely follows Keep a Changelog.
 
 ## [Unreleased]
 
+### Added — Five more market packs: Portugal, Brazil, Mexico, Poland, New Zealand (2026-07-15)
+- **50 regional tools** for markets `pt`, `br`, `mx`, `pl`, and `en-nz`: take-home/tax/VAT, ID validators, holidays, and leave helpers with offline engines in `@zii/payroll` + `@zii/id` and dated locale packs.
+- Finance subcategory curation + Japanese display names for the new tools; initial gzip budget raised 122 → 128 KB for shell market labels.
+
 ### Added — Five more market packs: Spain, Italy, Netherlands, Singapore, India (2026-07-12)
 - **50 regional tools** for markets `es`, `it`, `nl`, `en-sg`, and `en-in`: take-home/tax/VAT, ID validators, holidays, and leave helpers with offline engines in `@zii/payroll` + `@zii/id` and dated locale packs.
 - Finance subcategory curation + Japanese display names for the new tools; initial gzip budget raised 116 → 122 KB for shell market labels.
