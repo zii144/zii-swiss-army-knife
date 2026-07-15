@@ -40,6 +40,26 @@ import {
   validateIfsc,
   validateInPincode,
   validateSgPostal,
+  validatePtNif,
+  generatePtNif,
+  validateCpf,
+  generateCpf,
+  validateCnpj,
+  generateCnpj,
+  validatePesel,
+  generatePesel,
+  validateNip,
+  generateNip,
+  validateIrd,
+  generateIrd,
+  validateClabe,
+  generateClabe,
+  validateNzbn,
+  generateNzbn,
+  validateRfc,
+  generateRfc,
+  validateCurp,
+  generateCurp,
 } from '../src/index';
 
 describe('validateKoBrn', () => {
@@ -159,5 +179,22 @@ describe('ES / IT / NL / SG / IN validators', () => {
     expect(validateIfsc('SBIN0001234')).toBe(true);
     expect(validateInPincode('110001')).toBe(true);
     expect(validateSgPostal('018956')).toBe(true);
+  });
+});
+
+describe('PT / BR / MX / PL / NZ validators', () => {
+  it('round-trips NIF, CPF, CNPJ, PESEL, NIP, IRD, CLABE, NZBN', () => {
+    for (let seed = 0; seed < 25; seed++) {
+      expect(validatePtNif(generatePtNif(seed))).toBe(true);
+      expect(validateCpf(generateCpf(seed))).toBe(true);
+      expect(validateCnpj(generateCnpj(seed))).toBe(true);
+      expect(validatePesel(generatePesel(seed))).toBe(true);
+      expect(validateNip(generateNip(seed))).toBe(true);
+      expect(validateIrd(generateIrd(seed))).toBe(true);
+      expect(validateClabe(generateClabe(seed))).toBe(true);
+      expect(validateNzbn(generateNzbn(seed))).toBe(true);
+      expect(validateRfc(generateRfc(seed))).toBe(true);
+      expect(validateCurp(generateCurp(seed))).toBe(true);
+    }
   });
 });

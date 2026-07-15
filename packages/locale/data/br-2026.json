@@ -1,0 +1,33 @@
+{
+  "market": "br",
+  "year": 2026,
+  "effectiveDate": "2026-01-01",
+  "dateFormat": "yyyy-MM-dd",
+  "calendars": [
+    "gregorian"
+  ],
+  "currency": "BRL",
+  "units": "metric",
+  "payroll": {},
+  "tax": {
+    "salesTaxRate": 0
+  },
+  "id": {
+    "validators": [
+      "cpf",
+      "cnpj"
+    ]
+  },
+  "address": {
+    "postcode": "8-digit CEP"
+  },
+  "holidays": {
+    "list": [],
+    "makeUpWorkdays": false
+  },
+  "dataSources": {},
+  "tools": {
+    "enabled": []
+  },
+  "toggles": {}
+}

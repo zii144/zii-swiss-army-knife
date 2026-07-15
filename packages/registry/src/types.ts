@@ -15,6 +15,11 @@ export type Market =
   | 'nl'
   | 'en-sg'
   | 'en-in'
+  | 'pt'
+  | 'br'
+  | 'mx'
+  | 'pl'
+  | 'en-nz'
   | 'global';
 
 /** Top-level tool categories (see FEATURE-CATALOG.md). */

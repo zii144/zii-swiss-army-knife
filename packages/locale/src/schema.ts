@@ -17,6 +17,11 @@ export const MarketSchema = z.enum([
   'nl',
   'en-sg',
   'en-in',
+  'pt',
+  'br',
+  'mx',
+  'pl',
+  'en-nz',
   'global',
 ]);
 export type Market = z.infer<typeof MarketSchema>;

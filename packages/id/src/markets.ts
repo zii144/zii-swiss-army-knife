@@ -796,3 +796,324 @@ export function generateInPincode(seed = 0): string {
   const n = 100_000 + (Math.abs(Math.trunc(seed)) % 900_000);
   return String(n);
 }
+
+// --- Portugal NIF / postal ---------------------------------------------------
+
+/** Portuguese NIF (9 digits, mod-11 check). */
+export function validatePtNif(value: string): boolean {
+  const d = digitsOnly(value);
+  if (!/^\d{9}$/.test(d)) return false;
+  let sum = 0;
+  for (let i = 0; i < 8; i++) sum += Number(d[i]) * (9 - i);
+  let check = 11 - (sum % 11);
+  if (check >= 10) check = 0;
+  return check === Number(d[8]);
+}
+
+export function generatePtNif(seed = 0): string {
+  const next = lcg(seed);
+  const body = randomDigits(next, 8);
+  let sum = 0;
+  for (let i = 0; i < 8; i++) sum += Number(body[i]) * (9 - i);
+  let check = 11 - (sum % 11);
+  if (check >= 10) check = 0;
+  return body + String(check);
+}
+
+/** Portuguese código postal: NNNN-NNN. */
+export function validatePtPostal(value: string): boolean {
+  return /^\d{4}-?\d{3}$/.test(value.replace(/\s+/g, ''));
+}
+
+export function generatePtPostal(seed = 0): string {
+  const n = Math.abs(Math.trunc(seed));
+  const a = String(1000 + (n % 9000)).padStart(4, '0');
+  const b = String(n % 1000).padStart(3, '0');
+  return `${a}-${b}`;
+}
+
+/** Portuguese phone: 9 digits starting with 2/3/9. */
+export function validatePtPhone(value: string): boolean {
+  const d = digitsOnly(value);
+  return /^[239]\d{8}$/.test(d);
+}
+
+export function generatePtPhone(seed = 0): string {
+  const next = lcg(seed);
+  const first = '239'[next() % 3]!;
+  return first + randomDigits(next, 8);
+}
+
+// --- Brazil CPF / CNPJ / CEP / phone -----------------------------------------
+
+function brCheckDigits(body: string, weights: readonly number[]): number {
+  let sum = 0;
+  for (let i = 0; i < weights.length; i++) sum += Number(body[i]) * weights[i]!;
+  const mod = sum % 11;
+  return mod < 2 ? 0 : 11 - mod;
+}
+
+/** Brazilian CPF (11 digits, two check digits). */
+export function validateCpf(value: string): boolean {
+  const d = digitsOnly(value);
+  if (!/^\d{11}$/.test(d) || /^(\d)\1{10}$/.test(d)) return false;
+  const w1 = [10, 9, 8, 7, 6, 5, 4, 3, 2] as const;
+  const w2 = [11, 10, 9, 8, 7, 6, 5, 4, 3, 2] as const;
+  if (brCheckDigits(d.slice(0, 9), w1) !== Number(d[9])) return false;
+  return brCheckDigits(d.slice(0, 10), w2) === Number(d[10]);
+}
+
+export function generateCpf(seed = 0): string {
+  const next = lcg(seed);
+  for (let attempt = 0; attempt < 200; attempt++) {
+    const body = randomDigits(next, 9);
+    if (/^(\d)\1{8}$/.test(body)) continue;
+    const d1 = brCheckDigits(body, [10, 9, 8, 7, 6, 5, 4, 3, 2]);
+    const d2 = brCheckDigits(body + d1, [11, 10, 9, 8, 7, 6, 5, 4, 3, 2]);
+    return body + String(d1) + String(d2);
+  }
+  throw new Error('generateCpf: could not find a valid number');
+}
+
+/** Brazilian CNPJ (14 digits, two check digits). */
+export function validateCnpj(value: string): boolean {
+  const d = digitsOnly(value);
+  if (!/^\d{14}$/.test(d) || /^(\d)\1{13}$/.test(d)) return false;
+  const w1 = [5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2] as const;
+  const w2 = [6, 5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2] as const;
+  if (brCheckDigits(d.slice(0, 12), w1) !== Number(d[12])) return false;
+  return brCheckDigits(d.slice(0, 13), w2) === Number(d[13]);
+}
+
+export function generateCnpj(seed = 0): string {
+  const next = lcg(seed);
+  const body = randomDigits(next, 12);
+  const d1 = brCheckDigits(body, [5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2]);
+  const d2 = brCheckDigits(body + d1, [6, 5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2]);
+  return body + String(d1) + String(d2);
+}
+
+/** Brazilian CEP: 8 digits (NNNNN-NNN). */
+export function validateCep(value: string): boolean {
+  return /^\d{8}$/.test(digitsOnly(value));
+}
+
+export function generateCep(seed = 0): string {
+  return String(Math.abs(Math.trunc(seed)) % 100_000_000).padStart(8, '0');
+}
+
+/** Brazilian mobile: 11 digits starting with area 11–99 and 9. */
+export function validateBrPhone(value: string): boolean {
+  const d = digitsOnly(value);
+  return /^[1-9]\d9\d{8}$/.test(d);
+}
+
+export function generateBrPhone(seed = 0): string {
+  const next = lcg(seed);
+  const area = String(11 + (next() % 89)).padStart(2, '0');
+  return area + '9' + randomDigits(next, 8);
+}
+
+// --- Mexico RFC / CURP / postal / CLABE --------------------------------------
+
+/** Mexican RFC (persona física 13 chars or moral 12 chars) — format check. */
+export function validateRfc(value: string): boolean {
+  const v = value.replace(/[\s-]/g, '').toUpperCase();
+  return /^[A-ZÑ&]{3,4}\d{6}[A-Z0-9]{3}$/.test(v);
+}
+
+export function generateRfc(seed = 0): string {
+  const next = lcg(seed);
+  const L = () => String.fromCharCode(65 + (next() % 26));
+  const date =
+    String(80 + (next() % 20)).padStart(2, '0') +
+    String(1 + (next() % 12)).padStart(2, '0') +
+    String(1 + (next() % 28)).padStart(2, '0');
+  return L() + L() + L() + L() + date + L() + String(next() % 10) + L();
+}
+
+/** Mexican CURP (18 chars). */
+export function validateCurp(value: string): boolean {
+  const v = value.replace(/\s+/g, '').toUpperCase();
+  return /^[A-Z]{4}\d{6}[HM][A-Z]{5}[A-Z0-9]\d$/.test(v);
+}
+
+export function generateCurp(seed = 0): string {
+  const next = lcg(seed);
+  const L = () => String.fromCharCode(65 + (next() % 26));
+  const date =
+    String(90 + (next() % 10)).padStart(2, '0') +
+    String(1 + (next() % 12)).padStart(2, '0') +
+    String(1 + (next() % 28)).padStart(2, '0');
+  const sex = next() % 2 === 0 ? 'H' : 'M';
+  return L() + L() + L() + L() + date + sex + L() + L() + L() + L() + L() + L() + String(next() % 10);
+}
+
+/** Mexican código postal: 5 digits. */
+export function validateMxPostal(value: string): boolean {
+  return /^\d{5}$/.test(digitsOnly(value));
+}
+
+export function generateMxPostal(seed = 0): string {
+  return String(Math.abs(Math.trunc(seed)) % 100_000).padStart(5, '0');
+}
+
+/** CLABE: 18 digits with mod-10 check (weights 3,7,1). */
+export function validateClabe(value: string): boolean {
+  const d = digitsOnly(value);
+  if (!/^\d{18}$/.test(d)) return false;
+  const weights = [3, 7, 1];
+  let sum = 0;
+  for (let i = 0; i < 17; i++) sum += (Number(d[i]) * weights[i % 3]!) % 10;
+  const check = (10 - (sum % 10)) % 10;
+  return check === Number(d[17]);
+}
+
+export function generateClabe(seed = 0): string {
+  const next = lcg(seed);
+  const body = randomDigits(next, 17);
+  const weights = [3, 7, 1];
+  let sum = 0;
+  for (let i = 0; i < 17; i++) sum += (Number(body[i]) * weights[i % 3]!) % 10;
+  const check = (10 - (sum % 10)) % 10;
+  return body + String(check);
+}
+
+// --- Poland PESEL / NIP / postal ---------------------------------------------
+
+const PESEL_WEIGHTS = [1, 3, 7, 9, 1, 3, 7, 9, 1, 3] as const;
+
+/** Polish PESEL (11 digits). */
+export function validatePesel(value: string): boolean {
+  const d = digitsOnly(value);
+  if (!/^\d{11}$/.test(d)) return false;
+  let sum = 0;
+  for (let i = 0; i < 10; i++) sum += Number(d[i]) * PESEL_WEIGHTS[i]!;
+  return (10 - (sum % 10)) % 10 === Number(d[10]);
+}
+
+export function generatePesel(seed = 0): string {
+  const next = lcg(seed);
+  const yy = String(next() % 100).padStart(2, '0');
+  const mm = String(1 + (next() % 12)).padStart(2, '0');
+  const dd = String(1 + (next() % 28)).padStart(2, '0');
+  const serial = randomDigits(next, 4);
+  const body = yy + mm + dd + serial;
+  let sum = 0;
+  for (let i = 0; i < 10; i++) sum += Number(body[i]) * PESEL_WEIGHTS[i]!;
+  const check = (10 - (sum % 10)) % 10;
+  return body + String(check);
+}
+
+const NIP_WEIGHTS = [6, 5, 7, 2, 3, 4, 5, 6, 7] as const;
+
+/** Polish NIP (10 digits). */
+export function validateNip(value: string): boolean {
+  const d = digitsOnly(value);
+  if (!/^\d{10}$/.test(d)) return false;
+  let sum = 0;
+  for (let i = 0; i < 9; i++) sum += Number(d[i]) * NIP_WEIGHTS[i]!;
+  const check = sum % 11;
+  if (check === 10) return false;
+  return check === Number(d[9]);
+}
+
+export function generateNip(seed = 0): string {
+  const next = lcg(seed);
+  for (let attempt = 0; attempt < 200; attempt++) {
+    const body = randomDigits(next, 9);
+    let sum = 0;
+    for (let i = 0; i < 9; i++) sum += Number(body[i]) * NIP_WEIGHTS[i]!;
+    const check = sum % 11;
+    if (check === 10) continue;
+    return body + String(check);
+  }
+  throw new Error('generateNip: could not find a valid number');
+}
+
+/** Polish kod pocztowy: NN-NNN. */
+export function validatePlPostal(value: string): boolean {
+  return /^\d{2}-?\d{3}$/.test(value.replace(/\s+/g, ''));
+}
+
+export function generatePlPostal(seed = 0): string {
+  const n = Math.abs(Math.trunc(seed));
+  return String(n % 100).padStart(2, '0') + '-' + String(n % 1000).padStart(3, '0');
+}
+
+// --- New Zealand IRD / NZBN / postal / phone ---------------------------------
+
+/** NZ IRD number (8–9 digits with IRD check algorithm). */
+export function validateIrd(value: string): boolean {
+  let d = digitsOnly(value);
+  if (d.length === 8) d = '0' + d;
+  if (!/^\d{9}$/.test(d)) return false;
+  const weights1 = [3, 2, 7, 6, 5, 4, 3, 2];
+  let sum = 0;
+  for (let i = 0; i < 8; i++) sum += Number(d[i]) * weights1[i]!;
+  let rem = sum % 11;
+  let check = rem === 0 ? 0 : 11 - rem;
+  if (check === 10) {
+    const weights2 = [7, 4, 3, 2, 5, 2, 7, 6];
+    sum = 0;
+    for (let i = 0; i < 8; i++) sum += Number(d[i]) * weights2[i]!;
+    rem = sum % 11;
+    check = rem === 0 ? 0 : 11 - rem;
+    if (check === 10) return false;
+  }
+  return check === Number(d[8]);
+}
+
+export function generateIrd(seed = 0): string {
+  const next = lcg(seed);
+  for (let attempt = 0; attempt < 500; attempt++) {
+    const body = randomDigits(next, 8);
+    for (let check = 0; check < 10; check++) {
+      const full = body + String(check);
+      if (validateIrd(full)) return full.replace(/^0/, '') || full;
+    }
+  }
+  throw new Error('generateIrd: could not find a valid number');
+}
+
+/** NZBN: 13 digits (GS1 / mod-10). */
+export function validateNzbn(value: string): boolean {
+  const d = digitsOnly(value);
+  if (!/^\d{13}$/.test(d)) return false;
+  let sum = 0;
+  for (let i = 0; i < 12; i++) {
+    sum += Number(d[i]) * (i % 2 === 0 ? 1 : 3);
+  }
+  const check = (10 - (sum % 10)) % 10;
+  return check === Number(d[12]);
+}
+
+export function generateNzbn(seed = 0): string {
+  const next = lcg(seed);
+  const body = randomDigits(next, 12);
+  let sum = 0;
+  for (let i = 0; i < 12; i++) sum += Number(body[i]) * (i % 2 === 0 ? 1 : 3);
+  const check = (10 - (sum % 10)) % 10;
+  return body + String(check);
+}
+
+/** NZ postcode: 4 digits. */
+export function validateNzPostal(value: string): boolean {
+  return /^\d{4}$/.test(digitsOnly(value));
+}
+
+export function generateNzPostal(seed = 0): string {
+  return String(1000 + (Math.abs(Math.trunc(seed)) % 9000));
+}
+
+/** NZ phone: 8–10 digits starting with 2/3/4/6/7/9 (local, no country code). */
+export function validateNzPhone(value: string): boolean {
+  const d = digitsOnly(value);
+  return /^[234679]\d{7,9}$/.test(d);
+}
+
+export function generateNzPhone(seed = 0): string {
+  const next = lcg(seed);
+  const first = '234679'[next() % 6]!;
+  return first + randomDigits(next, 8);
+}

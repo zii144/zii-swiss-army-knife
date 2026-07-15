@@ -11,6 +11,11 @@ import {
   nlTakeHome,
   sgTakeHome,
   inTakeHome,
+  ptTakeHome,
+  brTakeHome,
+  mxTakeHome,
+  plTakeHome,
+  nzTakeHome,
   CA_2026,
   AU_2026,
   KO_2026,
@@ -21,6 +26,11 @@ import {
   NL_2026,
   SG_2026,
   IN_2026,
+  PT_2026,
+  BR_2026,
+  MX_2026,
+  PL_2026,
+  NZ_2026,
 } from '../src/index';
 
 describe('market payroll smoke', () => {
@@ -108,5 +118,40 @@ describe('market payroll smoke', () => {
     expect(r.net).toBeLessThan(1_200_000);
     expect(r.epf).toBeGreaterThan(0);
     expect(IN_2026.label).toMatch(/2025|2026/);
+  });
+
+  it('ptTakeHome deducts SS and IRS', () => {
+    const r = ptTakeHome(30_000);
+    expect(r.net).toBeLessThan(30_000);
+    expect(r.ss).toBeGreaterThan(0);
+    expect(PT_2026.label).toMatch(/2026/);
+  });
+
+  it('brTakeHome deducts INSS and IRPF', () => {
+    const r = brTakeHome(80_000);
+    expect(r.net).toBeLessThan(80_000);
+    expect(r.inss).toBeGreaterThan(0);
+    expect(BR_2026.label).toMatch(/2026/);
+  });
+
+  it('mxTakeHome deducts IMSS and ISR', () => {
+    const r = mxTakeHome(300_000);
+    expect(r.net).toBeLessThan(300_000);
+    expect(r.imss).toBeGreaterThan(0);
+    expect(MX_2026.label).toMatch(/2026/);
+  });
+
+  it('plTakeHome deducts ZUS and PIT', () => {
+    const r = plTakeHome(100_000);
+    expect(r.net).toBeLessThan(100_000);
+    expect(r.zus).toBeGreaterThan(0);
+    expect(PL_2026.label).toMatch(/2026/);
+  });
+
+  it('nzTakeHome deducts KiwiSaver and tax', () => {
+    const r = nzTakeHome(80_000);
+    expect(r.net).toBeLessThan(80_000);
+    expect(r.kiwiSaver).toBeGreaterThan(0);
+    expect(NZ_2026.label).toMatch(/2026/);
   });
 });

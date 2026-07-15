@@ -10,6 +10,7 @@ export const FALLBACK: Readonly<Record<Market, readonly Market[]>> = {
   'en-au': ['en-gb', 'en-us'],
   'en-sg': ['en-gb', 'en-us'],
   'en-in': ['en-gb', 'en-us'],
+  'en-nz': ['en-gb', 'en-au', 'en-us'],
   'en-gb': ['en-us'],
   'en-us': [],
   tw: [],
@@ -21,6 +22,10 @@ export const FALLBACK: Readonly<Record<Market, readonly Market[]>> = {
   es: [],
   it: [],
   nl: [],
+  pt: [],
+  br: [],
+  mx: [],
+  pl: [],
   global: [],
 };
 
