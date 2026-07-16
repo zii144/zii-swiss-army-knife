@@ -74,19 +74,21 @@ export function ToolCatalog({
           style={{ '--cat': categoryColor(cat) } as React.CSSProperties}
           onClick={() => onCategory(cat)}
         >
-          <span className="catcard__top">
+          <span className="catcard__banner">
             <span className="catcard__ico">
               <CategoryIcon category={cat} size={22} />
             </span>
             <span className="catcard__count">{items.length}</span>
           </span>
-          <span className="catcard__name">{categoryLabel(cat, lang)}</span>
-          <span className="catcard__samples">
-            {samples.map((s, i) => (
-              <span key={i} className="catcard__chip">
-                {s}
-              </span>
-            ))}
+          <span className="catcard__body">
+            <span className="catcard__name">{categoryLabel(cat, lang)}</span>
+            <span className="catcard__samples">
+              {samples.map((s, i) => (
+                <span key={i} className="catcard__chip">
+                  {s}
+                </span>
+              ))}
+            </span>
           </span>
           <span className="catcard__go" aria-hidden="true">
             →

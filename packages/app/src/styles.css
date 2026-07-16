@@ -806,17 +806,21 @@ body {
   gap: 1rem;
 }
 
+.cathub > li {
+  display: flex;
+  min-height: 0;
+}
+
 .catcard {
   position: relative;
   overflow: hidden;
   width: 100%;
-  min-height: 9.5rem;
+  height: 11.75rem;
   display: flex;
   flex-direction: column;
-  gap: 0.65rem;
   text-align: left;
   cursor: pointer;
-  padding: 1.05rem 1.1rem;
+  padding: 0;
   border-radius: 16px;
   background: var(--glass);
   border: 1px solid var(--glass-border);
@@ -830,15 +834,16 @@ body {
     box-shadow var(--dur-2) var(--ease-out);
 }
 
-/* Faint category-coloured glow in the corner. */
+/* Soft depth wash under the banner — kept subtle so the fade reads clearly. */
 .catcard::before {
   content: '';
   position: absolute;
   inset: 0;
   pointer-events: none;
-  background: radial-gradient(80% 70% at 100% 0%, var(--cat), transparent 62%);
-  opacity: 0.12;
+  background: radial-gradient(90% 55% at 18% 0%, var(--cat), transparent 70%);
+  opacity: 0.08;
   transition: opacity var(--dur-2) var(--ease-out);
+  z-index: 0;
 }
 
 .catcard:hover,
@@ -851,23 +856,52 @@ body {
 
 .catcard:hover::before,
 .catcard:focus-visible::before {
-  opacity: 0.22;
+  opacity: 0.14;
 }
 
-.catcard__top {
+/* Full-bleed category banner: solid tint → transparent for a layered edge. */
+.catcard__banner {
+  position: relative;
+  z-index: 1;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
+  gap: 0.75rem;
+  flex: none;
+  height: 3.55rem;
+  padding: 0.95rem 1.1rem 0;
+  background:
+    linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--cat) 34%, transparent) 0%,
+      color-mix(in srgb, var(--cat) 14%, transparent) 42%,
+      transparent 100%
+    ),
+    linear-gradient(
+      115deg,
+      color-mix(in srgb, var(--cat) 22%, transparent) 0%,
+      transparent 58%
+    );
+  transition: filter var(--dur-2) var(--ease-out);
+}
+
+.catcard:hover .catcard__banner,
+.catcard:focus-visible .catcard__banner {
+  filter: saturate(1.12) brightness(1.04);
 }
 
 .catcard__ico {
   display: grid;
   place-items: center;
-  width: 2.6rem;
-  height: 2.6rem;
+  width: 2.55rem;
+  height: 2.55rem;
   border-radius: 12px;
   color: var(--cat);
-  background: color-mix(in srgb, var(--cat) 16%, transparent);
+  background: color-mix(in srgb, var(--cat) 18%, var(--glass));
+  border: 1px solid color-mix(in srgb, var(--cat) 28%, var(--glass-border));
+  box-shadow:
+    inset 0 1px 0 color-mix(in srgb, white 35%, transparent),
+    0 8px 18px -12px color-mix(in srgb, var(--cat) 55%, transparent);
   transition: transform var(--dur-2) var(--ease-out);
 }
 
@@ -879,22 +913,43 @@ body {
   font-size: 0.72rem;
   font-weight: 700;
   color: var(--ink-soft);
-  background: color-mix(in srgb, var(--cat) 14%, transparent);
+  background: color-mix(in srgb, var(--glass) 88%, transparent);
+  border: 1px solid color-mix(in srgb, var(--cat) 18%, var(--border));
   padding: 0.15rem 0.55rem;
   border-radius: 999px;
+  backdrop-filter: blur(6px);
+}
+
+.catcard__body {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  flex: 1;
+  min-height: 0;
+  padding: 0.55rem 1.1rem 1.05rem;
 }
 
 .catcard__name {
+  flex: none;
   font-size: 1.08rem;
   font-weight: 800;
   letter-spacing: -0.01em;
   color: var(--ink);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .catcard__samples {
   display: flex;
   flex-wrap: wrap;
+  align-content: flex-start;
   gap: 0.35rem;
+  flex: none;
+  height: 3.15rem;
+  overflow: hidden;
   margin-top: auto;
 }
 
@@ -915,6 +970,7 @@ body {
   position: absolute;
   right: 1.1rem;
   bottom: 1.05rem;
+  z-index: 1;
   font-size: 1.1rem;
   font-weight: 800;
   color: var(--cat);
@@ -936,6 +992,11 @@ body {
   .catcard:focus-visible,
   .catcard:hover .catcard__ico {
     transform: none;
+  }
+
+  .catcard:hover .catcard__banner,
+  .catcard:focus-visible .catcard__banner {
+    filter: none;
   }
 }
 

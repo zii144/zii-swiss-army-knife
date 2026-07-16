@@ -115,9 +115,8 @@ function catalogSections(lang: Lang, offlineLabel: string, activeCategory = 'all
             )
             .join('');
           return `<li><a class="catcard" style="--cat:${categoryColor(cat)}" href="${buildPath(lang, 'category', cat)}">
-        <span class="catcard__top"><span class="catcard__ico">${categoryIconSvg(cat, '', 22)}</span><span class="catcard__count">${items.length}</span></span>
-        <span class="catcard__name">${esc(categoryLabel(cat, lang))}</span>
-        <span class="catcard__samples">${samples}</span>
+        <span class="catcard__banner"><span class="catcard__ico">${categoryIconSvg(cat, '', 22)}</span><span class="catcard__count">${items.length}</span></span>
+        <span class="catcard__body"><span class="catcard__name">${esc(categoryLabel(cat, lang))}</span><span class="catcard__samples">${samples}</span></span>
         <span class="catcard__go" aria-hidden="true">→</span>
       </a></li>`;
         })
