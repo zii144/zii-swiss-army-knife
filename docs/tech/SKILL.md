@@ -43,8 +43,9 @@ you need. Each file is standalone and cross-linked.
 ## Load-bearing facts (verify against code before asserting)
 
 - Real scale is **~318 tool screens / 319 catalog entries** (`packages/app/src/lib/catalog.ts`),
-  **20 markets + `global`**, **8 UI languages**, bundle budget **128 KB gz**. The root
-  `README.md`/`ROADMAP.md` are stale ("170 tools / 6 markets / 110 KB") — trust the code.
+  **20 markets + `global`**, **8 UI languages**, bundle budget **128 KB gz**. Root
+  `README.md`/`ROADMAP.md` were refreshed 2026-07-20 to match; still prefer the code
+  (and this pack) if they ever drift again.
 - **No LLM inference in the product.** "AI" = on-device ML tools (OCR, background removal)
   + an LLM-discoverability layer (`llms.txt`, `tools.json`, `ai.txt`). A natural-language
   AI layer is roadmap-only (Phase 5).
