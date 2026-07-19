@@ -1,6 +1,6 @@
 {
   "name": "@zii/calendar",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "private": true,
   "type": "module",
   "description": "Calendar & Era engine: ROC/Japanese eras, Chinese zodiac, age reckoning, and business-day/holiday math.",

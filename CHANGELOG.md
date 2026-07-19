@@ -4,12 +4,20 @@ All notable changes to this project. Format loosely follows Keep a Changelog.
 
 ## [Unreleased]
 
-### Changed — Operational docs catch up to shipped scale (2026-07-20)
+## [0.1.0] — 2026-07-20
+
+First cut of a versioned web-PWA release line. Workspace packages move from `0.0.0` → `0.1.0`. Mobile/store packaging and the optional conversion backend remain out of this release's definition of done.
+
+### Changed — Operational docs catch up to shipped scale
 - Root `README.md` and `ROADMAP.md` now match the live catalog (~318 tools, 20 markets + `global`, 128 KB gz budget, Phase 4 in progress) and point at `docs/tech/` as the authoritative blueprint.
 
-### Fixed — Production dependency advisories (2026-07-20)
+### Fixed — Production dependency advisories
 - Replaced abandoned npm `xlsx@0.18.5` with Apache-2.0 `@e965/xlsx@0.20.3` (SheetJS Community Edition republish past GHSA-4r6h-8v6p-xvw6 / GHSA-5pgg-2g8v-p4x9). CSV ↔ Excel tool import updated.
 - Bumped `fast-xml-parser` to `^5.7.0` for GHSA-gh4j-gqv2-49f6. Production `pnpm audit --prod` is clean.
+
+### Added — Release hygiene
+- `pnpm check:audit` (high+ production advisories) is part of `pnpm verify` and CI.
+- Dependabot weekly npm updates for the monorepo root.
 
 ### Added — Five more market packs: Portugal, Brazil, Mexico, Poland, New Zealand (2026-07-15)
 - **50 regional tools** for markets `pt`, `br`, `mx`, `pl`, and `en-nz`: take-home/tax/VAT, ID validators, holidays, and leave helpers with offline engines in `@zii/payroll` + `@zii/id` and dated locale packs.

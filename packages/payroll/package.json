@@ -1,6 +1,6 @@
 {
   "name": "@zii/payroll",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "private": true,
   "type": "module",
   "description": "Payroll & Tax Engine — M9 pluggable per-jurisdiction rule modules, progressive income tax, and VAT/GST sales tax. Pure, offline, deterministic.",

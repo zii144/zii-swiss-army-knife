@@ -1,6 +1,6 @@
 {
   "name": "@zii/registry",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "private": true,
   "type": "module",
   "description": "Tool registry + lazy plugin loader for the Zii utility suite.",

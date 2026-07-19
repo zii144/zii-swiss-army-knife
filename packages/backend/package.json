@@ -1,6 +1,6 @@
 {
   "name": "@zii/backend",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "private": true,
   "type": "module",
   "description": "Thin, stateless, no-retention backend services (M10): TTL cache, gov-data adapter pattern, no-retention conversion handler, and a node:http server factory.",

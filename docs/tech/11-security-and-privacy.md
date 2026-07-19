@@ -75,6 +75,9 @@ not shipped features — verify before claiming any specific one is live.
 ## Supply-chain posture
 
 - **Permissive-only dependency tree** enforced on every build (license scan).
+- **Production advisory gate** — `pnpm check:audit` (`pnpm audit --prod --audit-level=high`)
+  runs in `pnpm verify` and CI; Dependabot opens weekly npm update PRs
+  (`.github/dependabot.yml`).
 - **No remote scripts** at runtime (CSP), so no third-party JS supply-chain surface in the
   page.
 - Minimal dependency count (hand-rolled router/i18n/SW/backend) reduces attack surface.

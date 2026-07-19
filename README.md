@@ -35,6 +35,7 @@ Operational (repo root):
 | `BUILD-LOG.md` | Append-only module retros (agent loop) |
 | `MODULE-STATE.json` | Machine state for the autonomous build loop |
 | `CHANGELOG.md` | Release notes |
+| `RELEASE.md` | How to cut versions / tags (private monorepo) |
 
 Research & strategy (`docs/`):
 
@@ -73,10 +74,12 @@ packages/
 ```bash
 corepack enable
 pnpm install
-pnpm verify      # typecheck + lint + test + build + license-scan
+pnpm verify      # typecheck + lint + test + build + license-scan + prod audit (high+)
 ```
 
-Individual gates: `pnpm typecheck` · `pnpm lint` · `pnpm test` · `pnpm build` · `pnpm check:licenses`
+Individual gates: `pnpm typecheck` · `pnpm lint` · `pnpm test` · `pnpm build` · `pnpm check:licenses` · `pnpm check:audit`
+
+Versioning / tags: see [`RELEASE.md`](./RELEASE.md). Current line: **0.1.0**.
 
 Everything above runs in CI on every push/PR ([`.github/workflows/ci.yml`](.github/workflows/ci.yml)), alongside a separate **E2E job**.
 
