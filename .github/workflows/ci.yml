@@ -41,7 +41,7 @@ jobs:
         run: pnpm --filter @zii/app exec playwright install --with-deps chromium
       - name: E2E (headless — every tool loads + functional spot-checks)
         run: pnpm --filter @zii/app test:e2e
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         if: ${{ !cancelled() }}
         with:
           name: playwright-report
