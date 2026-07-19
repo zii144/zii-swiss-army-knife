@@ -52,7 +52,7 @@ no `vite-plugin-pwa` (hand-rolled `public/sw.js`).
 |---------|---------|----------|--------------|
 | `tesseract.js` | `^5` | On-device OCR (ML) | Apache-2.0 |
 | `@imgly/background-removal` | `^1` | On-device image background removal (ML) | permissive |
-| `xlsx` (SheetJS) | `^0.18` | CSV/Excel conversion | Apache-2.0 |
+| `@e965/xlsx` (SheetJS CE republish) | `0.20.3` | CSV/Excel conversion | Apache-2.0 |
 | `bwip-js` | `^4` | Barcode generation | MIT |
 | `fast-xml-parser` | `^4` | XML ↔ JSON | MIT |
 | `pdf-lib` | (compute-wasm) | PDF merge/split/compress/build | MIT |

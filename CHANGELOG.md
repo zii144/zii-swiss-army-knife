@@ -4,6 +4,9 @@ All notable changes to this project. Format loosely follows Keep a Changelog.
 
 ## [Unreleased]
 
+### Fixed — SheetJS high-severity advisories (2026-07-20)
+- Replaced abandoned npm `xlsx@0.18.5` with Apache-2.0 `@e965/xlsx@0.20.3` (SheetJS Community Edition republish past GHSA-4r6h-8v6p-xvw6 / GHSA-5pgg-2g8v-p4x9). CSV ↔ Excel tool import updated; production `pnpm audit --prod --audit-level=high` is clean.
+
 ### Added — Five more market packs: Portugal, Brazil, Mexico, Poland, New Zealand (2026-07-15)
 - **50 regional tools** for markets `pt`, `br`, `mx`, `pl`, and `en-nz`: take-home/tax/VAT, ID validators, holidays, and leave helpers with offline engines in `@zii/payroll` + `@zii/id` and dated locale packs.
 - Finance subcategory curation + Japanese display names for the new tools; initial gzip budget raised 122 → 128 KB for shell market labels.
