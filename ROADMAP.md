@@ -2,93 +2,106 @@
 
 *From completed platform foundation to a shipped, multi-market, privacy-first utility suite.*
 
-Last updated: June 29, 2026
+Last updated: July 20, 2026
 
-> Companion to `DEVELOPMENT-PLAN.md` (which covered the 10 foundation modules) and the research in `docs/`. This roadmap covers **everything after the foundation**: the universal tool surface, the four market locale packs built **in parallel**, multi-platform delivery, and the AI layer.
+> Companion to `DEVELOPMENT-PLAN.md` (foundation modules) and the research in `docs/`.
+> **Authoritative current-state summary:** [`docs/tech/12-roadmap-and-directions.md`](docs/tech/12-roadmap-and-directions.md)
+> and [`docs/tech/01-overview.md`](docs/tech/01-overview.md). Prefer those when this file and the code disagree.
 
 ---
 
 ## 0. Where we are today
 
-**Foundation complete (M1–M10).** All shared, market-agnostic infrastructure and core engines are built, committed, and green — last unified `pnpm verify` passed with **322 tests**, clean Vite build, and a license scan of 210 deps (no AGPL/GPL). This includes the tool registry + lazy plugin loader, locale-pack system, PWA app shell, WASM compute abstraction, and the calc / calendar / id / text / payroll / reminders / backend engines.
+**Foundation complete (M1–M10).** Shared infrastructure and core engines are built and green: tool registry + lazy plugin loader, locale-pack system, PWA app shell, WASM compute abstraction, and the calc / calendar / id / text / payroll / reminders / backend engines.
 
-**In flight (uncommitted).** Deferred follow-ups the foundation deliberately stubbed: lunar/六曜 calendar tables, full OpenCC 繁簡, regex + serial text tools, payroll reverse-calc, and a new `@zii/compute-wasm` package wiring real WASM bundles (pdf/image/heic/qr/video/archive) behind M4's lazy descriptors.
+**Phase 2 — universal catalog: shipped.** ~318 tool screens / 319 catalog entries across file, PDF, image, text, calc, convert, datetime, finance, generator, id, and everyday categories. Every tool is code-split; the initial payload stays under a **128 KB gz** budget enforced on every app build.
 
-**What does *not* yet exist:** real tool UI screens (the app shell only loads the sample `hello-tool`), any populated market locale pack, mobile/desktop builds, live gov-data feeds, and any deployment. The engines are real libraries; they are not yet assembled into something a person can use.
+**Phase 3 — market locale packs: largely shipped (still expanding).** **20 named markets + `global`**, with offline engines and dated locale packs for TW/HK/JP, English-region packs, and later batches (KO/CA/AU/DE/FR, ES/IT/NL/SG/IN, PT/BR/MX/PL/NZ). Live gov-data feeds and NFC remain deliberately deferred (integrity / capability gates).
 
-> **Strategic note on the chosen approach.** This roadmap builds **all four markets (TW/HK/JP/EN) in parallel**, per direction. That maximizes reach but carries the project's two biggest non-technical risks — **scope breadth** (~200 universal tools × 4 localized cores) and **live-data freshness** (lottery numbers, transit ETAs, tax tables rot fast). Every phase below therefore has an explicit **data-trust** and **maintenance** exit criterion, not just a feature checklist. If sustained upkeep capacity proves thin, the recommended fallback is to sequence Taiwan → JP/HK → EN rather than abandon scope mid-phase.
+**Phase 4 — multi-platform: in progress.** Capacitor iOS/Android shell exists (iOS verified in simulator; Android project synced). Playwright headless E2E loads every catalog tool on each CI run. Native camera OCR, push, NFC, store packaging, and Tauri desktop are not built.
+
+**Phase 5 — AI layer: planned, not built.** Today's "AI" surface is on-device ML tools (OCR, background removal) plus LLM-discoverability files (`llms.txt`, `tools.json`, `ai.txt`). Natural-language routing and related features are roadmap-only.
+
+**What is *not* production-complete yet:** App Store / Play Store release, native device CI, optional LibreOffice conversion backend as part of the default Vercel deploy, and live government-data feeds.
+
+> **Strategic note.** Scope breadth (~300+ tools × many localized cores) and live-data freshness remain the two biggest non-technical risks. Every phase keeps an explicit **data-trust** and **maintenance** exit criterion. If upkeep capacity is thin, sequence markets (TW → JP/HK → EN) rather than abandon scope mid-phase.
 
 ---
 
 ## Phase 1 — Land the in-flight work & wire the first real tools
 
-**Goal:** close out the deferred follow-ups and prove the full path from engine → registry → usable UI screen with a handful of real tools, in all four market shells.
+**Status: built.**
 
-**Deliverables**
+**Goal:** close out deferred foundation follow-ups and prove the full path from engine → registry → usable UI screen with a handful of real tools.
 
-- Commit and verify the in-flight work: lunar/六曜 calendar, OpenCC 繁簡, regex/serial text tools, payroll reverse-calc, `@zii/compute-wasm`.
-- Real WASM bundles wired behind M4's lazy ops (pdf merge/split, image compress/resize, HEIC→JPG, QR) — proven on-device, code-split, license-clean.
-- A **tool-screen contract**: the standard pattern (input form → engine call → result/export) every tool page follows, plus 8–10 universal tools shipped against it (percentage/tip, unit + currency convert, char-count/case, JSON↔CSV, QR generate, hash, PDF merge, image compress).
-- App shell upgraded from the `hello-tool` demo to a real registry-driven tool grid with working market switch.
+**Deliverables (done)**
 
-**Exit criteria:** `pnpm verify` green including the newly committed packages; a user can open the PWA, pick any of the 4 markets, and actually *use* ≥10 universal tools offline; WASM ops run client-side with no upload.
+- Lunar/六曜 calendar tables, full OpenCC 繁簡, regex + serial text tools, payroll reverse-calc, `@zii/compute-wasm`.
+- Real WASM bundles behind M4 lazy ops (pdf merge/split, image compress/resize, HEIC→JPG, QR).
+- Tool-screen contract and first universal tools under the bundle + license gates.
+- Registry-driven tool grid with working market switch.
+
+**Exit criteria (met):** `pnpm verify` green; users can open the PWA and use real tools offline; WASM ops run client-side with no upload.
 
 ---
 
 ## Phase 2 — Universal tool breadth (the shared backbone)
 
-**Goal:** build out the ~200-tool universal catalog (`docs/FEATURE-CATALOG.md`) — the portable layer that's ~40–50% of every market's daily usage.
+**Status: built / shipping.**
+
+**Goal:** build out the universal catalog (`docs/FEATURE-CATALOG.md`) — the portable layer that's ~40–50% of every market's daily usage.
 
 **Deliverables**
 
-- **File conversion:** documents, images, audio, video, archives, ebooks, fonts.
-- **PDF toolkit:** merge, split, compress, convert, OCR, fill, sign, watermark, redact, protect.
+- **File conversion:** documents, images, audio, video, archives, ebooks, fonts (client where feasible; heavy office↔PDF via optional backend).
+- **PDF toolkit:** merge, split, compress, convert, OCR, fill, sign, watermark, redact, protect (correctness-sensitive ops gated where needed).
 - **Image tools:** compress, resize (regional presets), crop, background-remove, favicon, EXIF strip.
 - **Calculators:** percentage, tip + split, discount, date/age, BMI, scientific.
 - **Currency (live FX), unit converter, text tools, generators (QR/password/UUID/barcode), encoding/hashing/dev tools (Base64, JSON/YAML/XML, regex, hash, JWT, cron).**
-- **Document scanner / OCR:** camera/file → deskewed searchable PDF (web/tesseract fallback now; native OCR in Phase 4).
-- Lazy-loading / code-splitting kept honest so the bundle stays small as the catalog grows.
+- **Document scanner / OCR:** file → searchable text/PDF (tesseract web path; native OCR in Phase 4).
+- Lazy-loading / code-splitting kept honest under the bundle budget.
 
-**Exit criteria:** universal catalog substantially shipped and tested; each tool offline-capable or clearly flagged as needing the thin backend; bundle-size budget held; no AGPL/GPL deps introduced.
+**Exit criteria (met for shipped surface):** universal catalog substantially shipped and tested; tools offline-capable or clearly flagged as needing the thin backend; bundle-size budget held; no AGPL/GPL deps introduced.
 
 ---
 
-## Phase 3 — Four market locale packs (in parallel)
+## Phase 3 — Market locale packs
 
-**Goal:** populate the localized core — the ~50% of each market's usage that creates loyalty — as **config + data packs** plugging into existing engines, not new architecture. Built concurrently for all four markets, reusing CJK work across TW/HK/JP.
+**Status: largely shipped; still expanding. Originally framed as four markets in parallel; now 20 + `global`.**
 
-**Per-market deliverables** (from the feature catalogs)
+**Goal:** populate the localized core — the ~50% of each market's usage that creates loyalty — as **config + data packs** plugging into existing engines, not new architecture.
 
-- **🇹🇼 Taiwan:** 統一發票對獎 + 載具/手機條碼 · 民國⇄西元⇄農曆 + 國定假日 · 勞健保/勞退/薪資實領 · 身分證/統編 · 3+3 郵遞區號 + 地址英譯 · 繁簡/注音/全形半形 · 垃圾車/天氣/地震/AQI · 雙鐵/捷運/YouBike.
-- **🇭🇰 Hong Kong:** 八達通餘額 · MTR/巴士/渡輪 ETA · 中電/煤氣/差餉 bills · 颱風信號/暴雨/AQHI · 薪俸稅 + MPF + 遣散費 · HKID/BR · 繁簡/粵拼 · FPS 轉數快 · general vs statutory holidays.
-- **🇯🇵 Japan:** 和暦⇄西暦⇄旧暦 + 六曜 · 手取り(健保/厚生年金/所得税/住民税) · ふるさと納税 · コンビニ払い + PayPay · ゴミ分別 · 郵便番号→住所 + ヘボン式 · 全角/半角/ふりがな · 気象庁 天気/地震/台風 · 乗換 + Suica残高 · マイナンバー/法人番号.
-- **🇺🇸🇬🇧🇨🇦🇦🇺 English region:** PDF + e-signature · paycheck/take-home (IRS/HMRC/CRA/ATO) · imperial↔metric + cooking · time-zone meeting planner · mortgage/loan/retirement · tip + sales tax/VAT/GST · subscription tracker · Luhn/ABA/IBAN/SIN/TFN · ZIP/postcode standardization · holiday/PTO planner · **jurisdiction switch** (US vs Commonwealth dates/units/spelling/tax year).
+**Per-market deliverables** (from the feature catalogs — representative cores)
 
-**Cross-cutting:** every pack is **versioned, dated, and auditable**; tax/holiday/FX numbers carry an effective date and source. The thin no-retention backend ships its **gov-data proxy + cache** for the feeds that can't run client-side (lottery results, transit ETAs, utility bills).
+- **🇹🇼 Taiwan:** 統一發票對獎 + 載具/手機條碼 · 民國⇄西元⇄農曆 + 國定假日 · 勞健保/勞退/薪資實領 · 身分證/統編 · 3+3 郵遞區號 + 地址英譯 · 繁簡/注音/全形半形 · (live 垃圾車/天氣/地震/AQI · 雙鐵/捷運/YouBike deferred).
+- **🇭🇰 Hong Kong:** 薪俸稅 + MPF + 遣散費 · HKID/BR · 繁簡/粵拼 · FPS · holidays · (八達通 NFC / MTR ETA / utility bills deferred).
+- **🇯🇵 Japan:** 和暦⇄西暦⇄旧暦 + 六曜 · 手取り · ふるさと納税 · 郵便番号/ヘボン式 · 全角/半角/ふりがな · (気象庁 live feeds / Suica NFC deferred).
+- **🇺🇸🇬🇧🇨🇦🇦🇺 English region:** paycheck/take-home (IRS/HMRC/CRA/ATO) · imperial↔metric + cooking · mortgage/loan · tip + sales tax/VAT/GST · subscription tracker · Luhn/ABA/IBAN/SIN/TFN · holiday/PTO planner · jurisdiction switch.
+- **Later batches:** KO / DE / FR / ES / IT / NL / SG / IN / PT / BR / MX / PL / NZ — take-home/tax/VAT, ID validators, holidays, leave helpers (see `CHANGELOG.md`).
 
-**Exit criteria:** each market's "core 70%" tools usable end-to-end; every data-backed number traceable to a dated source; a documented update process exists for each live feed (this is the maintenance gate, not optional).
+**Cross-cutting:** every pack is **versioned, dated, and auditable**; tax/holiday/FX numbers carry an effective date and source. The thin no-retention backend's gov-data proxy remains the gate for live feeds that can't run client-side.
 
-### Phase 3 status (as of 2026-07-06)
+**Exit criteria (partial):** offline, engine-backed market cores are usable and tested; live feeds and NFC stay deferred until maintenance + capability gates pass.
 
-**Shipped — offline, engine-backed, fully tested + browser-verified:**
+### Phase 3 status (as of 2026-07-15)
 
-- ID/address validators (TW/HK/JP + EN-region) and calendar (民國/和暦/lunar/六曜) — earlier batches.
-- **🇹🇼 統一發票對獎** (`tw-invoice`, `@zii/receipt`) — fixed prize-matching engine; per-period winning numbers are user-entered/dated data, never fabricated (empty bundled table + documented update process).
-- **🇭🇰 薪俸稅 + MPF** (`hk-salaries-tax`, `@zii/payroll/hk`) — dated YA 2024/25 constants, min(progressive, standard-rate), MPF cap, take-home.
-- **🇯🇵 ふるさと納税** (`jp-furusato`, `@zii/payroll/jp-furusato`) — 総務省 ceiling formula over 課税所得.
-- **🇯🇵 手取り take-home** (`jp-takehome`, `@zii/payroll/jp-takehome`) — 協会けんぽ 東京 令和6年度 social insurance (健保/介護/厚年/雇用) from the canonical 標準報酬月額 grade table + confirmed FY2024 rates, layered with 所得税 and 住民税. Single-earner 概算; social-insurance part is exact for this basis.
-- **🇭🇰 遣散費/長服金 severance** (`hk-severance`, `@zii/payroll/hk`) — Employment Ordinance formula, 2/3 × capped wages × years, HK$390,000 cap.
-- **🇯🇵 かな→ローマ字** (`jp-romaji`, `@zii/text/romaji`) — rule-based Hepburn romanization (kana, not kanji).
-- **🌐 Subscription tracker** (`subscription-tracker`, `@zii/calc/subscriptions`) — offline recurring-cost tracker (localStorage), monthly/yearly totals.
+**Shipped — offline, engine-backed:**
+
+- ID/address validators and calendar (民國/和暦/lunar/六曜) across early markets.
+- **🇹🇼 統一發票對獎** (`tw-invoice`, `@zii/receipt`) — fixed prize-matching; winning numbers are user-entered/dated data, never fabricated.
+- **🇭🇰 薪俸稅 + MPF** · **🇭🇰 遣散費/長服金** · **🇯🇵 ふるさと納税** · **🇯🇵 手取り** · **🇯🇵 かな→ローマ字** · **🌐 Subscription tracker**.
+- Five-market batches: **KO/CA/AU/DE/FR**, **ES/IT/NL/SG/IN**, **PT/BR/MX/PL/NZ** (50 regional tools each).
 
 **Deliberately deferred (integrity / capability gates — NOT fabricated):**
 
-- **Live gov-data feeds** — 統一發票 official numbers, MTR/巴士/捷運/YouBike/乗換 ETAs, 気象庁/CWA weather·quake·typhoon·AQI, 中電/煤氣/差餉 utility bills, 垃圾車/ゴミ分別 schedules. These need the deployed no-retention gov-data proxy + cache; no live feed is wired yet, so they are not built. Wrong/stale numbers would break the data-trust guardrail.
-- **Transit-card balance (八達通/Suica/PASMO)** — requires native NFC (Phase 4), not a web capability.
+- **Live gov-data feeds** — official lottery numbers, transit ETAs, weather/quake/typhoon/AQI, utility bills, garbage schedules.
+- **Transit-card balance (八達通/Suica/PASMO)** — requires native NFC (Phase 4).
 
 ---
 
 ## Phase 4 — Mobile & desktop (multi-platform)
+
+**Status: in progress.**
 
 **Goal:** ship beyond the PWA to where these tools are actually used — phones (transit cards, camera, reminders) and desktop.
 
@@ -96,32 +109,32 @@ Last updated: June 29, 2026
 
 - **Capacitor iOS/Android:** native camera OCR (Apple Vision / ML Kit, tesseract as web fallback), push notifications for the reminder engine, capability-detected **NFC** for transit-card balance reads (Octopus/Suica/PASMO), share-sheet integration for file tools.
 - **Tauri desktop** for the heavier file/PDF/office workflows.
-- App-store readiness: privacy nutrition labels (easy — local-first by design), per-platform packaging, offline precache + service-worker hardening, Playwright E2E (deferred from M3).
+- App-store readiness: privacy nutrition labels, per-platform packaging, offline precache + service-worker hardening, Playwright E2E in CI.
 
 **Exit criteria:** installable iOS/Android/desktop builds passing store review; native OCR + push + NFC working on device; reminders fire offline; E2E suite green in CI.
 
-### Phase 4 status (as of 2026-07-08)
+### Phase 4 status (as of 2026-07-20)
 
 **Shipped — mobile shell (Capacitor):**
 
-- **Capacitor iOS + Android scaffolding** (`@capacitor/core` v8, `capacitor.config.ts` → `appId: dev.zii.knife`, `webDir: dist`). The same offline-first PWA is bundled into each native app via `cap sync`; no live/gov-data tools are added — this is a packaging layer over the existing on-device engines.
-- **iOS build verified end-to-end** — `App.app` compiles (Xcode 26, SPM, no CocoaPods) and runs in the simulator with the full PWA rendering inside the WKWebView (home, catalog, tools all live, offline).
-- **Android project generated** — Gradle project synced; not built in this environment (no Android SDK present). Config commits clean and builds once an SDK is wired.
-- Native platform sources are committed; build artifacts, copied web assets, and generated configs are git-ignored (Capacitor defaults). Run `pnpm --filter @zii/app mobile:ios` / `mobile:android` to build + open.
+- Capacitor iOS + Android scaffolding (`appId: dev.zii.knife`, `webDir: dist`). Same offline PWA bundled via `cap sync`.
+- **iOS verified in simulator**; Android project synced (needs an Android SDK to build).
+- Native sources committed; build artifacts and copied web assets git-ignored.
 
 **Shipped — Playwright headless E2E:**
 
-- `pnpm --filter @zii/app test:e2e` runs against the production build (prerender + hydration). An all-tools smoke sweep loads every one of the 170 catalogue tools and asserts each mounts, exposes a control, and throws no console/page errors; functional spot-checks drive real inputs and assert outputs across categories. Wired into CI as a separate `e2e` job (uploads the HTML report artifact).
-- The sweep immediately caught a real bug: `heic-convert` was bundling its Node-only entry (pngjs + Node streams) and crashing in the browser — fixed by aliasing to its `<canvas>` browser build in `vite.config.ts`.
+- `pnpm --filter @zii/app test:e2e` against the production build. All-tools smoke sweep + functional spot-checks; wired into CI as a separate `e2e` job.
 
 **Not yet wired (follow-ups):**
 
-- Native plugins — camera OCR (Apple Vision / ML Kit), push notifications for reminders, capability-detected NFC transit-card reads, share-sheet — each added as a Capacitor plugin behind capability detection.
-- Tauri desktop shell; app-store packaging + privacy nutrition labels.
+- Native plugins — camera OCR, push, NFC, share-sheet.
+- Tauri desktop; app-store packaging + privacy nutrition labels; native-device CI.
 
 ---
 
 ## Phase 5 — AI layer & intelligence
+
+**Status: planned, NOT built.**
 
 **Goal:** the "do it for me" layer on top of a complete tool surface — only meaningful once the deterministic tools are trustworthy.
 
@@ -151,12 +164,12 @@ These hold in every phase and are part of each phase's definition of done:
 
 ## Sequencing summary
 
-| Phase | Theme | Primary outcome |
-|-------|-------|-----------------|
-| 1 | Land in-flight + first real tools | Engine→UI path proven; ~10 universal tools usable |
-| 2 | Universal breadth | ~200 shared tools shipped |
-| 3 | Four locale packs (parallel) | Each market's sticky local core usable + auditable data |
-| 4 | Mobile & desktop | Installable apps; native OCR/push/NFC |
-| 5 | AI layer | NL routing + privacy-preserving assistance |
+| Phase | Theme | Status | Primary outcome |
+|-------|-------|--------|-----------------|
+| 1 | Land in-flight + first real tools | Built | Engine→UI path proven |
+| 2 | Universal breadth | Built / shipping | ~318 shared tools shipped |
+| 3 | Market locale packs | Largely shipped | 20 markets + global; live feeds deferred |
+| 4 | Mobile & desktop | In progress | Capacitor shell + E2E; store/native plugins TBD |
+| 5 | AI layer | Planned | NL routing + privacy-preserving assistance |
 
-**Biggest risks to watch (unchanged from the assessment):** parallel scope across 4 markets, and keeping live gov/tax/transit data fresh. Phases 3+ live or die on the *maintenance* exit criteria, not the feature lists.
+**Biggest risks to watch:** scope breadth across many markets, and keeping live gov/tax/transit data fresh when those feeds are eventually wired. Phases 3+ live or die on the *maintenance* exit criteria, not the feature lists.

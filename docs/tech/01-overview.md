@@ -27,8 +27,8 @@ small, sharp, single-purpose tools. In this pack we call each tool a **"skill"**
 | Test files | **~82 unit + 4 E2E specs** | `packages/*/test`, `packages/app/e2e` |
 | Initial JS payload budget | **128 KB gz** (enforced) | `packages/app/scripts/check-bundle.mjs` |
 
-> The repo's root `README.md`/`ROADMAP.md` were written at an earlier milestone and
-> still say "170 tools / 6 markets / 110 KB". Trust the code figures above.
+> Root `README.md`/`ROADMAP.md` were refreshed 2026-07-20 to match these figures.
+> If they drift again, trust the code (and this pack) over the root docs.
 
 **The 12 categories:** `file`, `pdf`, `image`, `text`, `calc`, `convert`,
 `datetime`, `id`, `finance`, `generator`, `dev`, `daily`.
