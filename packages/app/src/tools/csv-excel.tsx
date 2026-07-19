@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import * as XLSX from 'xlsx';
+import * as XLSX from '@e965/xlsx';
 import { ToolPage, DownloadButton } from '../components/ToolPage';
 import { Button, FileField, Select, TextArea } from '../components/ui';
 import type { ToolViewProps } from './types';
