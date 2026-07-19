@@ -25,6 +25,8 @@ jobs:
         run: pnpm build
       - name: License scan (no AGPL/GPL)
         run: pnpm check:licenses
+      - name: Production audit (high+)
+        run: pnpm check:audit
 
   e2e:
     runs-on: ubuntu-latest
