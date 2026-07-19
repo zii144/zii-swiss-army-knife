@@ -30,7 +30,7 @@
     "fflate": "^0.8.3",
     "heic-convert": "^2.1.0",
     "pdf-lib": "^1.17.1",
-    "pdfjs-dist": "^4.10.38",
+    "pdfjs-dist": "^6.1.200",
     "zxing-wasm": "^3.1.0"
   }
 }
