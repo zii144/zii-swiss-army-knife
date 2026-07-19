@@ -1,8 +1,8 @@
 {
   "name": "zii-swiss-army-knife",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "private": true,
-  "description": "Multi-market, privacy-first everyday utility suite — platform foundation (see DEVELOPMENT-PLAN.md).",
+  "description": "Multi-market, privacy-first everyday utility suite (PWA + Capacitor).",
   "type": "module",
   "packageManager": "pnpm@9.15.0",
   "engines": {
@@ -18,7 +18,8 @@
     "format": "prettier --check .",
     "format:write": "prettier --write .",
     "check:licenses": "node scripts/check-licenses.mjs",
-    "verify": "pnpm typecheck && pnpm lint && pnpm test && pnpm build && pnpm check:licenses"
+    "check:audit": "pnpm audit --prod --audit-level=high",
+    "verify": "pnpm typecheck && pnpm lint && pnpm test && pnpm build && pnpm check:licenses && pnpm check:audit"
   },
   "devDependencies": {
     "@eslint/js": "^9.17.0",

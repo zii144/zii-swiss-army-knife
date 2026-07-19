@@ -1,6 +1,6 @@
 {
   "name": "@zii/calc",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "private": true,
   "type": "module",
   "description": "Calculation & units engine — finance, dates, units, cooking, and currency helpers. Pure, offline, deterministic.",

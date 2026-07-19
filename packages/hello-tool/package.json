@@ -1,6 +1,6 @@
 {
   "name": "@zii/hello-tool",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "private": true,
   "type": "module",
   "description": "Sample tool that proves the registry + lazy-loading pipeline (M1 smoke test).",
