@@ -35,7 +35,7 @@
     "@zii/reminders": "workspace:*",
     "@zii/text": "workspace:*",
     "bwip-js": "^4",
-    "fast-xml-parser": "^4",
+    "fast-xml-parser": "^5.10.1",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
     "tesseract.js": "^5"
