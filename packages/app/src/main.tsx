@@ -1,7 +1,12 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { App } from './App';
-import './styles.css';
+// Design system — layered stylesheet. Order matters: tokens first (declares
+// the @layer cascade order), then base chrome, then components. See
+// styles/tokens.css and docs/tech/07-design-system.md.
+import './styles/tokens.css';
+import './styles/base.css';
+import './styles/components.css';
 
 const container = document.getElementById('root');
 if (container === null) {
