@@ -1,0 +1,280 @@
+/* =========================================================================
+   Zii — design tokens (the single source of truth for the visual system)
+   -------------------------------------------------------------------------
+   Blue-sky gradient, lime accent, glassmorphism cards, bold display type.
+
+   HOW THIS FILE WORKS
+   - Everything visual (color, space, type, radius, elevation, motion) is a
+     CSS custom property. Components read tokens and NEVER hardcode values,
+     so theming is a variable swap and no component branches on theme.
+   - Two tiers:
+       * PRIMITIVES — the raw scales (--space-8, --text-sm, --radius-md …).
+         Numeric/px-suffixed, theme-agnostic. The vocabulary of the system.
+       * SEMANTIC   — role tokens (--surface, --text, --color-danger …) that
+         may change per theme. Components should prefer these where a role
+         exists; primitives fill the gaps (spacing, radius, type sizing).
+   - Cascade is controlled with native @layer (declared below). Later layers
+     win, so component rules can always override base without specificity
+     fights, and future utilities win over components.
+
+   Charter / rules of use: docs/tech/07-design-system.md
+   ========================================================================= */
+
+@layer tokens, base, components, utilities;
+
+@layer tokens {
+  :root {
+    /* ===================================================================
+       COLOR — brand
+       =================================================================== */
+    --lime: #c6f24e;
+    --lime-strong: #b4e636;
+    --ink-pill: #0c1322;
+
+    /* Semantic brand aliases (primary action = lime; use these in new code) */
+    --brand: var(--lime);
+    --brand-strong: var(--lime-strong);
+    --on-brand: var(--ink-pill); /* text/glyph on a lime surface */
+
+    /* ===================================================================
+       COLOR — surfaces (light / "sky" theme) + ink
+       =================================================================== */
+    --ink: #0b1730; /* primary text on glass */
+    --ink-soft: #4a586f; /* muted text on glass */
+    --glass: rgba(255, 255, 255, 0.74);
+    --glass-2: rgba(255, 255, 255, 0.55);
+    --glass-border: rgba(255, 255, 255, 0.65);
+
+    /* Semantic surface roles (map onto the glass idiom) */
+    --surface: var(--glass); /* default card fill */
+    --surface-quiet: var(--glass-2); /* secondary / nested fill */
+    --surface-border: var(--glass-border);
+    --surface-soft: rgba(0, 0, 0, 0.02); /* faint zebra / inset wash */
+    --text: var(--ink);
+    --text-muted: var(--ink-soft);
+
+    /* Text on the blue background (outside glass) */
+    --on-blue: rgba(255, 255, 255, 0.97);
+    --on-blue-soft: rgba(255, 255, 255, 0.78);
+    --on-blue-faint: rgba(255, 255, 255, 0.55);
+
+    /* The page gradient stops */
+    --sky-top: #2b66c4;
+    --sky-mid: #4d92dc;
+    --sky-low: #c4ddf2;
+
+    /* Compatibility aliases (older tool markup; --border/--accent are still
+       the de-facto primary border + link/info tokens used everywhere) */
+    --bg: var(--glass);
+    --fg: var(--ink);
+    --muted: var(--ink-soft);
+    --border: rgba(11, 23, 48, 0.12);
+    --accent: #1769c6; /* link / info blue (NOT the primary-action lime) */
+
+    /* ===================================================================
+       COLOR — semantic status (feedback)
+       Wired during normalization to replace raw hex + .app--dark overrides.
+       =================================================================== */
+    --color-danger: #d62f3c;
+    --color-danger-text: #a3201f;
+    --color-danger-surface: rgba(214, 47, 60, 0.16);
+    --color-success: #2e6a16;
+    --color-success-text: #2e6a16;
+    --color-success-surface: rgba(99, 153, 34, 0.18);
+
+    /* ===================================================================
+       COLOR — form-control surfaces (ui components)
+       =================================================================== */
+    --field-bg: rgba(255, 255, 255, 0.62);
+    --menu-bg: rgba(255, 255, 255, 0.97);
+    --option-active: rgba(23, 105, 198, 0.12);
+    --scrollbar-thumb: rgba(23, 105, 198, 0.28);
+    --scrollbar-thumb-hover: rgba(23, 105, 198, 0.45);
+
+    /* ===================================================================
+       FOCUS — visible focus ring (accessibility, never removed)
+       =================================================================== */
+    --focus-color: var(--lime-strong);
+    --focus-width: 2px;
+    --focus-offset: 2px;
+
+    /* ===================================================================
+       SPACE — spacing scale
+       Token number = pixels (÷16 = rem). Off-4px steps (6, 10) are kept so
+       the app's hand-tuned rhythm snaps with ≤~1px drift. Use for padding,
+       margin, and gap. Prefer the nearest step; extend the scale, don't
+       reintroduce one-off literals.
+       =================================================================== */
+    --space-0: 0;
+    --space-2: 0.125rem; /* 2px  — hairline / micro chip padding */
+    --space-4: 0.25rem; /* 4px */
+    --space-6: 0.375rem; /* 6px */
+    --space-8: 0.5rem; /* 8px  — workhorse gap */
+    --space-10: 0.625rem; /* 10px */
+    --space-12: 0.75rem; /* 12px */
+    --space-16: 1rem; /* 16px — base rhythm unit */
+    --space-20: 1.25rem; /* 20px */
+    --space-24: 1.5rem; /* 24px — section gutter */
+    --space-28: 1.75rem; /* 28px */
+    --space-32: 2rem; /* 32px */
+    --space-40: 2.5rem; /* 40px */
+    --space-48: 3rem; /* 48px */
+
+    /* ===================================================================
+       TYPE — family, size, weight, line-height, tracking
+       Sizes snap the 25 ad-hoc font-sizes to a curated scale (≤0.8px drift).
+       Fluid clamp() steps are reserved for display headings.
+       =================================================================== */
+    --font-sans:
+      'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    --font-mono: ui-monospace, 'SF Mono', 'SFMono-Regular', Menlo, Consolas, 'Liberation Mono',
+      monospace;
+
+    --text-2xs: 0.72rem; /* 11.5px — counts, micro-labels */
+    --text-xs: 0.8rem; /* 12.8px — captions, nav links, chips */
+    --text-sm: 0.85rem; /* 13.6px — controls, secondary text */
+    --text-base: 0.95rem; /* 15.2px — body / prose default */
+    --text-md: 1.05rem; /* 16.8px — emphasized body */
+    --text-lg: 1.15rem; /* 18.4px — small headings */
+    --text-xl: 1.35rem; /* 21.6px — headings */
+    --text-2xl: 1.45rem; /* 23.2px — large headings */
+    --text-lead: clamp(1rem, 1.6vw, 1.18rem); /* fluid subtitle/lead */
+    --text-display-sm: clamp(1.6rem, 3vw, 2.2rem); /* catalog / section title */
+    --text-display: clamp(2.4rem, 6vw, 4.1rem); /* hero title */
+
+    --weight-semibold: 600;
+    --weight-bold: 700;
+    --weight-extrabold: 800;
+
+    --leading-tight: 1.1; /* display headings */
+    --leading-snug: 1.2;
+    --leading-normal: 1.4; /* UI default */
+    --leading-relaxed: 1.55; /* prose */
+
+    --tracking-tight: -0.02em; /* display / brand */
+    --tracking-normal: 0;
+    --tracking-wide: 0.06em; /* uppercase nav / kickers */
+
+    /* ===================================================================
+       RADIUS — corner scale
+       =================================================================== */
+    --radius-xs: 3px; /* scrollbars, tiny insets */
+    --radius-sm: 10px; /* chips, small controls */
+    --radius-md: 12px; /* inputs, list items */
+    --radius-lg: 16px; /* cards */
+    --radius-xl: 22px; /* the primary tool panel */
+    --radius-pill: 999px; /* pills, buttons, toggles */
+    --radius-round: 50%; /* dots, avatars */
+
+    /* ===================================================================
+       ELEVATION — shadow scale (theme-aware) + constant accent glow
+       --shadow-md is the resting glass card; --glass-shadow aliases it for
+       back-compat. --shadow-glow is the recurring lime hover glow, unified
+       here from ~8 drifting literals.
+       =================================================================== */
+    --shadow-sm: 0 6px 16px -6px rgba(12, 19, 34, 0.5);
+    --shadow-md: 0 18px 40px -22px rgba(8, 26, 64, 0.55);
+    --shadow-lg: 0 26px 50px -22px rgba(8, 26, 64, 0.66);
+    --shadow-glow: 0 12px 26px -12px rgba(180, 230, 54, 0.9);
+    --glass-shadow: var(--shadow-md);
+
+    /* ===================================================================
+       BLUR — backdrop-filter scale (glassmorphism)
+       =================================================================== */
+    --blur-sm: 6px;
+    --blur-md: 10px;
+    --blur-lg: 14px;
+    --blur-xl: 18px;
+
+    /* ===================================================================
+       Z-INDEX — stacking scale (the depth model)
+       0 decorative · 1 content · 20 sticky chrome · 60 dropdowns ·
+       100 overlays/modals · 200 toasts. See the depth-layer model in 07.
+       =================================================================== */
+    --z-base: 0;
+    --z-raised: 1;
+    --z-sticky: 20;
+    --z-dropdown: 60;
+    --z-overlay: 100;
+    --z-toast: 200;
+
+    /* ===================================================================
+       MOTION — duration + easing
+       =================================================================== */
+    --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+    --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+    --dur-1: 140ms; /* micro (hover, tap) */
+    --dur-2: 240ms; /* standard (menus, cards) */
+    --dur-3: 420ms; /* expressive (route/entrance) */
+
+    /* ===================================================================
+       BREAKPOINTS — reference values (documentation + JS/container use).
+       CSS custom properties CANNOT be used inside @media prelude, so media
+       queries hardcode these px with a comment naming the token. Keep the
+       two in sync. The layout is mostly intrinsic (auto-fill grids, clamp);
+       --bp-md (720px) is the one true breakpoint today.
+       =================================================================== */
+    --bp-sm: 480px;
+    --bp-md: 720px;
+    --bp-lg: 1024px;
+    --bp-xl: 1280px;
+
+    /* Content measure (max line/column width used by nav + hero) */
+    --measure-page: 1140px;
+    --measure-prose: 820px;
+
+    font-family: var(--font-sans);
+    color-scheme: light;
+  }
+
+  /* =====================================================================
+     DARK THEME — override semantic/surface tokens only. Brand, on-blue,
+     spacing, type, radius, blur, z-index and motion are shared across
+     themes, so they are NOT redeclared here. Adding a theme = this block.
+     ===================================================================== */
+  .app--dark {
+    --ink: #eaf1fb;
+    --ink-soft: #9fb0c9;
+    --glass: rgba(22, 33, 56, 0.62);
+    --glass-2: rgba(22, 33, 56, 0.4);
+    --glass-border: rgba(255, 255, 255, 0.12);
+
+    --surface: var(--glass);
+    --surface-quiet: var(--glass-2);
+    --surface-border: var(--glass-border);
+    --surface-soft: rgba(255, 255, 255, 0.04);
+    --text: var(--ink);
+    --text-muted: var(--ink-soft);
+
+    --sky-top: #0a1834;
+    --sky-mid: #122a52;
+    --sky-low: #1b3c6e;
+
+    --bg: var(--glass);
+    --fg: var(--ink);
+    --muted: var(--ink-soft);
+    --border: rgba(255, 255, 255, 0.12);
+    --accent: #8cc6ff;
+
+    /* Status — lifted for contrast on dark glass */
+    --color-danger: #ff8b94;
+    --color-danger-text: #ff8b94;
+    --color-danger-surface: rgba(214, 47, 60, 0.22);
+    --color-success: #9fd47a;
+    --color-success-text: #9fd47a;
+    --color-success-surface: rgba(99, 153, 34, 0.24);
+
+    --field-bg: rgba(255, 255, 255, 0.07);
+    --menu-bg: rgba(20, 30, 52, 0.97);
+    --option-active: rgba(140, 198, 255, 0.16);
+    --scrollbar-thumb: rgba(174, 214, 255, 0.28);
+    --scrollbar-thumb-hover: rgba(174, 214, 255, 0.5);
+
+    /* Elevation on deep-night sky (glow stays constant — it's the accent) */
+    --shadow-sm: 0 6px 16px -6px rgba(0, 0, 0, 0.6);
+    --shadow-md: 0 18px 44px -20px rgba(0, 0, 0, 0.7);
+    --shadow-lg: 0 26px 54px -20px rgba(0, 0, 0, 0.78);
+
+    color-scheme: dark;
+  }
+}
