@@ -19,7 +19,7 @@
     "mobile:android": "pnpm mobile:sync && cap open android"
   },
   "dependencies": {
-    "@capacitor/core": "^8.4.1",
+    "@capacitor/core": "^8.4.2",
     "@e965/xlsx": "0.20.3",
     "@imgly/background-removal": "^1",
     "@zii/calc": "workspace:*",
