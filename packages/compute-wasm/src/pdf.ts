@@ -148,9 +148,15 @@ export async function pdfToImages(
     const canvas = document.createElement('canvas');
     canvas.width = Math.ceil(viewport.width);
     canvas.height = Math.ceil(viewport.height);
-    const ctx = canvas.getContext('2d');
-    if (ctx === null) throw new Error('pdfToImages: could not acquire 2D canvas context');
-    await page.render({ canvasContext: ctx, viewport }).promise;
+    // pdf.js >= 5 takes the canvas itself and acquires the 2D context internally.
+    // `canvasContext` still works at runtime but is deprecated and no longer
+    // satisfies `RenderParameters`, which now requires `canvas`. Probe the
+    // context here anyway so an environment without 2D canvas fails with our
+    // message instead of deep inside the renderer.
+    if (canvas.getContext('2d') === null) {
+      throw new Error('pdfToImages: could not acquire 2D canvas context');
+    }
+    await page.render({ canvas, viewport }).promise;
     const blob: Blob = await new Promise((resolve, reject) => {
       canvas.toBlob(
         (b) => (b ? resolve(b) : reject(new Error('pdfToImages: canvas.toBlob failed'))),

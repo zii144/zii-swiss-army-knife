@@ -4,6 +4,11 @@ All notable changes to this project. Format loosely follows Keep a Changelog.
 
 ## [Unreleased]
 
+### Changed — pdf.js 4 → 6
+- **`pdfjs-dist` upgraded `^4.10.38` → `^6.1.200`** (Dependabot #35, which could not merge as-is). pdf.js ≥ 5 requires the `canvas` option on `RenderParameters`; the deprecated `canvasContext`-only call in `pdfToImages` no longer satisfies the type, so `@zii/compute-wasm` failed `tsc`. `page.render` now passes the canvas, and the 2D context is probed only to keep the unsupported-environment error message.
+- **Node floor raised `>=20` → `>=22.13`** in the root `engines`, matching what `pdfjs-dist@6` itself declares, with `DEPLOY.md` updated to suit. Nothing executes pdf.js in Node — it is bundled for the browser — but advertising a floor below a dependency's own is a trap for whoever next builds on Node 20.
+- Added an E2E case that rasterizes a two-page PDF through the `pdf-to-images` screen and inspects the decoded pixels. The API break was type-only, so the existing gates could not have caught a *runtime* regression across a two-major jump: `tsc` sees the signature, the smoke sweep mounts the screen without converting, and the canvas is sized before pdf.js draws into it — meaning even a silently blank render would satisfy a header-only check. Verified to fail when rendering is skipped.
+
 ### Fixed — Service worker correctness
 - **Offline shell fallback now reaches `/index.html`.** The navigation fallbacks were chained with `??` over un-awaited `caches.match()` calls; a promise is never nullish, so only the first fallback was ever consulted and the second was dead code. A returning visitor offline on a locale whose shell had not been cached got a network error instead of the app shell. Each lookup is now awaited in turn.
 - **Error responses are no longer cached.** The cache-first asset path stored every response, so a transient 404/5xx was pinned for the life of the cache — i.e. until the next deploy re-stamped the cache name. Only `response.ok` is written now.
