@@ -4,6 +4,12 @@ All notable changes to this project. Format loosely follows Keep a Changelog.
 
 ## [Unreleased]
 
+### Fixed — Service worker correctness
+- **Offline shell fallback now reaches `/index.html`.** The navigation fallbacks were chained with `??` over un-awaited `caches.match()` calls; a promise is never nullish, so only the first fallback was ever consulted and the second was dead code. A returning visitor offline on a locale whose shell had not been cached got a network error instead of the app shell. Each lookup is now awaited in turn.
+- **Error responses are no longer cached.** The cache-first asset path stored every response, so a transient 404/5xx was pinned for the life of the cache — i.e. until the next deploy re-stamped the cache name. Only `response.ok` is written now.
+- **Cross-origin requests bypass the worker.** The live FX API (`api.frankfurter.app`) was being served cache-first, freezing the "live" rate at whatever value was fetched first. Same-origin GETs alone are intercepted.
+- Added `packages/app/test/service-worker.test.ts` — evaluates the shipped `public/sw.js` against stub service-worker globals; each of the three fixes has a test that fails against the previous worker.
+
 ## [0.1.0] — 2026-07-20
 
 First cut of a versioned web-PWA release line. Workspace packages move from `0.0.0` → `0.1.0`. Mobile/store packaging and the optional conversion backend remain out of this release's definition of done.
