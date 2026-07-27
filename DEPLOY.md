@@ -16,7 +16,7 @@ Vercel dashboard and it picks up the config automatically — no framework prese
 | Install command | `pnpm install --frozen-lockfile` | `vercel.json` |
 | Build command | `pnpm --filter @zii/app build` | `vercel.json` |
 | Output directory | `packages/app/dist` | `vercel.json` |
-| Node version | 20.x (or newer) | repo `engines` |
+| Node version | 22.13.x (or newer) | repo `engines` |
 | Package manager | pnpm 9.15 | root `packageManager` |
 
 `framework` is set to `null` so Vercel does not override the output directory with its
