@@ -50,9 +50,18 @@ export function base32Encode(bytes: Uint8Array): string {
   return out;
 }
 
-/** Encode UTF-8 text to base32. */
+/**
+ * Encode UTF-8 text to base32, padded to a multiple of 8 characters per
+ * RFC 4648 §6.
+ *
+ * `base32Encode` above stays unpadded on purpose: otpauth secrets are
+ * conventionally written without "=". This text-facing wrapper is a
+ * general-purpose codec, so it must conform to the spec it claims. Padding
+ * costs nothing on the way back — `base32Decode` strips trailing "=".
+ */
 export function base32EncodeText(text: string): string {
-  return base32Encode(new TextEncoder().encode(text));
+  const raw = base32Encode(new TextEncoder().encode(text));
+  return raw + '='.repeat((8 - (raw.length % 8)) % 8);
 }
 
 /** Decode base32 to UTF-8 text. */

@@ -172,6 +172,19 @@ test('percent-tip: computes a value from inputs', async ({ page }) => {
 // covers reactivity rather than just the first render.
 // ---------------------------------------------------------------------------
 
+/**
+ * Pick an option from the app's `Select`, which is a custom listbox rather than
+ * a native <select> — so `selectOption` does not apply. Scoped to the tool body
+ * because the app shell has its own market and language selects.
+ */
+async function chooseOption(
+  page: import('@playwright/test').Page,
+  label: string,
+): Promise<void> {
+  await page.locator('.tool__body .ui-select__trigger').first().click();
+  await page.locator('[role="option"]').filter({ hasText: label }).first().click();
+}
+
 /** Fill the nth non-readonly number input on a tool screen. */
 async function fillNumbers(
   page: import('@playwright/test').Page,
@@ -264,17 +277,18 @@ test.describe('dev', () => {
     );
   });
 
-  // NOTE: this characterises current behaviour, which deviates from the spec the
-  // tool advertises. RFC 4648 §6 requires the output to be padded to a multiple
-  // of 8 characters — "Hello!" (6 bytes) should encode to "JBSWY3DPEE======".
-  // The tool reuses `base32Encode` from the TOTP module, which is deliberately
-  // unpadded (correct for otpauth secrets) and documented as such. The existing
-  // engine test only round-trips, and the decoder strips "=", so nothing caught
-  // it. Padding `base32EncodeText` would fix it and affects this tool alone.
-  test('base32-codec: encodes to RFC 4648 alphabet (unpadded)', async ({ page }) => {
+  test('base32-codec: encodes per RFC 4648, padded', async ({ page }) => {
     await page.goto('/en/tools/base32-codec');
     await page.locator('.tool__body textarea:not([readonly])').first().fill('Hello!');
-    await expect(page.locator('.tool__body textarea[readonly]')).toHaveValue('JBSWY3DPEE');
+    // 6 bytes -> 10 symbols, padded to 16 per RFC 4648 §6.
+    await expect(page.locator('.tool__body textarea[readonly]')).toHaveValue('JBSWY3DPEE======');
+  });
+
+  test('base32-codec: decodes padded input back to text', async ({ page }) => {
+    await page.goto('/en/tools/base32-codec');
+    await chooseOption(page, 'Decode');
+    await page.locator('.tool__body textarea:not([readonly])').first().fill('MZXW6YTBOI======');
+    await expect(page.locator('.tool__body textarea[readonly]')).toHaveValue('foobar');
   });
 
   test('levenshtein: counts single-character edits', async ({ page }) => {
