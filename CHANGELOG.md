@@ -4,6 +4,12 @@ All notable changes to this project. Format loosely follows Keep a Changelog.
 
 ## [Unreleased]
 
+### Added — Functional E2E breadth
+- **22 new functional E2E cases** across text, dev, convert, calc, generator, and ID-validator tools, taking the suite from 340 to 362. The smoke sweep already proved all 318 tools *mount*; these prove a representative slice actually *computes*.
+- Expected values are derived independently — from a standard (RFC 4648, IBAN MOD-97, FIPS-180 SHA vectors), a definition (1 kg / 0.45359237, 1 MiB / 1e6), or a textbook case — rather than by reading back what the app printed, so a test can fail when the app is wrong.
+- ID validators assert both directions: a known-good identifier passes and a single mutated character is rejected, so the check digit is genuinely exercised.
+- **Known deviation found and documented, not fixed:** `base32-codec` advertises RFC 4648 but emits unpadded output (`Hello!` → `JBSWY3DPEE`, not `JBSWY3DPEE======`). It reuses the TOTP module's deliberately unpadded `base32Encode`; the only engine test round-trips, and the decoder strips `=`, so nothing caught it. Padding `base32EncodeText` would fix it and affects this tool alone.
+
 ### Changed — pdf.js 4 → 6
 - **`pdfjs-dist` upgraded `^4.10.38` → `^6.1.200`** (Dependabot #35, which could not merge as-is). pdf.js ≥ 5 requires the `canvas` option on `RenderParameters`; the deprecated `canvasContext`-only call in `pdfToImages` no longer satisfies the type, so `@zii/compute-wasm` failed `tsc`. `page.render` now passes the canvas, and the 2D context is probed only to keep the unsupported-environment error message.
 - **Node floor raised `>=20` → `>=22.13`** in the root `engines`, matching what `pdfjs-dist@6` itself declares, with `DEPLOY.md` updated to suit. Nothing executes pdf.js in Node — it is bundled for the browser — but advertising a floor below a dependency's own is a trap for whoever next builds on Node 20.
