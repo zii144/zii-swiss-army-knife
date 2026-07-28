@@ -33,6 +33,15 @@ function setLink(rel: string, href: string, hreflang?: string): HTMLLinkElement 
   return el;
 }
 
+function removeMeta(attr: 'name' | 'property', key: string): void {
+  for (const el of document.head.querySelectorAll(`meta[${attr}="${key}"]`)) el.remove();
+}
+
+/** Drop every hreflang alternate — used by routes that have no localized twin. */
+function clearAlternates(): void {
+  for (const el of document.head.querySelectorAll('link[rel="alternate"][hreflang]')) el.remove();
+}
+
 /** Keep LLM / machine-readable discovery links present after SPA navigations. */
 function setTypedAlternate(type: string, href: string, title: string): void {
   let el = document.head.querySelector<HTMLLinkElement>(
@@ -67,15 +76,24 @@ export function applyHead(meta: HeadMeta): void {
 
   setMeta('name', 'description', meta.description);
   setMeta('name', 'keywords', meta.keywords.join(', '));
-  setMeta('name', 'robots', 'index, follow, max-image-preview:large');
+  setMeta('name', 'robots', meta.robots);
   setMeta('name', 'application-name', SITE_NAME);
-  setLink('canonical', meta.canonical);
+
+  // An empty canonical means "this route has no indexable address" (unknown
+  // paths). Pointing it at the home page instead is the soft-404 signal we are
+  // avoiding, so the tag — and og:url, which crawlers read the same way — goes.
+  if (meta.canonical) {
+    setLink('canonical', meta.canonical);
+    setMeta('property', 'og:url', meta.canonical);
+  } else {
+    document.head.querySelector('link[rel="canonical"]')?.remove();
+    removeMeta('property', 'og:url');
+  }
 
   setMeta('property', 'og:type', 'website');
   setMeta('property', 'og:site_name', SITE_NAME);
   setMeta('property', 'og:title', meta.title);
   setMeta('property', 'og:description', meta.description);
-  setMeta('property', 'og:url', meta.canonical);
   setMeta('property', 'og:locale', meta.htmlLang.replace('-', '_'));
   setMeta('property', 'og:image', image);
   setMeta('property', 'og:image:type', SITE_IMAGE_TYPE);
@@ -95,7 +113,8 @@ export function applyHead(meta: HeadMeta): void {
     searchLink.setAttribute('title', `${SITE_NAME} tools`);
   }
 
-  for (const alt of meta.alternates) setLink('alternate', alt.href, alt.hreflang);
+  if (meta.alternates.length === 0) clearAlternates();
+  else for (const alt of meta.alternates) setLink('alternate', alt.href, alt.hreflang);
 
   let ld = document.head.querySelector<HTMLScriptElement>('script[data-zii-ld]');
   if (!ld) {

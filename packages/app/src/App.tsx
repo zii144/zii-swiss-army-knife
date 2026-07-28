@@ -11,6 +11,7 @@ import { buildHead, SITE_ORIGIN } from './lib/seo';
 import { applyHead } from './lib/head';
 import { prefetchTool, registerAppTools, TOOL_VIEWS } from './tools';
 import { ToolPage } from './components/ToolPage';
+import { NotFound } from './components/NotFound';
 import { ErrorBoundary } from './components/ErrorBoundary';
 import { Footer } from './components/Footer';
 import { Clouds } from './components/Clouds';
@@ -89,8 +90,12 @@ export function App(): React.JSX.Element {
   const goTools = (): void => go(lang, 'tools');
   const back = (): void => go(lang, 'tools');
   const openTool = (id: string): void => go(lang, 'tool', id);
+  // A not-found route has no localized twin to switch to, so the language
+  // picker lands on that language's home rather than re-rendering the error.
   const changeLang = (next: Lang): void =>
-    go(next, view, selected ?? (view === 'category' ? category : null));
+    view === 'notfound'
+      ? go(next, 'home')
+      : go(next, view, selected ?? (view === 'category' ? category : null));
   const openCategory = (cat: string): void => {
     go(lang, cat === 'all' ? 'tools' : 'category', cat === 'all' ? null : cat);
     requestAnimationFrame(() => catalogRef.current?.scrollIntoView({ behavior: 'smooth' }));
@@ -266,6 +271,13 @@ export function App(): React.JSX.Element {
             </ErrorBoundary>
           </main>
         </div>
+      ) : view === 'notfound' ? (
+        <NotFound
+          title={t('notFoundTitle')}
+          body={t('notFoundBody')}
+          ctaLabel={t('notFoundCta')}
+          onBrowse={goTools}
+        />
       ) : view === 'tools' || view === 'category' ? (
         <Suspense fallback={<p className="app__empty">{t('loading')}</p>}>
           <ToolCatalog

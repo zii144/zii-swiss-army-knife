@@ -17,6 +17,9 @@ export interface Dict {
   errorTitle: string;
   errorBody: string;
   errorRetry: string;
+  notFoundTitle: string;
+  notFoundBody: string;
+  notFoundCta: string;
   // Brand + navigation
   brand: string;
   navHome: string;
@@ -57,6 +60,9 @@ export const DICTIONARY: Readonly<Record<Lang, Dict>> = {
     errorTitle: 'This tool ran into a problem',
     errorBody: 'Something went wrong while loading or running this tool. The rest of the app is unaffected.',
     errorRetry: 'Try again',
+    notFoundTitle: 'Page not found',
+    notFoundBody: 'That address does not match any tool. It may have been renamed, or the link may be mistyped.',
+    notFoundCta: 'Browse all tools',
     brand: 'Zii',
     navHome: 'Home',
     navTools: 'Tools',
@@ -91,6 +97,9 @@ export const DICTIONARY: Readonly<Record<Lang, Dict>> = {
     errorTitle: '此工具發生問題',
     errorBody: '載入或執行此工具時發生錯誤，其餘功能不受影響。',
     errorRetry: '重試',
+    notFoundTitle: '找不到頁面',
+    notFoundBody: '這個網址沒有對應的工具，可能已更名，或連結有誤。',
+    notFoundCta: '瀏覽所有工具',
     brand: 'Zii',
     navHome: '首頁',
     navTools: '工具',
@@ -124,6 +133,9 @@ export const DICTIONARY: Readonly<Record<Lang, Dict>> = {
     errorTitle: '此工具發生問題',
     errorBody: '載入或執行此工具時發生錯誤，其餘功能不受影響。',
     errorRetry: '重試',
+    notFoundTitle: '搵唔到呢一頁',
+    notFoundBody: '呢個網址冇對應嘅工具，可能已改名，或者連結有錯。',
+    notFoundCta: '瀏覽所有工具',
     brand: 'Zii',
     navHome: '主頁',
     navTools: '工具',
@@ -157,6 +169,9 @@ export const DICTIONARY: Readonly<Record<Lang, Dict>> = {
     errorTitle: 'このツールで問題が発生しました',
     errorBody: 'ツールの読み込みまたは実行中にエラーが発生しました。他の機能には影響ありません。',
     errorRetry: '再試行',
+    notFoundTitle: 'ページが見つかりません',
+    notFoundBody: 'このアドレスに一致するツールはありません。名前が変更されたか、リンクが間違っている可能性があります。',
+    notFoundCta: 'すべてのツールを見る',
     brand: 'Zii',
     navHome: 'ホーム',
     navTools: 'ツール',
@@ -191,6 +206,9 @@ export const DICTIONARY: Readonly<Record<Lang, Dict>> = {
     errorTitle: '이 도구에 문제가 발생했습니다',
     errorBody: '도구를 불러오거나 실행하는 중 오류가 발생했습니다. 나머지 기능은 영향을 받지 않습니다.',
     errorRetry: '다시 시도',
+    notFoundTitle: '페이지를 찾을 수 없습니다',
+    notFoundBody: '해당 주소와 일치하는 도구가 없습니다. 이름이 변경되었거나 링크가 잘못되었을 수 있습니다.',
+    notFoundCta: '모든 도구 보기',
     brand: 'Zii',
     navHome: '홈',
     navTools: '도구',
@@ -225,6 +243,9 @@ export const DICTIONARY: Readonly<Record<Lang, Dict>> = {
     errorTitle: 'Esta herramienta tuvo un problema',
     errorBody: 'Algo salió mal al cargar o ejecutar esta herramienta. El resto de la app no se ve afectada.',
     errorRetry: 'Reintentar',
+    notFoundTitle: 'Página no encontrada',
+    notFoundBody: 'Esa dirección no corresponde a ninguna herramienta. Puede que se haya renombrado o que el enlace esté mal escrito.',
+    notFoundCta: 'Ver todas las herramientas',
     brand: 'Zii',
     navHome: 'Inicio',
     navTools: 'Herramientas',
@@ -259,6 +280,9 @@ export const DICTIONARY: Readonly<Record<Lang, Dict>> = {
     errorTitle: 'Cet outil a rencontré un problème',
     errorBody: "Une erreur s'est produite lors du chargement ou de l'exécution de cet outil. Le reste de l'application n'est pas affecté.",
     errorRetry: 'Réessayer',
+    notFoundTitle: 'Page introuvable',
+    notFoundBody: 'Cette adresse ne correspond à aucun outil. Il a peut-être été renommé, ou le lien est erroné.',
+    notFoundCta: 'Voir tous les outils',
     brand: 'Zii',
     navHome: 'Accueil',
     navTools: 'Outils',
@@ -293,6 +317,9 @@ export const DICTIONARY: Readonly<Record<Lang, Dict>> = {
     errorTitle: 'Bei diesem Tool ist ein Problem aufgetreten',
     errorBody: 'Beim Laden oder Ausführen dieses Tools ist ein Fehler aufgetreten. Der Rest der App ist nicht betroffen.',
     errorRetry: 'Erneut versuchen',
+    notFoundTitle: 'Seite nicht gefunden',
+    notFoundBody: 'Diese Adresse gehört zu keinem Werkzeug. Möglicherweise wurde es umbenannt oder der Link ist fehlerhaft.',
+    notFoundCta: 'Alle Werkzeuge ansehen',
     brand: 'Zii',
     navHome: 'Start',
     navTools: 'Werkzeuge',

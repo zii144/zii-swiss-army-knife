@@ -28,9 +28,16 @@ export interface HeadMeta {
   keywords: string[];
   canonical: string;
   alternates: AltLink[];
+  /** Value for <meta name="robots">. `notfound` routes opt out of indexing. */
+  robots: string;
   /** JSON-LD objects to embed as <script type="application/ld+json">. */
   jsonLd: object[];
 }
+
+/** Indexable routes — every real page the catalogue can produce. */
+export const ROBOTS_INDEX = 'index, follow, max-image-preview:large';
+/** Unknown routes: still crawl the links out, but keep the page out of the index. */
+export const ROBOTS_NOINDEX = 'noindex, follow';
 
 /** Market → country name for geo-targeting (schema.org areaServed). */
 const MARKET_COUNTRY: Readonly<Record<string, string>> = {
@@ -114,6 +121,7 @@ export function buildHead(
     htmlLang: HREFLANG[lang],
     canonical,
     alternates,
+    robots: ROBOTS_INDEX,
   };
 
   const websiteJsonLd = {
@@ -138,6 +146,23 @@ export function buildHead(
     url: origin + buildPath(lang, 'home'),
     logo: `${origin}${SITE_IMAGE_PATH}`,
   };
+
+  // Unknown route. The host rewrites every unmatched path to the SPA, so this
+  // page is served with a 200 — `noindex` is what actually keeps it out of the
+  // index. No canonical and no alternates: pointing a not-found page at the
+  // home page is exactly the soft-404 signal we are trying to avoid.
+  if (view === 'notfound') {
+    return {
+      ...base,
+      canonical: '',
+      alternates: [],
+      robots: ROBOTS_NOINDEX,
+      title: `${d.notFoundTitle} — ${SITE_NAME}`,
+      description: d.notFoundBody,
+      keywords: [],
+      jsonLd: [],
+    };
+  }
 
   if (view === 'tool' && routeId) {
     const tool = getTool(routeId);

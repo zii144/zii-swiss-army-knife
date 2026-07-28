@@ -1,10 +1,11 @@
 import { LANGS, type Lang } from './i18n';
 import { CATEGORY_ORDER } from './categories';
+import { CATALOG_IDS } from './catalog';
 
 /** Default locale used when the URL has no recognizable locale prefix. */
 export const DEFAULT_LOCALE: Lang = 'en';
 
-export type AppView = 'home' | 'tools' | 'category' | 'tool';
+export type AppView = 'home' | 'tools' | 'category' | 'tool' | 'notfound';
 
 export interface Route {
   locale: Lang;
@@ -17,8 +18,18 @@ export interface Route {
 
 const LANG_SET = new Set<string>(LANGS);
 const CATEGORY_SET = new Set<string>(CATEGORY_ORDER);
+const TOOL_SET = new Set<string>(CATALOG_IDS);
 
-/** Parse a pathname like `/ja/tools/pdf-merge` into locale + view + optional route id. */
+/**
+ * Parse a pathname like `/ja/tools/pdf-merge` into locale + view + optional route id.
+ *
+ * Route ids are validated against the catalogue rather than trusted. The host
+ * rewrites every unmatched path to `index.html`, so without this check any URL
+ * — `/en/tools/buy-cheap-things` — would render as a tool page whose title and
+ * heading are the raw path segment, marked `index, follow` with a
+ * self-referencing canonical. Unknown paths resolve to `notfound`, which the
+ * shell renders as a real "not found" page and `buildHead` marks `noindex`.
+ */
 export function parsePath(pathname: string): Route {
   const parts = pathname.split('/').filter(Boolean);
   let locale: Lang = DEFAULT_LOCALE;
@@ -27,14 +38,20 @@ export function parsePath(pathname: string): Route {
     locale = parts[0] as Lang;
     rest = parts.slice(1);
   }
-  if (rest[0] === 'tools') {
-    if (rest[1] === 'category' && rest[2] && CATEGORY_SET.has(rest[2])) {
+  const notFound: Route = { locale, view: 'notfound', toolId: null, categoryId: null };
+  if (rest.length === 0) return { locale, view: 'home', toolId: null, categoryId: null };
+  if (rest[0] !== 'tools') return notFound;
+  if (rest.length === 1) return { locale, view: 'tools', toolId: null, categoryId: null };
+  if (rest[1] === 'category') {
+    if (rest.length === 3 && rest[2] && CATEGORY_SET.has(rest[2])) {
       return { locale, view: 'category', toolId: null, categoryId: rest[2] };
     }
-    if (rest[1]) return { locale, view: 'tool', toolId: rest[1], categoryId: null };
-    return { locale, view: 'tools', toolId: null, categoryId: null };
+    return notFound;
   }
-  return { locale, view: 'home', toolId: null, categoryId: null };
+  if (rest.length === 2 && rest[1] && TOOL_SET.has(rest[1])) {
+    return { locale, view: 'tool', toolId: rest[1], categoryId: null };
+  }
+  return notFound;
 }
 
 /** Build a canonical path for a locale + view (+ route id when applicable). */
