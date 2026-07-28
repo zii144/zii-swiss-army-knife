@@ -128,7 +128,7 @@ export function ToolCatalog({
       <div className="catalog__head">
         <div>
           <span className="catalog__kicker">{t('catalogKicker')}</span>
-          <h2 className="catalog__title">{title}</h2>
+          <h1 className="catalog__title">{title}</h1>
           <p className="catalog__subtitle">{subtitle}</p>
         </div>
         <div className="catalog__controls">
@@ -207,16 +207,16 @@ export function ToolCatalog({
                 <span className="catgroup__ico" style={{ color: categoryColor(cat) }}>
                   <CategoryIcon category={cat} size={18} />
                 </span>
-                <h3 className="catgroup__title">{categoryLabel(cat, lang)}</h3>
+                <h2 className="catgroup__title">{categoryLabel(cat, lang)}</h2>
                 <span className="catgroup__count">{items.length}</span>
               </div>
               {subs.length > 0 ? (
                 subs.map((sg) => (
                   <div key={sg.key} className="subgroup">
-                    <h4 className="subgroup__title">
+                    <h3 className="subgroup__title">
                       {subLabel(sg.label, lang)}
                       <span className="subgroup__count">{sg.tools.length}</span>
-                    </h4>
+                    </h3>
                     <ul className="app__list">
                       {sg.tools.map((id, i) => {
                         const tl = byId.get(id);
