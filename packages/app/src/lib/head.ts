@@ -97,12 +97,35 @@ export function applyHead(meta: HeadMeta): void {
 
   for (const alt of meta.alternates) setLink('alternate', alt.href, alt.hreflang);
 
-  let ld = document.head.querySelector<HTMLScriptElement>('script[data-zii-ld]');
+  setJsonLd(meta.jsonLd);
+}
+
+/**
+ * Make the head hold exactly one JSON-LD block, describing the current route.
+ *
+ * This adopts *any* `ld+json` script rather than only the one it created, which
+ * matters because the prerendered HTML ships its own. Querying just
+ * `[data-zii-ld]` left those in place: every page carried the route's structured
+ * data plus a stale copy that never updated on SPA navigation, so a
+ * JS-rendering crawler saw a tool page still claiming to be the home page.
+ */
+function setJsonLd(objects: readonly object[]): void {
+  const existing = document.head.querySelectorAll<HTMLScriptElement>(
+    'script[type="application/ld+json"]',
+  );
+  for (let i = 1; i < existing.length; i += 1) existing[i]!.remove();
+
+  if (objects.length === 0) {
+    existing[0]?.remove();
+    return;
+  }
+
+  let ld = existing[0];
   if (!ld) {
     ld = document.createElement('script');
     ld.type = 'application/ld+json';
-    ld.setAttribute('data-zii-ld', '');
     document.head.appendChild(ld);
   }
-  ld.textContent = JSON.stringify(meta.jsonLd.length === 1 ? meta.jsonLd[0] : meta.jsonLd);
+  ld.setAttribute('data-zii-ld', '');
+  ld.textContent = JSON.stringify(objects.length === 1 ? objects[0] : objects);
 }

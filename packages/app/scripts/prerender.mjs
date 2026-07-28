@@ -74,9 +74,14 @@ function headTags(m) {
     .filter((a) => a.hreflang !== 'x-default' && a.hreflang !== m.htmlLang)
     .map((a) => `<meta property="og:locale:alternate" content="${a.hreflang.replace('-', '_')}" />`)
     .join('\n    ');
-  const ld = m.jsonLd
-    .map((o) => `<script type="application/ld+json">${JSON.stringify(o)}</script>`)
-    .join('\n    ');
+  // One block, not one per object, and tagged the way `applyHead` tags its own.
+  // The SPA rewrites this element in place on every route change; emitting a
+  // script per object left the extras behind, describing the previous route.
+  const ld = m.jsonLd.length
+    ? `<script type="application/ld+json" data-zii-ld>${JSON.stringify(
+        m.jsonLd.length === 1 ? m.jsonLd[0] : m.jsonLd,
+      )}</script>`
+    : '';
   return `<title>${esc(m.title)}</title>
     <meta name="description" content="${esc(m.description)}" />
     <meta name="keywords" content="${esc(m.keywords.join(', '))}" />
