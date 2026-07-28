@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useObjectUrl } from '../lib/object-url';
 import { generateQr } from '@zii/compute-wasm/qr';
 import {
   eventQrPayload,
@@ -87,7 +88,7 @@ export default function QrGenerateTool({ onBack, lang, backLabel, offlineLabel }
   const [end, setEnd] = useState('');
   const [location, setLocation] = useState('');
   const [result, setResult] = useState<Uint8Array | null>(null);
-  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+  const [previewUrl, showPreview] = useObjectUrl();
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -117,14 +118,11 @@ export default function QrGenerateTool({ onBack, lang, backLabel, offlineLabel }
     setBusy(true);
     setError(null);
     setResult(null);
-    if (previewUrl) URL.revokeObjectURL(previewUrl);
-    setPreviewUrl(null);
+    showPreview(null);
     try {
       const png = await generateQr(buildPayload());
       setResult(png);
-      setPreviewUrl(
-        URL.createObjectURL(new Blob([png as unknown as BlobPart], { type: 'image/png' })),
-      );
+      showPreview(new Blob([png as unknown as BlobPart], { type: 'image/png' }));
     } catch (e) {
       setError(e instanceof Error ? e.message : String(e));
     } finally {
@@ -183,7 +181,11 @@ export default function QrGenerateTool({ onBack, lang, backLabel, offlineLabel }
           </label>
           <label className="tool__field">
             <span>{t.password}</span>
-            <TextField type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
+            <TextField
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
           </label>
           <div className="tool__field">
             <span>{t.security}</span>
@@ -235,11 +237,19 @@ export default function QrGenerateTool({ onBack, lang, backLabel, offlineLabel }
           <div className="tool__inline">
             <label className="tool__field">
               <span>{t.start}</span>
-              <TextField type="datetime-local" value={start} onChange={(e) => setStart(e.target.value)} />
+              <TextField
+                type="datetime-local"
+                value={start}
+                onChange={(e) => setStart(e.target.value)}
+              />
             </label>
             <label className="tool__field">
               <span>{t.end}</span>
-              <TextField type="datetime-local" value={end} onChange={(e) => setEnd(e.target.value)} />
+              <TextField
+                type="datetime-local"
+                value={end}
+                onChange={(e) => setEnd(e.target.value)}
+              />
             </label>
           </div>
           <label className="tool__field">

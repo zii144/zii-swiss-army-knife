@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useObjectUrl } from '../lib/object-url';
 import { heicToJpg } from '@zii/compute-wasm/heic';
 import { ToolPage, DownloadButton } from '../components/ToolPage';
 import { FileField, Button } from '../components/ui';
@@ -32,7 +33,7 @@ export default function HeicConvertTool({ onBack, lang, backLabel, offlineLabel 
   const t = tr(L, lang);
   const [file, setFile] = useState<File | null>(null);
   const [result, setResult] = useState<Uint8Array | null>(null);
-  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+  const [previewUrl, showPreview] = useObjectUrl();
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -41,14 +42,11 @@ export default function HeicConvertTool({ onBack, lang, backLabel, offlineLabel 
     setBusy(true);
     setError(null);
     setResult(null);
-    if (previewUrl) URL.revokeObjectURL(previewUrl);
-    setPreviewUrl(null);
+    showPreview(null);
     try {
       const out = await heicToJpg(await readFileBytes(file));
       setResult(out);
-      setPreviewUrl(
-        URL.createObjectURL(new Blob([out as unknown as BlobPart], { type: 'image/jpeg' })),
-      );
+      showPreview(new Blob([out as unknown as BlobPart], { type: 'image/jpeg' }));
     } catch (e) {
       setError(e instanceof Error ? e.message : String(e));
     } finally {

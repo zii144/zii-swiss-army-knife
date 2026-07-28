@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useObjectUrl } from '../lib/object-url';
 import { resizeContain, resizeImage, imageSize, type RasterResult } from '../lib/imagekit';
 import { ToolPage, DownloadButton } from '../components/ToolPage';
 import { Button, FileField, Select, TextField } from '../components/ui';
@@ -58,7 +59,7 @@ export default function ImageResizeTool({ onBack, lang, backLabel, offlineLabel 
   const [keep, setKeep] = useState(true);
   const [format, setFormat] = useState('image/png');
   const [result, setResult] = useState<RasterResult | null>(null);
-  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+  const [previewUrl, showPreview] = useObjectUrl();
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -84,13 +85,13 @@ export default function ImageResizeTool({ onBack, lang, backLabel, offlineLabel 
     setBusy(true);
     setError(null);
     setResult(null);
-    if (previewUrl) URL.revokeObjectURL(previewUrl);
+    showPreview(null);
     try {
       const out = keep
         ? await resizeContain(bytes, width, height, format)
         : await resizeImage(bytes, width, height, format);
       setResult(out);
-      setPreviewUrl(URL.createObjectURL(new Blob([out.bytes as unknown as BlobPart], { type: format })));
+      showPreview(new Blob([out.bytes as unknown as BlobPart], { type: format }));
     } catch (e) {
       setError(e instanceof Error ? e.message : String(e));
     } finally {
@@ -119,11 +120,19 @@ export default function ImageResizeTool({ onBack, lang, backLabel, offlineLabel 
       <div className="tool__inline">
         <label className="tool__field">
           <span>{t.width}</span>
-          <TextField type="number" value={width} onChange={(e) => setWidth(Number(e.target.value))} />
+          <TextField
+            type="number"
+            value={width}
+            onChange={(e) => setWidth(Number(e.target.value))}
+          />
         </label>
         <label className="tool__field">
           <span>{t.height}</span>
-          <TextField type="number" value={height} onChange={(e) => setHeight(Number(e.target.value))} />
+          <TextField
+            type="number"
+            value={height}
+            onChange={(e) => setHeight(Number(e.target.value))}
+          />
         </label>
         <div className="tool__field">
           <span>{t.format}</span>

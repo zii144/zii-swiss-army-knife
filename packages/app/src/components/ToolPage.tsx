@@ -43,6 +43,17 @@ export function ToolPage({
   );
 }
 
+/**
+ * How long a download's object URL is kept alive after the click.
+ *
+ * The click starts a navigation that the browser services on a later task, so
+ * revoking synchronously can cancel the download before it begins. This only
+ * has to outlive that hand-off; it is deliberately far shorter than the ~40s
+ * the old file-saver libraries used, because the Blob holds a full copy of the
+ * bytes and some of these tools produce very large files.
+ */
+const DOWNLOAD_URL_TTL_MS = 10_000;
+
 /** A reusable download button that turns bytes into a file the user can save. */
 export function DownloadButton({
   bytes,
@@ -61,8 +72,15 @@ export function DownloadButton({
     const a = document.createElement('a');
     a.href = url;
     a.download = filename;
+    a.rel = 'noopener';
+    // In the document, because a detached anchor's click is ignored by some
+    // engines — notably Firefox, which is also the one most likely to drop the
+    // download if the URL is revoked too early.
+    a.style.display = 'none';
+    document.body.appendChild(a);
     a.click();
-    URL.revokeObjectURL(url);
+    a.remove();
+    setTimeout(() => URL.revokeObjectURL(url), DOWNLOAD_URL_TTL_MS);
   };
   return (
     <button type="button" className="tool__primary" onClick={onClick}>
