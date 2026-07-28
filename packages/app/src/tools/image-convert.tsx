@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useObjectUrl } from '../lib/object-url';
 import { convertImage, type ImageFormat } from '@zii/compute-wasm/image';
 import { ToolPage, DownloadButton } from '../components/ToolPage';
 import { Button, FileField, Select } from '../components/ui';
@@ -42,7 +43,7 @@ export default function ImageConvertTool({ onBack, lang, backLabel, offlineLabel
   const [file, setFile] = useState<File | null>(null);
   const [to, setTo] = useState<ImageFormat>('jpeg');
   const [result, setResult] = useState<Uint8Array | null>(null);
-  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+  const [previewUrl, showPreview] = useObjectUrl();
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -51,12 +52,11 @@ export default function ImageConvertTool({ onBack, lang, backLabel, offlineLabel
     setBusy(true);
     setError(null);
     setResult(null);
-    if (previewUrl) URL.revokeObjectURL(previewUrl);
-    setPreviewUrl(null);
+    showPreview(null);
     try {
       const out = await convertImage(await readFileBytes(file), { to });
       setResult(out);
-      setPreviewUrl(URL.createObjectURL(new Blob([out as unknown as BlobPart], { type: MIME[to] })));
+      showPreview(new Blob([out as unknown as BlobPart], { type: MIME[to] }));
     } catch (e) {
       setError(e instanceof Error ? e.message : String(e));
     } finally {

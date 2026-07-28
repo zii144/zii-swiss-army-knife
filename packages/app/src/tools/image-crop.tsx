@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useObjectUrl } from '../lib/object-url';
 import { cropImage, imageSize, type RasterResult } from '../lib/imagekit';
 import { ToolPage, DownloadButton } from '../components/ToolPage';
 import { Button, FileField, TextField } from '../components/ui';
@@ -47,7 +48,7 @@ export default function ImageCropTool({ onBack, lang, backLabel, offlineLabel }:
   const [w, setW] = useState(100);
   const [h, setH] = useState(100);
   const [result, setResult] = useState<RasterResult | null>(null);
-  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+  const [previewUrl, showPreview] = useObjectUrl();
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -77,13 +78,11 @@ export default function ImageCropTool({ onBack, lang, backLabel, offlineLabel }:
     setBusy(true);
     setError(null);
     setResult(null);
-    if (previewUrl) URL.revokeObjectURL(previewUrl);
+    showPreview(null);
     try {
       const out = await cropImage(bytes, x, y, w, h, 'image/png');
       setResult(out);
-      setPreviewUrl(
-        URL.createObjectURL(new Blob([out.bytes as unknown as BlobPart], { type: 'image/png' })),
-      );
+      showPreview(new Blob([out.bytes as unknown as BlobPart], { type: 'image/png' }));
     } catch (e) {
       setError(e instanceof Error ? e.message : String(e));
     } finally {
@@ -139,7 +138,12 @@ export default function ImageCropTool({ onBack, lang, backLabel, offlineLabel }:
         <div className="tool__result">
           <p className="tool__hint">{t.done(result.width, result.height)}</p>
           <img className="tool__preview" src={previewUrl} alt="cropped result" />
-          <DownloadButton bytes={result.bytes} filename="cropped.png" mime="image/png" label={t.download} />
+          <DownloadButton
+            bytes={result.bytes}
+            filename="cropped.png"
+            mime="image/png"
+            label={t.download}
+          />
         </div>
       ) : null}
     </ToolPage>

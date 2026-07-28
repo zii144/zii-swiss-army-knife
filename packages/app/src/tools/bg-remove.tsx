@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useObjectUrl } from '../lib/object-url';
 import { removeBackground } from '@imgly/background-removal';
 import { ToolPage, DownloadButton } from '../components/ToolPage';
 import { Button, FileField } from '../components/ui';
@@ -32,7 +33,7 @@ export default function BgRemoveTool({ onBack, lang, backLabel, offlineLabel }: 
   const t = tr(L, lang);
   const [file, setFile] = useState<File | null>(null);
   const [result, setResult] = useState<Uint8Array | null>(null);
-  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+  const [previewUrl, showPreview] = useObjectUrl();
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -41,13 +42,12 @@ export default function BgRemoveTool({ onBack, lang, backLabel, offlineLabel }: 
     setBusy(true);
     setError(null);
     setResult(null);
-    if (previewUrl) URL.revokeObjectURL(previewUrl);
-    setPreviewUrl(null);
+    showPreview(null);
     try {
       const blob = await removeBackground(file);
       const bytes = new Uint8Array(await blob.arrayBuffer());
       setResult(bytes);
-      setPreviewUrl(URL.createObjectURL(blob));
+      showPreview(blob);
     } catch (e) {
       setError(e instanceof Error ? e.message : String(e));
     } finally {
@@ -85,8 +85,20 @@ export default function BgRemoveTool({ onBack, lang, backLabel, offlineLabel }: 
       {result && previewUrl ? (
         <div className="tool__result">
           <p className="tool__hint">{t.done}</p>
-          <img className="tool__preview" src={previewUrl} alt="cut-out result" style={{ background: 'repeating-conic-gradient(#ccc 0% 25%, #fff 0% 50%) 50% / 20px 20px' }} />
-          <DownloadButton bytes={result} filename="cutout.png" mime="image/png" label={t.download} />
+          <img
+            className="tool__preview"
+            src={previewUrl}
+            alt="cut-out result"
+            style={{
+              background: 'repeating-conic-gradient(#ccc 0% 25%, #fff 0% 50%) 50% / 20px 20px',
+            }}
+          />
+          <DownloadButton
+            bytes={result}
+            filename="cutout.png"
+            mime="image/png"
+            label={t.download}
+          />
         </div>
       ) : null}
     </ToolPage>

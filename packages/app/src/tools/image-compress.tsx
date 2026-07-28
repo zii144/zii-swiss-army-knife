@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useObjectUrl } from '../lib/object-url';
 import { compressImage } from '@zii/compute-wasm/image';
 import { ToolPage, DownloadButton } from '../components/ToolPage';
 import { Button, FileField, RangeSlider } from '../components/ui';
@@ -48,12 +49,17 @@ function fmt(bytes: number): string {
   return `${(bytes / 1024 / 1024).toFixed(2)} MB`;
 }
 
-export default function ImageCompressTool({ onBack, lang, backLabel, offlineLabel }: ToolViewProps) {
+export default function ImageCompressTool({
+  onBack,
+  lang,
+  backLabel,
+  offlineLabel,
+}: ToolViewProps) {
   const t = tr(L, lang);
   const [file, setFile] = useState<File | null>(null);
   const [quality, setQuality] = useState(60);
   const [result, setResult] = useState<Uint8Array | null>(null);
-  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+  const [previewUrl, showPreview] = useObjectUrl();
   const [origSize, setOrigSize] = useState(0);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -63,16 +69,13 @@ export default function ImageCompressTool({ onBack, lang, backLabel, offlineLabe
     setBusy(true);
     setError(null);
     setResult(null);
-    if (previewUrl) URL.revokeObjectURL(previewUrl);
-    setPreviewUrl(null);
+    showPreview(null);
     try {
       const input = await readFileBytes(file);
       setOrigSize(input.byteLength);
       const out = await compressImage(input, { quality });
       setResult(out);
-      setPreviewUrl(
-        URL.createObjectURL(new Blob([out as unknown as BlobPart], { type: 'image/jpeg' })),
-      );
+      showPreview(new Blob([out as unknown as BlobPart], { type: 'image/jpeg' }));
     } catch (e) {
       setError(e instanceof Error ? e.message : String(e));
     } finally {
