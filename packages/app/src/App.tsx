@@ -267,68 +267,72 @@ export function App(): React.JSX.Element {
           </main>
         </div>
       ) : view === 'tools' || view === 'category' ? (
-        <Suspense fallback={<p className="app__empty">{t('loading')}</p>}>
-          <ToolCatalog
-            tools={tools}
-            lang={lang}
-            market={market}
-            query={query}
-            category={category}
-            onMarket={setMarket}
-            onQuery={setQuery}
-            onCategory={openCategory}
-            onOpenTool={openTool}
-            catalogRef={catalogRef}
-            standalone
-          />
-        </Suspense>
+        <main>
+          <Suspense fallback={<p className="app__empty">{t('loading')}</p>}>
+            <ToolCatalog
+              tools={tools}
+              lang={lang}
+              market={market}
+              query={query}
+              category={category}
+              onMarket={setMarket}
+              onQuery={setQuery}
+              onCategory={openCategory}
+              onOpenTool={openTool}
+              catalogRef={catalogRef}
+              standalone
+            />
+          </Suspense>
+        </main>
       ) : (
         <>
           <Clouds />
-          <section className="hero">
-            <span className="hero__kicker">{t('heroKicker')}</span>
-            <h1 className="hero__title">
-              {t('heroTitleA')}
-              <br />
-              <span>{t('heroTitleB')}</span>
-            </h1>
-            <p className="hero__subtitle">{t('heroSubtitle')}</p>
-            <div className="hero__actions">
-              <button type="button" className="hero__ghost" onClick={goTools}>
-                {t('viewTools')}
-              </button>
-              <button type="button" className="hero__primary" onClick={goTools}>
-                {t('getStarted')}
-                <span className="hero__primary-dot">↗</span>
-              </button>
-            </div>
-            <p className="hero__rated">{t('rated')}</p>
-          </section>
-
-          {featured.length > 0 ? (
-            <>
-              <div className="hero__deck">
-                {deckRows.map((row, r) =>
-                  row.length > 0 ? (
-                    <div
-                      key={r}
-                      className={`hero__deck-row${r === 1 ? ' hero__deck-row--bottom' : ''}`}
-                    >
-                      {row.map((tool, i) => renderDeckCard(tool, r * 5 + i))}
-                    </div>
-                  ) : null,
-                )}
-              </div>
-              <div className="hero__more">
-                <button type="button" className="hero__viewall" onClick={goTools}>
-                  {t('viewAll')}
-                  <span className="hero__primary-dot" aria-hidden="true">
-                    ↗
-                  </span>
+          <main>
+            <section className="hero">
+              <span className="hero__kicker">{t('heroKicker')}</span>
+              <h1 className="hero__title">
+                {t('heroTitleA')}
+                <br />
+                <span>{t('heroTitleB')}</span>
+              </h1>
+              <p className="hero__subtitle">{t('heroSubtitle')}</p>
+              <div className="hero__actions">
+                <button type="button" className="hero__ghost" onClick={goTools}>
+                  {t('viewTools')}
+                </button>
+                <button type="button" className="hero__primary" onClick={goTools}>
+                  {t('getStarted')}
+                  <span className="hero__primary-dot">↗</span>
                 </button>
               </div>
-            </>
-          ) : null}
+              <p className="hero__rated">{t('rated')}</p>
+            </section>
+
+            {featured.length > 0 ? (
+              <>
+                <div className="hero__deck">
+                  {deckRows.map((row, r) =>
+                    row.length > 0 ? (
+                      <div
+                        key={r}
+                        className={`hero__deck-row${r === 1 ? ' hero__deck-row--bottom' : ''}`}
+                      >
+                        {row.map((tool, i) => renderDeckCard(tool, r * 5 + i))}
+                      </div>
+                    ) : null,
+                  )}
+                </div>
+                <div className="hero__more">
+                  <button type="button" className="hero__viewall" onClick={goTools}>
+                    {t('viewAll')}
+                    <span className="hero__primary-dot" aria-hidden="true">
+                      ↗
+                    </span>
+                  </button>
+                </div>
+              </>
+            ) : null}
+          </main>
         </>
       )}
 

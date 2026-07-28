@@ -143,12 +143,12 @@ function catalogSections(lang: Lang, offlineLabel: string, activeCategory = 'all
                 ? subs
                     .map(
                       (sg) =>
-                        `<div class="subgroup"><h4 class="subgroup__title">${esc(subLabel(sg.label, lang))}<span class="subgroup__count">${sg.tools.length}</span></h4>${listFor(sg.tools)}</div>`,
+                        `<div class="subgroup"><h3 class="subgroup__title">${esc(subLabel(sg.label, lang))}<span class="subgroup__count">${sg.tools.length}</span></h3>${listFor(sg.tools)}</div>`,
                     )
                     .join('\n      ')
                 : listFor(items.map((tool) => tool.id));
             return `<section class="catgroup">
-      <div class="catgroup__head"><span class="catgroup__ico" style="color:${categoryColor(cat)}">${categoryIconSvg(cat, '', 18)}</span><h3 class="catgroup__title">${esc(categoryLabel(cat, lang))}</h3><span class="catgroup__count">${items.length}</span></div>
+      <div class="catgroup__head"><span class="catgroup__ico" style="color:${categoryColor(cat)}">${categoryIconSvg(cat, '', 18)}</span><h2 class="catgroup__title">${esc(categoryLabel(cat, lang))}</h2><span class="catgroup__count">${items.length}</span></div>
       <p class="tool__hint">${esc(categoryLabel(cat, lang))}: ${esc(items.map((tool) => localizedName(tool.id, lang)).join(', '))}.</p>
       ${inner}
     </section>`;
@@ -183,6 +183,7 @@ export function renderHomeBody(lang: Lang): string {
   return `<div class="app">
   ${CLOUDS_SVG}
   ${nav(lang, 'home')}
+  <main>
   <section class="hero">
     <span class="hero__kicker">${esc(d.heroKicker)}</span>
     <h1 class="hero__title">${esc(d.heroTitleA)}<br><span>${esc(d.heroTitleB)}</span></h1>
@@ -197,6 +198,7 @@ export function renderHomeBody(lang: Lang): string {
   <div class="hero__more">
     <a class="hero__viewall" href="${buildPath(lang, 'tools')}">${esc(d.viewAll)}<span class="hero__primary-dot" aria-hidden="true">↗</span></a>
   </div>
+  </main>
   ${footer(lang)}
 </div>`;
 }
@@ -206,7 +208,7 @@ export function renderToolsBody(lang: Lang): string {
   const d = DICTIONARY[lang];
   return `<div class="app">
   ${nav(lang, 'tools')}
-  ${catalogSections(lang, d.offline)}
+  <main>${catalogSections(lang, d.offline)}</main>
   ${footer(lang)}
 </div>`;
 }
@@ -222,8 +224,8 @@ export function renderCategoryBody(lang: Lang, category: string): string {
       <a href="${buildPath(lang, 'tools')}">${esc(d.navTools)}</a> /
       <span>${esc(categoryLabel(category, lang))}</span>
     </nav>
+    ${catalogSections(lang, d.offline, category)}
   </main>
-  ${catalogSections(lang, d.offline, category)}
   ${footer(lang)}
 </div>`;
 }

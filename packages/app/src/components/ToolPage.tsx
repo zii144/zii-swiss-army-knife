@@ -32,7 +32,9 @@ export function ToolPage({
         ← {backLabel}
       </button>
       <header className="tool__header">
-        <h2 className="tool__title">{title}</h2>
+        {/* h1, matching the prerendered markup this view replaces — the tool
+            name is the page's subject, and every tool renders through here. */}
+        <h1 className="tool__title">{title}</h1>
         {offline ? <span className="app__badge">{offlineLabel}</span> : null}
       </header>
       <p className="tool__desc">{description}</p>
