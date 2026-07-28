@@ -1,5 +1,9 @@
 name: CI
 
+# Installs use --frozen-lockfile to match the deploy (see vercel.json). Without
+# it a lockfile that has drifted from package.json is silently re-resolved, so
+# CI can go green against a dependency tree production never sees.
+
 on:
   push:
     branches: [main]
@@ -14,7 +18,7 @@ jobs:
         with:
           node-version: 22
       - run: corepack enable
-      - run: pnpm install --no-frozen-lockfile
+      - run: pnpm install --frozen-lockfile
       - name: Typecheck
         run: pnpm typecheck
       - name: Lint
@@ -36,7 +40,7 @@ jobs:
         with:
           node-version: 22
       - run: corepack enable
-      - run: pnpm install --no-frozen-lockfile
+      - run: pnpm install --frozen-lockfile
       - name: Install Playwright browser
         run: pnpm --filter @zii/app exec playwright install --with-deps chromium
       - name: E2E (headless — every tool loads + functional spot-checks)
