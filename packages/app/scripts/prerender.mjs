@@ -85,7 +85,7 @@ function headTags(m) {
   return `<title>${esc(m.title)}</title>
     <meta name="description" content="${esc(m.description)}" />
     <meta name="keywords" content="${esc(m.keywords.join(', '))}" />
-    <meta name="robots" content="index, follow, max-image-preview:large" />
+    <meta name="robots" content="${esc(m.robots)}" />
     <meta name="application-name" content="${esc(SITE_NAME)}" />
     <link rel="canonical" href="${esc(m.canonical)}" />
     <link rel="alternate" type="text/plain" href="${ORIGIN}/llms.txt" title="LLMs text summary" />
