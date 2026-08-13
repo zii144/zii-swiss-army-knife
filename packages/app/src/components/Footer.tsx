@@ -1,19 +1,27 @@
 import { CATALOG, localizedName } from '../lib/catalog';
 import { LANGS, LANG_LABELS, useT } from '../lib/i18n';
 import type { Lang } from '../lib/i18n';
+import type { LegalView } from '../lib/legal';
 import { Logo } from './Logo';
 
 export interface FooterProps {
   lang: Lang;
   onOpenTool: (id: string) => void;
   onLang: (lang: Lang) => void;
+  onOpenLegal: (view: LegalView) => void;
 }
 
 /** Site footer: brand, internal tool links, language links, and a legal bar. */
-export function Footer({ lang, onOpenTool, onLang }: FooterProps): React.JSX.Element {
+export function Footer({ lang, onOpenTool, onLang, onOpenLegal }: FooterProps): React.JSX.Element {
   const t = useT(lang);
   const year = new Date().getFullYear();
   const topTools = CATALOG.slice(0, 6);
+  const legalLinks: Array<[LegalView, string]> = [
+    ['about', t('navAbout')],
+    ['privacy', t('navPrivacy')],
+    ['terms', t('navTerms')],
+    ['legal', t('navLegal')],
+  ];
 
   return (
     <footer className="footer">
@@ -59,10 +67,25 @@ export function Footer({ lang, onOpenTool, onLang }: FooterProps): React.JSX.Ele
             ))}
           </ul>
         </nav>
+
+        <nav className="footer__col" aria-label={t('footerLegal')}>
+          <h2 className="footer__heading">{t('footerLegal')}</h2>
+          <ul className="footer__list">
+            {legalLinks.map(([view, label]) => (
+              <li key={view}>
+                <button type="button" className="footer__link" onClick={() => onOpenLegal(view)}>
+                  {label}
+                </button>
+              </li>
+            ))}
+          </ul>
+        </nav>
       </div>
 
       <div className="footer__bar">
-        <span>© {year} Zii</span>
+        <span>
+          © {year} {t('brand')}
+        </span>
         <span aria-hidden="true">·</span>
         <span>{t('rated')}</span>
       </div>

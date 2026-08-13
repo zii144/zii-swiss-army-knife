@@ -1,11 +1,13 @@
 import { LANGS, type Lang } from './i18n';
 import { CATEGORY_ORDER } from './categories';
 import { CATALOG_IDS } from './catalog';
+import { LEGAL_VIEWS, isLegalView } from './legal';
 
 /** Default locale used when the URL has no recognizable locale prefix. */
 export const DEFAULT_LOCALE: Lang = 'en';
 
-export type AppView = 'home' | 'tools' | 'category' | 'tool' | 'notfound';
+export type AppView =
+  'home' | 'tools' | 'category' | 'tool' | 'notfound' | (typeof LEGAL_VIEWS)[number];
 
 export interface Route {
   locale: Lang;
@@ -40,6 +42,9 @@ export function parsePath(pathname: string): Route {
   }
   const notFound: Route = { locale, view: 'notfound', toolId: null, categoryId: null };
   if (rest.length === 0) return { locale, view: 'home', toolId: null, categoryId: null };
+  if (rest.length === 1 && rest[0] && isLegalView(rest[0])) {
+    return { locale, view: rest[0], toolId: null, categoryId: null };
+  }
   if (rest[0] !== 'tools') return notFound;
   if (rest.length === 1) return { locale, view: 'tools', toolId: null, categoryId: null };
   if (rest[1] === 'category') {
@@ -59,6 +64,7 @@ export function buildPath(locale: Lang, view: AppView, routeId?: string | null):
   if (view === 'tool' && routeId) return `/${locale}/tools/${routeId}`;
   if (view === 'category' && routeId) return `/${locale}/tools/category/${routeId}`;
   if (view === 'tools') return `/${locale}/tools`;
+  if (isLegalView(view)) return `/${locale}/${view}`;
   return `/${locale}`;
 }
 
@@ -71,6 +77,9 @@ export function allRoutes(
   for (const locale of LANGS) {
     routes.push({ locale, view: 'home', toolId: null, categoryId: null });
     routes.push({ locale, view: 'tools', toolId: null, categoryId: null });
+    for (const legal of LEGAL_VIEWS) {
+      routes.push({ locale, view: legal, toolId: null, categoryId: null });
+    }
     for (const categoryId of categoryIds) {
       routes.push({ locale, view: 'category', toolId: null, categoryId });
     }

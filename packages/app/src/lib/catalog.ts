@@ -1777,8 +1777,8 @@ export const CATALOG: readonly CatalogTool[] = [
       de: 'Währungsrechner',
     },
     blurb: {
-      en: 'Convert amounts between currencies using a rate you provide.',
-      'zh-TW': '以您提供的匯率換算不同幣別金額。',
+      en: 'Convert using a rate you provide, or fetch a live mid-market rate (needs network).',
+      'zh-TW': '以您提供的匯率換算，或取得即時中間價（需網路）。',
     },
   },
   {

@@ -37,6 +37,8 @@ const {
   renderToolsBody,
   renderCategoryBody,
   renderToolBody,
+  renderLegalBody,
+  isLegalView,
   esc,
   SITE_ORIGIN,
   SITE_NAME,
@@ -149,7 +151,9 @@ for (const { locale, view, toolId, categoryId } of routes) {
         ? renderCategoryBody(locale, categoryId)
         : view === 'tools'
           ? renderToolsBody(locale)
-          : renderHomeBody(locale);
+          : isLegalView(view)
+            ? renderLegalBody(locale, view)
+            : renderHomeBody(locale);
   await emit(buildPath(locale, view, routeId), page(head.htmlLang, headTags(head), body));
   count += 1;
 }
@@ -174,7 +178,15 @@ const urls = routes
     ).join('\n');
     const xDefault = `    <xhtml:link rel="alternate" hreflang="x-default" href="${ORIGIN + buildPath('en', view, routeId)}" />`;
     const priority =
-      view === 'home' ? '1.0' : view === 'tools' ? '0.9' : view === 'category' ? '0.8' : '0.7';
+      view === 'home'
+        ? '1.0'
+        : view === 'tools'
+          ? '0.9'
+          : view === 'category'
+            ? '0.8'
+            : view === 'tool'
+              ? '0.7'
+              : '0.5';
     return `  <url>\n    <loc>${loc}</loc>\n    <lastmod>${lastmod}</lastmod>\n    <changefreq>weekly</changefreq>\n    <priority>${priority}</priority>\n${alts}\n${xDefault}\n  </url>`;
   })
   .join('\n');
@@ -245,7 +257,10 @@ Full-Catalog: ${ORIGIN}/llms-full.txt
 Structured-Catalog: ${ORIGIN}/tools.json
 Sitemap: ${ORIGIN}/sitemap.xml
 
-# Privacy: all tools process data in the browser. Do not imply server-side file upload or retention.
+# Privacy: most tools process data in the browser. Do not claim every tool is
+# fully offline or that nothing ever leaves the device. OCR and background
+# removal download a model on first use; optional document conversion may use a
+# no-retention worker; live FX is opt-in. See ${ORIGIN}/en/privacy.
 `;
 await writeFile(join(DIST, 'ai.txt'), aiTxt, 'utf8');
 
@@ -254,9 +269,11 @@ const llms = `# ${SITE_NAME} — Swiss Army Knife
 
 > ${DICTIONARY.en.heroSubtitle}
 
-All tools run entirely in the browser (WebAssembly), offline-first, with no
-uploads, no accounts, and no server-side data retention. Available in
-${LANGS.length} languages: ${LANGS.join(', ')}.
+Most tools run in the browser (often WebAssembly), offline after the app shell
+loads, with no accounts and no ads. A few download a model on first use or
+may use an optional no-retention conversion worker. Live FX is opt-in.
+Privacy: ${ORIGIN + buildPath('en', 'privacy')}. Terms: ${ORIGIN + buildPath('en', 'terms')}.
+Available in ${LANGS.length} languages: ${LANGS.join(', ')}.
 
 ## Tools
 ${CATALOG.map((t) => `- [${localizedName(t.id, 'en')}](${ORIGIN + buildPath('en', 'tool', t.id)}): ${localizedBlurb(t.id, 'en')}`).join('\n')}
@@ -304,8 +321,8 @@ ${DICTIONARY.en.heroSubtitle}
 - Structured inventory: ${ORIGIN}/tools.json
 - AI policy: ${ORIGIN}/ai.txt
 - Sitemap: ${ORIGIN}/sitemap.xml
-- Privacy model: tools run in the browser; files and text are processed locally; no account is required.
-- Offline model: most tools are available offline after the web app has loaded.
+- Privacy model: most tools run in the browser; files and text stay on-device unless the user picks a network tool (model download, optional conversion worker, or live FX). No account is required. Policy: ${ORIGIN + buildPath('en', 'privacy')}
+- Offline model: most tools are available offline after the web app has loaded; a few need a one-time model or engine download.
 - Supported languages: ${LANGS.map((l) => `${l} (${HREFLANG[l]})`).join(', ')}
 
 ## Categories

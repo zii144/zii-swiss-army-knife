@@ -13,9 +13,10 @@ describe('i18n', () => {
     }
   });
 
-  it('keeps dictionaries key-aligned across languages', () => {
+  it('keeps dictionaries key-aligned across all languages', () => {
     const enKeys = Object.keys(DICTIONARY.en).sort();
-    const twKeys = Object.keys(DICTIONARY['zh-TW']).sort();
-    expect(twKeys).toEqual(enKeys);
+    for (const lang of LANGS) {
+      expect(Object.keys(DICTIONARY[lang]).sort(), lang).toEqual(enKeys);
+    }
   });
 });

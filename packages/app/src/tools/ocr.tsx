@@ -83,6 +83,7 @@ export default function OcrTool({ onBack, lang, backLabel, offlineLabel }: ToolV
       onBack={onBack}
       backLabel={backLabel}
       offlineLabel={offlineLabel}
+      offline={false}
     >
       <div className="tool__field">
         <span>{t.pick}</span>

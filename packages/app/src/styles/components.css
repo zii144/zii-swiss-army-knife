@@ -897,6 +897,18 @@
   color: var(--ink-pill);
 }
 
+.app__badge--network {
+  text-transform: none;
+  letter-spacing: 0.01em;
+  background: rgba(43, 102, 196, 0.2);
+  color: var(--on-blue);
+}
+
+.app--dark .app__badge--network {
+  background: rgba(198, 242, 78, 0.16);
+  color: var(--lime);
+}
+
 .app__empty {
   color: var(--on-blue-soft);
   text-align: center;
@@ -1334,6 +1346,21 @@ button {
   color: var(--ink-soft);
   font-size: 0.85rem;
   margin: 0;
+}
+
+.tool__callout {
+  margin: 0 0 1rem;
+  padding: 0.7rem 0.9rem;
+  border-radius: 12px;
+  background: rgba(43, 102, 196, 0.1);
+  color: var(--ink);
+  font-size: 0.85rem;
+  line-height: 1.45;
+}
+
+.app--dark .tool__callout {
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--on-blue-soft);
 }
 
 .tool__list {
@@ -1901,7 +1928,7 @@ button {
   margin: 0 auto;
   padding: 2.5rem 1.5rem 1.5rem;
   display: grid;
-  grid-template-columns: 1.6fr 1fr 1fr;
+  grid-template-columns: 1.5fr 1fr 1fr 1fr;
   gap: 2rem;
 }
 
@@ -1985,6 +2012,47 @@ button {
   gap: 0.5rem;
   color: var(--on-blue-faint);
   font-size: 0.78rem;
+}
+
+.legal {
+  position: relative;
+  z-index: 1;
+  max-width: 42rem;
+  margin: 0 auto;
+  padding: 1.5rem 1.5rem 3rem;
+}
+
+.legal__title {
+  margin: 0 0 1.25rem;
+  font-size: 1.85rem;
+  letter-spacing: -0.03em;
+  color: var(--ink);
+}
+
+.legal__section {
+  margin: 0 0 1.5rem;
+}
+
+.legal__h2 {
+  margin: 0 0 0.5rem;
+  font-size: 1.05rem;
+  color: var(--ink);
+}
+
+.legal__p {
+  margin: 0 0 0.7rem;
+  line-height: 1.6;
+  color: var(--ink-soft);
+  font-size: 0.95rem;
+}
+
+.legal__p a {
+  color: var(--ink);
+  text-underline-offset: 0.15em;
+}
+
+.app--dark .legal__p a {
+  color: var(--lime);
 }
 
 /* ===================================================== motion =========== */
@@ -2218,6 +2286,12 @@ button {
 }
 
 /* ----------------------------------------------------------- responsive - */
+@media (max-width: 960px) {
+  .footer__inner {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
 @media (max-width: 720px) {
   .app__nav-links {
     display: none;

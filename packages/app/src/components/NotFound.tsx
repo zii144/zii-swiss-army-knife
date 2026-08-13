@@ -14,7 +14,7 @@ export interface NotFoundProps {
  */
 export function NotFound({ title, body, ctaLabel, onBrowse }: NotFoundProps): React.JSX.Element {
   return (
-    <main className="workspace__main">
+    <div className="workspace__main">
       <section className="tool">
         <header className="tool__header">
           <h1 className="tool__title">{title}</h1>
@@ -26,6 +26,6 @@ export function NotFound({ title, body, ctaLabel, onBrowse }: NotFoundProps): Re
           </button>
         </div>
       </section>
-    </main>
+    </div>
   );
 }

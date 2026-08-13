@@ -2,6 +2,7 @@ import { DICTIONARY, HREFLANG, LANGS, type Lang } from './i18n';
 import { CATALOG, getTool, localizedBlurb, localizedName } from './catalog';
 import { categoryDescription, categoryKeywords, categoryLabel } from './categories';
 import { buildPath, type AppView } from './router';
+import { isLegalView, type LegalView } from './legal';
 
 /** Public origin used for canonical/alternate URLs in prerendered output. */
 export const SITE_ORIGIN = 'https://zii.tools';
@@ -202,8 +203,12 @@ export function buildHead(
             description,
             'Runs in the browser',
             'No account required',
-            tool?.offline ? 'Works offline after loading' : 'Web-based utility',
-            'No server-side data retention',
+            ...(tool?.offline !== false
+              ? ['Works offline after loading', 'No server-side data retention']
+              : [
+                  'May download a model or use an optional conversion worker',
+                  'No long-term server-side retention',
+                ]),
           ],
           inLanguage: HREFLANG[lang],
           keywords: Array.from(new Set(keywords)).join(', '),
@@ -360,6 +365,39 @@ export function buildHead(
     };
   }
 
+  if (isLegalView(view)) {
+    const legalMeta: Record<LegalView, { title: string; description: string }> = {
+      privacy: { title: d.navPrivacy, description: d.catalogSubtitle },
+      terms: { title: d.navTerms, description: d.heroSubtitle },
+      about: { title: d.navAbout, description: d.heroSubtitle },
+      legal: { title: d.navLegal, description: d.rated },
+    };
+    const meta = legalMeta[view];
+    return {
+      ...base,
+      title: `${meta.title} — ${SITE_NAME}`,
+      description: meta.description,
+      keywords: [meta.title, SITE_NAME, 'privacy', 'terms'],
+      jsonLd: [
+        websiteJsonLd,
+        publisherJsonLd,
+        {
+          '@context': 'https://schema.org',
+          '@type': 'WebPage',
+          name: meta.title,
+          description: meta.description,
+          url: canonical,
+          inLanguage: HREFLANG[lang],
+          isPartOf: {
+            '@type': 'WebSite',
+            name: SITE_NAME,
+            url: origin + buildPath(lang, 'home'),
+          },
+        },
+      ],
+    };
+  }
+
   return {
     ...base,
     title: homeTitle(lang),
@@ -389,6 +427,7 @@ export function buildHead(
           'Developer utilities',
           'QR and barcode generators',
           'Regional identity and format validators',
+          'Most tools run on-device; a few need a model download or optional worker',
         ],
       },
     ],
