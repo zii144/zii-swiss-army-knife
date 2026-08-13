@@ -10,7 +10,7 @@ const L = {
     input: 'TFN',
     valid: 'Valid ✓',
     invalid: 'Invalid ✗',
-    generate: 'Generate sample',
+    generate: 'Generate test sample',
   },
   'zh-TW': {
     title: '澳洲 TFN',
@@ -18,7 +18,7 @@ const L = {
     input: 'TFN',
     valid: '有效 ✓',
     invalid: '無效 ✗',
-    generate: '產生範例',
+    generate: '產生測試範例',
   },
 };
 

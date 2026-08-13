@@ -6,6 +6,7 @@ import {
   type Recurrence,
   type Reminder,
 } from '@zii/reminders';
+import { HOLIDAYS_ISO_2026 } from '../lib/holidays-2026';
 import { ToolPage } from '../components/ToolPage';
 import { Select, TextField } from '../components/ui';
 import type { ToolViewProps } from './types';
@@ -38,13 +39,15 @@ const L = {
     dayOfMonth: 'Day of month',
     leadDays: 'Notify days before',
     skipHolidays: 'Skip weekends & holidays',
+    holidayNote:
+      'Holiday skip uses 2026 public holidays for markets that ship tables (DE, FR, ES, IT, NL, SG, IN, PT, BR, MX, PL, NZ). Weekends always skip. TW/HK/JP/US/CA/AU/GB/KO calendars are not included.',
     upcoming: 'Next occurrences',
     notify: 'Notification preview',
     count: (n: number) => `${n} upcoming date${n === 1 ? '' : 's'}`,
   },
   'zh-TW': {
     title: '提醒規劃',
-    desc: '依重複規則預覽 upcoming 提醒日期，於裝置上運算。',
+    desc: '依重複規則預覽接下來的提醒日期，於裝置上運算。',
     titleField: '標題',
     recurrence: '重複',
     once: '一次',
@@ -56,6 +59,8 @@ const L = {
     dayOfMonth: '每月第幾日',
     leadDays: '提前幾天通知',
     skipHolidays: '跳過週末與假日',
+    holidayNote:
+      '假日略過使用已內建 2026 年公曆的市場（德、法、西、義、荷、新、印、葡、巴西、墨、波、紐）。週末一律略過。台／港／日／美／加／澳／英／韓尚未列入。',
     upcoming: '接下來的日期',
     notify: '通知預覽',
     count: (n: number) => `接下來 ${n} 個日期`,
@@ -110,14 +115,13 @@ export default function ReminderPlannerTool({
 
   const upcoming = useMemo(() => {
     try {
-      return upcomingOccurrences(reminder, new Date(), 8, []);
+      return upcomingOccurrences(reminder, new Date(), 8, [...HOLIDAYS_ISO_2026]);
     } catch {
       return [];
     }
   }, [reminder]);
 
-  const firstNotify =
-    upcoming[0] !== undefined ? buildNotification(reminder, upcoming[0]) : null;
+  const firstNotify = upcoming[0] !== undefined ? buildNotification(reminder, upcoming[0]) : null;
 
   const kindOptions = [
     { value: 'once', label: t.once },
@@ -140,7 +144,12 @@ export default function ReminderPlannerTool({
       </label>
       <div className="tool__field">
         <span>{t.recurrence}</span>
-        <Select value={kind} options={kindOptions} onChange={(v) => setKind(v as RecurrenceKind)} ariaLabel={t.recurrence} />
+        <Select
+          value={kind}
+          options={kindOptions}
+          onChange={(v) => setKind(v as RecurrenceKind)}
+          ariaLabel={t.recurrence}
+        />
       </div>
       {kind === 'once' ? (
         <label className="tool__field">
@@ -178,13 +187,10 @@ export default function ReminderPlannerTool({
         </label>
       </div>
       <label className="tool__check">
-        <input
-          type="checkbox"
-          checked={skipHolidays}
-          onChange={() => setSkipHolidays((v) => !v)}
-        />
+        <input type="checkbox" checked={skipHolidays} onChange={() => setSkipHolidays((v) => !v)} />
         {t.skipHolidays}
       </label>
+      <p className="tool__hint">{t.holidayNote}</p>
 
       <div className="tool__result">
         <p className="tool__hint">{t.count(upcoming.length)}</p>

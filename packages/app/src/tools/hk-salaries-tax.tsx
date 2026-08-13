@@ -23,6 +23,7 @@ const L = {
     basis: 'Lower of progressive & standard rate',
     source: 'IRD official rates ↗',
     ya: `Year of assessment ${CFG.yearOfAssessment}`,
+    asOf: `Tables are year of assessment ${CFG.yearOfAssessment}, not the current year. Confirm against the latest IRD tables before filing.`,
   },
   'zh-HK': {
     title: '薪俸稅 + 強積金',
@@ -39,6 +40,7 @@ const L = {
     basis: '取累進稅與標準稅率之較低者',
     source: '稅務局官方稅率 ↗',
     ya: `${CFG.yearOfAssessment} 課稅年度`,
+    asOf: `稅表為 ${CFG.yearOfAssessment} 課稅年度，並非現行年度。報稅前請核對稅務局最新稅表。`,
   },
   'zh-TW': {
     title: '香港薪俸稅 + 強積金',
@@ -55,6 +57,7 @@ const L = {
     basis: '取累進稅與標準稅率之較低者',
     source: '香港稅務局官方稅率 ↗',
     ya: `${CFG.yearOfAssessment} 課稅年度`,
+    asOf: `稅表為 ${CFG.yearOfAssessment} 課稅年度，並非現行年度。報稅前請核對香港稅務局最新稅表。`,
   },
 };
 
@@ -144,6 +147,7 @@ export default function HkSalariesTaxTool({ onBack, lang, backLabel, offlineLabe
           </div>
         </div>
         <p className="tool__hint">{t.basis}</p>
+        <p className="tool__callout">{t.asOf}</p>
       </div>
 
       <a className="tool__link" href={CFG.source} target="_blank" rel="noopener noreferrer">

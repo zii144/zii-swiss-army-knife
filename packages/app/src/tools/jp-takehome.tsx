@@ -24,6 +24,7 @@ const L = {
     residentTax: 'Resident tax 住民税',
     deductions: 'Total deductions',
     note: 'Single earner, no dependants/special deductions. Social insurance is exact for this basis; tax is estimated.',
+    asOf: 'Rates as of 協会けんぽ Tokyo FY2024 (令和6). This is not a 2026 table — do not treat it as current.',
     source: '協会けんぽ rates ↗',
   },
   ja: {
@@ -42,6 +43,7 @@ const L = {
     residentTax: '住民税',
     deductions: '控除合計',
     note: '独身・扶養控除や各種控除は未考慮。社会保険は当基準で正確、税額は概算です。',
+    asOf: '料率は協会けんぽ東京・令和6年度。2026年度の表ではありません。現行料率として扱わないでください。',
     source: '協会けんぽの保険料率 ↗',
   },
   'zh-TW': {
@@ -60,6 +62,7 @@ const L = {
     residentTax: '住民稅',
     deductions: '扣除合計',
     note: '單身、未計扶養及各項扣除。社會保險依此基準精確，稅額為概算。',
+    asOf: '費率為協會健保東京、令和6年度（FY2024），並非 2026 年稅表，請勿視為現行費率。',
     source: '協會健保費率 ↗',
   },
 };
@@ -139,6 +142,7 @@ export default function JpTakeHomeTool({ onBack, lang, backLabel, offlineLabel }
           </tbody>
         </table>
         <p className="tool__hint">{t.note}</p>
+        <p className="tool__callout">{t.asOf}</p>
       </div>
 
       <a className="tool__link" href={CFG.source} target="_blank" rel="noopener noreferrer">
