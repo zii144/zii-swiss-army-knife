@@ -6,6 +6,7 @@ coverage/
 .DS_Store
 .env
 .env.*
+!.env.example
 _tmp_*
 dist-ssr/
 *.timestamp-*.mjs
