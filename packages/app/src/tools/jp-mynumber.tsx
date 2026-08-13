@@ -10,7 +10,7 @@ const L = {
     input: 'My Number (12 digits)',
     valid: 'Valid ✓',
     invalid: 'Invalid ✗',
-    generate: 'Generate sample',
+    generate: 'Generate test sample',
   },
   'zh-TW': {
     title: '日本 My Number 驗證',
@@ -18,15 +18,15 @@ const L = {
     input: 'My Number（12 碼）',
     valid: '有效 ✓',
     invalid: '無效 ✗',
-    generate: '產生範例',
+    generate: '產生測試範例',
   },
   ja: {
     title: 'マイナンバー検証',
-    desc: 'マイナンバー（12桁）を検証、またはサンプルを生成。端末上で動作。',
+    desc: 'マイナンバー（12桁）を検証、またはテスト用サンプルを生成。端末上で動作。',
     input: 'マイナンバー（12桁）',
     valid: '有効 ✓',
     invalid: '無効 ✗',
-    generate: 'サンプル生成',
+    generate: 'テスト用サンプル生成',
   },
 };
 

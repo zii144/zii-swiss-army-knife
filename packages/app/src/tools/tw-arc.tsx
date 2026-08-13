@@ -10,7 +10,7 @@ const L = {
     input: 'ARC number',
     valid: 'Valid ✓',
     invalid: 'Invalid ✗',
-    generate: 'Generate sample',
+    generate: 'Generate test sample',
   },
   'zh-TW': {
     title: '外來人口統一證號驗證',
@@ -18,7 +18,7 @@ const L = {
     input: '統一證號',
     valid: '有效 ✓',
     invalid: '無效 ✗',
-    generate: '產生範例',
+    generate: '產生測試範例',
   },
 };
 

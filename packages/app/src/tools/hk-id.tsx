@@ -10,7 +10,7 @@ const L = {
     input: 'HKID',
     valid: 'Valid ✓',
     invalid: 'Invalid ✗',
-    generate: 'Generate sample',
+    generate: 'Generate test sample',
   },
   'zh-TW': {
     title: '香港身份證驗證',
@@ -18,7 +18,7 @@ const L = {
     input: '身份證號碼',
     valid: '有效 ✓',
     invalid: '無效 ✗',
-    generate: '產生範例',
+    generate: '產生測試範例',
   },
 };
 
