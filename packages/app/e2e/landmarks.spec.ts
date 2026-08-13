@@ -10,6 +10,10 @@ const ROUTES = [
   { path: '/en/tools', name: 'tools index', h1: 'Pick a tool' },
   { path: '/en/tools/category/pdf', name: 'category', h1: 'PDF' },
   { path: '/en/tools/pdf-merge', name: 'tool', h1: 'Merge PDF' },
+  { path: '/en/privacy', name: 'privacy', h1: 'Privacy' },
+  { path: '/en/terms', name: 'terms', h1: 'Terms' },
+  { path: '/en/about', name: 'about', h1: 'About' },
+  { path: '/en/legal', name: 'legal', h1: 'Legal' },
 ];
 
 for (const route of ROUTES) {
@@ -56,4 +60,20 @@ test('the tool h1 tracks the selected tool across client-side navigation', async
   await expect(page).toHaveURL(/pdf-split$/);
   await expect(page.locator('h1')).toHaveCount(1);
   await expect(page.locator('h1')).toHaveText(/Split PDF/);
+});
+
+test('footer privacy link opens a legal page with one h1', async ({ page }) => {
+  await page.goto('/en');
+  await page.locator('.footer').getByRole('button', { name: 'Privacy', exact: true }).click();
+  await expect(page).toHaveURL(/\/en\/privacy$/);
+  await expect(page.locator('h1')).toHaveCount(1);
+  await expect(page.locator('h1')).toHaveText(/Privacy/);
+  await expect(page.locator('main')).toHaveCount(1);
+});
+
+test('skip link points at the main landmark', async ({ page }) => {
+  await page.goto('/en');
+  await expect(page.locator('.app__nav-right')).toBeVisible();
+  await expect(page.locator('.skip-link')).toHaveAttribute('href', '#main');
+  await expect(page.locator('main#main')).toHaveCount(1);
 });

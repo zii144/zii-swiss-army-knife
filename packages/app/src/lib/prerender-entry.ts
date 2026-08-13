@@ -29,5 +29,7 @@ export {
   renderToolsBody,
   renderCategoryBody,
   renderToolBody,
+  renderLegalBody,
   esc,
 } from './prerender-view';
+export { isLegalView } from './legal';

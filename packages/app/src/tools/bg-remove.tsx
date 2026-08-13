@@ -62,6 +62,7 @@ export default function BgRemoveTool({ onBack, lang, backLabel, offlineLabel }: 
       onBack={onBack}
       backLabel={backLabel}
       offlineLabel={offlineLabel}
+      offline={false}
     >
       <div className="tool__field">
         <span>{t.pick}</span>

@@ -1,4 +1,8 @@
 import type { ReactNode } from 'react';
+import { useEffect, useState } from 'react';
+import { useToolChrome } from './ToolChrome';
+import type { DisclaimerKind } from '../lib/tool-disclaimers';
+import type { Lang } from '../lib/i18n';
 
 export interface ToolPageProps {
   title: string;
@@ -6,26 +10,54 @@ export interface ToolPageProps {
   /** Called when the user clicks the back link. */
   onBack: () => void;
   backLabel: string;
-  /** Shown as an "offline" pill when true. */
+  /**
+   * When omitted, the catalog-driven chrome context decides. Explicit `false`
+   * hides the offline pill (network tools).
+   */
   offline?: boolean;
   offlineLabel: string;
   children: ReactNode;
 }
 
+function ToolDisclaimer({
+  kind,
+  lang,
+}: {
+  kind: DisclaimerKind;
+  lang: Lang;
+}): React.JSX.Element | null {
+  const [text, setText] = useState<string | null>(null);
+  useEffect(() => {
+    let live = true;
+    void import('../lib/tool-disclaimers').then((m) => {
+      if (live) setText(m.disclaimerFor(kind, lang));
+    });
+    return () => {
+      live = false;
+    };
+  }, [kind, lang]);
+  if (!text) return null;
+  return <p className="tool__callout">{text}</p>;
+}
+
 /**
  * Shared layout for a single tool: a back link, a titled header with an
- * offline badge, and a body slot. Every tool page renders inside this template
- * so the chrome stays consistent.
+ * offline / network badge, optional estimate or ID disclaimer, and a body slot.
  */
 export function ToolPage({
   title,
   description,
   onBack,
   backLabel,
-  offline = true,
+  offline: offlineProp,
   offlineLabel,
   children,
 }: ToolPageProps): React.JSX.Element {
+  const chrome = useToolChrome();
+  const offline = offlineProp ?? chrome?.offline ?? true;
+  const badgeLabel = offline ? offlineLabel : (chrome?.badgeLabel ?? '');
+  const disclaimerKind = chrome?.disclaimerKind ?? null;
+
   return (
     <section className="tool">
       <button type="button" className="tool__back" onClick={onBack}>
@@ -35,9 +67,16 @@ export function ToolPage({
         {/* h1, matching the prerendered markup this view replaces — the tool
             name is the page's subject, and every tool renders through here. */}
         <h1 className="tool__title">{title}</h1>
-        {offline ? <span className="app__badge">{offlineLabel}</span> : null}
+        {offline ? (
+          <span className="app__badge">{offlineLabel}</span>
+        ) : badgeLabel ? (
+          <span className="app__badge app__badge--network">{badgeLabel}</span>
+        ) : null}
       </header>
       <p className="tool__desc">{description}</p>
+      {disclaimerKind && chrome ? (
+        <ToolDisclaimer kind={disclaimerKind} lang={chrome.lang} />
+      ) : null}
       <div className="tool__body">{children}</div>
     </section>
   );

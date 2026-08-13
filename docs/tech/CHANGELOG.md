@@ -6,6 +6,15 @@ semantic (patch = corrections, minor = new coverage, major = structural change).
 
 **Maintainer:** Zii — developer & architecture manager.
 
+## [v1.0.1] — 2026-08-13
+
+**Author:** Zii.
+
+### Changed
+- `06-frontend-app.md` — legal routes (`/{locale}/privacy|terms|about|legal`).
+- `11-security-and-privacy.md` — public Privacy/Terms pages, `SECURITY.md`, `security.txt`;
+  `offline: false` list no longer pretends live FX is a separate catalog flag.
+
 ## [v1.0.0] — 2026-07-16
 
 **Author:** Zii. **Baseline:** repo at commit `91631c0` (main).

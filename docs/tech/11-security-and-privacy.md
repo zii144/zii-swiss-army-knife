@@ -1,9 +1,11 @@
 # 11 — Security & Privacy
 
 Privacy is the product's core promise, and it is enforced **architecturally**, not just as
-policy text. There is no dedicated `SECURITY.md`/`PRIVACY.md`; the posture lives in
-`vercel.json`, `DEVELOPMENT-PLAN.md §4`, `docs/TECH-STACK-PLAN.md §13`, and per-package
-READMEs. This doc consolidates it.
+policy text. Public-facing policy lives at `/{locale}/privacy` (and Terms / About / Legal);
+vulnerability contact is `SECURITY.md` plus `packages/app/public/.well-known/security.txt`.
+The technical posture also lives in `vercel.json`, `DEVELOPMENT-PLAN.md §4`,
+`docs/TECH-STACK-PLAN.md §13`, and per-package READMEs. This doc consolidates the
+engineering controls.
 
 ## HTTP security headers (`vercel.json`, all routes)
 
@@ -32,8 +34,8 @@ Notes:
 1. **Compute is on-device by default.** Engines are pure TypeScript; heavy jobs run as
    client-side WASM (`@zii/compute-wasm`). Sensitive inputs — salary, tax, national ID,
    financial documents — never leave the browser. Only **7 of ~319** catalog tools are
-   `offline: false` (the model/network ones: OCR, background-remove, live FX, doc
-   conversion, video/audio).
+   `offline: false` (OCR, background-remove, video/audio conversion, and optional
+   document conversion). Live FX is opt-in on an otherwise offline converter.
 2. **The camera is structurally unavailable.** `Permissions-Policy: camera=()` means nothing
    can call `getUserMedia`; OCR works only on user-uploaded files.
 3. **The backend is opt-in and no-retention.** Upload happens only for document conversion /

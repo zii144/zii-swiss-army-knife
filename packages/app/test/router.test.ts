@@ -57,7 +57,24 @@ describe('router', () => {
       expect(parsePath('/').view).toBe('home');
       expect(parsePath('/de/').view).toBe('home');
       expect(parsePath('/en/tools').view).toBe('tools');
+      expect(parsePath('/en/privacy').view).toBe('privacy');
+      expect(parsePath('/ja/terms').view).toBe('terms');
+      expect(parsePath('/de/legal').view).toBe('legal');
+      expect(parsePath('/zh-TW/about').view).toBe('about');
     });
+  });
+
+  it('builds legal paths without a /tools prefix', () => {
+    expect(buildPath('en', 'privacy')).toBe('/en/privacy');
+    expect(buildPath('de', 'legal')).toBe('/de/legal');
+  });
+
+  it('includes legal routes in prerender generation', () => {
+    const views = allRoutes(['pdf-merge'], ['pdf']).map((route) => route.view);
+    expect(views).toContain('privacy');
+    expect(views).toContain('terms');
+    expect(views).toContain('about');
+    expect(views).toContain('legal');
   });
 
   it('marks notfound noindex with no canonical or alternates', () => {
@@ -72,5 +89,31 @@ describe('router', () => {
     const meta = buildHead('https://zii.tools', 'ja', 'tool', 'pdf-merge');
     expect(meta.robots).toBe(ROBOTS_INDEX);
     expect(meta.canonical).toBe('https://zii.tools/ja/tools/pdf-merge');
+  });
+
+  it('does not claim server-side non-retention on network tools', () => {
+    const meta = buildHead('https://zii.tools', 'en', 'tool', 'ocr');
+    const app = meta.jsonLd.find(
+      (node) => (node as { '@type'?: string })['@type'] === 'SoftwareApplication',
+    ) as { featureList?: string[] };
+    expect(app.featureList).toContain('May download a model or use an optional conversion worker');
+    expect(app.featureList).not.toContain('No server-side data retention');
+  });
+
+  it('keeps the on-device retention claim for offline tools', () => {
+    const meta = buildHead('https://zii.tools', 'en', 'tool', 'pdf-merge');
+    const app = meta.jsonLd.find(
+      (node) => (node as { '@type'?: string })['@type'] === 'SoftwareApplication',
+    ) as { featureList?: string[] };
+    expect(app.featureList).toContain('No server-side data retention');
+  });
+
+  it('indexes legal pages with a WebPage node', () => {
+    const meta = buildHead('https://zii.tools', 'en', 'privacy', null);
+    expect(meta.robots).toBe(ROBOTS_INDEX);
+    expect(meta.canonical).toBe('https://zii.tools/en/privacy');
+    expect(meta.jsonLd.some((node) => (node as { '@type'?: string })['@type'] === 'WebPage')).toBe(
+      true,
+    );
   });
 });

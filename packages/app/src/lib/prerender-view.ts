@@ -4,6 +4,8 @@ import { categoryDescription, categoryLabel, presentCategories } from './categor
 import { subGroupsFor, subLabel } from './subcategories';
 import { categoryIconSvg, iconSvg } from './icons';
 import { buildPath } from './router';
+import { LEGAL_CONTACT, LEGAL_SITE, type LegalView } from './legal';
+import { legalDoc } from './legal-content';
 
 /** Minimal HTML-escape for text injected into prerendered markup. */
 export function esc(s: string): string {
@@ -19,6 +21,10 @@ const CLOUDS_SVG = `<div class="clouds" aria-hidden="true"><div class="clouds__l
 
 function toolIco(id: string, category: string): string {
   return `<span class="tool-ico" style="color:${categoryColor(category)}">${iconSvg(id, '', 18)}</span>`;
+}
+
+function skip(lang: Lang): string {
+  return `<a class="skip-link" href="#main">${esc(DICTIONARY[lang].skipToContent)}</a>`;
 }
 
 function nav(lang: Lang, active: 'home' | 'tools'): string {
@@ -45,6 +51,18 @@ function footer(lang: Lang): string {
     (l) =>
       `<li><a class="footer__link${l === lang ? ' is-current' : ''}" href="${buildPath(l, 'home')}">${esc(LANG_LABELS[l])}</a></li>`,
   ).join('\n        ');
+  const legalNav: Array<[LegalView, string]> = [
+    ['about', d.navAbout],
+    ['privacy', d.navPrivacy],
+    ['terms', d.navTerms],
+    ['legal', d.navLegal],
+  ];
+  const legal = legalNav
+    .map(
+      ([view, label]) =>
+        `<li><a class="footer__link" href="${buildPath(lang, view)}">${esc(label)}</a></li>`,
+    )
+    .join('\n        ');
   const year = new Date().getFullYear();
   return `<footer class="footer">
     <div class="footer__inner">
@@ -65,8 +83,14 @@ function footer(lang: Lang): string {
         ${langs}
         </ul>
       </nav>
+      <nav class="footer__col" aria-label="${esc(d.footerLegal)}">
+        <h2 class="footer__heading">${esc(d.footerLegal)}</h2>
+        <ul class="footer__list">
+        ${legal}
+        </ul>
+      </nav>
     </div>
-    <div class="footer__bar"><span>© ${year} Zii</span><span aria-hidden="true">·</span><span>${esc(d.rated)}</span></div>
+    <div class="footer__bar"><span>© ${year} ${esc(d.brand)}</span><span aria-hidden="true">·</span><span>${esc(d.rated)}</span></div>
   </footer>`;
 }
 
@@ -181,9 +205,10 @@ export function renderHomeBody(lang: Lang): string {
     .join('');
 
   return `<div class="app">
+  ${skip(lang)}
   ${CLOUDS_SVG}
   ${nav(lang, 'home')}
-  <main>
+  <main id="main" tabindex="-1">
   <section class="hero">
     <span class="hero__kicker">${esc(d.heroKicker)}</span>
     <h1 class="hero__title">${esc(d.heroTitleA)}<br><span>${esc(d.heroTitleB)}</span></h1>
@@ -207,8 +232,9 @@ export function renderHomeBody(lang: Lang): string {
 export function renderToolsBody(lang: Lang): string {
   const d = DICTIONARY[lang];
   return `<div class="app">
+  ${skip(lang)}
   ${nav(lang, 'tools')}
-  <main>${catalogSections(lang, d.offline)}</main>
+  <main id="main" tabindex="-1">${catalogSections(lang, d.offline)}</main>
   ${footer(lang)}
 </div>`;
 }
@@ -217,8 +243,9 @@ export function renderToolsBody(lang: Lang): string {
 export function renderCategoryBody(lang: Lang, category: string): string {
   const d = DICTIONARY[lang];
   return `<div class="app">
+  ${skip(lang)}
   ${nav(lang, 'tools')}
-  <main>
+  <main id="main" tabindex="-1">
     <nav class="tool__crumbs tool__crumbs--catalog" aria-label="Breadcrumb">
       <a href="${buildPath(lang, 'home')}">${esc(d.navHome)}</a> /
       <a href="${buildPath(lang, 'tools')}">${esc(d.navTools)}</a> /
@@ -263,8 +290,9 @@ export function renderToolBody(lang: Lang, toolId: string): string {
       </section>`
     : '';
   return `<div class="app">
+  ${skip(lang)}
   ${nav(lang, 'tools')}
-  <main>
+  <main id="main" tabindex="-1">
     <section class="tool">
       <a class="tool__back" href="${buildPath(lang, 'tools')}">← ${esc(d.back)}</a>
       <nav class="tool__crumbs" aria-label="Breadcrumb">
@@ -274,18 +302,57 @@ export function renderToolBody(lang: Lang, toolId: string): string {
       </nav>
       <header class="tool__header">
         <h1 class="tool__title">${esc(name)}</h1>
-        <span class="app__badge">${esc(d.offline)}</span>
+        ${tool?.offline !== false ? `<span class="app__badge">${esc(d.offline)}</span>` : `<span class="app__badge app__badge--network">${esc(d.needsNetwork)}</span>`}
       </header>
       <p class="tool__desc">${esc(blurb)}</p>
       <section class="tool__seo">
         <h2>What this tool does</h2>
-        <p>${esc(blurb)} ${tool?.offline ? esc('It runs in your browser, supports offline use after loading, and does not upload your data.') : esc('It is available directly in the browser.')}</p>
+        <p>${esc(blurb)} ${
+          tool?.offline !== false
+            ? esc(
+                'It runs in your browser, supports offline use after loading, and does not upload your data.',
+              )
+            : esc(
+                'It may download a model or use an optional conversion worker. Review the Privacy page for details.',
+              )
+        }</p>
         ${cat ? `<p>Category: <a href="${buildPath(lang, 'category', cat)}">${esc(categoryLabel(cat, lang))}</a>.</p>` : ''}
       </section>
       ${keywordList}
       ${relatedList}
       <p class="tool__hint">${esc(d.loading)}</p>
     </section>
+  </main>
+  ${footer(lang)}
+</div>`;
+}
+
+function linkifyLegal(text: string): string {
+  return esc(text)
+    .replaceAll(LEGAL_CONTACT, `<a href="mailto:${LEGAL_CONTACT}">${LEGAL_CONTACT}</a>`)
+    .replaceAll(LEGAL_SITE, `<a href="${LEGAL_SITE}" rel="noopener noreferrer">${LEGAL_SITE}</a>`);
+}
+
+/** Static legal/about markup for crawlers — replaced by the SPA on load. */
+export function renderLegalBody(lang: Lang, view: LegalView): string {
+  const doc = legalDoc(view, lang);
+  const sections = doc.sections
+    .map(
+      (section) =>
+        `<section class="legal__section">
+      <h2 class="legal__h2">${esc(section.heading)}</h2>
+      ${section.paragraphs.map((p) => `<p class="legal__p">${linkifyLegal(p)}</p>`).join('\n      ')}
+    </section>`,
+    )
+    .join('\n    ');
+  return `<div class="app">
+  ${skip(lang)}
+  ${nav(lang, 'home')}
+  <main id="main" tabindex="-1">
+    <article class="legal">
+      <h1 class="legal__title">${esc(doc.title)}</h1>
+      ${sections}
+    </article>
   </main>
   ${footer(lang)}
 </div>`;

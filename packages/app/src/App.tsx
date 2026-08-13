@@ -1,20 +1,22 @@
 import { lazy, Suspense, useEffect, useMemo, useRef, useState } from 'react';
 import type { Market } from '@zii/registry';
 import { createRegistry } from '@zii/registry';
-import { filterTools } from './lib/tools';
+import { filterTools, SELECTABLE_MARKETS } from './lib/tools';
 import { LANG_LABELS, LANGS, useT } from './lib/i18n';
 import type { Lang } from './lib/i18n';
 import { categoryColor, getTool, HEAVY_TOOLS, localizedName } from './lib/catalog';
 import { categoryLabel } from './lib/categories';
 import { buildPath, parsePath, type AppView } from './lib/router';
+import { isLegalView, type LegalView } from './lib/legal';
+import { networkKindFor } from './lib/network';
+import { readDark, readMarket, writeDark, writeMarket } from './lib/prefs';
 import { buildHead, SITE_ORIGIN } from './lib/seo';
 import { applyHead } from './lib/head';
 import { prefetchTool, registerAppTools, TOOL_VIEWS } from './tools';
 import { ToolPage } from './components/ToolPage';
-import { NotFound } from './components/NotFound';
+import { ToolChromeProvider } from './components/ToolChrome';
 import { ErrorBoundary } from './components/ErrorBoundary';
 import { Footer } from './components/Footer';
-import { Clouds } from './components/Clouds';
 import { ToolNav } from './components/ToolNav';
 import { ToolIcon } from './components/ToolIcon';
 // Lazy so the catalogue (and its multi-language subgroup/description tables)
@@ -22,6 +24,9 @@ import { ToolIcon } from './components/ToolIcon';
 const ToolCatalog = lazy(() =>
   import('./components/ToolCatalog').then((m) => ({ default: m.ToolCatalog })),
 );
+const LegalPage = lazy(() => import('./pages/LegalPage').then((m) => ({ default: m.LegalPage })));
+const Clouds = lazy(() => import('./components/Clouds').then((m) => ({ default: m.Clouds })));
+const NotFound = lazy(() => import('./components/NotFound').then((m) => ({ default: m.NotFound })));
 import { Logo } from './components/Logo';
 import { Select } from './components/ui';
 import type { SelectOption } from './components/ui';
@@ -45,18 +50,19 @@ export function App(): React.JSX.Element {
     () => parsePath(typeof window !== 'undefined' ? window.location.pathname : '/'),
     [],
   );
-  const [market, setMarket] = useState<Market>('global');
+  const [market, setMarket] = useState<Market>(() => readMarket(SELECTABLE_MARKETS));
   const [query, setQuery] = useState('');
   const [category, setCategory] = useState<string>(
     initial.view === 'category' ? (initial.categoryId ?? 'all') : 'all',
   );
-  const [dark, setDark] = useState(false);
+  const [dark, setDark] = useState(() => readDark());
   const [lang, setLang] = useState<Lang>(initial.locale);
   const [view, setView] = useState<AppView>(initial.view);
   const [selected, setSelected] = useState<string | null>(
     initial.view === 'tool' ? initial.toolId : null,
   );
   const catalogRef = useRef<HTMLDivElement>(null);
+  const didRoute = useRef(false);
 
   const t = useT(lang);
   const tools = useMemo(() => filterTools(registry, { market, query }), [registry, market, query]);
@@ -79,8 +85,8 @@ export function App(): React.JSX.Element {
       if (path !== window.location.pathname) window.history.pushState({}, '', path);
       // Land at the top of the new page. Category navigations manage their own
       // smooth scroll (openCategory), and tools get it via the `selected`
-      // effect — so only reset here for the home / tools landings.
-      if (nextView === 'home' || nextView === 'tools') {
+      // effect — so only reset here for the home / tools / legal landings.
+      if (nextView === 'home' || nextView === 'tools' || isLegalView(nextView)) {
         requestAnimationFrame(() => window.scrollTo({ top: 0 }));
       }
     }
@@ -90,6 +96,7 @@ export function App(): React.JSX.Element {
   const goTools = (): void => go(lang, 'tools');
   const back = (): void => go(lang, 'tools');
   const openTool = (id: string): void => go(lang, 'tool', id);
+  const openLegal = (next: LegalView): void => go(lang, next);
   // A not-found route has no localized twin to switch to, so the language
   // picker lands on that language's home rather than re-rendering the error.
   const changeLang = (next: Lang): void =>
@@ -102,6 +109,20 @@ export function App(): React.JSX.Element {
   };
 
   const SelectedView = selected ? TOOL_VIEWS[selected] : undefined;
+  const toolMeta = selected ? getTool(selected) : undefined;
+  const networkKind = networkKindFor(toolMeta);
+  const toolChrome = {
+    offline: networkKind === 'offline',
+    networkKind,
+    badgeLabel: networkKind === 'upload' ? t('uploadsWorker') : t('needsNetwork'),
+    disclaimerKind:
+      toolMeta?.category === 'finance'
+        ? ('finance' as const)
+        : toolMeta?.category === 'id'
+          ? ('id' as const)
+          : null,
+    lang,
+  };
 
   // Keep the document head + <html lang> in sync with the active route.
   useEffect(() => {
@@ -114,6 +135,24 @@ export function App(): React.JSX.Element {
   useEffect(() => {
     if (selected && typeof window !== 'undefined') window.scrollTo({ top: 0 });
   }, [selected]);
+
+  // Move keyboard focus to main after client-side navigations (not first paint).
+  useEffect(() => {
+    if (!didRoute.current) {
+      didRoute.current = true;
+      return;
+    }
+    const el = document.getElementById('main');
+    if (el instanceof HTMLElement) el.focus({ preventScroll: true });
+  }, [view, selected, lang]);
+
+  useEffect(() => {
+    writeDark(dark);
+  }, [dark]);
+
+  useEffect(() => {
+    writeMarket(market);
+  }, [market]);
 
   // Reflect browser back/forward into app state.
   useEffect(() => {
@@ -151,6 +190,9 @@ export function App(): React.JSX.Element {
 
   return (
     <div className={dark ? 'app app--dark' : 'app'}>
+      <a className="skip-link" href="#main">
+        {t('skipToContent')}
+      </a>
       <nav className="app__nav">
         <button type="button" className="app__brand" onClick={goHome}>
           <span className="app__brand-mark">
@@ -206,7 +248,7 @@ export function App(): React.JSX.Element {
             label={t('navTools')}
             onOpen={openTool}
           />
-          <main key={`${lang}:${selected}`} className="workspace__main">
+          <main id="main" tabIndex={-1} key={`${lang}:${selected}`} className="workspace__main">
             <nav className="crumbs" aria-label="Breadcrumb">
               <button type="button" className="crumbs__link" onClick={goHome}>
                 {t('navHome')}
@@ -249,37 +291,49 @@ export function App(): React.JSX.Element {
                   </p>
                 }
               >
-                {SelectedView ? (
-                  <SelectedView
-                    onBack={back}
-                    lang={lang}
-                    backLabel={t('back')}
-                    offlineLabel={t('offline')}
-                  />
-                ) : (
-                  <ToolPage
-                    title={localizedName(selected, lang)}
-                    description={t('comingSoon')}
-                    onBack={back}
-                    backLabel={t('back')}
-                    offlineLabel={t('offline')}
-                  >
-                    <p className="tool__hint">{t('comingSoon')}</p>
-                  </ToolPage>
-                )}
+                <ToolChromeProvider value={toolChrome}>
+                  {SelectedView ? (
+                    <SelectedView
+                      onBack={back}
+                      lang={lang}
+                      backLabel={t('back')}
+                      offlineLabel={t('offline')}
+                    />
+                  ) : (
+                    <ToolPage
+                      title={localizedName(selected, lang)}
+                      description={t('comingSoon')}
+                      onBack={back}
+                      backLabel={t('back')}
+                      offlineLabel={t('offline')}
+                    >
+                      <p className="tool__hint">{t('comingSoon')}</p>
+                    </ToolPage>
+                  )}
+                </ToolChromeProvider>
               </Suspense>
             </ErrorBoundary>
           </main>
         </div>
       ) : view === 'notfound' ? (
-        <NotFound
-          title={t('notFoundTitle')}
-          body={t('notFoundBody')}
-          ctaLabel={t('notFoundCta')}
-          onBrowse={goTools}
-        />
+        <main id="main" tabIndex={-1}>
+          <Suspense fallback={<p className="app__empty">{t('loading')}</p>}>
+            <NotFound
+              title={t('notFoundTitle')}
+              body={t('notFoundBody')}
+              ctaLabel={t('notFoundCta')}
+              onBrowse={goTools}
+            />
+          </Suspense>
+        </main>
+      ) : isLegalView(view) ? (
+        <main id="main" tabIndex={-1}>
+          <Suspense fallback={<p className="app__empty">{t('loading')}</p>}>
+            <LegalPage lang={lang} view={view} />
+          </Suspense>
+        </main>
       ) : view === 'tools' || view === 'category' ? (
-        <main>
+        <main id="main" tabIndex={-1}>
           <Suspense fallback={<p className="app__empty">{t('loading')}</p>}>
             <ToolCatalog
               tools={tools}
@@ -298,8 +352,10 @@ export function App(): React.JSX.Element {
         </main>
       ) : (
         <>
-          <Clouds />
-          <main>
+          <Suspense fallback={null}>
+            <Clouds />
+          </Suspense>
+          <main id="main" tabIndex={-1}>
             <section className="hero">
               <span className="hero__kicker">{t('heroKicker')}</span>
               <h1 className="hero__title">
@@ -348,7 +404,7 @@ export function App(): React.JSX.Element {
         </>
       )}
 
-      <Footer lang={lang} onOpenTool={openTool} onLang={changeLang} />
+      <Footer lang={lang} onOpenTool={openTool} onLang={changeLang} onOpenLegal={openLegal} />
     </div>
   );
 }

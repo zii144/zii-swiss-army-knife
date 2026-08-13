@@ -120,4 +120,26 @@ body {
   opacity: 0.85;
 }
 
+.skip-link {
+  position: absolute;
+  left: 0.75rem;
+  top: -4rem;
+  z-index: 40;
+  padding: 0.55rem 0.9rem;
+  border-radius: 999px;
+  background: var(--lime);
+  color: var(--ink-pill);
+  font-weight: 700;
+  font-size: 0.85rem;
+  text-decoration: none;
+}
+
+.skip-link:focus {
+  top: 0.75rem;
+}
+
+#main:focus {
+  outline: none;
+}
+
 }

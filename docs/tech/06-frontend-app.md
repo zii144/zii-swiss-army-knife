@@ -18,10 +18,11 @@ i18n library, no CSS framework — each is a small hand-rolled piece.
 ## Routing (hand-rolled, History API)
 
 `src/lib/router.ts` — no react-router. A `Route` is `{ locale, view, toolId, categoryId }`
-with `AppView = 'home' | 'tools' | 'category' | 'tool'`.
+with `AppView = 'home' | 'tools' | 'category' | 'tool' | 'notfound' | LegalView`
+(`privacy` | `terms` | `about` | `legal`).
 
-- `parsePath(pathname)` — detects a locale prefix, then interprets `/tools/category/{id}`,
-  `/tools/{id}`, `/tools`, or home. Default locale `en`.
+- `parsePath(pathname)` — detects a locale prefix, then interprets `/{legal}`,
+  `/tools/category/{id}`, `/tools/{id}`, `/tools`, or home. Default locale `en`.
 - `buildPath(locale, view, routeId)` — canonical URL builder.
 - `allRoutes(toolIds, categoryIds)` — enumerates every route across all locales; consumed
   by the prerenderer and sitemap.
@@ -36,6 +37,10 @@ chunk. The URL scheme:
 /{locale}/tools                   # searchable catalog (market filter + category chips)
 /{locale}/tools/category/{cat}    # a single category page (sub-grouped)
 /{locale}/tools/{tool-id}         # an individual tool screen
+/{locale}/privacy                 # privacy policy (lazy body)
+/{locale}/terms                   # terms of use
+/{locale}/about                   # about
+/{locale}/legal                   # imprint / operator contact
 ```
 
 ## Prerender / SSG / hydration model
