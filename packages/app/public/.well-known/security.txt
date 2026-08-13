@@ -1,0 +1,5 @@
+Contact: mailto:privacy@zii.tools
+Expires: 2027-08-13T00:00:00.000Z
+Preferred-Languages: en, zh-TW
+Canonical: https://zii.tools/.well-known/security.txt
+Policy: https://zii.tools/en/privacy
